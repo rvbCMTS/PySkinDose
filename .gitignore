@@ -1,0 +1,4 @@
+venv/
+logs/
+settings.py
+.idea/
