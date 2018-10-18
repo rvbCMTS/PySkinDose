@@ -51,14 +51,14 @@ layout = go.Layout(
     scene=dict(
         # axis range specified from table dimensions.
         xaxis=dict(
-            title='LONG [cm]',
-            range=[-0.75*table_length, 0.75*table_length]),
+            title='LONG [cm]'),
+            # range=[-0.75*table_length, 0.75*table_length]),
         yaxis=dict(
-            title='LAT [cm]',
-            range=[-0.75*table_length, 0.75*table_length]),
+            title='LAT [cm]'),
+            # range=[-0.75*table_length, 0.75*table_length]),
         zaxis=dict(
-            title='VERT [cm]',
-            range=[-100, 100]),
+            title='VERT [cm]'),
+            # range=[-100, 100]),
         )
 )
 

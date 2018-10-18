@@ -9,7 +9,7 @@ import numpy as np
 
 
 
-mesh = mesh.Mesh.from_file('split.stl')
+mesh = mesh.Mesh.from_file('standard_bin.stl')
 
 
 
@@ -30,6 +30,8 @@ print(len(klist))
 
 test=1
 
+intensity = np.random.rand(len(xlist))
+
 data = [
     go.Mesh3d(
         x = xlist,
@@ -41,6 +43,7 @@ data = [
         colorscale = [[0, 'rgb(255, 0, 255)'],
                     [   0.5, 'rgb(0, 255, 0)'],
                       [1, 'rgb(0, 0, 255)']],
+        intensity = intensity,
         # intensity = [0, 0.142857142857143, 0.285714285714286,
         #              0.428571428571429, 0.571428571428571,
         #              0.714285714285714, 0.857142857142857, 1],
@@ -57,71 +60,15 @@ layout = go.Layout(
         # axis range specified from table dimensions.
         xaxis=dict(
             title='LONG [cm]',
-            range=[-0.75*table_length, 0.75*table_length]),
+            range=[-100, 100]),
         yaxis=dict(
             title='LAT [cm]',
-            range=[-0.75*table_length, 0.75*table_length]),
+            range=[-50, 200]),
         zaxis=dict(
-            title='VERT [cm]',
-            range=[-100, 100]),
+            title='VERT [cm])',
+            range=[-100, 100])
         )
 )
 fig = go.Figure(data=data, layout=layout)
 ply.plot(fig, filename='3d-mesh-cube-python.html')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#p ts=np.loadtxt('mesh_dataset.txt')
-#x,y,z=zip(*pts)
-
-
-#test=1
-
-# x = mesh.x
-# y = mesh.y
-# z = mesh.z
-
-
-# trace = go.Mesh3d(x=x,y=y,z=z,color='#FFB6C1',opacity=0.50)
-# ply.plot([trace])
-
-
-test = 1
 
