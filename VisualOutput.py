@@ -32,13 +32,6 @@ single_color=[[0.0, 'rgb(200,200,200)'], [1.0, 'rgb(200,200,200)']]
 z_plane=dict(type='surface', x=x_tab, y=y_tab, z=z_tab,
                      colorscale=single_color, showscale=False)
 
-test=1
-
-xlist = [el for el_list in mesh.x for el in el_list]
-ylist = [el for el_list in mesh.y for el in el_list]
-zlist = [el for el_list in mesh.z for el in el_list]
-
-
 phantom = [
     go.Mesh3d(
         # extract x,y,z coordinates from phantom .stl file
