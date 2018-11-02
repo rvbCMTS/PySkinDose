@@ -27,10 +27,10 @@ x_tab, y_tab = np.meshgrid(x_tab, y_tab)
 
 z_level = np.amin(mesh.z)
 
-z_tab=z_level*np.ones(x_tab.shape)
-single_color=[[0.0, 'rgb(200,200,200)'], [1.0, 'rgb(200,200,200)']]
-z_plane=dict(type='surface', x=x_tab, y=y_tab, z=z_tab,
-                     colorscale=single_color, showscale=False)
+z_tab = z_level * np.ones(x_tab.shape)
+single_color = [[0.0, 'rgb(200,200,200)'], [1.0, 'rgb(200,200,200)']]
+z_plane = dict(type='surface', x=x_tab, y=y_tab, z=z_tab,
+                     colorscale = single_color, showscale=False)
 
 phantom = [
     go.Mesh3d(
@@ -76,6 +76,6 @@ fig_temp = go.Figure(data=phantom)
 fig = dict(data=[fig_temp.data[0], z_plane], layout=layout)
 
 
-ply.plot(fig, filename='OnTable.html')
+ply.plot(fig, filename='PhantomImport.html')
 
 
