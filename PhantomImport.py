@@ -3,29 +3,6 @@ import plotly.graph_objs as go
 import plotly.offline as ply
 import numpy as np
 from typing import List, Dict, Optional
-from mpl_toolkits import mplot3d
-from matplotlib import pyplot
-import plotly.plotly as py
-
-
-def import_phantom(phantom_type: str) -> dict:
-
-    phantom_mesh = mesh.Mesh.from_file(phantom_type)
-
-    output = {
-        # extract x,y,z coordinates from phantom .stl file
-        'x': [el for el_list in phantom_mesh.x for el in el_list],
-        'y': [el for el_list in phantom_mesh.y for el in el_list],
-        'z': [el for el_list in phantom_mesh.z for el in el_list],
-        # Fixes order of interpolation between calculation point (x,y,z)
-        'i': np.arange(0, phantom_mesh.x.size - 3, 3),
-        'j': np.arange(1, phantom_mesh.y.size - 2, 3),
-        'k': np.arange(2, phantom_mesh.z.size - 1, 3)
-    }
-
-    output['intensities'] = [0] * len(output['x'])
-
-    return output
 
 
 def _create_table(table_measurements: dict, phantom: dict) -> dict:
@@ -45,75 +22,109 @@ def _create_table(table_measurements: dict, phantom: dict) -> dict:
     return output
 
 
-def create_phantom_dose_plot(phantom_dict: dict, include_table: bool, table_measurements: Optional[dict] = None,
-                             show_colourscale: Optional[bool] = True) -> List[go.Mesh3d]:
-    if include_table:
-        if table_measurements is None:
-            raise ValueError('Table measurements must be given when include_table is True')
+def import_phantom(phantom_type: str) -> dict:
 
-        z_plane = _create_table(table_width=table_measurements['width'],
-                                table_length=table_measurements['length'],
-                                table_thickness=table_measurements['thickness'])
-    phantom_plot = [
-        go.Mesh3d(
-            # extract x,y,z coordinates from phantom .stl file
-            x=[el for el_list in mesh.x for el in el_list],
-            y=[el for el_list in mesh.y for el in el_list],
-            z=[el for el_list in mesh.z for el in el_list],
+    # works fine
+    if phantom_type == "human":
+        phantom_mesh = mesh.Mesh.from_file('standard_bin.stl')
+        x = [el for el_list in phantom_mesh.x for el in el_list]
+        y = [el for el_list in phantom_mesh.y for el in el_list]
+        z = [el for el_list in phantom_mesh.z for el in el_list]
+        i = np.arange(0, len(x) - 3, 3)
+        j = np.arange(1, len(y) - 2, 3)
+        k = np.arange(2, len(z) - 1, 3)
 
-            # Jet seems reasonable. Perhaps fix couture lines for dose limits?
-            colorscale='Jet',
+        output = {"type": "human", 'x': x, 'y': y, 'z': z, 'i': i, 'j': j, 'k': k}
+        output['dose'] = [0] * len(output['x'])
 
-            # intensity variable shall hold calculated absorbed dose for each point.
-            # Right now, it just holds a gradient for visualization of output in plot window.
-            # intensity=intensity,
-            intensity=[el for el_list in mesh.z for el in el_list],
+    elif phantom_type == "cylinder":
 
-            # Fixes order of interpolation between calculation point (x,y,z)
-            i=np.arange(0, mesh.x.size - 3, 3),
-            j=np.arange(1, mesh.y.size - 2, 3),
-            k=np.arange(2, mesh.z.size - 1, 3),
+        radius = 20
 
-            name='phantom',
-            showscale=True
-        )
-    ]
+        t = np.arange(0, 2 * np.pi, 0.3)
+        x = (radius * np.cos(t)).tolist()
+        z = (radius * np.sin(t)).tolist()
+
+        output = {"type": "cylinder", "x": [], "y": [], "z": []}
+
+        for index in range(0, 180, 10):
+            output["x"] = output["x"] + x
+            output["z"] = output["z"] + z
+            output["y"] = output["y"] + [index] * len(x)
+
+        output['dose'] = [0] * len(output['x'])
+
+    return output
+
+
+# works fine
+def plot_phantom(phantom_dict: dict) -> List[go.Mesh3d]:
+    # if include_table:
+        # if table_measurements is None:
+            # raise ValueError('Table measurements must be given when include_table is True')
+
+        # z_plane = _create_table(table_width=table_measurements['width'],
+                                # table_length=table_measurements['length'],
+                                # table_thickness=table_measurements['thickness'])
+
+    if phantom_dict["type"] == "human":
+        phantom_mesh = [
+            go.Mesh3d(
+                x=phantom_dict["x"], y=phantom_dict["y"], z=phantom_dict["z"],
+                i=phantom_dict["i"], j=phantom_dict["j"], k=phantom_dict["k"],
+                intensity=phantom_dict["dose"],
+                colorscale='Jet',
+                name='phantom',
+                showscale=True)]
+
+    elif phantom_dict["type"] == "cylinder":
+        phantom_mesh = [
+            go.Mesh3d(
+                x=phantom_dict["x"], y=phantom_dict["y"], z=phantom_dict["z"],
+                alphahull=1,
+                intensity=phantom_dict["dose"],
+                colorscale='Jet',
+                name='phantom',
+                showscale=True)]
 
     layout = go.Layout(
         scene=dict(
-            # axis range specified from table dimensions.
+            aspectmode="data",
             xaxis=dict(
-                title='LONG [cm]',
-                range=[-100, 100]),
+                title='LONG [cm])'),
             yaxis=dict(
-                title='LAT [cm]',
-                range=[-50, 200]),
+                title='LAT [cm])'),
             zaxis=dict(
-                title='VERT [cm])',
-                range=[-100, 100]),
+                title='VERT [cm])'),
         )
     )
 
-    fig_temp = go.Figure(data=phantom_plot)
-    fig = dict(data=[fig_temp.data[0], z_plane], layout=layout)
-
+    fig = go.Figure(data=phantom_mesh, layout=layout)
     ply.plot(fig, filename='PhantomImport.html')
 
 
-table_measurements = {
-    'width': 70,
-    'length': 250,
-    'thickness': 2
-}
+table_measurements = {'width': 70, 'length': 250, 'thickness': 2}
 
-# works
-phantom = import_phantom(phantom_type='standard_bin.stl')
-#
+phantom = import_phantom(phantom_type='human')
 
-table = _create_table(table_measurements, phantom)
+plot_phantom(phantom)
+
+
+
+
+
+
 
 
 # intensity = np.random.rand(mesh.x.size)
 # intensity = np.arange(0, len(xlist), 1)
 
 # intensity = [el for el_list in mesh.z for el in el_list],
+from mpl_toolkits import mplot3d
+from matplotlib import pyplot
+import plotly.plotly as py
+#def plot_phantom(phantom_dict: dict, include_table: bool, table_measurements: Optional[dict] = None,
+                           #  show_colourscale: Optional[bool] = True) -> List[go.Mesh3d]:
+
+# fig_temp = go.Figure(data=phantom_mesh)
+# fig = dict(data=[fig_temp.data[0]], layout=layout)
