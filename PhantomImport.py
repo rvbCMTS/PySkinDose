@@ -5,8 +5,14 @@ import numpy as np
 from typing import List, Dict, Optional
 
 
-def _create_table(table_size: dict) -> dict:
+def create_table(table_size: dict) -> dict:
+    """Creates the eight vertices of the patient support table.
 
+    :param table_size: Patient support table dimensions (width, length, thickness)
+    :type table_size: Dict[str, int]
+    :return: (x,y,z) coordinates of the vertices of the patient support table
+    :rtype: Dict[str, str]
+    """
     x = [-0.5*table_size["width"], 0.5*table_size["width"], 0.5*table_size["width"], -0.5*table_size["width"]]
     y = [0, 0, table_size["length"], table_size["length"]]
     z = [0, 0, 0, 0]
@@ -20,7 +26,17 @@ def _create_table(table_size: dict) -> dict:
 
 
 def create_phantom(phantom_type: str, table_size: dict, cylinder_radius: int = 20) -> dict:
+    """creates skin dose calculation phantom.
 
+    :param phantom_type: Type of phantom to create: "plane" (1D slab), "cylinder", "human" (MakeHuman binary stl)
+    :type phantom_type: str
+    :param table_size: Patient support table dimensions (width, length, thickness)
+    :type table_size: Dict[str, int]
+    :param cylinder_radius: Radius of cylindrical phantom
+    :type cylinder_radius: int
+    :return: (x,y,z) coordinates for all point on the phantom. Also, (i,j,k) interpolation order for MakeHuman phantom
+    :rtype: Dict[str, str]
+    """
     if phantom_type == "plane":
 
         x_range = np.linspace(-0.5*table_size["width"], 0.5*table_size["width"], table_size["width"] + 1)
@@ -67,15 +83,20 @@ def create_phantom(phantom_type: str, table_size: dict, cylinder_radius: int = 2
     return output
 
 
-# works fine
 def plot_phantom(phantom_dict: dict, include_table: bool, table_dict: Optional[dict] = None) -> List[go.Mesh3d]:
-    # if include_table:
-        # if table_measurements is None:
-            # raise ValueError('Table measurements must be given when include_table is True')
+    """creates and plots an (offline) plotly graph of the phantom and support table (optional)
 
-        # z_plane = _create_table(table_width=table_measurements['width'],
-                                # table_length=table_measurements['length'],
-                                # table_thickness=table_measurements['thickness'])
+    :param phantom_dict: (x,y,z) coordinates for all point on the phantom.
+    Also, (i,j,k) interpolation order for MakeHuman phantom.
+    :type phantom_dict: Dict[str, str]
+    :param include_table: choose if the support table should be included in the plot.
+    :type include_table: bool
+    :param table_dict: (x,y,z) coordinates of the vertices of the patient support table
+    :type table_dict: Dict[str, str]
+    """
+    if include_table:
+        if table_dict is None:
+            raise ValueError('Table measurements must be given when include_table is True')
 
     if phantom_dict["type"] == "human":
         phantom_mesh = [
@@ -147,34 +168,13 @@ phantom = create_phantom(phantom_type='human',
                          cylinder_radius=20)
 
 # create table
-table = _create_table(table_measurements)
+table = create_table(table_measurements)
+
+
 
 # plot phantom
 plot_phantom(phantom_dict=phantom,
              include_table=True,
              table_dict=table)
 
-
-
-
-
-
-
-
-
-
-# intensity = np.random.rand(mesh.x.size)
-# intensity = np.arange(0, len(xlist), 1)
-
-# intensity = [el for el_list in mesh.z for el in el_list],
-from mpl_toolkits import mplot3d
-from matplotlib import pyplot
-import plotly.plotly as py
-#def plot_phantom(phantom_dict: dict, include_table: bool, table_measurements: Optional[dict] = None,
-                           #  show_colourscale: Optional[bool] = True) -> List[go.Mesh3d]:
-
-# fig_temp = go.Figure(data=phantom_mesh)
-# fig = dict(data=[fig_temp.data[0]], layout=layout)
-# single_color = [[0.0, 'rgb(200,200,200)'], [1.0, 'rgb(200,200,200)']]
-# output = dict(type='surface', x=x_tab, y=y_tab, z=z_tab,
-#              colorscale=single_color, showscale=False)
+a = 1
