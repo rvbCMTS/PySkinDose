@@ -13,12 +13,9 @@ def create_table(table_dim: dict) -> dict:
     :return: (x,y,z) coordinates of the vertices of the patient support table
     :rtype: Dict[str, str]
     """
-    x = [index * 0.5*table_dim["width"] for index in [-1, 1, 1, -1]]
-    y = [index * table_dim["length"] for index in [0, 0, 1, 1]]
-    z = [0, 0, 0, 0]
-    x = x + x
-    y = y + y
-    z = z + [-table_dim["thickness"]] * len(z)
+    x = [index * 0.5*table_dim["width"] for index in [-1, 1, 1, -1, -1, 1, 1, -1]]
+    y = [index * table_dim["length"] for index in [0, 0, 1, 1, 0, 0, 1, 1]]
+    z = [index * -table_dim["thickness"] for index in [0, 0, 0, 0, 1, 1, 1, 1]]
 
     output = {"type": "table", "x": x, "y": y, "z": z}
 
@@ -164,5 +161,6 @@ phantom = create_phantom(phantom_type='human',
 table = create_table(table_measurements)
 
 # plot phantom
-plot_phantom(phantom_dict=phantom, include_table=True, table_dict=table)
-
+plot_phantom(phantom_dict=phantom,
+             include_table=True,
+             table_dict=table)
