@@ -5,27 +5,51 @@ import numpy as np
 from typing import List, Dict, Optional
 
 
-def _create_table(table_measurements: dict, phantom: dict) -> dict:
-    # TABLE ILLUSTRATION, improve this please
-    x_tab = np.linspace(-0.5 * table_measurements["width"], 0.5 * table_measurements["width"], 50)
-    y_tab = np.linspace(-50, table_measurements["length"], 50)
+def _create_table(table_size: dict) -> dict:
 
-    x_tab, y_tab = np.meshgrid(x_tab, y_tab)
+    x = [-0.5*table_size["width"], 0.5*table_size["width"], 0.5*table_size["width"], -0.5*table_size["width"]]
+    y = [0, 0, table_size["length"], table_size["length"]]
+    z = [0, 0, 0, 0]
+    x = x + x
+    y = y + y
+    z = z + [-table_size["thickness"]] * len(z)
 
-    z_level = np.amin(phantom["z"])
-
-    z_tab = z_level * np.ones(x_tab.shape)
-    single_color = [[0.0, 'rgb(200,200,200)'], [1.0, 'rgb(200,200,200)']]
-    output = dict(type='surface', x=x_tab, y=y_tab, z=z_tab,
-                  colorscale=single_color, showscale=False)
+    output = {"type": "table", "x": x, "y": y, "z": z}
 
     return output
 
 
-def import_phantom(phantom_type: str) -> dict:
+def create_phantom(phantom_type: str, table_size: dict, cylinder_radius: int = 20) -> dict:
 
-    # works fine
-    if phantom_type == "human":
+    if phantom_type == "plane":
+
+        x_range = np.linspace(-0.5*table_size["width"], 0.5*table_size["width"], table_size["width"] + 1)
+        y_range = np.linspace(0, table_size["length"], table_size["length"] + 1)
+        x, y = np.meshgrid(x_range, y_range)
+
+        x = x.ravel().tolist()
+        y = y.ravel().tolist()
+        z = [0] * len(x)
+        dose = [0] * len(x)
+
+        output = {"type": "plane", 'x': x, 'y': y, 'z': z, "dose": dose}
+
+    elif phantom_type == "cylinder":
+
+        t = np.arange(0, 2 * np.pi, 0.15)
+        x = (cylinder_radius * np.cos(t)).tolist()
+        z = (cylinder_radius * np.sin(t)).tolist()
+
+        output = {"type": "cylinder", "x": [], "y": [], "z": []}
+
+        for index in range(0, table_size["length"], 10 + 1):
+            output["x"] = output["x"] + x
+            output["z"] = output["z"] + z
+            output["y"] = output["y"] + [index] * len(x)
+
+        output['dose'] = [0] * len(output['x'])
+
+    elif phantom_type == "human":
         phantom_mesh = mesh.Mesh.from_file('standard_bin.stl')
         x = [el for el_list in phantom_mesh.x for el in el_list]
         y = [el for el_list in phantom_mesh.y for el in el_list]
@@ -37,28 +61,14 @@ def import_phantom(phantom_type: str) -> dict:
         output = {"type": "human", 'x': x, 'y': y, 'z': z, 'i': i, 'j': j, 'k': k}
         output['dose'] = [0] * len(output['x'])
 
-    elif phantom_type == "cylinder":
-
-        radius = 20
-
-        t = np.arange(0, 2 * np.pi, 0.3)
-        x = (radius * np.cos(t)).tolist()
-        z = (radius * np.sin(t)).tolist()
-
-        output = {"type": "cylinder", "x": [], "y": [], "z": []}
-
-        for index in range(0, 180, 10):
-            output["x"] = output["x"] + x
-            output["z"] = output["z"] + z
-            output["y"] = output["y"] + [index] * len(x)
-
-        output['dose'] = [0] * len(output['x'])
+    else:
+        raise ValueError("Unknown phantom type selected. Valid type: plane, cylinder, human")
 
     return output
 
 
 # works fine
-def plot_phantom(phantom_dict: dict) -> List[go.Mesh3d]:
+def plot_phantom(phantom_dict: dict, include_table: bool, table_dict: Optional[dict] = None) -> List[go.Mesh3d]:
     # if include_table:
         # if table_measurements is None:
             # raise ValueError('Table measurements must be given when include_table is True')
@@ -74,7 +84,7 @@ def plot_phantom(phantom_dict: dict) -> List[go.Mesh3d]:
                 i=phantom_dict["i"], j=phantom_dict["j"], k=phantom_dict["k"],
                 intensity=phantom_dict["dose"],
                 colorscale='Jet',
-                name='phantom',
+                name='Phantom',
                 showscale=True)]
 
     elif phantom_dict["type"] == "cylinder":
@@ -84,7 +94,17 @@ def plot_phantom(phantom_dict: dict) -> List[go.Mesh3d]:
                 alphahull=1,
                 intensity=phantom_dict["dose"],
                 colorscale='Jet',
-                name='phantom',
+                name='Phantom',
+                showscale=True)]
+
+    elif phantom_dict["type"] == "plane":
+        phantom_mesh = [
+            go.Mesh3d(
+                x=phantom_dict["x"], y=phantom_dict["y"], z=phantom_dict["z"],
+                alphahull=-1,
+                intensity=phantom_dict["dose"],
+                colorscale='Jet',
+                name='Phantom',
                 showscale=True)]
 
     layout = go.Layout(
@@ -95,19 +115,46 @@ def plot_phantom(phantom_dict: dict) -> List[go.Mesh3d]:
             yaxis=dict(
                 title='LAT [cm])'),
             zaxis=dict(
-                title='VERT [cm])'),
-        )
-    )
+                title='VERT [cm])')))
 
-    fig = go.Figure(data=phantom_mesh, layout=layout)
-    ply.plot(fig, filename='PhantomImport.html')
+    if include_table:
+        table_mesh = [
+            go.Mesh3d(
+                x=table_dict["x"], y=table_dict["y"], z=[x + np.amin(phantom_dict["z"]) for x in table_dict["z"]],
+                alphahull=1,
+                intensity=phantom_dict["dose"],
+                color='gray',
+                opacity=0.5,
+                name='Table')]
+
+        phantom_temp = go.Figure(data=phantom_mesh)
+        table_temp = go.Figure(data=table_mesh)
+
+        fig = dict(data=[phantom_temp.data[0], table_temp.data[0]], layout=layout)
+        ply.plot(fig, filename='PhantomImport.html')
+
+    else:
+        fig = go.Figure(data=phantom_mesh, layout=layout)
+        ply.plot(fig, filename='plot_phantom.html')
 
 
+# user commands
 table_measurements = {'width': 70, 'length': 250, 'thickness': 2}
 
-phantom = import_phantom(phantom_type='human')
+# create phantom
+phantom = create_phantom(phantom_type='human',
+                         table_size=table_measurements,
+                         cylinder_radius=20)
 
-plot_phantom(phantom)
+# create table
+table = _create_table(table_measurements)
+
+# plot phantom
+plot_phantom(phantom_dict=phantom,
+             include_table=True,
+             table_dict=table)
+
+
 
 
 
@@ -128,3 +175,6 @@ import plotly.plotly as py
 
 # fig_temp = go.Figure(data=phantom_mesh)
 # fig = dict(data=[fig_temp.data[0]], layout=layout)
+# single_color = [[0.0, 'rgb(200,200,200)'], [1.0, 'rgb(200,200,200)']]
+# output = dict(type='surface', x=x_tab, y=y_tab, z=z_tab,
+#              colorscale=single_color, showscale=False)
