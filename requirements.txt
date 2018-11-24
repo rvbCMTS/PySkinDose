@@ -2,4 +2,4 @@ numpy
 pandas
 pydicom
 pyplot
-stl
+numpy-stl
