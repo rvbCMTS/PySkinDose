@@ -22,11 +22,13 @@ def create_table(table_dim: dict) -> dict:
     return output
 
 
-def create_phantom(phantom_type: str, phantom_dim: Optional[dict] = None) -> dict:
+def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom_dim: Optional[dict] = None) -> dict:
     """creates skin dose calculation phantom.
-
     :param phantom_type: Type of phantom to create: "plane" (1D slab), "cylinder", "human" (MakeHuman binary stl)
     :type phantom_type: str
+    :param human_model: Type of human phantom. Current available options:
+    'adult male', 'adult_female', 'senior_male', 'senior_female', 'junior_male', 'junior_female'
+    :type human_model: str
     :param phantom_dim: size of the phantom for phantom_type: "plane" (width, length) and "cylinder" (radius, length)
     :type phantom_dim: Dict[str, int]
     :return: (x,y,z) coordinates for all point on the phantom. Also, (i,j,k) interpolation order for MakeHuman phantom
@@ -35,7 +37,11 @@ def create_phantom(phantom_type: str, phantom_dim: Optional[dict] = None) -> dic
 
     if phantom_type in ["plane", "cylinder"]:
         if phantom_dim is None:
-            raise ValueError("Phantom dimensions are needed yo create a plane or cylinder phantom.")
+            raise ValueError("Phantom dimensions are needed to create a plane or cylinder phantom.")
+
+    elif phantom_type == "human":
+        if human_model is None:
+            raise ValueError("Human model are needed to create a human phantom.")
 
     if phantom_type == "plane":
 
@@ -66,7 +72,8 @@ def create_phantom(phantom_type: str, phantom_dim: Optional[dict] = None) -> dic
         output['dose'] = [0] * len(output['x'])
 
     elif phantom_type == "human":
-        phantom_mesh = mesh.Mesh.from_file('phantom_data/standard_bin.stl')
+
+        phantom_mesh = mesh.Mesh.from_file('phantom_data/'+human_model+'.stl')
         x = [el for el_list in phantom_mesh.x for el in el_list]
         y = [el for el_list in phantom_mesh.y for el in el_list]
         z = [el for el_list in phantom_mesh.z for el in el_list]
@@ -149,12 +156,13 @@ def plot_phantom(phantom_dict: dict, include_table: bool, table_dict: Optional[d
 
 
 # user commands
-table_measurements = {'width': 70, 'length': 250, 'thickness': 5}
+table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
 
 phantom_measurements = {'width': 60, 'length': 180, 'radius': 20, "a": 20, "b": 10}
 
 # create phantom
 phantom = create_phantom(phantom_type='human',
+                         human_model='adult_male',
                          phantom_dim=phantom_measurements)
 
 # create table
