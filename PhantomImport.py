@@ -66,7 +66,7 @@ def create_phantom(phantom_type: str, phantom_dim: Optional[dict] = None) -> dic
         output['dose'] = [0] * len(output['x'])
 
     elif phantom_type == "human":
-        phantom_mesh = mesh.Mesh.from_file('standard_bin.stl')
+        phantom_mesh = mesh.Mesh.from_file('phantom_data/standard_bin.stl')
         x = [el for el_list in phantom_mesh.x for el in el_list]
         y = [el for el_list in phantom_mesh.y for el in el_list]
         z = [el for el_list in phantom_mesh.z for el in el_list]
