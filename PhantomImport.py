@@ -189,26 +189,26 @@ def plot_phantom(phantom_dict: dict, include_table: bool, table_dict: Optional[d
         # Plot the result locally (No Plotly login required)
         ply.plot(fig, filename='plot_phantom.html')
 
-# user commands
 
+# example output
 
 # Define table dimensions in the longitudinal (width), lateral (length) and vertical (thickness) direction
-table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
+# table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
 
 
 # Define width (of the plane phantom), length (of the plane/elliptic cylinder),
 # foci a and b (elliptic cylinder) in the lateral and longitudinal direction
-phantom_measurements = {'width': 60, 'length': 180, "a": 20, "b": 10}
+# phantom_measurements = {'width': 60, 'length': 180, "a": 20, "b": 10}
 
 # create phantom
-phantom = create_phantom(phantom_type='human',
-                         human_model='adult_male',
-                         phantom_dim=phantom_measurements)
+# phantom = create_phantom(phantom_type='human',
+#                          human_model='junior_male',
+#                          phantom_dim=phantom_measurements)
 
 # create table
-table = create_table(table_measurements)
+# table = create_table(table_measurements)
 
 # plot phantom
-plot_phantom(phantom_dict=phantom,
-             include_table=True,
-             table_dict=table)
+# plot_phantom(phantom_dict=phantom,
+#              include_table=True,
+#              table_dict=table)
