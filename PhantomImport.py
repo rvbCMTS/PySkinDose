@@ -24,47 +24,61 @@ def create_table(table_dim: dict) -> dict:
 
 def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom_dim: Optional[dict] = None) -> dict:
     """creates skin dose calculation phantom.
-    :param phantom_type: Type of phantom to create: "plane" (1D slab), "cylinder", "human" (MakeHuman binary stl)
+    :param phantom_type: Type of phantom to create: "plane" (1D slab), "cylinder", "human" (MakeHuman binary .stl)
     :type phantom_type: str
     :param human_model: Type of human phantom. Current available options:
     'adult male', 'adult_female', 'senior_male', 'senior_female', 'junior_male', 'junior_female'
     :type human_model: str
-    :param phantom_dim: size of the phantom for phantom_type: "plane" (width, length) and "cylinder" (radius, length)
+    :param phantom_dim: size of the phantom for phantom_type: "plane" (width, length) and "cylinder" (a, b, length)
+    For a circular cylinder, set a = b
     :type phantom_dim: Dict[str, int]
     :return: (x,y,z) coordinates for all point on the phantom. Also, (i,j,k) interpolation order for MakeHuman phantom
     :rtype: Dict[str, str]
     """
 
+    # Raise error if plane/cylinder dimensions are missing for plane/cylinder phantom representation
     if phantom_type in ["plane", "cylinder"]:
         if phantom_dim is None:
             raise ValueError("Phantom dimensions are needed to create a plane or cylinder phantom.")
 
+    # Raise error if human model are not specified for human phantom representation
     elif phantom_type == "human":
         if human_model is None:
             raise ValueError("Human model are needed to create a human phantom.")
 
+    # Creates a coordinate grid on a 2D plane for plane phantom representation
     if phantom_type == "plane":
 
+        # Linearly spaced point along the lateral direction, in steps of 1 cm
         x_range = np.linspace(-0.5*phantom_dim["width"], 0.5*phantom_dim["width"], phantom_dim["width"] + 1)
+        # Linearly spaced point along the longitudinal direction, in steps of 1 cm
         y_range = np.linspace(0, phantom_dim["length"], phantom_dim["length"] + 1)
+        # Create grid
         x, y = np.meshgrid(x_range, y_range)
 
         x = x.ravel().tolist()
         y = y.ravel().tolist()
+
+        # Preallocate memory for skin mapping
         z = [0] * len(x)
         dose = [0] * len(x)
 
+        # Store the  coordinates of the plane phantom, and preallocate memory for skin dose mapping at each point
         output = {"type": "plane", 'x': x, 'y': y, 'z': z, "dose": dose}
 
+    # Creates a coordinate grid along an elliptic cylinder for cylinder phantom representation
     elif phantom_type == "cylinder":
 
+        # Creates linearly spaced points along an ellipse in the lateral direction
         t = np.arange(0, 2 * np.pi, 0.15)
         x = (phantom_dim["a"] * np.cos(t)).tolist()
         z = (phantom_dim["b"] * np.sin(t)).tolist()
 
+        # Store the  coordinates of the cylinder phantom
         output = {"type": "cylinder", "x": [], "y": [], "z": []}
 
-        for index in range(0, phantom_dim["length"], 10 + 1):
+        # Map the ellipse
+        for index in range(0, phantom_dim["length"], 10):
             output["x"] = output["x"] + x
             output["z"] = output["z"] + z
             output["y"] = output["y"] + [index] * len(x)
@@ -161,7 +175,7 @@ table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
 phantom_measurements = {'width': 60, 'length': 180, 'radius': 20, "a": 20, "b": 10}
 
 # create phantom
-phantom = create_phantom(phantom_type='human',
+phantom = create_phantom(phantom_type='cylinder',
                          human_model='adult_male',
                          phantom_dim=phantom_measurements)
 
