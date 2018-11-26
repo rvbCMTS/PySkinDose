@@ -87,6 +87,7 @@ def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom
             output["z"] = output["z"] + z
             output["y"] = output["y"] + [index] * len(x)
 
+        # Preallocate memory for skin dose mapping
         output['dose'] = [0] * len(output['x'])
 
     # Creates a coordinate grid on a 3D human model for human phantom representation
