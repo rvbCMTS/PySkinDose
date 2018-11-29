@@ -40,17 +40,17 @@ def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom
     """
 
     # Raise error if plane/cylinder dimensions are missing for plane/cylinder phantom representation
-    if phantom_type in ["plane", "cylinder"]:
+    if phantom_type.lower() in ["plane", "cylinder"]:
         if phantom_dim is None:
             raise ValueError("Phantom dimensions are needed to create a plane or cylinder phantom.")
 
     # Raise error if human model are not specified for human phantom representation
-    elif phantom_type == "human":
+    elif phantom_type.lower() == "human":
         if human_model is None:
             raise ValueError("Human model are needed to create a human phantom.")
 
     # Creates a coordinate grid on a 2D plane for plane phantom representation
-    if phantom_type == "plane":
+    if phantom_type.lower() == "plane":
 
         # Linearly spaced point along the longitudinal direction, in steps of 1 cm
         x_range = np.linspace(-0.5*phantom_dim["width"], 0.5*phantom_dim["width"], phantom_dim["width"] + 1)
@@ -70,7 +70,7 @@ def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom
         output = {"type": "plane", 'x': x, 'y': y, 'z': z, "dose": dose}
 
     # Creates a coordinate grid along an elliptic cylinder for elliptic cylinder phantom representation
-    elif phantom_type == "cylinder":
+    elif phantom_type.lower() == "cylinder":
 
         # Creates linearly spaced points along an ellipse in the lateral direction
         t = np.arange(0, 2 * np.pi, 0.15)
@@ -91,7 +91,7 @@ def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom
         output['dose'] = [0] * len(output['x'])
 
     # Creates a coordinate grid on a 3D human model for human phantom representation
-    elif phantom_type == "human":
+    elif phantom_type.lower() == "human":
 
         # load selected phantom model from binary .stl file
         phantom_mesh = mesh.Mesh.from_file('phantom_data/'+human_model+'.stl')
@@ -131,14 +131,14 @@ def plot_phantom(phantom_dict: dict, include_table: bool, table_dict: Optional[d
             raise ValueError('Table measurements must be given when include_table is True')
 
     # Create Plotly 3D mesh object for plane phantom representation
-    if phantom_dict["type"] == "plane":
+    if phantom_dict["type"].lower() == "plane":
         phantom_mesh = [
             go.Mesh3d(
                 x=phantom_dict["x"], y=phantom_dict["y"], z=phantom_dict["z"], intensity=phantom_dict["dose"],
                 alphahull=-1, colorscale='Jet', name='plane phantom', showscale=True)]
 
     # Create Plotly 3D mesh object for elliptic cylinder phantom representation
-    elif phantom_dict["type"] == "cylinder":
+    elif phantom_dict["type"].lower() == "cylinder":
         phantom_mesh = [
             go.Mesh3d(
                 x=phantom_dict["x"], y=phantom_dict["y"], z=phantom_dict["z"], intensity=phantom_dict["dose"],
@@ -202,7 +202,7 @@ def plot_phantom(phantom_dict: dict, include_table: bool, table_dict: Optional[d
 
 # create phantom
 # phantom = create_phantom(phantom_type='human',
-#                          human_model='junior_male',
+#                          human_model='adult_male',
 #                          phantom_dim=phantom_measurements)
 
 # create table
