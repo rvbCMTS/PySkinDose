@@ -55,15 +55,15 @@ def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom
         # Linearly spaced point along the longitudinal direction, in steps of 1 cm
         x_range = np.linspace(-0.5*phantom_dim["width"], 0.5*phantom_dim["width"], phantom_dim["width"] + 1)
         # Linearly spaced point along the lateral direction, in steps of 1 cm
-        y_range = np.linspace(0, phantom_dim["length"], phantom_dim["length"] + 1)
+        z_range = np.linspace(-0.5*phantom_dim["length"], 0.5*phantom_dim["length"], phantom_dim["length"] + 1)
         # Create phantom in form of rectangular grid
-        x, y = np.meshgrid(x_range, y_range)
+        x, z = np.meshgrid(x_range, z_range)
 
         x = x.ravel().tolist()
-        y = y.ravel().tolist()
+        z = z.ravel().tolist()
 
         # Preallocate memory for skin dose mapping
-        z = [0] * len(x)
+        y = [0] * len(x)
         dose = [0] * len(x)
 
         # Store the  coordinates of the plane phantom, and preallocate memory for skin dose mapping at each point
@@ -73,19 +73,23 @@ def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom
     elif phantom_type.lower() == "cylinder":
 
         # Creates linearly spaced points along an ellipse in the lateral direction
-        t = np.arange(0, 2 * np.pi, 0.15)
+        t = np.arange(0, 2 * np.pi, 0.25)
         x = (phantom_dim["a"] * np.cos(t)).tolist()
-        z = (phantom_dim["b"] * np.sin(t)).tolist()
+        y = (phantom_dim["b"] * np.sin(t)).tolist()
 
         # Store the  coordinates of the cylinder phantom
         output = {"type": "cylinder", "x": [], "y": [], "z": []}
 
         # Extend the ellipse to span the entire length of the phantom, in steps of 10 cm,
         # thus creating a phantom in form of an elliptic cylinder
-        for index in range(0, phantom_dim["length"], 10):
+        for index in range(0, phantom_dim["length"], 5):
             output["x"] = output["x"] + x
-            output["z"] = output["z"] + z
-            output["y"] = output["y"] + [index] * len(x)
+            output["y"] = output["y"] + y
+            output["z"] = output["z"] + [index] * len(x)
+
+        # center in z direction
+        output["z"] = [x - 0.5*phantom_dim["length"] for x in output["z"]]
+        output["y"] = [x - phantom_dim["b"] for x in output["y"]]
 
         # Preallocate memory for skin dose mapping
         output['dose'] = [0] * len(output['x'])
@@ -98,12 +102,15 @@ def create_phantom(phantom_type: str, human_model: Optional[str] = None, phantom
         x = [el for el_list in phantom_mesh.x for el in el_list]
         y = [el for el_list in phantom_mesh.y for el in el_list]
         z = [el for el_list in phantom_mesh.z for el in el_list]
+        n = phantom_mesh.normals
+        n = [x for pair in zip(n, n, n) for x in pair]
         i = np.arange(0, len(x) - 3, 3)
         j = np.arange(1, len(y) - 2, 3)
         k = np.arange(2, len(z) - 1, 3)
 
         # Store the coordinates of the human phantom
-        output = {"type": "human", 'x': x, 'y': y, 'z': z, 'i': i, 'j': j, 'k': k}
+        output = {"type": "human", 'x': x, 'y': y, 'z': z,
+                  'i': i, 'j': j, 'k': k, 'normals': n}
         # Preallocate memory for skin dose mapping
         output['dose'] = [0] * len(output['x'])
 
