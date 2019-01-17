@@ -210,7 +210,7 @@ table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
 table = create_table(table_dim=table_measurements)
 TestPhantom = Phantom(phantom_type="human", human_model="adult_male", phantom_dim=phantom_measurements)
 
-TestPhantom.plot(include_table=True, table=table_measurements)
+TestPhantom.plot(include_table=True,)
 
 
 
