@@ -2,6 +2,7 @@ from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+from typing import Dict, List
 
 
 def tempname(pd):
@@ -132,21 +133,28 @@ def PositionPatient(ptm, ang, table):
     return ptm
 
 
-def CheckHit(source, ray, point):
+def CheckHit(source, ray, points: List[List[float]]):
+    v1 = Vector(source, ray[0, :], "unit")
+    v2 = Vector(source, ray[1, :], "unit")
+    v3 = Vector(source, ray[2, :], "unit")
+    v4 = Vector(source, ray[3, :], "unit")
 
-    N1 = np.cross(Vector(source, ray[0, :], "unit"), Vector(source, ray[1, :], "unit"))
-    N2 = np.cross(Vector(source, ray[1, :], "unit"), Vector(source, ray[2, :], "unit"))
-    N3 = np.cross(Vector(source, ray[2, :], "unit"), Vector(source, ray[3, :], "unit"))
-    N4 = np.cross(Vector(source, ray[3, :], "unit"), Vector(source, ray[0, :], "unit"))
+    N1 = np.cross(v1, v2)
+    N2 = np.cross(v2, v3)
+    N3 = np.cross(v3, v4)
+    N4 = np.cross(v4, v1)
 
-    v = Vector(source, point)
+    point_vectors = [Vector(source, point) for point in points]
+    #v = Vector(source, point)
 
-    if np.dot(v, N1) <= 0 and np.dot(v, N2) <= 0 and np.dot(v, N3) <= 0 and np.dot(v, N4) <= 0:
-        # print("Hurra!")
-        hit = 1
-    else:
-        # print("kuk")
-        hit = 0
+    hits = [1 if np.dot(v, N1) <= 0 and np.dot(v, N2) <= 0 and np.dot(v, N3) <= 0 and np.dot(v, N4) <= 0 else 0
+            for v in point_vectors]
+    return hits
+
+    #if np.dot(v, N1) <= 0 and np.dot(v, N2) <= 0 and np.dot(v, N3) <= 0 and np.dot(v, N4) <= 0:
+    #    hit = 1
+    #else:
+    #    hit = 0
 
     return hit
 

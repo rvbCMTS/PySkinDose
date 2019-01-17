@@ -29,10 +29,11 @@ TablePhantom = CreateTable(TL=250, TW=50)
 phantom_measurements = {'width': 50, 'length': 200, "a": 20, "b": 10}
 
 ptm = create_phantom(phantom_type='human',
-                     human_model='adult_male_80',
+                     human_model='adult_male',
                      phantom_dim=phantom_measurements)
 
 ptm = PositionPatient(ptm, 90, TablePhantom)
+print(len(ptm["x"]))
 
 # Create source
 src = np.array([0, pd.DSI[0], 0])
@@ -50,25 +51,22 @@ for i in range(10, 11):
     phantom = PositionPhantom(ptm, pd, i)
     ray = CreateRay(pd, Ra, Rb, i)
 
-    isHit = np.empty([1, 1])
+    #isHit = np.empty([1, 1])
 
     start = time.time()
-    
-    for j in range(0, len(phantom["x"])):
-        point = [phantom["x"][j], phantom["z"][j], phantom["y"][j]]
-        if CheckHit(source, ray, point) == 1:
-            isHit = np.append(isHit, j)
 
+    points = [[phantom["x"][ind], phantom["z"][ind], phantom["y"][ind]] for ind in range(len(phantom["x"]))]
+    hits = CheckHit(source, ray, points)
+
+    points_hit = np.asarray(points)[hits]
+    points_missed = np.asarray(points)[~np.asarray(hits)]
 
     end = time.time()
-    print(len(isHit))
     print(end-start)
-    isHit = np.delete(isHit, 0)
-
 
     # Plot geometry:
     # PlotPhantom(phantom, ax, "blue")  # Phantom
-    ax.scatter(phantom["x"], phantom["z"], phantom["y"], alpha=0.5, s=0.5)
+    ax.plot(phantom["x"], phantom["z"], phantom["y"], linewidth=0.5)
 
     PlotObject(table, ax, "blue")  # Table
     PlotObject(detector, ax, "black")  # Detector

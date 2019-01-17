@@ -28,7 +28,7 @@ TablePhantom = CreateTable(TL=250, TW=50)
 phantom_measurements = {'width': 50, 'length': 200, "a": 20, "b": 10}
 
 ptm = create_phantom(phantom_type='human',
-                     human_model='ttt',
+                     human_model='adult_male_90',
                      phantom_dim=phantom_measurements)
 
 ptm = PositionPatient(ptm, 90, TablePhantom)
@@ -41,7 +41,7 @@ fig = plt.figure()
 plt.ion()
 ax = fig.add_subplot(111, projection='3d')
 
-for i in range(10, 12):
+for i in range(10, 20):
     # Fetch rotation
     Ra, Rb = FetchRotation(pd.PPA[i], pd.PSA[i])
     # Position objects:
@@ -51,14 +51,14 @@ for i in range(10, 12):
     phantom = PositionPhantom(ptm, pd, i)
     ray = CreateRay(pd, Ra, Rb, i)
 
-    # isHit = np.empty([1, 1])
+    isHit = np.empty([1, 1])
 
-    # for j in range(0, len(phantom["x"])):
-    #     point = [phantom["x"][j], phantom["z"][j], phantom["y"][j]]
-    #     if CheckHit(source, ray, point) == 1:
-    #         isHit = np.append(isHit, j)
+    for j in range(0, len(phantom["x"])):
+        point = [phantom["x"][j], phantom["z"][j], phantom["y"][j]]
+        if CheckHit(source, ray, point) == 1:
+            isHit = np.append(isHit, j)
 
-    # isHit = np.delete(isHit, 0)
+    isHit = np.delete(isHit, 0)
 
     # Plot geometry:
     # PlotPhantom(phantom, ax, "blue")  # Phantom
