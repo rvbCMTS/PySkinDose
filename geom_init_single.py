@@ -7,6 +7,7 @@ from parse_data import parse
 import pandas as pd
 import numpy as np
 import pydicom
+import time
 
 # Pandas properties
 desired_width = 180
@@ -28,7 +29,7 @@ TablePhantom = CreateTable(TL=250, TW=50)
 phantom_measurements = {'width': 50, 'length': 200, "a": 20, "b": 10}
 
 ptm = create_phantom(phantom_type='human',
-                     human_model='ttt',
+                     human_model='adult_male_80',
                      phantom_dim=phantom_measurements)
 
 ptm = PositionPatient(ptm, 90, TablePhantom)
@@ -48,6 +49,22 @@ for i in range(10, 11):
     table = PositionTable(TablePhantom, pd, i)
     phantom = PositionPhantom(ptm, pd, i)
     ray = CreateRay(pd, Ra, Rb, i)
+
+    isHit = np.empty([1, 1])
+
+    start = time.time()
+    
+    for j in range(0, len(phantom["x"])):
+        point = [phantom["x"][j], phantom["z"][j], phantom["y"][j]]
+        if CheckHit(source, ray, point) == 1:
+            isHit = np.append(isHit, j)
+
+
+    end = time.time()
+    print(len(isHit))
+    print(end-start)
+    isHit = np.delete(isHit, 0)
+
 
     # Plot geometry:
     # PlotPhantom(phantom, ax, "blue")  # Phantom
