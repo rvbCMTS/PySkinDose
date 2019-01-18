@@ -5,7 +5,7 @@ import numpy as np
 import os
 from typing import List, Dict, Optional
 
-
+# Specifying valid phantom type selections
 VALID_PHANTOM_TYPES = ['plane', 'cylinder', 'human']
 
 
@@ -44,7 +44,7 @@ class Phantom:
             if human_model is None:
                 raise ValueError("Human model are needed to create a human phantom.")
 
-                # Raise error if invalid phantom type selected
+        # Raise error if invalid phantom type selected
         if phantom_type.lower() not in VALID_PHANTOM_TYPES:
             raise ValueError(f"Unknown phantom type selected. Valid type: {'.'.join(VALID_PHANTOM_TYPES)}")
 
@@ -62,43 +62,45 @@ class Phantom:
         self.type: str = phantom_type.lower()
         self.dose: Optional[List[float]] = None
 
+        # Creates a coordinate grid along a 2D plane for 2D phantom presentation
         if phantom_type.lower() == "plane":
 
             # Linearly spaced point along the longitudinal direction, in steps of 1 cm
             x_range = np.linspace(-0.5 * phantom_dim["width"], 0.5 * phantom_dim["width"], phantom_dim["width"] + 1)
             # Linearly spaced point along the lateral direction, in steps of 1 cm
-            z_range = np.linspace(-0.5 * phantom_dim["length"], 0.5 * phantom_dim["length"], phantom_dim["length"] + 1)
+            y_range = np.linspace(0, phantom_dim["length"], phantom_dim["length"] + 1)
             # Create phantom in form of rectangular grid
-            x, z = np.meshgrid(x_range, z_range)
+            x, y = np.meshgrid(x_range, y_range)
 
             self.x = x.ravel().tolist()
-            self.z = z.ravel().tolist()
-
+            self.y = y.ravel().tolist()
+            self.z = [0] * len(self.x)
+            self.r = [[self.x[ind], self.y[ind], self.z[ind]] for ind in range(len(self.x))]
+            
             # Preallocate memory for skin dose mapping
-            self.y = [0] * len(x)
-            self.dose = [0] * len(x)
+            self.dose = [0] * len(self.x)
 
         # Creates a coordinate grid along an elliptic cylinder for elliptic cylinder phantom representation
         elif phantom_type.lower() == "cylinder":
             # Creates linearly spaced points along an ellipse in the lateral direction
             t = np.arange(0, 2 * np.pi, 0.25)
             x = (phantom_dim["a"] * np.cos(t)).tolist()
-            y = (phantom_dim["b"] * np.sin(t)).tolist()
+            z = (phantom_dim["b"] * np.sin(t)).tolist()
 
             # Store the  coordinates of the cylinder phantom
             output = {"type": "cylinder", "x": [], "y": [], "z": []}
 
             # Extend the ellipse to span the entire length of the phantom, in steps of 10 cm,
             # thus creating a phantom in form of an elliptic cylinder
-            for index in range(0, phantom_dim["length"], 5):
+            for index in range(0, phantom_dim["length"]+1, 5):
                 output["x"] = output["x"] + x
-                output["y"] = output["y"] + y
-                output["z"] = output["z"] + [index] * len(x)
+                output["z"] = output["z"] + z
+                output["y"] = output["y"] + [index] * len(x)
 
             self.x = output["x"]
-            # center in z direction
-            self.z = [x - 0.5 * phantom_dim["length"] for x in output["z"]]
-            self.y = [x - phantom_dim["b"] for x in output["y"]]
+            self.y = output["y"]
+            self.z = output["z"]
+            self.r = [[self.x[ind], self.y[ind], self.z[ind]] for ind in range(len(self.x))]
 
             # Preallocate memory for skin dose mapping
             self.dose = [0] * len(output['x'])
@@ -109,12 +111,12 @@ class Phantom:
             # load selected phantom model from binary .stl file
             phantom_path = os.path.join(os.path.dirname(__file__), 'phantom_data', f"{human_model}.stl")
             phantom_mesh = mesh.Mesh.from_file(phantom_path)
+            
             self.x = [el for el_list in phantom_mesh.x for el in el_list]
             self.y = [el for el_list in phantom_mesh.y for el in el_list]
             self.z = [el for el_list in phantom_mesh.z for el in el_list]
-            self.r = [
-                [[self.x[ind], self.z[ind], self.y[ind]] for ind in range(len(self.x))]
-            ]
+            self.r = [[self.x[ind], self.y[ind], self.z[ind]] for ind in range(len(self.x))]
+
             n = phantom_mesh.normals
             self.normals = [x for pair in zip(n, n, n) for x in pair]
             self.i = np.arange(0, len(self.x) - 3, 3)
@@ -132,10 +134,9 @@ class Phantom:
             :type table_dict: Dict[str, str]
             """
         # Raise error if table dimensions are missing when table presentation are selected
-        if include_table:
-            if table is None:
-                raise ValueError('Table measurements must be given when include_table is True')
-
+        # if include_table:
+        #     if table is None:
+        #         raise ValueError('Table measurements must be given when include_table is True')
         # Create Plotly 3D mesh object for plane phantom representation
         if self.type == "plane":
             phantom_mesh = [
@@ -178,7 +179,7 @@ class Phantom:
             # Create Plotly 3D mesh object for the patient support table.
             table_mesh = [
                 go.Mesh3d(
-                    x=table.x, y=table.y, z=[x + np.amin(self.z) for x in table.z],
+                    x=table["x"], y=table["y"], z=[x + np.amin(self.z) for x in table["z"]],
                     intensity=self.dose, alphahull=1, color='gray', opacity=0.8, name='Table',
                     showscale=False)]
 
@@ -198,7 +199,7 @@ class Phantom:
 
 
 
-# example output
+# EXAMPLE OUTPUT
 
 # Define width (of the plane phantom), length (of the plane/elliptic cylinder),
 # foci a and b (elliptic cylinder) in the lateral and longitudinal direction
@@ -207,62 +208,9 @@ phantom_measurements = {'width': 60, 'length': 180, "a": 20, "b": 10}
 # Table measurements
 table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
 
+# Create table
 table = create_table(table_dim=table_measurements)
-TestPhantom = Phantom(phantom_type="human", human_model="adult_male", phantom_dim=phantom_measurements)
-
-TestPhantom.plot(include_table=True,)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Define table dimensions in the longitudinal (width), lateral (length) and vertical (thickness) direction
-# table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
-
-
-
-# create phantom
-# phantom = create_phantom(phantom_type='human',
-#                          human_model='adult_male',
-#                          phantom_dim=phantom_measurements)
-
-# create table
-# table = create_table(table_measurements)
-
-# plot phantom
-# plot_phantom(phantom_dict=phantom,
-#              include_table=True,
-#              table_dict=table)
+TestPhantom = Phantom(phantom_type="plane", human_model="adult_female", phantom_dim=phantom_measurements)
+TestPhantom.plot(include_table=True, table=table)
