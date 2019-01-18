@@ -9,31 +9,16 @@ from typing import List, Dict, Optional
 VALID_PHANTOM_TYPES = ['plane', 'cylinder', 'human']
 
 
-def create_table(table_dim: dict) -> dict:
-    """Creates the eight vertices of the patient support table.
-
-    :param table_dim: Patient support table dimensions (width, length, thickness)
-    :type table_dim: Dict[str, int]
-    :return: (x,y,z) coordinates of the vertices of the patient support table
-    :rtype: Dict[str, str]
-    """
-    # Longitudinal position of the the vertices
-    x = [index * 0.5*table_dim["width"] for index in [-1, 1, 1, -1, -1, 1, 1, -1]]
-    # Lateral position of the the vertices
-    y = [index * table_dim["length"] for index in [0, 0, 1, 1, 0, 0, 1, 1]]
-    # Vertical position of the vertices
-    z = [index * -table_dim["thickness"] for index in [0, 0, 0, 0, 1, 1, 1, 1]]
-
-    output = {"type": "table", "x": x, "y": y, "z": z}
-
-    return output
-
-
 class Phantom:
     """This class creates a phatom of any of the types specified in VALID_PHANTOM_TYPES.
     and plots the phantom in a plotly 3D mesh for radiation skin dose visualization."""
     
     def __init__(self, phantom_type: str, human_model: Optional[str] = None, phantom_dim: Optional[dict] = None):
+        """
+        :param phantom_type: Type of phantom. Valid selections are 'plane', 'cylinder' or 'human'
+        :param human_model: Must be given for phantom_type = 'human'. Valid selection are names of the *.stl-files in the phantom_data folder.
+        :param phantom_dim: Dimensions of the mathematical phantoms (plane or cylinder) given as {'width': <float>, 'length': <float>, "a": <float>, "b": <float>} where 'a' and 'b' are the radii of an eliptical cylinder, i.e., if a and b are equal, it will be a perfect cylinder.
+        """
         # Raise error if plane/cylinder dimensions are missing for plane/cylinder phantom representation
         if phantom_type.lower() in ["plane", "cylinder"]:
             if phantom_dim is None:
@@ -126,12 +111,11 @@ class Phantom:
             # Preallocate memory for skin dose mapping
             self.dose = [0] * len(self.x)
 
-    def plot(self, include_table: bool, table: Optional[object] = None):
+    def plot(self, include_table: bool, table_measurements: Optional[Dict[str, int]] = None):
         """creates and plots an (offline) plotly graph of the phantom and support table (optional)
 
             :param include_table: choose if the support table should be included in the plot.
-            :param table_dict: (x,y,z) coordinates of the vertices of the patient support table
-            :type table_dict: Dict[str, str]
+            :param table_measurements: Patient support table dimensions as {'width': <int>, 'length': <int>, 'thickness': <int>}. Measurements should be given in cm.
             """
         # Raise error if table dimensions are missing when table presentation are selected
         # if include_table:
@@ -176,6 +160,7 @@ class Phantom:
 
         # If the patient support table are to be visualized in the figure
         if include_table:
+            table = self._create_table(table_measurements)
             # Create Plotly 3D mesh object for the patient support table.
             table_mesh = [
                 go.Mesh3d(
@@ -197,20 +182,35 @@ class Phantom:
             # Plot the result locally (No Plotly login required)
             ply.plot(fig, filename='plot_phantom.html')
 
+    def _create_table(table_dim: dict) -> dict:
+        """Creates the eight vertices of the patient support table.
+
+        :param table_dim: Patient support table dimensions (width, length, thickness)
+        :type table_dim: Dict[str, int]
+        :return: (x,y,z) coordinates of the vertices of the patient support table
+        :rtype: Dict[str, str]
+        """
+        # Longitudinal position of the the vertices
+        x = [index * 0.5*table_dim["width"] for index in [-1, 1, 1, -1, -1, 1, 1, -1]]
+        # Lateral position of the the vertices
+        y = [index * table_dim["length"] for index in [0, 0, 1, 1, 0, 0, 1, 1]]
+        # Vertical position of the vertices
+        z = [index * -table_dim["thickness"] for index in [0, 0, 0, 0, 1, 1, 1, 1]]
+
+        output = {"type": "table", "x": x, "y": y, "z": z}
+
+        return output
 
 
-# EXAMPLE OUTPUT
 
-# Define width (of the plane phantom), length (of the plane/elliptic cylinder),
-# foci a and b (elliptic cylinder) in the lateral and longitudinal direction
-phantom_measurements = {'width': 60, 'length': 180, "a": 20, "b": 10}
+# EXAMPLE USAGE
 
-# Table measurements
-table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
+# # Define width (of the plane phantom), length (of the plane/elliptic cylinder),
+# # foci a and b (elliptic cylinder) in the lateral and longitudinal direction
+# # phantom_measurements = {'width': 60, 'length': 180, "a": 20, "b": 10}
 
-# Create table
-table = create_table(table_dim=table_measurements)
+# # Table measurements
+# table_measurements = {'width': 70, 'length': 200, 'thickness': 5}
 
-
-TestPhantom = Phantom(phantom_type="plane", human_model="adult_female", phantom_dim=phantom_measurements)
-TestPhantom.plot(include_table=True, table=table)
+# TestPhantom = Phantom(phantom_type="plane", human_model="adult_female", phantom_dim=phantom_measurements)
+# TestPhantom.plot(include_table=True, table_measurements=table_measurements)
