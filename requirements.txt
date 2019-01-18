@@ -1,5 +1,0 @@
-numpy
-pandas
-pydicom
-plotly
-numpy-stl
