@@ -2,126 +2,200 @@ import pandas as pd
 import numpy as np
 from datetime import datetime as dt
 from db_connect import db_connect
+import os
+import pydicom
 
 
-def parse(ds, log=None):
-    """ Parse DICOM-RDSR data, intended for PSD calculations from fluoroscopic procedures
+def rdsr_parser(ds: pydicom.dataset.FileDataset,
+                log=None) -> pd.core.frame.DataFrame:
 
-    :param ds: RDSR file of type <class 'dicom.dataset.FileDataset'>. Contains 'Irradiation Event X-Ray Data'
-    (structured report). Containing parameter to be used for patient specific post intervention PSD calculations.
-    :param log: Logging instance
-    :return:
-    df: Table of type <class 'pandas.core.frame.DataFrame'>. Contains parsed irradiation event data.
-    model: string containing 'Manufacturer Model Name'. To be used for machine specific corrections.
-    """
+    """ This function parses data from radiation dose structure reports (RDSR)
+
+        :param ds:  RDSR file from fluoroscopic device, opened with pydicom.
+        :param log: Logging instance
+
+        :return:
+        df:         Dataframe containing parsed RDSR data.
+        model:      string containing 'Manufacturer Model Name', to be used
+                    for machine specific corrections. """
+
     # Declare pandas DataFrame for storage of parsed RDSR data
     df = pd.DataFrame(columns=[])
 
     # Obtain 'Manufacturer Model Name'
     if log is not None:
         log.debug('Get manufacturer model name')
-    model = ds.ManufacturerModelName \
-        .replace(" ", "").replace("-", "").replace("(", "").replace(")", "").replace(".", "")
+
+    model = ds.ManufacturerModelName.replace(" ", "").replace("-", "")\
+        .replace("(", "").replace(")", "").replace(".", "")
+
     # For each content in RDSR file
     for RDSR_content in ds.ContentSequence:
+
         # If content = irradiation event
-        if RDSR_content.ConceptNameCodeSequence[0].CodeMeaning == 'Irradiation Event X-Ray Data':
+        if RDSR_content.ConceptNameCodeSequence[0].CodeMeaning\
+                == 'Irradiation Event X-Ray Data':
+
             # Declare dictionary (to be assigned to df)
             df_dict = {}
+
+            # Save manufacturer model name
+            df_dict["model"] = ds.ManufacturerModelName\
+                .replace(" ", "").replace("-", "").replace("(", "")\
+                .replace(")", "").replace(".", "")
+
             # For each content in 'Irradiation Event X-Ray Data'
             for xray_event_content in RDSR_content.ContentSequence:
                 # Reformat 'Concept Name'
-                tag = (xray_event_content.ConceptNameCodeSequence[0].CodeMeaning
-                       .replace(" ", "")).replace("-", "").replace("(", "").replace(")", "").replace(".", "")
-                # Save 'Concept Name' to dictionary and assign corresponding value.
+                tag = (xray_event_content.ConceptNameCodeSequence[0]
+                                         .CodeMeaning.replace(" ", ""))\
+                                             .replace("-", "")\
+                                             .replace("(", "")\
+                                             .replace(")", "")\
+                                             .replace(".", "")
+
+                # Save 'Concept Name' to dictionary, assign corresponding value
                 if 'ConceptCodeSequence' in xray_event_content:
                     if tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag], xray_event_content.ConceptCodeSequence[0].CodeMeaning]
+                        df_dict[tag] = [df_dict[tag], xray_event_content.
+                                        ConceptCodeSequence[0].CodeMeaning]
                     else:
-                        df_dict[tag] = xray_event_content.ConceptCodeSequence[0].CodeMeaning
+                        df_dict[tag] = xray_event_content\
+                            .ConceptCodeSequence[0].CodeMeaning
+
                 elif 'MeasuredValueSequence' in xray_event_content:
                     # If the content contains a 'Measured Value Sequence'
                     # Reformat 'Concept Name' to include unit of measurement
-                    unit = xray_event_content.MeasuredValueSequence[0].MeasurementUnitsCodeSequence[
-                        0].CodeValue.replace(".", "")
+                    unit = xray_event_content.MeasuredValueSequence[0]\
+                        .MeasurementUnitsCodeSequence[0]\
+                        .CodeValue.replace(".", "")
+
                     tag = '_'.join([tag, unit])
+
                     if tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag], xray_event_content.MeasuredValueSequence[0].NumericValue]
+                        df_dict[tag] = [df_dict[tag], xray_event_content
+                                        .MeasuredValueSequence[0].NumericValue]
+
                     else:
-                        df_dict[tag] = xray_event_content.MeasuredValueSequence[0].NumericValue
+                        df_dict[tag] = xray_event_content\
+                            .MeasuredValueSequence[0].NumericValue
+
                 elif 'TextValue' in xray_event_content:
-                    # This loop extracts detector size for static acquisitions, which is hidden in a 'Comment'
-                    # for the siemens artis zee unit.
+
+                    # This loop extracts detector size for static acquisitions,
+                    # which is given as a 'Comment' for siemens artis zee units
                     if tag == 'Comment':
                         comment = xray_event_content.TextValue.split('/')
                         if 'AcquisitionData' in comment[0]:
                             for index in comment:
                                 if 'iiDiameter SRData' in index:
-                                    df_dict['DetectorSize_mm'] = index.split('=')[1].replace('"', '')
+                                    df_dict['DetectorSize_mm']\
+                                        = index.split('=')[1].replace('"', '')
+
                     elif tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag], xray_event_content.TextValue]
+                        df_dict[tag] = [df_dict[tag],
+                                        xray_event_content.TextValue]
                     else:
                         df_dict[tag] = xray_event_content.TextValue
+
                 elif 'DateTime' in xray_event_content:
                     if tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag], dt.strptime(str(round(float(xray_event_content.DateTime))),
-                                                                  '%Y%m%d%H%M%S')]
+                        df_dict[tag] = [df_dict[tag],
+                                        dt.strptime(str(round(float(
+                                            xray_event_content.DateTime))),
+                                            '%Y%m%d%H%M%S')]
                     else:
-                        df_dict[tag] = dt.strptime(str(round(float(xray_event_content.DateTime))), '%Y%m%d%H%M%S')
+                        df_dict[tag] = dt.strptime(str(round(float(
+                            xray_event_content.DateTime))), '%Y%m%d%H%M%S')
+
                 elif 'UID' in xray_event_content:
                     if tag in df_dict.keys():
                         df_dict[tag] = [df_dict[tag], xray_event_content.UID]
                     else:
                         df_dict[tag] = xray_event_content.UID
+
                 # If the 'Irradiation Event X-Ray Data' contains subcontent
                 elif 'ContentSequence' in xray_event_content:
                     # For each subcontent
-                    for xray_event_subcontent in xray_event_content.ContentSequence:
+                    for xray_event_subcontent in xray_event_content.\
+                            ContentSequence:
                         # Reformat 'Concept Name'
-                        tag = (xray_event_subcontent.ConceptNameCodeSequence[0].CodeMeaning.replace(
-                            " ", "")).replace("-", "").replace("(", "").replace(")", "").replace(".", "")
-                        # Save 'Concept Name' to dictionary and assign corresponding value
+                        tag = (xray_event_subcontent.ConceptNameCodeSequence[0]
+                               .CodeMeaning.replace(" ", "")).replace("-", "")\
+                               .replace("(", "").replace(")", "")\
+                               .replace(".", "")
+
+                        # Save 'Concept Name' to dictionary and assign
+                        # corresponding value
                         if 'ConceptCodeSequence' in xray_event_subcontent:
                             if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag], xray_event_subcontent.ConceptCodeSequence[0].CodeMeaning]
+                                df_dict[tag] = [df_dict[tag],
+                                                xray_event_subcontent
+                                                .ConceptCodeSequence[0]
+                                                .CodeMeaning]
                             else:
-                                df_dict[tag] = xray_event_subcontent.ConceptCodeSequence[0].CodeMeaning
+                                df_dict[tag] = xray_event_subcontent.\
+                                    ConceptCodeSequence[0].CodeMeaning
+
                         elif 'DateTime' in xray_event_subcontent:
                             if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag], dt.strptime(str(round(float(xray_event_subcontent.
-                                                                                          DateTime))), '%Y%m%d%H%M%S')]
+                                df_dict[tag] = [df_dict[tag],
+                                                dt.strptime(str(round(float(
+                                                    xray_event_subcontent
+                                                    .DateTime))),
+                                                    '%Y%m%d%H%M%S')]
                             else:
-                                df_dict[tag] = dt.strptime(str(round(float(xray_event_subcontent.
-                                                                           DateTime))), '%Y%m%d%H%M%S')
+                                df_dict[tag] = dt.strptime(str(round(float(
+                                    xray_event_subcontent.DateTime))),
+                                    '%Y%m%d%H%M%S')
+
                         elif 'TextValue' in xray_event_subcontent:
+
                             if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag], xray_event_subcontent.TextValue]
+                                df_dict[tag] = [df_dict[tag],
+                                                xray_event_subcontent.
+                                                TextValue]
+
                             else:
                                 df_dict[tag] = xray_event_subcontent.TextValue
+
                         elif 'UID' in xray_event_subcontent:
                             if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag], xray_event_subcontent.UID]
+                                df_dict[tag] = [df_dict[tag],
+                                                xray_event_subcontent.UID]
                             else:
                                 df_dict[tag] = xray_event_subcontent.UID
                         elif 'MeasuredValueSequence' in xray_event_subcontent:
-                            # If the content contains a 'Measured Value Sequence'
-                            # Reformat 'Concept Name' to include unit of measurement
-                            unit = xray_event_subcontent.MeasuredValueSequence[0].MeasurementUnitsCodeSequence[
-                                0].CodeValue
+                            # Reformat 'Concept Name' to include unit of
+                            # measurement
+                            unit = xray_event_subcontent\
+                                .MeasuredValueSequence[0]\
+                                .MeasurementUnitsCodeSequence[0].CodeValue
+
                             tag = '_'.join([tag, unit])
+
                             if tag in df_dict.keys():
                                 df_dict[tag] = [df_dict[tag],
-                                                xray_event_subcontent.MeasuredValueSequence[0].NumericValue]
+                                                xray_event_subcontent
+                                                .MeasuredValueSequence[0]
+                                                .NumericValue]
                             else:
-                                df_dict[tag] = xray_event_subcontent.MeasuredValueSequence[0].NumericValue
-                        # Assign None to 'Concept Name' if nothing relevant to parse in RDSR subcontent
+                                df_dict[tag] = xray_event_subcontent.\
+                                    MeasuredValueSequence[0].NumericValue
+
+                        # Assign None to 'Concept Name' if nothing relevant to
+                        # parse in RDSR subcontent
                         else:
                             df_dict[tag] = None
-                # Assign None to 'Concept Name' if nothing relevant to parse in RDSR content
+
+                # Assign None to 'Concept Name' if nothing relevant to parse
+                # in RDSR content
                 else:
                     df_dict[tag] = None
+
             # Append dictionary to DataFrame
             df = df.append(df_dict, ignore_index=True)
+
     # Return DataFrame containing parsed RDSR data
     if log is not None:
         log.debug('Finished parsing RDSR DICOM file')
@@ -335,3 +409,12 @@ def normalize(model, PD, ds, log=None):
     conn.close()
 
     return PD_norm
+
+# EXAMPLE USAGE:
+
+# data_filename = "first"
+# data_path = os.path.join(os.path.dirname(__file__),
+#                         'RDSR_data', f"{data_filename}.dcm")
+
+# read and parse RDSR file
+# data_raw = pydicom.read_file(data_path)

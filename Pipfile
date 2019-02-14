@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-matplotlib = "*"
 pytest = "*"
 
 [packages]
@@ -13,6 +12,7 @@ numpy = "*"
 pydicom = "*"
 numpy-stl = "*"
 plotly = "*"
+mayavi = "*"
 
 [requires]
 python_version = "3.7"
