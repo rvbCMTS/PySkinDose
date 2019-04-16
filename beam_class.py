@@ -1,94 +1,186 @@
 import numpy as np
-from mayavi import mlab
+import pandas as pd
+from geom_calc import vector
+from phantom_class import Phantom
+from typing import List
 
 
 class Beam:
+    """A class used to create an X-ray beam and detector.
 
-    def __init__(self, data_parsed, i):
+    Attributes
+    ----------
+    r : np.array
+        5*3 array, locates the xyz coordinates of the apex and verticies of a
+        pyramid shaped X-ray beam, where the apex represents the X-ray focus
+        (row 1) and the vertices where the beam intercepts the X-ray detector
+        (row 2-5)
+    ijk : np.array
+        A matrix containing vertex indices. This is required in order to
+        plot the beam using plotly Mesh3D. For more info, see "i", "j", and "k"
+        at https://plot.ly/python/reference/#mesh3d
+    det_r: np.array
+        8*3 array, where each row locates the xyz coordinate of one of the 8
+        corners of the cuboid shaped X-ray detector
+    det_ijk : np.array
+        same as ijk, but for plotting the X-ray detector
+    N : np.array
+        4*3 array, where each row contains a normal vector to one of the four
+        faces of the beam.
 
-        self.source: np.array = None
-        self.Ra: np.array = None
-        self.Rb: np.array = None
+    Methods
+    -------
+    check_hit(patient)
+        Calculates which of the patient phantom's entrance skin cells are hit
+        by be X-ray beam
 
-        self.r_det: np.array = None
-        self.x_det: np.array = None
-        self.y_det: np.array = None
-        self.z_det: np.array = None
+    """
 
-        self.r_edge: np.array = None
-        self.x_edge: np.array = None
-        self.y_edge: np.array = None
-        self.z_edge: np.array = None
+    def __init__(self, data_norm: pd.DataFrame, event: int = 0,
+                 plot_setup: bool = False) -> None:
+        """Initialize the beam and detector for a specific irradiation event.
 
-        self.r_det_triangles: List[tuple] = None
-        self.r_det_triangles: List[tuple] = None
+        Parameters
+        ----------
+        data_norm : pd.DataFrame
+            Dicom RDSR information from each irradiation event. See
+            parse_data.py for more information.
+        event : int, optional
+            Specifies the index of the irradiation event in the procedure
+            (the default is 0, which is the first event).
+        plot_setup : bool, optional
+            If True, the beam angulation info from data_norm is neglected,
+            and a beam of zero angulation is created insted. This is a
+            debugging feature used when positioning new phantoms or
+            implementing currently unsupported venor RDSR files (the default is
+            False).
 
-        # fetch rotation
-        Ap1 = np.deg2rad(data_parsed.PPA[i])
-        Ap2 = np.deg2rad(data_parsed.PSA[i])
+        """
+        # Override beam angulation if plot_setup
+        if plot_setup:
+            Ap1 = Ap2 = 0
 
-        # Define rotation about primary angle (alpha/Ap1)
+        else:
+            # Fetch primary (Ap1/alpha), and secondary (Ap2/beta)
+            # rotation angles of the X-ray tube
+            Ap1 = np.deg2rad(data_norm.PPA[event])
+            Ap2 = np.deg2rad(data_norm.PSA[event])
+
+        # Define ratation matrix about Ap1 and Ap2
         Ra = np.array([[+np.cos(Ap1), +np.sin(Ap1), +0],
                        [-np.sin(Ap1), +np.cos(Ap1), +0],
-                       [+0,           +0,           +1]])
-
-        # Define rotation about secondary angle (beta/Ap2)
-        Rb = np.array([[+1, +0,           +0],
+                       [+0, +0, +1]])
+        Rb = np.array([[+1, +0, +0],
                        [+0, +np.cos(Ap2), -np.sin(Ap2)],
                        [+0, +np.sin(Ap2), +np.cos(Ap2)]])
 
-        self.Ra = Ra
-        self.Rb = Rb
+        # Located X-ray source
+        source = np.array([0, data_norm.DSI[event], 0])
 
-        # sources
-        source = np.array([0, data_parsed.DSI[i], 0])
-        source = np.dot(np.dot(self.Rb, self.Ra), source)
-        self.source = source
+        # Create beam-detector interception point for a beam of side length 1
+        r = np.array([[+0.5, -1.0, +0.5],
+                      [+0.5, -1.0, -0.5],
+                      [-0.5, -1.0, -0.5],
+                      [-0.5, -1.0, +0.5]])
 
-        detector_width = 40  # Fetch this from parsed data later on
+        r[:, 0] *= data_norm.FS_long[event]  # Longitudinal collimation
+        r[:, 1] *= data_norm.DID[event]  # Set source-detector distance
+        r[:, 2] *= data_norm.FS_lat[event]  # Lateral collimation
 
-        # detector
-        points1 = np.array([[+0.5, -1.0, +0.5],
-                           [+0.5, -1.0, -0.5],
-                           [-0.5, -1.0, -0.5],
-                           [-0.5, -1.0, +0.5],
-                           [+0.5, -1.2, +0.5],
-                           [+0.5, -1.2, -0.5],
-                           [-0.5, -1.2, -0.5],
-                           [-0.5, -1.2, +0.5]])
+        r = np.vstack([source, r])
 
-        r_det = points1
-        r_det[:, 0] = detector_width * r_det[:, 0]
-        r_det[:, 1] = data_parsed.DID[i] * r_det[:, 1]
-        r_det[:, 2] = detector_width * r_det[:, 2]
+        # Rorate beam about Ap1 and Ap2
+        for ind in range(5):
+            r[ind, :] = np.dot(np.dot(Rb, Ra), r[ind, :])
 
+        self.r = r
+
+        # Manually construct vertex index vector for the X-ray beam
+        i = np.array([0, 0, 0, 0, 1, 1])
+        j = np.array([1, 1, 3, 3, 2, 3])
+        k = np.array([2, 4, 2, 4, 3, 4])
+        self.ijk = np.column_stack((i, j, k))
+
+        # Construct unit vectors from X-ray source beam verticies
+        v1 = vector(r[0, :], r[1, :], normalization=True)
+        v2 = vector(r[0, :], r[2, :], normalization=True)
+        v3 = vector(r[0, :], r[3, :], normalization=True)
+        v4 = vector(r[0, :], r[4, :], normalization=True)
+
+        # Create the four normal vectors to the faces of the beam.
+        self.N = np.vstack([np.cross(v1, v2), np.cross(v2, v3),
+                            np.cross(v3, v4), np.cross(v4, v1)])
+
+        # Create detector corners for with side length 1
+        det_r = np.array([[+0.5, -1.0, +0.5],
+                          [+0.5, -1.0, -0.5],
+                          [-0.5, -1.0, -0.5],
+                          [-0.5, -1.0, +0.5],
+                          [+0.5, -1.2, +0.5],
+                          [+0.5, -1.2, -0.5],
+                          [-0.5, -1.2, -0.5],
+                          [-0.5, -1.2, +0.5]])
+
+        # Add detector dimensions
+        detector_width = data_norm.DSL[0]
+        det_r[:, 0] *= detector_width
+        det_r[:, 2] *= detector_width
+        # Place detector at actual distance
+        det_r[:, 1] *= data_norm.DID[event]
+
+        # Rotate detector about Ap1 and Ap2
         for ind in range(8):
-            r_det[ind, :] = np.dot(np.dot(self.Rb, self.Ra), r_det[ind, :])
+            det_r[ind, :] = np.dot(np.dot(Rb, Ra), det_r[ind, :])
+        self.det_r = det_r
 
-        self.r_det = r_det
-        self.x_det = r_det[:, 0]
-        self.y_det = r_det[:, 1]
-        self.z_det = r_det[:, 2]
-        self.r_det_triangles = [(0, 1, 2), (0, 3, 2), (4, 5, 6), (4, 7, 6),
-                                (0, 1, 4), (1, 4, 5), (2, 3, 7), (2, 7, 6),
-                                (1, 2, 6), (1, 6, 5), (0, 3, 4), (3, 4, 7)]
+        # Manually construct vertex index vector for the X-ray detector
+        det_i = np.array([0, 0, 4, 4, 0, 1, 0, 3, 3, 7, 1, 1])
+        det_j = np.array([1, 2, 5, 6, 1, 5, 3, 7, 2, 2, 2, 6])
+        det_k = np.array([2, 3, 6, 7, 4, 4, 4, 4, 7, 6, 6, 5])
+        self.det_ijk = np.column_stack((det_i, det_j, det_k))
 
-        # field
-        points2 = np.array([[+0.5, -1.0, +0.5],
-                            [+0.5, -1.0, -0.5],
-                            [-0.5, -1.0, -0.5],
-                            [-0.5, -1.0, +0.5]])
+    def check_hit(self, patient: Phantom) -> List[bool]:
+        """Calculate which patient entrance skin cells are hit by the beam.
 
-        r_edge = points2
-        r_edge[:, 0] = np.sqrt(data_parsed.CFA[i]) * r_edge[:, 0]
-        r_edge[:, 1] = data_parsed.DID[i] * r_edge[:, 1]
-        r_edge[:, 2] = np.sqrt(data_parsed.CFA[i]) * r_edge[:, 2]
+        Here, I am going to present a clearer description of this algorithm.
 
-        for ind in range(4):
-            r_edge[ind, :] = np.dot(np.dot(self.Rb, self.Ra), r_edge[ind, :])
+        Parameters
+        ----------
+        patient : Phantom
+            Patient phantom, either of type plane, cylinder or human, i.e.
+            instance of class Phantom
 
-        self.r_edge = r_edge
-        self.x_edge = r_edge[:, 0]
-        self.y_edge = r_edge[:, 1]
-        self.z_edge = r_edge[:, 2]
-        self.r_edge_triangles = [(0, 1, 2), (0, 1, 4), (0, 3, 2), (0, 3, 4)]
+        Returns
+        -------
+        List[bool]
+            A boolean list of the same length as the number of patient skin
+            cells. True for all entrance skin cells that are hit by the beam.
+
+        """
+        source = self.r[0, :]
+        # Create vectors from X-ray source to each phantom skin cell
+        cells_vectors = [vector(source, cell) for cell in patient.r]
+
+        # If phantom type is plane, do not controll if cell is entrance or
+        # exit, since the plane is 1D
+        if patient.type == "plane":
+            hits = [True if
+                    np.dot(cells_vectors[ind], self.N[0, :]) <= 0 and
+                    np.dot(cells_vectors[ind], self.N[1, :]) <= 0 and
+                    np.dot(cells_vectors[ind], self.N[2, :]) <= 0 and
+                    np.dot(cells_vectors[ind], self.N[3, :]) <= 0
+                    else False
+                    for ind in range(len(cells_vectors))]
+            return hits
+
+        # Else if patient phantom is 3D, neglect the  skin cells that are on
+        # the exit side
+        hits = [True if
+                np.dot(cells_vectors[ind], self.N[0, :]) <= 0 and
+                np.dot(cells_vectors[ind], self.N[1, :]) <= 0 and
+                np.dot(cells_vectors[ind], self.N[2, :]) <= 0 and
+                np.dot(cells_vectors[ind], self.N[3, :]) <= 0 and
+                np.dot(cells_vectors[ind], patient.n[ind]) <= 0
+                else False
+                for ind in range(len(cells_vectors))]
+        return hits

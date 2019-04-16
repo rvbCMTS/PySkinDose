@@ -5,14 +5,17 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+pep8 = "*"
+pydocstyle = "*"
+pylint = "*"
+mypy = "*"
 
 [packages]
 pandas = "*"
 numpy = "*"
 pydicom = "*"
 numpy-stl = "*"
-plotly = "*"
-mayavi = "*"
+plotly = "==3.7.1"
 
 [requires]
 python_version = "3.7"

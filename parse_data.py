@@ -2,45 +2,38 @@ import pandas as pd
 import numpy as np
 from datetime import datetime as dt
 from db_connect import db_connect
-import os
 import pydicom
 
 
-def rdsr_parser(ds: pydicom.dataset.FileDataset,
-                log=None) -> pd.core.frame.DataFrame:
+def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
+    """Parse event data from radiation dose structure reports (RDSR).
 
-    """ This function parses data from radiation dose structure reports (RDSR)
+    Parameters
+    ----------
+    data_raw : pydicom.FileDataset
+        RDSR file from fluoroscopic device, opened with package pydicom.
 
-        :param ds:  RDSR file from fluoroscopic device, opened with pydicom.
-        :param log: Logging instance
+    Returns
+    -------
+    pd.DataFrame
+        Parsed RDSR data from all irradiation events in the RDSR input file
 
-        :return:
-        df:         Dataframe containing parsed RDSR data.
-        model:      string containing 'Manufacturer Model Name', to be used
-                    for machine specific corrections. """
-
+    """
     # Declare pandas DataFrame for storage of parsed RDSR data
-    df = pd.DataFrame(columns=[])
-
-    # Obtain 'Manufacturer Model Name'
-    if log is not None:
-        log.debug('Get manufacturer model name')
-
-    model = ds.ManufacturerModelName.replace(" ", "").replace("-", "")\
-        .replace("(", "").replace(")", "").replace(".", "")
+    data_parsed = pd.DataFrame(columns=[])
 
     # For each content in RDSR file
-    for RDSR_content in ds.ContentSequence:
+    for RDSR_content in data_raw.ContentSequence:
 
         # If content = irradiation event
         if RDSR_content.ConceptNameCodeSequence[0].CodeMeaning\
                 == 'Irradiation Event X-Ray Data':
 
-            # Declare dictionary (to be assigned to df)
-            df_dict = {}
+            # Declare temporary dictionary
+            data_parsed_dict = dict()
 
             # Save manufacturer model name
-            df_dict["model"] = ds.ManufacturerModelName\
+            data_parsed_dict["model"] = data_raw.ManufacturerModelName\
                 .replace(" ", "").replace("-", "").replace("(", "")\
                 .replace(")", "").replace(".", "")
 
@@ -49,18 +42,20 @@ def rdsr_parser(ds: pydicom.dataset.FileDataset,
                 # Reformat 'Concept Name'
                 tag = (xray_event_content.ConceptNameCodeSequence[0]
                                          .CodeMeaning.replace(" ", ""))\
-                                             .replace("-", "")\
-                                             .replace("(", "")\
-                                             .replace(")", "")\
-                                             .replace(".", "")
+                    .replace("-", "")\
+                    .replace("(", "")\
+                    .replace(")", "")\
+                    .replace(".", "")
 
                 # Save 'Concept Name' to dictionary, assign corresponding value
                 if 'ConceptCodeSequence' in xray_event_content:
-                    if tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag], xray_event_content.
-                                        ConceptCodeSequence[0].CodeMeaning]
+                    if tag in data_parsed_dict.keys():
+                        data_parsed_dict[tag] =\
+                            [data_parsed_dict[tag],
+                                xray_event_content.ConceptCodeSequence
+                                [0].CodeMeaning]
                     else:
-                        df_dict[tag] = xray_event_content\
+                        data_parsed_dict[tag] = xray_event_content\
                             .ConceptCodeSequence[0].CodeMeaning
 
                 elif 'MeasuredValueSequence' in xray_event_content:
@@ -72,12 +67,14 @@ def rdsr_parser(ds: pydicom.dataset.FileDataset,
 
                     tag = '_'.join([tag, unit])
 
-                    if tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag], xray_event_content
-                                        .MeasuredValueSequence[0].NumericValue]
+                    if tag in data_parsed_dict.keys():
+                        data_parsed_dict[tag] =\
+                            [data_parsed_dict[tag],
+                                xray_event_content.MeasuredValueSequence[0].
+                                NumericValue]
 
                     else:
-                        df_dict[tag] = xray_event_content\
+                        data_parsed_dict[tag] = xray_event_content\
                             .MeasuredValueSequence[0].NumericValue
 
                 elif 'TextValue' in xray_event_content:
@@ -89,30 +86,33 @@ def rdsr_parser(ds: pydicom.dataset.FileDataset,
                         if 'AcquisitionData' in comment[0]:
                             for index in comment:
                                 if 'iiDiameter SRData' in index:
-                                    df_dict['DetectorSize_mm']\
+                                    data_parsed_dict['DetectorSize_mm']\
                                         = index.split('=')[1].replace('"', '')
 
-                    elif tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag],
-                                        xray_event_content.TextValue]
+                    elif tag in data_parsed_dict.keys():
+                        data_parsed_dict[tag] =\
+                            [data_parsed_dict[tag],
+                                xray_event_content.TextValue]
                     else:
-                        df_dict[tag] = xray_event_content.TextValue
+                        data_parsed_dict[tag] = xray_event_content.TextValue
 
                 elif 'DateTime' in xray_event_content:
-                    if tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag],
-                                        dt.strptime(str(round(float(
+                    if tag in data_parsed_dict.keys():
+                        data_parsed_dict[tag] =\
+                            [data_parsed_dict[tag],
+                                dt.strptime(str(round(float(
                                             xray_event_content.DateTime))),
                                             '%Y%m%d%H%M%S')]
                     else:
-                        df_dict[tag] = dt.strptime(str(round(float(
+                        data_parsed_dict[tag] = dt.strptime(str(round(float(
                             xray_event_content.DateTime))), '%Y%m%d%H%M%S')
 
                 elif 'UID' in xray_event_content:
-                    if tag in df_dict.keys():
-                        df_dict[tag] = [df_dict[tag], xray_event_content.UID]
+                    if tag in data_parsed_dict.keys():
+                        data_parsed_dict[tag] =\
+                            [data_parsed_dict[tag], xray_event_content.UID]
                     else:
-                        df_dict[tag] = xray_event_content.UID
+                        data_parsed_dict[tag] = xray_event_content.UID
 
                 # If the 'Irradiation Event X-Ray Data' contains subcontent
                 elif 'ContentSequence' in xray_event_content:
@@ -120,51 +120,54 @@ def rdsr_parser(ds: pydicom.dataset.FileDataset,
                     for xray_event_subcontent in xray_event_content.\
                             ContentSequence:
                         # Reformat 'Concept Name'
-                        tag = (xray_event_subcontent.ConceptNameCodeSequence[0]
-                               .CodeMeaning.replace(" ", "")).replace("-", "")\
-                               .replace("(", "").replace(")", "")\
-                               .replace(".", "")
+                        tag = (xray_event_subcontent.ConceptNameCodeSequence[0].CodeMeaning.replace(" ", "")).replace("-", "").replace("(", "").replace(")", "").replace(".", "")
 
                         # Save 'Concept Name' to dictionary and assign
                         # corresponding value
                         if 'ConceptCodeSequence' in xray_event_subcontent:
-                            if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag],
-                                                xray_event_subcontent
-                                                .ConceptCodeSequence[0]
-                                                .CodeMeaning]
+                            if tag in data_parsed_dict.keys():
+                                data_parsed_dict[tag] =\
+                                    [data_parsed_dict[tag],
+                                        xray_event_subcontent
+                                        .ConceptCodeSequence[0]
+                                        .CodeMeaning]
                             else:
-                                df_dict[tag] = xray_event_subcontent.\
+                                data_parsed_dict[tag] = xray_event_subcontent.\
                                     ConceptCodeSequence[0].CodeMeaning
 
                         elif 'DateTime' in xray_event_subcontent:
-                            if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag],
-                                                dt.strptime(str(round(float(
-                                                    xray_event_subcontent
-                                                    .DateTime))),
-                                                    '%Y%m%d%H%M%S')]
+                            if tag in data_parsed_dict.keys():
+                                data_parsed_dict[tag] =\
+                                    [data_parsed_dict[tag],
+                                        dt.strptime(str(round(float(
+                                            xray_event_subcontent
+                                            .DateTime))),
+                                            '%Y%m%d%H%M%S')]
                             else:
-                                df_dict[tag] = dt.strptime(str(round(float(
-                                    xray_event_subcontent.DateTime))),
-                                    '%Y%m%d%H%M%S')
+                                data_parsed_dict[tag] =\
+                                    dt.strptime(str(round(float(
+                                        xray_event_subcontent.DateTime))),
+                                        '%Y%m%d%H%M%S')
 
                         elif 'TextValue' in xray_event_subcontent:
 
-                            if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag],
-                                                xray_event_subcontent.
-                                                TextValue]
+                            if tag in data_parsed_dict.keys():
+                                data_parsed_dict[tag] =\
+                                    [data_parsed_dict[tag],
+                                        xray_event_subcontent.TextValue]
 
                             else:
-                                df_dict[tag] = xray_event_subcontent.TextValue
+                                data_parsed_dict[tag] =\
+                                    xray_event_subcontent.TextValue
 
                         elif 'UID' in xray_event_subcontent:
-                            if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag],
-                                                xray_event_subcontent.UID]
+                            if tag in data_parsed_dict.keys():
+                                data_parsed_dict[tag] =\
+                                    [data_parsed_dict[tag],
+                                        xray_event_subcontent.UID]
                             else:
-                                df_dict[tag] = xray_event_subcontent.UID
+                                data_parsed_dict[tag] =\
+                                    xray_event_subcontent.UID
                         elif 'MeasuredValueSequence' in xray_event_subcontent:
                             # Reformat 'Concept Name' to include unit of
                             # measurement
@@ -174,34 +177,93 @@ def rdsr_parser(ds: pydicom.dataset.FileDataset,
 
                             tag = '_'.join([tag, unit])
 
-                            if tag in df_dict.keys():
-                                df_dict[tag] = [df_dict[tag],
-                                                xray_event_subcontent
-                                                .MeasuredValueSequence[0]
-                                                .NumericValue]
+                            if tag in data_parsed_dict.keys():
+                                data_parsed_dict[tag] =\
+                                    data_parsed_dict[tag],
+                                xray_event_subcontent.MeasuredValueSequence[0]\
+                                                     .NumericValue
                             else:
-                                df_dict[tag] = xray_event_subcontent.\
+                                data_parsed_dict[tag] =\
+                                    xray_event_subcontent.\
                                     MeasuredValueSequence[0].NumericValue
 
                         # Assign None to 'Concept Name' if nothing relevant to
                         # parse in RDSR subcontent
                         else:
-                            df_dict[tag] = None
+                            data_parsed_dict[tag] = None
 
                 # Assign None to 'Concept Name' if nothing relevant to parse
                 # in RDSR content
                 else:
-                    df_dict[tag] = None
+                    data_parsed_dict[tag] = None
 
             # Append dictionary to DataFrame
-            df = df.append(df_dict, ignore_index=True)
+            data_parsed = data_parsed.append(data_parsed_dict,
+                                             ignore_index=True)
 
-    # Return DataFrame containing parsed RDSR data
-    if log is not None:
-        log.debug('Finished parsing RDSR DICOM file')
-    return df, model
+    return data_parsed
 
 
+def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
+    """Normalized the vendor specific RDSR conventions.
+
+    Parameters
+    ----------
+    data_parsed : pd.DataFrame
+        parsed RDSR data.
+
+    Returns
+    -------
+    pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
+
+    """
+    data_norm = pd.DataFrame()
+
+    if data_parsed.model[0] == "AXIOMArtis":
+
+        # Field size in cm at detector plane, in lateral direction
+        data_norm["FS_lat"] = \
+            100 * np.sqrt(data_parsed.CollimatedFieldArea_m2)
+        # Field size in cm at detector plane, in longitudinal direction
+        data_norm["FS_long"] = \
+            100 * np.sqrt(data_parsed.CollimatedFieldArea_m2)
+        # Distance source to detector in cm
+        data_norm["DSD"] = \
+            data_parsed.DistanceSourcetoDetector_mm / 10
+        # Distance source to isocenter in cm
+        data_norm["DSI"] = data_parsed.DistanceSourcetoIsocenter_mm / 10
+        # Distance isocenter to detector, in cm
+        data_norm["DID"] = data_norm.DSD - data_norm.DSI
+        # Distance source to IRP, in cm
+        data_norm["DSIRP"] = data_norm.DSI - 15
+        # Reference point (IRP) air kerma in mGy
+        data_norm["K_IRP"] = 1000 * data_parsed.DoseRP_Gy
+        # Tube peak voltage in kV
+        data_norm["kVp"] = data_parsed.KVP_kV
+        # Positioner primary angle in degress
+        data_norm["PPA"] = data_parsed.PositionerPrimaryAngle_deg
+        # Positioner secondary angle in degress
+        data_norm["PSA"] = data_parsed.PositionerSecondaryAngle_deg
+        # Table increment in lateral direction, in cm
+        data_norm["dLAT"] = + data_parsed.TableLateralPosition_mm / 10
+        # Table increment in longitudinal direction, in cm
+        data_norm["dLONG"] = - data_parsed.TableLongitudinalPosition_mm / 10
+        # Table increment in vertical direction, in cm
+        data_norm["dVERT"] = + data_parsed.TableHeightPosition_mm / 10
+        # Detector size lenth, in cm
+        data_norm["DSL"] = 40
+        # X-ray filter material
+        data_norm["filter_material"] = data_parsed.XRayFilterMaterial
+        # X-ray filter thickness in mm
+        data_norm["filter_thickness"] = data_parsed.XRayFilterThicknessMaximum_mm
+
+        # to be added, filter, model etc.
+
+    return data_norm
+
+
+# TO BE REMOVED
 def normalize(model, PD, ds, log=None):
     """ Add generalized parameters needed for dose calculation to the parsed data.
 

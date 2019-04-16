@@ -1,60 +1,64 @@
 import numpy as np
-import pandas as pd
 from db_connect import db_connect
-from typing import List
 
+# TBR?
+def k_cal(model, PD_norm, verbose=False, log=None):
+    """Appends the medical physicist measurements of the air Kerma in the reference point to
+    check and correct the manufacturer stated values, in order to improve measurement uncertainty.
 
-def k_isq(source: np.array, cells: np.array, dref: float) -> List[np.float64]:
-    """Calculate the IRP air kerma inverse-square law correction.
-
-    This function corrects the X-ray fluence from the interventionl reference
-    point (IRP), to the actual source to skin distance, so that the IRP air
-    kerma is converted to air kerma at the patient skin surface.
-
-    Parameters
-    ----------
-    source : np.array
-        location of the X-ray source
-    cells : np.array
-        location of all the cells that are hit by the beam
-    dref : float
-        reference distance source to IRP, i.e. the distance where the IRP air
-        kerma is stated.
-
-    Returns
-    -------
-    List[np.float64]
-        Inverse-square law correction for all cells that are hit by the beam
-
+    :param
+    PD_norm: Table of type <class 'pandas.core.frame.DataFrame'>
+    containing parsed irradiation event data, including generalized parameters
+    for distances and field sizes etc.
+    :return:
+    output: correction factor that corrects the manufacturer specified air Kerma.
     """
-    # Scale X-ray fluence according to the inverse square law
-    k_isq = [np.sqrt(dref / np.linalg.norm((cell - source))) for cell in cells]
+    output = []
+    # For every pedal depression
+    for depression in range(0, len(PD_norm)):
 
-    return k_isq
+        # Print correction log
+        print('\n')
+        print('air kerma calibration nr: {}'.format(depression + 1))
+        print('model:                    {}'.format(model))
+        print('Acq plane:                {}'.format(PD_norm.AcquisitionPlane[depression]))
+        print('kVp:                      {} kV'.format(PD_norm.KVP_kV[depression]))
 
+        # Append 1 since this no measurements of the air kerma has been conducted
+        output.append(1)
+        # Print warning to notify user
+        if log is not None:
+            log.warning('Warning: No air kerma calibration implemented -> k_cal = 1')
+        else:
+            print('\nWarning: No air kerma calibration implemented -> k_cal = 1')
 
-# WIP
-def k_med(data_norm: pd.DataFrame) -> np.array:
-    """Calculate the medium correction factor.
+    return output
 
-    This function corrects the medium in the reference point from air to
-    water so that K_air -> K_water. This is done  because water is more similar
-    to skin tissue then air in terms of X-ray dose absorption. This is
-    conducted by multiplication of the the medium correction factor
-    k_med = (mu_en/rho)_water/(mu_en/rho)_air, which is the quotient
-    of mass energy absorption coefficient water to air.
-
-    Parameters
-    ----------
-    data_norm : pd.DataFrame
-        [description]
-
-    Returns
-    -------
-    np.array
-        Array of medium correc
-
+# TBR
+def k_isq(PD_norm):
+    """Calculates and appends inverse-square-law correction from IRP to tabletop position
+    :param
+    PD_norm: Table of type <class 'pandas.core.frame.DataFrame'>
+    containing parsed irradiation event data., including generalized parameters
+    for distances and field sizes etc.
+    :return:
+    output: List of inverse-square-law correction factor for each pedal depression in PD_norm
     """
+    output = np.square(PD_norm.DistanceSourcetoIRP_mm /
+                       PD_norm.DistanceSourcetoSkin_mm)
+    return output
+
+
+def k_med(model, PD_norm, verbose=False, log=None):
+    """ Calculates and appends correction for medium in measurement point (k_air -> k_water
+    :param
+    PD_norm: Table of type <class 'pandas.core.frame.DataFrame'>
+    containing parsed irradiation event data, including generalized parameters
+    for distances and field sizes etc
+    :return:
+    medium correction factor (u_en/rho)_water]/[(u_en/rho)_air for each pedal depression in PD_norm
+    """
+
     output = []
 
     # Establish database correction
