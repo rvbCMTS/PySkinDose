@@ -1,9 +1,10 @@
-from typing import List, Dict, Optional
+from typing import List, Optional
 import plotly.graph_objs as go
 import plotly.offline as ply
-from geom_calc import *
 from stl import mesh
+import pandas as pd
 import numpy as np
+import copy
 import os
 
 # valid phantom types
@@ -22,107 +23,136 @@ DEFAULT_PHANTOM_DIM = {"plane_length": 180,
                        "table_width": 50,
                        "table_length": 210,
                        "table_thickness": 5,
-                       "pad_width": 45,
-                       "pad_length": 200,
+                       "pad_width": 50,
+                       "pad_length": 210,
                        "pad_thickness": 4,
                        "units": "cm"}
 
 
 class Phantom:
-    """This class creates a phatom of any of the types specified in
-       VALID_PHANTOM_TYPES and plots the phantom in a plotly 3D mesh for
-       radiation skin dose visualization."""
+    """Create and handle phantoms for patient, support table and pad.
 
-    # REMOVE OPTIONAL?
+    This class creates a phatom of any of the types specified in
+    VALID_PHANTOM_TYPES (plane, cylinder or human to represent the patient,
+    as well as patient support table and pad). The patient phantoms consists of
+    a number of skin cells where the skin dose can be calculated.
+
+    Attributes
+    ----------
+    type : str = phantom_type.lower()
+        Type of phantom, i.e. "plane", "cylinder", "human", "table" or "pad"
+    r : np.array
+        n*3 array where n are the number of phantom skin cells. Each row
+        contains the xyz coordinate of one of the phantom skin cells
+    ijk : np.array
+        A matrix containing vertex indices. This is required in order to
+        plot the phantom using plotly Mesh3D. For more info, see "i", "j", and
+        "k" at https://plot.ly/python/reference/#mesh3d
+    dose : np.array
+        An empty 1d array to store skin dose calculation for each of the n
+        phantom cells. Only for patient phantom types (plane, cylinder, human)
+    n : np.array
+        normal vectors to each of the n phantom skin cells. (only for 3D
+        patient phantoms, i.e. "cylinder" and "human")
+    r_ref : np.array
+        Empty array to store of reference position of the phantom cells after
+        the phantom has been aligned in the geometry with the position_geometry
+        function in geom_calc.py
+
+    Methods
+    -------
+    rotate(rotation)
+        Rotating the phantom about any of the x, y, or z axis
+    translate(dr)
+        Translates the phantom along the x, y or z direction
+    save_position
+        Saves the reference position after the phantom has been properly
+        positioned in the irradiation geometry. This method is called in the
+        position_geometry function
+    position_phantom(data_norm)
+        Positions the phantom from reference position to actual position
+        according to the table displacement info in data_norm
+    plot_dosemap
+        Creates and plots a plotly mesh3D plot, where the intensity in each
+        phantom skin cell corresponds to the estimated skin dose.
+
+    """
+
     def __init__(self,
-                 phantom_type: Optional[str] = DEFAULT_PHANTOM_TYPE,
-                 phantom_dim: Optional[dict] = DEFAULT_PHANTOM_DIM,
+                 phantom_type: str = DEFAULT_PHANTOM_TYPE,
+                 phantom_dim: dict = DEFAULT_PHANTOM_DIM,
                  human_model: Optional[str] = DEFAULT_HUMAN_MODEL):
+        """Create the phantom of choice.
+
+        Parameters
+        ----------
+        phantom_type : str, optional
+            Type of phantom. Valid selections are 'plane', 'cylinder', 'human',
+            "table" an "pad" (the default choise is set in DEFAULT_PHANTOM_TYPE
+        phantom_dim : dict, optional
+            Dimensions of the mathematical phantoms (plane or cylinder) given
+            as {"plane_length": <int>, "plane_width": <int>, "cylinder_length":
+            <int>, "cylinder_radii_a": <float>, "cylinder_radii_b": <float>}
+            where radii "a" and "b" are the radii of an eliptical cylinder,
+            i.e., if a and b are equal, it will be a perfect cylinder. (the
+            default is set in DEFAULT_PHANTOM_DIM
+        human_model : Optional[str], optional
+            hoose which human phantom to use. Valid selection are names of the
+            *.stl-files in the phantom_data folder (the default is set in
+            DEFAULT_HUMAN_MODEL
+
+        Raises
+        ------
+        ValueError
+            Raises value error if unsupported phantom type are selected
+
         """
-        :param phantom_type:    Type of phantom. Valid selections are
-                                'plane', 'cylinder', 'human' and "table".
-
-        :param phantom_dim:     Dimensions of the mathematical phantoms (plane
-                                or cylinder) given as {"plane_length": <int>,
-                                "plane_width": <int>, "cylinder_length":
-                                <float>, "cylinder_radii_a": <float>,
-                                "cylinder_radii_b": <float>} where radii "a"
-                                and "b" are the radii of an eliptical cylinder,
-                                i.e., if a and b are equal, it will be a
-                                perfect cylinder. EXPAND THIS
-
-        :param human_model:     Choose which human phantom to use. Valid
-                                selection are names of the *.stl-files in the
-                                phantom_data folder."""
-
         # Raise error if invalid phantom type selected
         if phantom_type.lower() not in VALID_PHANTOM_TYPES:
             raise ValueError(f"Unknown phantom type selected. Valid type:"
                              "{'.'.join(VALID_PHANTOM_TYPES)}")
 
-        # [multiple statements on one line (colon) [E701]]
-        self.x: np.ndarray = None
-        self.y: np.ndarray = None
-        self.z: np.ndarray = None
-        self.r: List[List[float]] = None
-
-        self.i: Optional[np.ndarray] = None
-        self.j: Optional[np.ndarray] = None
-        self.k: Optional[np.ndarray] = None
-        self.r_t: List[List[float]] = None
-
-        self.normals: np.ndarray = None
-        # trinagles
-        self.type: str = phantom_type.lower()
-        self.dose: Optional[List[float]] = None
-
         # creates a plane phantom (2D grid)
         if phantom_type.lower() == "plane":
+            self.type = "plane"
 
             # Linearly spaced (1 cm) point along the longitudinal direction
             x_range = np.linspace(-0.5 * phantom_dim["plane_width"],
                                   +0.5 * phantom_dim["plane_width"],
                                   phantom_dim["plane_width"] + 1)
-
             # Linearly spaced (1 cm) point along the lateral direction
             y_range = np.linspace(0, phantom_dim["plane_length"],
                                   phantom_dim["plane_length"] + 1)
-
             # Create phantom in form of rectangular grid
             x, y = np.meshgrid(x_range, y_range)
 
             t = phantom_dim["plane_width"]
 
-            i1 = i2 = j1 = j2 = k1 = k2 = []
+            # Create index vectors for plotly mesh3d plotting
+            i1 = i2 = j1 = j2 = k1 = k2 = list()  # type: List[str]
 
-            for i in range(phantom_dim["plane_length"]):
+            for a in range(phantom_dim["plane_length"]):
                 i1 = i1 + list(range
-                               (i * t + i, (i + 1) * t + i))
+                               (a * t + a, (a + 1) * t + a))
                 j1 = j1 + list(range
-                               ((i + 1) * t + (i + 1), (i + 2) * t + (i + 1)))
+                               ((a + 1) * t + (a + 1), (a + 2) * t + (a + 1)))
                 k1 = k1 + list(range
-                               ((i + 1) * t + (i + 2), (2 + i) * t + (i + 2)))
+                               ((a + 1) * t + (a + 2), (2 + a) * t + (a + 2)))
                 i2 = i2 + list(range
-                               (i * t + i, (i + 1) * t + i))
+                               (a * t + a, (a + 1) * t + a))
                 j2 = j2 + list(range
-                               (i * t + (i + 1), (i + 1) * (t + 1)))
+                               (a * t + (a + 1), (a + 1) * (t + 1)))
                 k2 = k2 + list(range
-                               ((i + 1) * t + (i + 2), (i + 2) * t + (i + 2)))
+                               ((a + 1) * t + (a + 2), (a + 2) * t + (a + 2)))
 
-            self.type = "plane"
-            self.x = x.ravel().tolist()
-            self.y = y.ravel().tolist()
-            self.z = [0] * len(self.x)
-            self.i = i1 + i2
-            self.j = j1 + j2
-            self.k = k1 + k2
-            self.triangles = [[i[s], j[s], k[s]] for s in range(len(i))]
-            self.dose = [0] * len(self.x)
-            self.r = [[self.x[ind], self.y[ind], self.z[ind]]
-                      for ind in range(len(self.x))]
+            self.r = np.column_stack((x.ravel(), y.ravel(),
+                                     np.zeros(len(x.ravel()))))
+            self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
+            self.dose = np.zeros(len(self.r))
 
         # creates a cylinder phantom (elliptic)
         elif phantom_type.lower() == "cylinder":
+            self.type = "cylinder"
 
             # Creates linearly spaced points along an ellipse
             #  in the lateral direction
@@ -130,73 +160,61 @@ class Phantom:
             x = (phantom_dim["cylinder_radii_a"] * np.cos(t)).tolist()
             z = (phantom_dim["cylinder_radii_b"] * np.sin(t)).tolist()
 
-            # issue: list input
             n = [[x[ind], 0.0, z[ind]] for ind in range(len(t))]
 
             # Store the  coordinates of the cylinder phantom
-            output = {"type": "cylinder", "normals": [],
+            output = {"type": "cylinder", "n": [],
                       "x": [], "y": [], "z": []}
 
             # Extend the ellipse to span the entire length of the phantom,
-            # in steps ofFFFF 10 cm, thus creating an elliptic cylinder
-            for index in range(0, phantom_dim["cylinder_length"] + 1, 1):
+            # in steps of 1 cm, thus creating an elliptic cylinder
+            for index in range(0, phantom_dim["cylinder_length"] + 2, 1):
                 output["x"] = output["x"] + x
-                output["z"] = output["z"] + z
-                output["normals"] = output["normals"] + n
                 output["y"] = output["y"] + [index] * len(x)
+                output["z"] = output["z"] + z
+                output["n"] = output["n"] + n
 
+            # Create index vectors for plotly mesh3d plotting
             i1 = list(range(0, len(output["x"]) - len(t)))
             j1 = list(range(1, len(output["x"]) - len(t) + 1))
             k1 = list(range(len(t), len(output["x"])))
-
             i2 = list(range(0, len(output["x"]) - len(t)))
             k2 = list(range(len(t) - 1, len(output["x"]) - 1))
             j2 = list(range(len(t), len(output["x"])))
 
-            self.type = "cylinder"
-            self.x = output["x"]
-            self.y = output["y"]
-            self.z = output["z"]
-            self.i = i1 + i2
-            self.j = j1 + j2
-            self.k = k1 + k2
-            self.dose = [0] * len(output['x'])
-            self.normals = output["normals"]
-            self.triangles = [[self.i[ind], self.j[ind], self.k[ind]]
-                              for ind in range(len(self.i))]
-            self.r = [[self.x[ind], self.y[ind], self.z[ind]]
-                      for ind in range(len(self.x))]
+            self.r = np.column_stack((output["x"], output["y"], output["z"]))
+            self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
+            self.dose = np.zeros(len(self.r))
+            self.n = np.asarray(output["n"])
 
         # creates a human phantom
         elif phantom_type.lower() == "human":
+            self.type = "human"
 
             # load selected phantom model from binary .stl file
             phantom_path = os.path.join(os.path.dirname(__file__),
                                         'phantom_data', f"{human_model}.stl")
-
             phantom_mesh = mesh.Mesh.from_file(phantom_path)
 
-            self.type = "human"
-            self.r = [el for el_list in phantom_mesh.vectors for el in el_list]
-            self.x = [self.r[ind][0] for ind in range(len(self.r))]
-            self.y = [self.r[ind][1] for ind in range(len(self.r))]
-            self.z = [self.r[ind][2] for ind in range(len(self.r))]
-            
-            self.i = np.arange(0, len(self.r) - 3, 3)
-            self.j = np.arange(1, len(self.r) - 2, 3)
-            self.k = np.arange(2, len(self.r) - 1, 3)
-            self.triangles = [[self.i[ind], self.j[ind], self.k[ind]]
-                              for ind in range(len(self.i))]
-
+            r = phantom_mesh.vectors
             n = phantom_mesh.normals
-            self.normals = [x for pair in zip(n, n, n) for x in pair]
 
-            # Preallocate memory for skin dose mapping
-            self.dose = [0] * len(self.r)
-            self.type = "human"
+            self.r = np.asarray([el for el_list in r
+                                for el in el_list])
+            self.n = np.asarray([
+                x for pair in zip(n, n, n) for x in pair])
+
+            # Create index vectors for plotly mesh3d plotting
+            self.ijk = np.column_stack((
+                np.arange(0, len(self.r) - 3, 3),
+                np.arange(1, len(self.r) - 2, 3),
+                np.arange(2, len(self.r) - 1, 3)))
+
+            self.dose = np.zeros(len(self.r))
 
         # Creates the vertices of the patient support table
         elif phantom_type.lower() == "table":
+            self.type = "table"
 
             # Longitudinal position of the the vertices
             x = [index * phantom_dim["table_width"] for index in
@@ -213,8 +231,7 @@ class Phantom:
                                     [0, 0, 0, 0, 0, 0, 0, 0,
                                      -1, -1, -1, -1, -1, -1, -1, -1]]
 
-            r = [[x[ind], y[ind], z[ind]] for ind in range(len(x))]
-
+            # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
                  1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
 
@@ -224,20 +241,12 @@ class Phantom:
             k = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
                  9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
 
-            self.type = "table"
-            self.x = x
-            self.y = y
-            self.z = z
-            self.i = i
-            self.j = j
-            self.k = k
-            self.r = [[x[ind], y[ind], z[ind]] for ind in range(len(x))]
-            self.triangles = [[i[ind], j[ind], k[ind]]
-                              for ind in range(len(i))]
-            self.dose = [0] * len(self.x)
+            self.r = np.column_stack((x, y, z))
+            self.ijk = np.column_stack((i, j, k))
 
         # Creates the vertices of the patient support table
         elif phantom_type.lower() == "pad":
+            self.type = "pad"
 
             # Longitudinal position of the the vertices
             x = [index * phantom_dim["pad_width"] for index in
@@ -251,11 +260,10 @@ class Phantom:
 
             # Vertical position of the vertices
             z = [index * phantom_dim["pad_thickness"] for index in
-                                  [0, 0, 0, 0, 0, 0, 0, 0,
-                                   1, 1, 1, 1, 1, 1, 1, 1]]
+                                    [0, 0, 0, 0, 0, 0, 0, 0,
+                                     1, 1, 1, 1, 1, 1, 1, 1]]
 
-            r = [[x[ind], y[ind], z[ind]] for ind in range(len(x))]
-
+            # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
                  1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
 
@@ -265,129 +273,139 @@ class Phantom:
             k = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
                  9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
 
-            self.type = "pad"
-            self.x = x
-            self.x = x
-            self.y = y
-            self.z = z
-            self.i = i
-            self.j = j
-            self.k = k
-            self.r = [[x[ind], y[ind], z[ind]] for ind in range(len(x))]
-            self.triangles = [[i[ind], j[ind], k[ind]]
-                              for ind in range(len(i))]
-            self.dose = [0] * len(self.x)
+            self.r = np.column_stack((x, y, z))
+            self.ijk = np.column_stack((i, j, k))
 
-    def _rotate(self, rotation):
+    def rotate(self, angles: List[int]) -> None:
+        """Rotate the phantom about the angles specified in rotation.
 
-        rotation = np.deg2rad(rotation)
+        Parameters
+        ----------
+        angles: List[int]
+            list of angles in degrees the phantom should be rotated about,
+            given as [x_rot: <int>, y_rot: <int>, z_rot: <int>]. E.g.
+            rotation = [0, 90, 0] will rotate the phantom 90 degrees about the
+            y-axis.
 
-        x_rot = rotation[0]
-        y_rot = rotation[1]
-        z_rot = rotation[2]
+        """
+        # convert degrees to radians
+        angles = np.deg2rad(angles)
 
+        x_rot = angles[0]
+        y_rot = angles[1]
+        z_rot = angles[2]
+
+        # Define rotation matricies about the x, y and z axis
         Rx = np.array([[+1, +0, +0],
                        [+0, +np.cos(x_rot), -np.sin(x_rot)],
                        [+0, +np.sin(x_rot), +np.cos(x_rot)]])
-
         Ry = np.array([[+np.cos(y_rot), +0, +np.sin(y_rot)],
                        [+0, +1, +0],
                        [-np.sin(y_rot), +0, +np.cos(y_rot)]])
-
         Rz = np.array([[+np.cos(z_rot), -np.sin(z_rot), +0],
                        [+np.sin(z_rot), +np.cos(z_rot), +0],
                        [+0, +0, +1]])
 
-        self.r = [np.dot(Rx, np.dot(Ry, np.dot(Rz, self.r[ind])))
-                  for ind in range(len(self.r))]
+        # Rotate position vectors to the phantom cells
+        for i in range(len(self.r)):
+            self.r[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.r[i, :])))
 
-        self.x = [self.r[ind][0] for ind in range(len(self.r))]
-        self.y = [self.r[ind][1] for ind in range(len(self.r))]
-        self.z = [self.r[ind][2] for ind in range(len(self.r))]
+        if self.type in ["cylinder", "human"]:
+            for i in range(len(self.n)):
+                self.n[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.n[i, :])))
 
-        # Rotate normal vectors if available
-        if self.normals is not None:
-            self.normals = [np.dot(Rx, np.dot(Ry, np.dot(Rz, self.normals[ind])))
-                            for ind in range(len(self.normals))]
+    def translate(self, dr: List[int]) -> None:
+        """Translate the phantom in the x, y or z direction.
 
-    def _translate(self, dr):
+        Parameters
+        ----------
+        dr : List[int]
+            list of distances the phantom should be translated, given in cm.
+            Specified as dr = [dx: <int>, dy: <int>, dz: <int>]. E.g.
+            dr = [0, 0, 10] will translate the phantom 10 cm in the z direction
 
-        dx = dr[0]
-        dy = dr[1]
-        dz = dr[2]
+        """
+        self.r[:, 0] += dr[0]
+        self.r[:, 1] += dr[1]
+        self.r[:, 2] += dr[2]
 
-        self.r = [[self.x[ind] + dx, self.y[ind] + dy, self.z[ind] + dz]
-                  for ind in range(len(self.r))]
+    def save_position(self) -> None:
+        """Store a reference position of the phantom.
 
-        self.x = [self.r[ind][0] for ind in range(len(self.r))]
-        self.y = [self.r[ind][1] for ind in range(len(self.r))]
-        self.z = [self.r[ind][2] for ind in range(len(self.r))]
+        This function is supposed to be used to store the patient fixation
+        conducted in the function position_geometry
 
-    def _save_position(self):
+        """
+        r_ref = copy.copy(self.r)
+        self.r_ref = r_ref
 
-        x_ref = self.x
-        y_ref = self.y
-        z_ref = self.z
-        r_ref = self.r
+    def position_phantom(self, data_norm: pd.DataFrame, i: int) -> None:
+        """Position the phantom for a event by adding RDSR table displacement.
 
-        self.x_ref = np.asarray(x_ref)
-        self.y_ref = np.asarray(y_ref)
-        self.z_ref = np.asarray(z_ref)
-        self.r_ref = np.asarray(r_ref)
+        Positions the phantom from reference position to actual position
+        according to the table displacement info in data_norm.
 
-    def plot(self):
-        """ This function creates and plots an offline plotly graph of the
-        phantom. The colorscale is mapped to the absorbed skin dose value for
-        skin dose mapping"""
+        Parameters
+        ----------
+        data_norm : pd.DataFrame
+            Table containing dicom RDSR information from each irradiation event
+            See parse_data.py for more information.
 
-        # create mesh object for phantom
+        """
+        self.r = copy.copy(self.r_ref)
+
+        self.r[:, 0] += data_norm.dLONG[i]
+        self.r[:, 1] += data_norm.dVERT[i]
+        self.r[:, 2] += data_norm.dLAT[i]
+
+    def plot_dosemap(self):
+        """Plot a map of the absorbed skindose upon the patient phantom.
+
+        This function creates and plots an offline plotly graph of the
+        skin dose distribution on the phantom. The colorscale is mapped to the
+        absorbed skin dose value. Only available for phantom type: "plane",
+        "cylinder" or "human"
+
+        """
+
+        hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2])} cm\
+                  <br>LON: {np.around(self.r[ind, 0])} cm\
+                  <br>VER: {np.around(self.r[ind, 1])} cm\
+                      <br><b>skin dose:</b><br>{round(self.dose[ind],2)} mGy"
+                      for ind in range(len(self.r))]
+
+        # create mesh object for the phantom
         phantom_mesh = [
             go.Mesh3d(
-                x=self.x, y=self.y, z=self.z, i=self.i, j=self.j, k=self.k,
+                x=self.r[:, 0], y=self.r[:, 1], z=self.r[:, 2],
+                i=self.ijk[:, 0], j=self.ijk[:, 1], k=self.ijk[:, 2],
                 intensity=self.dose, colorscale="Jet", showscale=True,
-                text=[f"{round(self.dose[ind],2)} mGy"
-                      for ind in range(len(self.dose))], name="Human",
+                hoverinfo='text',
+                text=hover_text, name="Human",
                 colorbar=dict(tickfont=dict(color="white"),
                               title="Skin dose [mGy]",
                               titlefont=dict(color="white")))]
 
-        # set plot settings
+        # Layout settings
         layout = go.Layout(
-            title='<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]',
-            titlefont=dict(family='Courier New, monospace', size=35,
+            font=dict(family='roboto', color="white", size=18),
+            hoverlabel=dict(font=dict(size=16)),
+            title='<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: dosemap',
+            titlefont=dict(family='Courier New', size=35,
                            color='white'),
             plot_bgcolor='rgb(45,45,45)',
             paper_bgcolor='rgb(45,45,45)',
 
             scene=dict(aspectmode="data",
 
-                       xaxis=dict(title='LONGITUDINAL [cm]',
-                                  zerolinecolor='rgb(45,45,45)',
-                                  showgrid=False,
-                                  titlefont=dict(color="white"),
-                                  tickfont=dict(color="white")),
-
-                       yaxis=dict(title="LATERAL [cm]",
-                                  zerolinecolor='rgb(45,45,45)',
-                                  showgrid=False,
-                                  titlefont=dict(color="white"),
-                                  tickfont=dict(color="white")),
-
+                       xaxis=dict(title='',
+                                  showgrid=False, showticklabels=False),
+                       yaxis=dict(title='',
+                                  showgrid=False, showticklabels=False),
                        zaxis=dict(title='',
-                                  showline=False,
-                                  zeroline=False,
-                                  showgrid=False,
-                                  showticklabels=False,
-                                  titlefont=dict(color="white"),
-                                  tickfont=dict(color="white"))))
+                                  showgrid=False, showticklabels=False)))
 
         # create figure
         fig = go.Figure(data=phantom_mesh, layout=layout)
-        # open plot
-        ply.plot(fig, filename='PySkinDose.html')
-
-
-
-# # EXAMPLE USAGE
-# patient = Phantom(phantom_type="cylinder")
-# Phantom.plot(patient)
+        # Execure plot
+        ply.plot(fig, filename='dose_map.html')
