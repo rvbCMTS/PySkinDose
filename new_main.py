@@ -11,6 +11,7 @@ import pydicom
 import os
 
 # MODES = ["plot_setup", "plot_event", "plot_procedure", "calculate_dose"]
+# azure test
 
 # Default parameters:
 phantom_dim = DEFAULT_PHANTOM_DIM
