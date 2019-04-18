@@ -1,8 +1,7 @@
 from phantom_class import Phantom
 from typing import List, Any
-# from beam_class import Beam
 import numpy as np
-
+import pandas as pd
 
 def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
                       pad_thickness: Any, patient_offset: List[int]) -> None:
@@ -87,4 +86,29 @@ def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
 
     return v
 
+
+def scale_field_area(data_norm: pd.DataFrame,
+                     event: int,
+                     patient: Phantom,
+                     hits: List[bool], source: np.array) -> List[float]:
+
+    # Fetch reference distance for field size scaling,
+    # i.e. distance source to detector
+    d_ref = data_norm.DSD[event]
+
+    cells = patient.r[hits]
+
+    # Calculate distance scale factor
+    scale_factor = [np.linalg.norm(cell - source) / d_ref for cell in cells]
+
+    # Fetch field side lenth lateral and longitudinal at detector plane
+    lat_ref = data_norm.FS_lat[event]
+    long_ref = data_norm.FS_long[event]
+
+    # Calculate field area at distance source to skin cell for all cells
+    # that are hit by the beam.
+    field_area = [long_ref * lat_ref * np.square(scale)
+                  for scale in scale_factor]
+
+    return field_area
 

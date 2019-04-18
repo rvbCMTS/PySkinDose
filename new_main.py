@@ -3,7 +3,9 @@ from phantom_class import DEFAULT_PHANTOM_DIM
 from beam_class import Beam
 from plotly_plots import plot_geometry
 from geom_calc import position_geometry
+from geom_calc import scale_field_area
 from corrections import k_isq
+from corrections import k_med_new
 from parse_data import rdsr_parser
 from parse_data import rdsr_normalizer
 import numpy as np
@@ -19,7 +21,7 @@ patient_type = "cylinder"  # DEFAULT_PHANTOM_TYPE
 human_model = "Tman_flat"  # DEFAULT_HUMAN_MODEL
 rdsr_filename = "S1"
 mode = "calculate_dose"
-event = 19
+event = 22
 
 # set path to RDSR file
 rdsr_path = os.path.join(os.path.dirname(__file__),
@@ -78,6 +80,11 @@ elif mode == "calculate_dose":
 
         # Step 3: Calculate medium correction
 
+        field_area = scale_field_area(data_norm, event, patient, hits, beam.r[0, :])
+
+        print(np.sqrt(max(field_area)) - np.sqrt(min(field_area)))
+
+        #k_med_new(data_norm, event)
         # Step 4: Calculate backscatter correction
 
         # Step 5: Calculate table and pad correction

@@ -33,6 +33,19 @@ def k_isq(source: np.array, cells: np.array, dref: float) -> List[np.float64]:
     return k_isq
 
 
+def k_med_new(data_norm: pd.DataFrame, event: int) -> None:
+
+    print('\n')
+    print('med-correction nr:  {}'.format(event + 1))
+    print('model:              {}'.format(data_norm.model[event]))
+    print('Cu:                 {} mm'.format(data_norm.filter_thickness_Cu[event]))
+    print('Al:                 {} mm'.format(data_norm.filter_thickness_Al[event]))
+    print('kVp:                {} kV'.format(data_norm.kVp[event]))
+    print('FieldSize:          {} cm^2'.format(round(data_norm.FS_lat[event]*data_norm.FS_long[event], 1)))
+
+
+
+
 # WIP
 def k_med(data_norm: pd.DataFrame) -> np.array:
     """Calculate the medium correction factor.

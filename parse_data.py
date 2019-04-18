@@ -205,7 +205,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
 
 
 def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
-    """Normalized the vendor specific RDSR conventions.
+    """Normalize the vendor specific RDSR conventions.
 
     Parameters
     ----------
@@ -222,6 +222,8 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
 
     if data_parsed.model[0] == "AXIOMArtis":
 
+        # Device
+        data_norm["model"] = data_parsed.model
         # Field size in cm at detector plane, in lateral direction
         data_norm["FS_lat"] = \
             100 * np.sqrt(data_parsed.CollimatedFieldArea_m2)
@@ -254,11 +256,9 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         # Detector size lenth, in cm
         data_norm["DSL"] = 40
         # X-ray filter material
-        data_norm["filter_material"] = data_parsed.XRayFilterMaterial
-        # X-ray filter thickness in mm
-        data_norm["filter_thickness"] = data_parsed.XRayFilterThicknessMaximum_mm
-
-        # to be added, filter, model etc.
+        data_norm["filter_thickness_Cu"] = data_parsed.XRayFilterThicknessMaximum_mm
+        data_norm["filter_thickness_Al"] = [0] * len(data_parsed.XRayFilterThicknessMaximum_mm)
+        # more to be added
 
     return data_norm
 
