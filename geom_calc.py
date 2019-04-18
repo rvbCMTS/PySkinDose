@@ -3,6 +3,7 @@ from typing import List, Any
 import numpy as np
 import pandas as pd
 
+
 def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
                       pad_thickness: Any, patient_offset: List[int]) -> None:
     """Manual positioning of the phantoms before procedure starts.
@@ -52,11 +53,11 @@ def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
 
 
 def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
-    """Create a vector between two points in space.
+    """Create a vector between two points in carthesian space.
 
-    This function creates a simple vector between point "start" and point
-    "stop". The function can also create a unit vector from "start", in the
-    direction to "stop".
+    This function creates a simple vector between point <start> and point
+    <stop"> The function can also create a unit vector from <start>, in the
+    direction to <stop>.
 
     Parameters
     ----------
@@ -87,11 +88,38 @@ def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
     return v
 
 
-def scale_field_area(data_norm: pd.DataFrame,
-                     event: int,
-                     patient: Phantom,
-                     hits: List[bool], source: np.array) -> List[float]:
+def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom, hits: List[bool], source: np.array) -> List[float]:
+    """Scale X-ray field size from image detector, to phantom skin cells.
 
+    This function scales the X-ray field size from the point where it is stated
+    in data_norm, i.e. at the image detector plane, to the plane at the phantom
+    skin cell. This is the field size of interest since this area is required
+    as input for k_med and k_bs correction factor calculations. This function
+    conducts this scaling for all skin cells that are hit struck by the X-ray
+    beam in a specific irradiation event.
+
+    Parameters
+    ----------
+    data_norm : pd.DataFrame
+        [description]
+    event : int
+        [description]
+    patient : Phantom
+        [description]
+    hits : List[bool]
+        A boolean list of the same length as the number of patient skin
+        cells. True for all entrance skin cells that are hit by the beam for a
+        specific irradiation event.
+    source : np.array
+        (x,y,z) coordinates to the X-ray source
+
+    Returns
+    -------
+    List[float]
+        X-ray field area in (cm^2) for each phantom skin cell that are hit by 
+        X-ray the beam
+
+    """
     # Fetch reference distance for field size scaling,
     # i.e. distance source to detector
     d_ref = data_norm.DSD[event]
@@ -102,13 +130,13 @@ def scale_field_area(data_norm: pd.DataFrame,
     scale_factor = [np.linalg.norm(cell - source) / d_ref for cell in cells]
 
     # Fetch field side lenth lateral and longitudinal at detector plane
-    lat_ref = data_norm.FS_lat[event]
-    long_ref = data_norm.FS_long[event]
+    # Fetch field area at image detector plane
+    field_area_ref = data_norm.FS_lat[event] * data_norm.FS_long[event]
+
 
     # Calculate field area at distance source to skin cell for all cells
     # that are hit by the beam.
-    field_area = [long_ref * lat_ref * np.square(scale)
+    field_area = [field_area_ref * np.square(scale)
                   for scale in scale_factor]
 
     return field_area
-

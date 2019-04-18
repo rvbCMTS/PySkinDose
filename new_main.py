@@ -59,7 +59,7 @@ elif mode == "calculate_dose":
     dose_sum = np.zeros(len(patient.r))
 
     for event in range(len(data_norm)):
-        print(f"event: {event + 1} of {len(data_norm)}")
+        # print(f"event: {event + 1} of {len(data_norm)}")
 
         # create event beam
         beam = Beam(data_norm, event=event, plot_setup=False)
@@ -78,18 +78,19 @@ elif mode == "calculate_dose":
         isq = k_isq(source=beam.r[0, :], cells=patient.r[hits],
                     dref=data_norm["DSIRP"][0])
 
-        # Step 3: Calculate medium correction
-
-        field_area = scale_field_area(data_norm, event, patient, hits, beam.r[0, :])
-
-        print(np.sqrt(max(field_area)) - np.sqrt(min(field_area)))
+        # Step 3: Calculate X-ray field size at phantom skin cell plane for
+        # input to k_med and k_bs corrections.
+        field_area = scale_field_area(data_norm, event, patient, hits, 
+                                      beam.r[0, :])
+ 
+        # Step 4: Calculate medium correction
 
         #k_med_new(data_norm, event)
-        # Step 4: Calculate backscatter correction
+        # Step 5: Calculate backscatter correction
 
-        # Step 5: Calculate table and pad correction
+        # Step 6: Calculate table and pad correction
 
-        # Step 6: Calculate angle correction
+        # Step 7: Calculate angle correction
 
         # Store data in output dictionary
 
