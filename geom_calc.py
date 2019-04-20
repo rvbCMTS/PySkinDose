@@ -2,6 +2,7 @@ from phantom_class import Phantom
 from typing import List, Any
 import numpy as np
 import pandas as pd
+from db_connect import db_connect
 
 
 def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
@@ -88,24 +89,25 @@ def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
     return v
 
 
-def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom, hits: List[bool], source: np.array) -> List[float]:
-    """Scale X-ray field size from image detector, to phantom skin cells.
+def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom,
+                     hits: List[bool], source: np.array) -> List[float]:
+    """Scale X-ray field area from image detector, to phantom skin cells.
 
     This function scales the X-ray field size from the point where it is stated
     in data_norm, i.e. at the image detector plane, to the plane at the phantom
     skin cell. This is the field size of interest since this area is required
     as input for k_med and k_bs correction factor calculations. This function
-    conducts this scaling for all skin cells that are hit struck by the X-ray
-    beam in a specific irradiation event.
+    conducts this scaling for all skin cells that are hit by the X-ray beam in
+    a specific irradiation event.
 
     Parameters
     ----------
     data_norm : pd.DataFrame
-        [description]
+        RDSR data, normalized for compliance with PySkinDose.
     event : int
-        [description]
+        Irradiation event index.
     patient : Phantom
-        [description]
+        Patient phantom, i.e. instance of class Phantom.
     hits : List[bool]
         A boolean list of the same length as the number of patient skin
         cells. True for all entrance skin cells that are hit by the beam for a
@@ -133,10 +135,50 @@ def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom, hits
     # Fetch field area at image detector plane
     field_area_ref = data_norm.FS_lat[event] * data_norm.FS_long[event]
 
-
     # Calculate field area at distance source to skin cell for all cells
     # that are hit by the beam.
     field_area = [field_area_ref * np.square(scale)
                   for scale in scale_factor]
 
     return field_area
+
+
+def fetch_HVL(data_norm: pd.DataFrame) -> None:
+    """Add event HVL to RDSR event data from database.
+
+    Parameters
+    ----------
+    data_norm : pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
+
+    Returns
+    -------
+    None
+        This function appends event specific HVL as a function of device model
+        kVp, and copper- and aluminum filtration to the normalized RDSR data
+        in data_norm.
+
+    """
+    # Open connection to database
+    [conn, c] = db_connect()
+
+    # Fetch entirre HVL table
+    HVL_data = pd.read_sql_query("SELECT * FROM HVL_simulated", conn)
+    HVL = []
+
+    # For every irradiation event
+    for event in range(len(data_norm)):
+        # Fetch HVL=f(device model, kVp, filtration)
+        event_HVL = float(HVL_data.loc[
+            (HVL_data['DeviceModel'] == data_norm.model[event]) &
+            (HVL_data['kVp_kV'] == round(data_norm.kVp[event])) &
+            (HVL_data['AddedFiltration_mmCu'] == data_norm.filter_thickness_Cu[event]), "HVL_mmAl"])
+
+        HVL.append(event_HVL)
+
+    # Append HVL data to data_norm
+    data_norm["HVL_mmAl"] = HVL
+    
+    # close database connection
+    conn.commit()
+    conn.close()

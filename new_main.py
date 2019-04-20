@@ -4,16 +4,17 @@ from beam_class import Beam
 from plotly_plots import plot_geometry
 from geom_calc import position_geometry
 from geom_calc import scale_field_area
+from geom_calc import fetch_HVL
 from corrections import k_isq
 from corrections import k_med_new
 from parse_data import rdsr_parser
 from parse_data import rdsr_normalizer
+# from db_connect import db_connect
 import numpy as np
 import pydicom
 import os
 
 # MODES = ["plot_setup", "plot_event", "plot_procedure", "calculate_dose"]
-# azure test
 
 # Default parameters:
 phantom_dim = DEFAULT_PHANTOM_DIM
@@ -51,6 +52,7 @@ elif mode == "calculate_dose":
 
     print("Calculating skin dose...")
 
+
     output = dict(skindose=np.zeros(len(patient.r)),
                   hits=[[]] * len(data_norm),
                   kerma=[[]] * len(data_norm),
@@ -58,8 +60,10 @@ elif mode == "calculate_dose":
 
     dose_sum = np.zeros(len(patient.r))
 
+    fetch_HVL(data_norm)
+
     for event in range(len(data_norm)):
-        # print(f"event: {event + 1} of {len(data_norm)}")
+        print(f"Calculating event: {event + 1} of {len(data_norm)}")
 
         # create event beam
         beam = Beam(data_norm, event=event, plot_setup=False)
@@ -80,12 +84,12 @@ elif mode == "calculate_dose":
 
         # Step 3: Calculate X-ray field size at phantom skin cell plane for
         # input to k_med and k_bs corrections.
-        field_area = scale_field_area(data_norm, event, patient, hits, 
+        field_area = scale_field_area(data_norm, event, patient, hits,
                                       beam.r[0, :])
- 
-        # Step 4: Calculate medium correction
 
-        #k_med_new(data_norm, event)
+        # Step 4: Calculate medium correction
+        # k_med_new(data_norm, field_area, event, hits)
+        # k_med_new(data_norm, event)
         # Step 5: Calculate backscatter correction
 
         # Step 6: Calculate table and pad correction

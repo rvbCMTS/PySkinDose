@@ -32,16 +32,20 @@ def k_isq(source: np.array, cells: np.array, dref: float) -> List[np.float64]:
 
     return k_isq
 
+def k_med_new(data_norm: pd.DataFrame, field_area: List[float], event: int, hits: List[bool]):
 
-def k_med_new(data_norm: pd.DataFrame, event: int) -> None:
+    # For every irradiated skin cell
+    for cell in range(len(field_area)):
+        tet=1
+        pass
 
-    print('\n')
-    print('med-correction nr:  {}'.format(event + 1))
-    print('model:              {}'.format(data_norm.model[event]))
-    print('Cu:                 {} mm'.format(data_norm.filter_thickness_Cu[event]))
-    print('Al:                 {} mm'.format(data_norm.filter_thickness_Al[event]))
-    print('kVp:                {} kV'.format(data_norm.kVp[event]))
-    print('FieldSize:          {} cm^2'.format(round(data_norm.FS_lat[event]*data_norm.FS_long[event], 1)))
+
+    # print('\n')
+    # print('med-correction nr:  {}'.format(event + 1))
+    # print('model:              {}'.format(data_norm.model[event]))
+    # print('Cu:                 {} mm'.format(data_norm.filter_thickness_Cu[event]))
+    # print('Al:                 {} mm'.format(data_norm.filter_thickness_Al[event]))
+    # print('kVp:                {} kV'.format(data_norm.kVp[event]))
 
 
 

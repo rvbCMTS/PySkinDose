@@ -9,6 +9,8 @@ pep8 = "*"
 pydocstyle = "*"
 pylint = "*"
 mypy = "*"
+matplotlib = "*"
+v = {editable = true,version = "*"}
 
 [packages]
 pandas = "*"
