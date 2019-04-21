@@ -1,3 +1,6 @@
+import numpy as np
+import pydicom
+import os
 from phantom_class import Phantom
 from phantom_class import DEFAULT_PHANTOM_DIM
 from beam_class import Beam
@@ -10,10 +13,7 @@ from corrections import calculate_k_med
 from corrections import calculate_k_bs
 from parse_data import rdsr_parser
 from parse_data import rdsr_normalizer
-from db_connect import db_connect
-import numpy as np
-import pydicom
-import os
+
 
 # MODES = ["plot_setup", "plot_event", "plot_procedure", "calculate_dose"]
 

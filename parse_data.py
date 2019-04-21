@@ -266,6 +266,33 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
     return data_norm
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # TO BE REMOVED
 # def normalize(model, PD, ds, log=None):
 #     """ Add generalized parameters needed for dose calculation to the parsed data.
