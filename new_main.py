@@ -5,11 +5,12 @@ from plotly_plots import plot_geometry
 from geom_calc import position_geometry
 from geom_calc import scale_field_area
 from geom_calc import fetch_HVL
-from corrections import k_isq
-from corrections import k_med_new
+from corrections import calculate_k_isq
+from corrections import calculate_k_med
+from corrections import calculate_k_bs
 from parse_data import rdsr_parser
 from parse_data import rdsr_normalizer
-# from db_connect import db_connect
+from db_connect import db_connect
 import numpy as np
 import pydicom
 import os
@@ -52,17 +53,16 @@ elif mode == "calculate_dose":
 
     print("Calculating skin dose...")
 
-
-    output = dict(skindose=np.zeros(len(patient.r)),
-                  hits=[[]] * len(data_norm),
-                  kerma=[[]] * len(data_norm),
-                  k_isq=[[]] * len(data_norm))
-
-    dose_sum = np.zeros(len(patient.r))
+    output = dict(hits=[[]] * len(data_norm),
+                  kerma=[np.array] * len(data_norm),
+                  k_isq=[[]] * len(data_norm),
+                  k_bs=[[]] * len(data_norm),
+                  k_med=[[]] * len(data_norm),
+                  dose_map=np.zeros(len(patient.r)))
 
     fetch_HVL(data_norm)
 
-    for event in range(len(data_norm)):
+    for event in range(0, len(data_norm)):
         print(f"Calculating event: {event + 1} of {len(data_norm)}")
 
         # create event beam
@@ -73,39 +73,42 @@ elif mode == "calculate_dose":
         table.position_phantom(data_norm, event)
         pad.position_phantom(data_norm, event)
 
-        # In step 1 to 6, the IRP air kerma is converted to skin dose:
-
-        # Step 1: check which phantom skin cells are hit by the X-ray beam
         hits = beam.check_hit(patient)
 
-        # Step 2: Calculate inverse square law fluence correction
-        isq = k_isq(source=beam.r[0, :], cells=patient.r[hits],
-                    dref=data_norm["DSIRP"][0])
-
-        # Step 3: Calculate X-ray field size at phantom skin cell plane for
-        # input to k_med and k_bs corrections.
         field_area = scale_field_area(data_norm, event, patient, hits,
                                       beam.r[0, :])
 
-        # Step 4: Calculate medium correction
-        # k_med_new(data_norm, field_area, event, hits)
-        # k_med_new(data_norm, event)
-        # Step 5: Calculate backscatter correction
+        k_isq = calculate_k_isq(source=beam.r[0, :], cells=patient.r[hits],
+                                dref=data_norm["DSIRP"][0])
 
-        # Step 6: Calculate table and pad correction
+        k_bs = calculate_k_bs(data_norm, field_area, event)
 
-        # Step 7: Calculate angle correction
+        k_med = calculate_k_med(data_norm, field_area, event)
 
-        # Store data in output dictionary
-
+        # save event data
         output["hits"][event] = hits
         output["kerma"][event] = data_norm.K_IRP[event]
-        output["k_isq"][event] = isq
+        output["k_isq"][event] = k_isq
+        output["k_bs"][event] = k_bs
+        output["k_med"][event] = k_med
 
-        output["skindose"][hits] += data_norm.K_IRP[event]
-        output["skindose"][hits] *= isq
+        # Calculate dosemap:
+        event_dose = np.zeros(len(patient.r))
 
-    patient.dose = output["skindose"]
+        event_dose[hits] += data_norm.K_IRP[event]
+        event_dose[hits] *= k_isq
+        event_dose[hits] *= k_med
+        event_dose[hits] *= k_bs
+
+        output["dose_map"] += event_dose
+
+    # Save dosemap to patient
+    patient.dose = output["dose_map"]
 
     # Plot dosemap
     patient.plot_dosemap()
+
+    # kerma/+isq/+k_med/+k_bs: 7.85
+    # + k_isq                  7.94
+    # + k_med                  8.15
+    # + k_bs                   12.12

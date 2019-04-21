@@ -365,13 +365,12 @@ class Phantom:
         skin dose distribution on the phantom. The colorscale is mapped to the
         absorbed skin dose value. Only available for phantom type: "plane",
         "cylinder" or "human"
-
         """
 
         hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2])} cm\
                   <br>LON: {np.around(self.r[ind, 0])} cm\
                   <br>VER: {np.around(self.r[ind, 1])} cm\
-                      <br><b>skin dose:</b><br>{round(self.dose[ind],2)} mGy"
+                      <br><b>skin dose:</b><br>{round(self.dose[ind],3)} mGy"
                       for ind in range(len(self.r))]
 
         # create mesh object for the phantom

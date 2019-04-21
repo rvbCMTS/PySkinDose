@@ -118,7 +118,7 @@ def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom,
     Returns
     -------
     List[float]
-        X-ray field area in (cm^2) for each phantom skin cell that are hit by 
+        X-ray field area in (cm^2) for each phantom skin cell that are hit by
         X-ray the beam
 
     """
@@ -177,8 +177,8 @@ def fetch_HVL(data_norm: pd.DataFrame) -> None:
         HVL.append(event_HVL)
 
     # Append HVL data to data_norm
-    data_norm["HVL_mmAl"] = HVL
-    
+    data_norm["HVL"] = HVL
+
     # close database connection
     conn.commit()
     conn.close()

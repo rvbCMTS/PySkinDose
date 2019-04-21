@@ -8,3 +8,4 @@ __pycache__/
 **/__pycache__/
 scratch*
 *.json
+RDSR_data/clinical*

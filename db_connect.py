@@ -3,7 +3,7 @@ import sqlite3
 import pandas as pd
 
 
-def db_connect(databaseName: str='corrections.db', log=None):
+def db_connect(databaseName: str = 'corrections.db', log=None):
     """Sets up the database connection with tables needed for PSD calculations
 
      :param
@@ -35,6 +35,7 @@ def db_connect(databaseName: str='corrections.db', log=None):
         df_patient_support_transmission = pd.read_csv(
             os.path.join(os.path.dirname(__file__), 'table_data', 'patient_support_transmission.csv'))
         df_device_info = pd.read_csv(os.path.join(os.path.dirname(__file__), 'table_data', 'device_info.csv'))
+        f_temp = pd.read_csv(os.path.join(os.path.dirname(__file__), 'table_data', 'KS_table_concatenated.csv'))
 
         # Create tables
         df_backscatter.to_sql('B_interpolated', conn, if_exists='replace', index=False)
@@ -42,6 +43,7 @@ def db_connect(databaseName: str='corrections.db', log=None):
         df_HVL_simulated.to_sql('HVL_simulated', conn, if_exists='replace', index=False)
         df_patient_support_transmission.to_sql('patient_support_transmission', conn, if_exists='replace', index=False)
         df_device_info.to_sql('device_info', conn, if_exists='replace', index=False)
+        f_temp.to_sql('KS_table_concatenated', conn, if_exists='replace', index=False)
 
         # Commits the current transactions
         conn.commit()
