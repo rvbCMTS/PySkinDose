@@ -50,6 +50,7 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
     include_patient : bool, optional
         Choose if the patient phantom should be included in the plot_procedure
         function. WARNING, very heavy on memory. Default is False.
+
     """
     # Define colors
     source_color = '#D3D3D3'

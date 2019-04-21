@@ -103,10 +103,17 @@ elif mode == "calculate_dose":
         output["dose_map"] += event_dose
 
     # Save dosemap to patient
-    patient.dose = output["dose_map"]
+    if patient.type == "plane":
+        patient = Phantom(phantom_type=patient_type, human_model=human_model)
+        patient.dose = output["dose_map"]
+
+    else:
+        patient.dose = output["dose_map"]
+
 
     # Plot dosemap
     patient.plot_dosemap()
+
 
     # kerma/+isq/+k_med/+k_bs: 7.85
     # + k_isq                  7.94

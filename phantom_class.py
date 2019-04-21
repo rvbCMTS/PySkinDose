@@ -77,7 +77,6 @@ class Phantom:
         phantom skin cell corresponds to the estimated skin dose.
 
     """
-
     def __init__(self,
                  phantom_type: str = DEFAULT_PHANTOM_TYPE,
                  phantom_dim: dict = DEFAULT_PHANTOM_DIM,
@@ -146,7 +145,8 @@ class Phantom:
                                ((a + 1) * t + (a + 2), (a + 2) * t + (a + 2)))
 
             self.r = np.column_stack((x.ravel(), y.ravel(),
-                                     np.zeros(len(x.ravel()))))
+                                      np.zeros(len(x.ravel()))))
+
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
             self.dose = np.zeros(len(self.r))
 
@@ -200,7 +200,7 @@ class Phantom:
             n = phantom_mesh.normals
 
             self.r = np.asarray([el for el_list in r
-                                for el in el_list])
+                                 for el in el_list])
             self.n = np.asarray([
                 x for pair in zip(n, n, n) for x in pair])
 
@@ -228,8 +228,8 @@ class Phantom:
 
             # Vertical position of the vertices
             z = [index * phantom_dim["table_thickness"] for index in
-                                    [0, 0, 0, 0, 0, 0, 0, 0,
-                                     -1, -1, -1, -1, -1, -1, -1, -1]]
+                 [0, 0, 0, 0, 0, 0, 0, 0,
+                 -1, -1, -1, -1, -1, -1, -1, -1]]
 
             # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
@@ -260,8 +260,8 @@ class Phantom:
 
             # Vertical position of the vertices
             z = [index * phantom_dim["pad_thickness"] for index in
-                                    [0, 0, 0, 0, 0, 0, 0, 0,
-                                     1, 1, 1, 1, 1, 1, 1, 1]]
+                 [0, 0, 0, 0, 0, 0, 0, 0,
+                 1, 1, 1, 1, 1, 1, 1, 1]]
 
             # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
@@ -313,6 +313,7 @@ class Phantom:
         if self.type in ["cylinder", "human"]:
             for i in range(len(self.n)):
                 self.n[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.n[i, :])))
+
 
     def translate(self, dr: List[int]) -> None:
         """Translate the phantom in the x, y or z direction.
@@ -396,7 +397,6 @@ class Phantom:
             paper_bgcolor='rgb(45,45,45)',
 
             scene=dict(aspectmode="data",
-
                        xaxis=dict(title='',
                                   showgrid=False, showticklabels=False),
                        yaxis=dict(title='',
