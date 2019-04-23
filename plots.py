@@ -1,9 +1,9 @@
 import plotly.graph_objs as go
 import plotly.offline as ply
-from phantom_class import Phantom
-from beam_class import Beam
 import numpy as np
 import pandas as pd
+from phantom_class import Phantom
+from beam_class import Beam
 
 
 def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
@@ -99,9 +99,9 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             title = f'<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: {mode}, event {event+1} of {len(data_norm)}'
 
             # Position geometry
-            patient.position_phantom(data_norm, event)
-            table.position_phantom(data_norm, event)
-            pad.position_phantom(data_norm, event)
+            patient.position(data_norm, event)
+            table.position(data_norm, event)
+            pad.position(data_norm, event)
 
         # Create patient mesh
         patient_mesh = go.Mesh3d(
@@ -213,11 +213,11 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
 
             # Position geometry objects
             beam = Beam(data_norm, event=i, plot_setup=False)
-            table.position_phantom(data_norm, i)
-            pad.position_phantom(data_norm, i)
+            table.position(data_norm, i)
+            pad.position(data_norm, i)
 
             if include_patient:
-                patient.position_phantom(data_norm, i)
+                patient.position(data_norm, i)
 
                 # Create patient mesh
                 patient_mesh[i] = go.Mesh3d(

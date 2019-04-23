@@ -1,10 +1,11 @@
+import json
+from typing import Union
+import os
 import numpy as np
 import pydicom
-import os
 from phantom_class import Phantom
-from phantom_class import DEFAULT_PHANTOM_DIM
 from beam_class import Beam
-from plotly_plots import plot_geometry
+from plots import plot_geometry
 from geom_calc import position_geometry
 from geom_calc import scale_field_area
 from geom_calc import fetch_HVL
@@ -13,109 +14,175 @@ from corrections import calculate_k_med
 from corrections import calculate_k_bs
 from parse_data import rdsr_parser
 from parse_data import rdsr_normalizer
+from settings import PyskindoseSettings
 
 
-# MODES = ["plot_setup", "plot_event", "plot_procedure", "calculate_dose"]
+PARAM_DEV = dict(
+    # Valid modes: 'calculated_dose', 'plot_setup', 'plot_procedure'
+    mode='calculate_dose',
+    # RDSR filename, without .dcm file ending
+    rdsr_filename='S1',
+    # Irrading event index for mode='plot_event'
+    plot_event_index=21,
+    # Phantom settings:
+    phantom=dict(
+        # Phantom model,valid selections: 'plane', 'cylinder', or 'human'
+        model='cylinder',
+        # Human phantom .stl filename, without .stl ending.
+        human_model='Tman_flat',
+        # Dimensions of matematical phantoms (except model='human')
+        dimension={
+            'plane_length': 180,  # Length of plane phantom
+            'plane_width': 50,  # Width of plane phantom
+            'cylinder_length': 160,  # Length of cylinder phantom
+            'cylinder_radii_a': 20,  # First radii of cylinder phantom
+            'cylinder_radii_b': 10,  # Second radii of cylinder phantom
+            'table_thickness': 5,  # Support table thickness
+            'table_length': 210,  # Support table length
+            'table_width': 50,  # Support table width
+            'pad_thickness': 4,  # Support pad thickness
+            'pad_length': 210,  # Support pad length
+            'pad_width': 50,  # Support pad width
+            'units': 'cm'}))  # unit of dimension. Only 'cm' is supported.
 
-# Default parameters:
-phantom_dim = DEFAULT_PHANTOM_DIM
-patient_type = "cylinder"  # DEFAULT_PHANTOM_TYPE
-human_model = "Tman_flat"  # DEFAULT_HUMAN_MODEL
-rdsr_filename = "S1"
-mode = "calculate_dose"
-event = 22
 
-# set path to RDSR file
-rdsr_path = os.path.join(os.path.dirname(__file__),
-                         'RDSR_data', f"{rdsr_filename}.dcm")
-# read and parse RDSR file
-data_raw = pydicom.read_file(rdsr_path)
-data_parsed = rdsr_parser(data_raw)
-data_norm = rdsr_normalizer(data_parsed)
+def main(settings: Union[str, dict]=None):
+    """Run PySkinDose.
 
-# create phantom, table and pad
-table = Phantom(phantom_type="table")
-pad = Phantom(phantom_type="pad")
-patient = Phantom(phantom_type=patient_type,
-                  human_model=human_model)
+    Copy settings_examples.json in /setting/ and save it as settings.json.
+    Set all you parameters in this file. Then run PySkinDose by calling
+    main() in the end of this script. For debugging and developement,
+    the PARAM_dev settings dictionary can be used by calling main(PARAM_DEV)
+    insted of just main().
 
-# position objects in starting position
-position_geometry(patient=patient, table=table, pad=pad,
-                  pad_thickness=phantom_dim["pad_thickness"],
-                  patient_offset=[0, 0, -15])
+    See settings.py for a description of all the parameters. Please visit
+    https://dev.azure.com/Sjukhusfysiker/PySkinDose for info on how to run
+    PySkinDose.
 
-if mode in ["plot_setup", "plot_event", "plot_procedure"]:
+    Parameters
+    ----------
+    settings : Union[str, dict], optional
+        Setting file in either dict or json string format, by default
+        settings.json is enabled.
 
-    plot_geometry(patient, table, pad, data_norm,
-                  mode=mode, event=event, include_patient=False)
+    """
+    if settings is None:
 
-elif mode == "calculate_dose":
+        settings_path = os.path.join(os.path.dirname(__file__),
+                                     'settings', f"{'settings'}.json")
+        settings_example_path = \
+            os.path.join(os.path.dirname(__file__),
+                         'settings', f"{'settings_example'}.json")
 
-    print("Calculating skin dose...")
+        if os.path.exists(settings_path):
+            settings = open(settings_path, 'r').read()
 
-    output = dict(hits=[[]] * len(data_norm),
-                  kerma=[np.array] * len(data_norm),
-                  k_isq=[[]] * len(data_norm),
-                  k_bs=[[]] * len(data_norm),
-                  k_med=[[]] * len(data_norm),
-                  dose_map=np.zeros(len(patient.r)))
+        else:
+            settings = open(settings_example_path, 'r').read()
 
-    fetch_HVL(data_norm)
+    # Fetch all parameters
+    param = PyskindoseSettings(settings)
 
-    for event in range(0, len(data_norm)):
-        print(f"Calculating event: {event + 1} of {len(data_norm)}")
+    # read and parse RDSR file
+    data_raw = pydicom.read_file(os.path.join(
+        os.path.dirname(__file__), 'RDSR_data',
+        f"{param.rdsr_filename}.dcm"))
 
-        # create event beam
-        beam = Beam(data_norm, event=event, plot_setup=False)
+    # parse RDSR data from raw .dicom file
+    data_parsed = rdsr_parser(data_raw)
+    # normalized rdsr for compliance with PySkinDose
+    data_norm = rdsr_normalizer(data_parsed)
 
-        # position geometry in relation to the X-ray beam
-        patient.position_phantom(data_norm, event)
-        table.position_phantom(data_norm, event)
-        pad.position_phantom(data_norm, event)
+    # create table, pad and patient phantoms.
+    table = Phantom(phantom_model='table', phantom_dim=param.phantom.dimension)
+    pad = Phantom(phantom_model='pad', phantom_dim=param.phantom.dimension)
 
-        hits = beam.check_hit(patient)
+    patient = Phantom(
+        phantom_model=param.phantom.model,
+        phantom_dim=param.phantom.dimension,
+        human_model=param.phantom.human_model)
 
-        field_area = scale_field_area(data_norm, event, patient, hits,
-                                      beam.r[0, :])
+    # position objects in starting position
+    position_geometry(
+        patient=patient, table=table, pad=pad,
+        pad_thickness=param.phantom.dimension.pad_thickness,
+        patient_offset=[0, 0, -15])
 
-        k_isq = calculate_k_isq(source=beam.r[0, :], cells=patient.r[hits],
-                                dref=data_norm["DSIRP"][0])
+    if param.mode in ["plot_setup", "plot_event", "plot_procedure"]:
 
-        k_bs = calculate_k_bs(data_norm, field_area, event)
+        plot_geometry(patient, table, pad, data_norm,
+                      mode=param.mode, event=param.plot_event_index,
+                      include_patient=patient.type != 'human')
 
-        k_med = calculate_k_med(data_norm, field_area, event)
+    elif param.mode == "calculate_dose":
 
-        # save event data
-        output["hits"][event] = hits
-        output["kerma"][event] = data_norm.K_IRP[event]
-        output["k_isq"][event] = k_isq
-        output["k_bs"][event] = k_bs
-        output["k_med"][event] = k_med
+        output = dict(hits=[[]] * len(data_norm),
+                      kerma=[np.array] * len(data_norm),
+                      k_isq=[[]] * len(data_norm),
+                      k_bs=[[]] * len(data_norm),
+                      k_med=[[]] * len(data_norm),
+                      dose_map=np.zeros(len(patient.r)))
 
-        # Calculate dosemap:
-        event_dose = np.zeros(len(patient.r))
+        # Append HVL to data_norm
+        fetch_HVL(data_norm)
 
-        event_dose[hits] += data_norm.K_IRP[event]
-        event_dose[hits] *= k_isq
-        event_dose[hits] *= k_med
-        event_dose[hits] *= k_bs
+        # For each irradiation event
+        for event in range(0, len(data_norm)):
+            print(f"Calculating event: {event + 1} of {len(data_norm)}")
 
-        output["dose_map"] += event_dose
+            # create event beam
+            beam = Beam(data_norm, event=event, plot_setup=False)
 
-    # Save dosemap to patient
-    if patient.type == "plane":
-        patient = Phantom(phantom_type=patient_type, human_model=human_model)
+            # position geometry in relation to the X-ray beam
+            patient.position(data_norm, event)
+            table.position(data_norm, event)
+            pad.position(data_norm, event)
+
+            # Check which skin cells are hit by the beam
+            hits = beam.check_hit(patient)
+
+            # Calculate X-ray field area at the location of the skin cells
+            field_area = scale_field_area(data_norm, event, patient, hits,
+                                          beam.r[0, :])
+
+            # Calculate insverse-square law correction
+            k_isq = calculate_k_isq(source=beam.r[0, :], cells=patient.r[hits],
+                                    dref=data_norm["DSIRP"][0])
+
+            # Calculated backscatter correction
+            k_bs = calculate_k_bs(data_norm, field_area, event)
+
+            # Calculate reference point medium correction (air -> water)
+            k_med = calculate_k_med(data_norm, field_area, event)
+
+            # Save event data
+            output["hits"][event] = hits
+            output["kerma"][event] = data_norm.K_IRP[event]
+            output["k_isq"][event] = k_isq
+            output["k_bs"][event] = k_bs
+            output["k_med"][event] = k_med
+
+            # Calculate dosemap:
+            event_dose = np.zeros(len(patient.r))
+
+            # Calculate event skin dose
+            event_dose[hits] += data_norm.K_IRP[event]
+            event_dose[hits] *= k_isq
+            event_dose[hits] *= k_med
+            event_dose[hits] *= k_bs
+            # add table corr
+
+            # Add event dose to procedure dosemap
+            output["dose_map"] += event_dose
+
+        # Fix error with plotly layout for 2D plane patient.
+        if patient.type == "plane":
+            patient = Phantom(
+                phantom_model=param.phantom.model,
+                phantom_dim=param.phantom.dimension)
+
+        # Append and plot dosemap
         patient.dose = output["dose_map"]
+        patient.plot_dosemap()
 
-    else:
-        patient.dose = output["dose_map"]
-
-
-    # Plot dosemap
-    patient.plot_dosemap()
-
-
-    # kerma/+isq/+k_med/+k_bs: 7.85
-    # + k_isq                  7.94
-    # + k_med                  8.15
-    # + k_bs                   12.12
+main(PARAM_DEV)

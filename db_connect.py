@@ -74,21 +74,3 @@ def db_connect(db_name: str = 'corrections.db'):
         conn.commit()
 
     return conn, c
-
-
-
-
-
-
-
-
-
-
-
-
-
-# TBR
-# df_backscatter = pd.read_csv(os.path.join(os.path.dirname(__file__), 'table_data', 'B_interpolated.csv'))
-# df_u = pd.read_csv(os.path.join(os.path.dirname(__file__), 'table_data', 'u_interpolated.csv'))        
-# df_backscatter.to_sql('B_interpolated', conn, if_exists='replace', index=False)
-# df_u.to_sql('u_interpolated', conn, if_exists='replace', index=False)
