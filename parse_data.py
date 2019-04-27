@@ -226,10 +226,10 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         data_norm["model"] = data_parsed.model
         # Field size in cm at detector plane, in lateral direction
         data_norm["FS_lat"] = \
-            100 * np.sqrt(data_parsed.CollimatedFieldArea_m2)
+            round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
         # Field size in cm at detector plane, in longitudinal direction
         data_norm["FS_long"] = \
-            100 * np.sqrt(data_parsed.CollimatedFieldArea_m2)
+            round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
         # Distance source to detector in cm
         data_norm["DSD"] = \
             data_parsed.DistanceSourcetoDetector_mm / 10

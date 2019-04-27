@@ -8,6 +8,9 @@ import numpy as np
 import copy
 import os
 
+# valid phantom types
+VALID_PHANTOM_TYPES = ["plane", "cylinder", "human", "table", "pad"]
+
 class Phantom:
     """Create and handle phantoms for patient, support table and pad.
 
@@ -83,13 +86,11 @@ class Phantom:
 
         """
         phantom_model = phantom_model.lower()
-        valid_phantom_types = ["plane", "cylinder", "human", "table", "pad"]
 
         # Raise error if invalid phantom model selected
-        if phantom_model not in \
-            ["plane", "cylinder", "human", "table", "pad"]:
+        if phantom_model not in VALID_PHANTOM_TYPES:
             raise ValueError(f"Unknown phantom model selected. Valid type:"
-                             f"{'.'.join(valid_phantom_types)}")
+                             f"{'.'.join(VALID_PHANTOM_TYPES)}")
 
         # creates a plane phantom (2D grid)
         if phantom_model == "plane":
@@ -354,7 +355,7 @@ class Phantom:
         hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2])} cm\
                   <br>LON: {np.around(self.r[ind, 0])} cm\
                   <br>VER: {np.around(self.r[ind, 1])} cm\
-                      <br><b>skin dose:</b><br>{round(self.dose[ind],3)} mGy"
+                      <br><b>skin dose:</b><br>{round(self.dose[ind],2)} mGy"
                       for ind in range(len(self.r))]
 
         # create mesh object for the phantom

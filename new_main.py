@@ -4,24 +4,26 @@ import os
 import numpy as np
 import pydicom
 from phantom_class import Phantom
+from phantom_class import VALID_PHANTOM_TYPES
 from beam_class import Beam
 from plots import plot_geometry
 from geom_calc import position_geometry
 from geom_calc import scale_field_area
 from geom_calc import fetch_HVL
+from geom_calc import check_new_geometry
 from corrections import calculate_k_isq
 from corrections import calculate_k_med
 from corrections import calculate_k_bs
 from parse_data import rdsr_parser
 from parse_data import rdsr_normalizer
 from settings import PyskindoseSettings
-
+import time
 
 PARAM_DEV = dict(
     # Valid modes: 'calculated_dose', 'plot_setup', 'plot_procedure'
     mode='calculate_dose',
     # RDSR filename, without .dcm file ending
-    rdsr_filename='S1',
+    rdsr_filename='clinical_43.dcm',
     # Irrading event index for mode='plot_event'
     plot_event_index=21,
     # Phantom settings:
@@ -69,10 +71,9 @@ def main(settings: Union[str, dict]=None):
     if settings is None:
 
         settings_path = os.path.join(os.path.dirname(__file__),
-                                     'settings', f"{'settings'}.json")
+                                     'settings.json')
         settings_example_path = \
-            os.path.join(os.path.dirname(__file__),
-                         'settings', f"{'settings_example'}.json")
+            os.path.join(os.path.dirname(__file__), 'settings_example.json')
 
         if os.path.exists(settings_path):
             settings = open(settings_path, 'r').read()
@@ -85,8 +86,7 @@ def main(settings: Union[str, dict]=None):
 
     # read and parse RDSR file
     data_raw = pydicom.read_file(os.path.join(
-        os.path.dirname(__file__), 'RDSR_data',
-        f"{param.rdsr_filename}.dcm"))
+        os.path.dirname(__file__), 'RDSR_data', param.rdsr_filename))
 
     # parse RDSR data from raw .dicom file
     data_parsed = rdsr_parser(data_raw)
@@ -116,6 +116,16 @@ def main(settings: Union[str, dict]=None):
 
     elif param.mode == "calculate_dose":
 
+        start = time.time()
+
+        # Append HVL for all events to data_norm
+        fetch_HVL(data_norm)
+        # Check which irradiation events that contains updated
+        # geometry parameters since the previous irradiation event
+        new_geom = check_new_geometry(data_norm)
+        # fetch of k_bs interpolation object (k_bs=f(field_size))for all events
+        bs_interp = calculate_k_bs(data_norm)
+
         output = dict(hits=[[]] * len(data_norm),
                       kerma=[np.array] * len(data_norm),
                       k_isq=[[]] * len(data_norm),
@@ -123,34 +133,34 @@ def main(settings: Union[str, dict]=None):
                       k_med=[[]] * len(data_norm),
                       dose_map=np.zeros(len(patient.r)))
 
-        # Append HVL to data_norm
-        fetch_HVL(data_norm)
-
         # For each irradiation event
         for event in range(0, len(data_norm)):
             print(f"Calculating event: {event + 1} of {len(data_norm)}")
 
-            # create event beam
-            beam = Beam(data_norm, event=event, plot_setup=False)
+            # If the geometry has changed since preceding event
+            if new_geom[event]:
+                # create event beam
+                beam = Beam(data_norm, event=event, plot_setup=False)
 
-            # position geometry in relation to the X-ray beam
-            patient.position(data_norm, event)
-            table.position(data_norm, event)
-            pad.position(data_norm, event)
+                # position geometry in relation to the X-ray beam
+                patient.position(data_norm, event)
+                table.position(data_norm, event)
+                pad.position(data_norm, event)
 
-            # Check which skin cells are hit by the beam
-            hits = beam.check_hit(patient)
+                # Check which skin cells are hit by the beam
+                hits = beam.check_hit(patient)
 
-            # Calculate X-ray field area at the location of the skin cells
-            field_area = scale_field_area(data_norm, event, patient, hits,
-                                          beam.r[0, :])
+                # Calculate X-ray field area at the location of the skin cells
+                field_area = scale_field_area(data_norm, event, patient, hits,
+                                              beam.r[0, :])
 
-            # Calculate insverse-square law correction
-            k_isq = calculate_k_isq(source=beam.r[0, :], cells=patient.r[hits],
-                                    dref=data_norm["DSIRP"][0])
+                # Calculate insverse-square law correction
+                k_isq = calculate_k_isq(source=beam.r[0, :],
+                                        cells=patient.r[hits],
+                                        dref=data_norm["DSIRP"][0])
 
-            # Calculated backscatter correction
-            k_bs = calculate_k_bs(data_norm, field_area, event)
+            # Interpolated backscatter factor to actual cell field sizes
+            k_bs = bs_interp[event](np.sqrt(field_area))
 
             # Calculate reference point medium correction (air -> water)
             k_med = calculate_k_med(data_norm, field_area, event)
@@ -175,6 +185,10 @@ def main(settings: Union[str, dict]=None):
             # Add event dose to procedure dosemap
             output["dose_map"] += event_dose
 
+        end = time.time()
+        elapsed = round(end - start, 1)
+        print(elapsed)
+
         # Fix error with plotly layout for 2D plane patient.
         if patient.type == "plane":
             patient = Phantom(
@@ -186,3 +200,6 @@ def main(settings: Union[str, dict]=None):
         patient.plot_dosemap()
 
 main(PARAM_DEV)
+
+# 3.1 med
+# 3.3 utan

@@ -57,7 +57,7 @@ def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
     """Create a vector between two points in carthesian space.
 
     This function creates a simple vector between point <start> and point
-    <stop"> The function can also create a unit vector from <start>, in the
+    <stop> The function can also create a unit vector from <start>, in the
     direction to <stop>.
 
     Parameters
@@ -137,7 +137,7 @@ def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom,
 
     # Calculate field area at distance source to skin cell for all cells
     # that are hit by the beam.
-    field_area = [field_area_ref * np.square(scale)
+    field_area = [round(field_area_ref * np.square(scale), 1)
                   for scale in scale_factor]
 
     return field_area
@@ -154,27 +154,23 @@ def fetch_HVL(data_norm: pd.DataFrame) -> None:
     Returns
     -------
     None
-        This function appends event specific HVL as a function of device model
-        kVp, and copper- and aluminum filtration to the normalized RDSR data
-        in data_norm.
+        This function appends event specific HVL (mmAl) as a function of device
+        model, kVp, and copper- and aluminum filtration to the normalized RDSR
+        data in data_norm.
 
     """
     # Open connection to database
     [conn, c] = db_connect()
 
-    # Fetch entirre HVL table
+    # Fetch entire HVL table
     HVL_data = pd.read_sql_query("SELECT * FROM HVL_simulated", conn)
-    HVL = []
 
-    # For every irradiation event
-    for event in range(len(data_norm)):
-        # Fetch HVL=f(device model, kVp, filtration)
-        event_HVL = float(HVL_data.loc[
-            (HVL_data['DeviceModel'] == data_norm.model[event]) &
-            (HVL_data['kVp_kV'] == round(data_norm.kVp[event])) &
-            (HVL_data['AddedFiltration_mmCu'] == data_norm.filter_thickness_Cu[event]), "HVL_mmAl"])
-
-        HVL.append(event_HVL)
+    HVL = [float(HVL_data.loc[
+        (HVL_data['DeviceModel'] == data_norm.model[event]) &
+        (HVL_data['kVp_kV'] == round(data_norm.kVp[event])) &
+        (HVL_data['AddedFiltration_mmCu'] ==
+         data_norm.filter_thickness_Cu[event]), "HVL_mmAl"])
+           for event in range(len(data_norm))]
 
     # Append HVL data to data_norm
     data_norm["HVL"] = HVL
@@ -182,3 +178,38 @@ def fetch_HVL(data_norm: pd.DataFrame) -> None:
     # close database connection
     conn.commit()
     conn.close()
+
+
+def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
+    """Check which events has unchanged geometry since the event before.
+
+    This function is intented to calculate if new geometry parameters needs
+    to be calculated, i.e., new beam, geometry positioning, field area and
+    cell hit calculation.
+
+    Parameters
+    ----------
+    data_norm : pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
+
+    Returns
+    -------
+    List[bool]
+        List of booleans where True[event] means that the event has updated
+        geometry since the preceding irradiation event.
+
+    """
+    # List all RDSR parameters that contains geometry parameters.
+    # TODO: remove Distance Source to Detector (DSD)?
+    geom_params = data_norm[['dLAT', 'dLONG', 'dVERT', 'FS_lat',
+                             'FS_long', 'DSD', 'PPA', 'PSA']]
+
+    # check which event has the same parameters as the previous
+    same_geometry = [geom_params.iloc[event].equals(
+        geom_params.iloc[event - 1]) for event in range(1, len(geom_params))]
+
+    # insert false to first event
+    same_geometry.insert(0, False)
+
+    # return inverted list, to get correct output
+    return [not event for event in same_geometry]
