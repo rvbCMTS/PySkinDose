@@ -19,6 +19,7 @@ pydicom = "*"
 numpy-stl = "*"
 plotly = "==3.7.1"
 scipy = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"

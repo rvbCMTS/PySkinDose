@@ -1,29 +1,29 @@
+import time
 import json
-from typing import Union
 import os
 import numpy as np
 import pydicom
+from typing import Union
 from phantom_class import Phantom
-from phantom_class import VALID_PHANTOM_TYPES
 from beam_class import Beam
 from plots import plot_geometry
 from geom_calc import position_geometry
 from geom_calc import scale_field_area
-from geom_calc import fetch_HVL
+from geom_calc import fetch_hvl
 from geom_calc import check_new_geometry
+from geom_calc import check_table_hits
 from corrections import calculate_k_isq
 from corrections import calculate_k_med
 from corrections import calculate_k_bs
 from parse_data import rdsr_parser
 from parse_data import rdsr_normalizer
 from settings import PyskindoseSettings
-import time
 
 PARAM_DEV = dict(
-    # Valid modes: 'calculated_dose', 'plot_setup', 'plot_procedure'
+    # Valid modes: 'calculate_dose', 'plot_setup', 'plot_procedure'
     mode='calculate_dose',
-    # RDSR filename, without .dcm file ending
-    rdsr_filename='clinical_43.dcm',
+    # RDSR filename
+    rdsr_filename='S1.dcm',
     # Irrading event index for mode='plot_event'
     plot_event_index=21,
     # Phantom settings:
@@ -36,9 +36,10 @@ PARAM_DEV = dict(
         dimension={
             'plane_length': 180,  # Length of plane phantom
             'plane_width': 50,  # Width of plane phantom
-            'cylinder_length': 160,  # Length of cylinder phantom
+            'cylinder_length': 150,  # Length of cylinder phantom
             'cylinder_radii_a': 20,  # First radii of cylinder phantom
             'cylinder_radii_b': 10,  # Second radii of cylinder phantom
+            'cylinder_resolution': 'coarse',  # Resolution of cylinder.
             'table_thickness': 5,  # Support table thickness
             'table_length': 210,  # Support table length
             'table_width': 50,  # Support table width
@@ -119,7 +120,7 @@ def main(settings: Union[str, dict]=None):
         start = time.time()
 
         # Append HVL for all events to data_norm
-        fetch_HVL(data_norm)
+        fetch_hvl(data_norm)
         # Check which irradiation events that contains updated
         # geometry parameters since the previous irradiation event
         new_geom = check_new_geometry(data_norm)
@@ -137,7 +138,8 @@ def main(settings: Union[str, dict]=None):
         for event in range(0, len(data_norm)):
             print(f"Calculating event: {event + 1} of {len(data_norm)}")
 
-            # If the geometry has changed since preceding event
+            # If the geometry has changed since preceding event,
+            # of if it is the first event
             if new_geom[event]:
                 # create event beam
                 beam = Beam(data_norm, event=event, plot_setup=False)
@@ -154,12 +156,12 @@ def main(settings: Union[str, dict]=None):
                 field_area = scale_field_area(data_norm, event, patient, hits,
                                               beam.r[0, :])
 
-                # Calculate insverse-square law correction
+                # Calculate inverse-square law fluece correction
                 k_isq = calculate_k_isq(source=beam.r[0, :],
                                         cells=patient.r[hits],
                                         dref=data_norm["DSIRP"][0])
 
-            # Interpolated backscatter factor to actual cell field sizes
+            # Interpolate backscatter factor to actual cell field sizes
             k_bs = bs_interp[event](np.sqrt(field_area))
 
             # Calculate reference point medium correction (air -> water)
@@ -175,12 +177,12 @@ def main(settings: Union[str, dict]=None):
             # Calculate dosemap:
             event_dose = np.zeros(len(patient.r))
 
-            # Calculate event skin dose
+            # Calculate event skin dose by appending each of the correction
+            # factors to the reference point air kerma.
             event_dose[hits] += data_norm.K_IRP[event]
             event_dose[hits] *= k_isq
             event_dose[hits] *= k_med
             event_dose[hits] *= k_bs
-            # add table corr
 
             # Add event dose to procedure dosemap
             output["dose_map"] += event_dose
@@ -199,7 +201,5 @@ def main(settings: Union[str, dict]=None):
         patient.dose = output["dose_map"]
         patient.plot_dosemap()
 
-main(PARAM_DEV)
 
-# 3.1 med
-# 3.3 utan
+main(PARAM_DEV)

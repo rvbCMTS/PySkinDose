@@ -11,6 +11,7 @@ import os
 # valid phantom types
 VALID_PHANTOM_TYPES = ["plane", "cylinder", "human", "table", "pad"]
 
+
 class Phantom:
     """Create and handle phantoms for patient, support table and pad.
 
@@ -135,13 +136,33 @@ class Phantom:
         elif phantom_model == "cylinder":
             self.type = "cylinder"
 
+            # set more densly cell grid in both direction is needed
+            if phantom_dim.cylinder_resolution.lower() == 'fine':
+                res_length = 4
+                res_width = 0.05
+
+            elif phantom_dim.cylinder_resolution.lower() == 'coarse':
+                res_length = 1
+                res_width = 0.1
+
             # Creates linearly spaced points along an ellipse
             #  in the lateral direction
-            t = np.arange(0, 2 * np.pi, 0.1)
+            t = np.arange(0 * np.pi, 2 * np.pi, res_width)
             x = (phantom_dim.cylinder_radii_a * np.cos(t)).tolist()
             z = (phantom_dim.cylinder_radii_b * np.sin(t)).tolist()
 
-            n = [[x[ind], 0.0, z[ind]] for ind in range(len(t))]
+            # calculate normal vectors of a cylinder (pointing outwards)
+            nx = np.cos(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+
+            ny = np.zeros(len(t))
+
+            nz = 2 * np.sin(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+
+            nx = nx.tolist()
+            ny = ny.tolist()
+            nz = nz.tolist()
+
+            n = [[nx[ind], ny[ind], nz[ind]] for ind in range(len(t))]
 
             # Store the  coordinates of the cylinder phantom
             output = {"type": "cylinder", "n": [],
@@ -149,9 +170,9 @@ class Phantom:
 
             # Extend the ellipse to span the entire length of the phantom,
             # in steps of 1 cm, thus creating an elliptic cylinder
-            for index in range(0, phantom_dim.cylinder_length + 2, 1):
+            for index in range(0, res_length * (phantom_dim.cylinder_length + 2), 1):
                 output["x"] = output["x"] + x
-                output["y"] = output["y"] + [index] * len(x)
+                output["y"] = output["y"] + [1 / res_length * index] * len(x)
                 output["z"] = output["z"] + z
                 output["n"] = output["n"] + n
 
@@ -162,6 +183,8 @@ class Phantom:
             i2 = list(range(0, len(output["x"]) - len(t)))
             k2 = list(range(len(t) - 1, len(output["x"]) - 1))
             j2 = list(range(len(t), len(output["x"])))
+
+
 
             self.r = np.column_stack((output["x"], output["y"], output["z"]))
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
@@ -207,9 +230,12 @@ class Phantom:
                   0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
 
             # Lateral position of the the vertices
+            #y = [index * phantom_dim.table_length for index in
+            #     [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
+            #      0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
             y = [index * phantom_dim.table_length for index in
-                 [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
-                  0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
+                 [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
+                  1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
 
             # Vertical position of the vertices
             z = [index * phantom_dim.table_thickness for index in
@@ -229,6 +255,7 @@ class Phantom:
             self.r = np.column_stack((x, y, z))
             self.ijk = np.column_stack((i, j, k))
 
+
         # Creates the vertices of the patient support table
         elif phantom_model == "pad":
             self.type = "pad"
@@ -240,8 +267,8 @@ class Phantom:
 
             # Lateral position of the the vertices
             y = [index * phantom_dim.pad_length for index in
-                 [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
-                  0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
+                 [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
+                  1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
 
             # Vertical position of the vertices
             z = [index * phantom_dim.pad_thickness for index in
@@ -292,12 +319,20 @@ class Phantom:
                        [+0, +0, +1]])
 
         # Rotate position vectors to the phantom cells
-        for i in range(len(self.r)):
-            self.r[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.r[i, :])))
+
+        # TODO OlD APPROACH
+        # for i in range(len(self.r)):
+        #     self.r[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.r[i, :])))
+
+        # TODO NEW APPROACH
+        self.r = np.matmul(Rx, np.matmul(Ry, np.matmul(Rz, self.r.T))).T
 
         if self.type in ["cylinder", "human"]:
-            for i in range(len(self.n)):
-                self.n[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.n[i, :])))
+            # TODO OlD APPROACH
+            # for i in range(len(self.n)):
+            #     self.n[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.n[i, :])))
+            # TODO NEW APPROACH
+            self.n = np.matmul(Rx, np.matmul(Ry, np.matmul(Rz, self.n.T))).T
 
     def translate(self, dr: List[int]) -> None:
         """Translate the phantom in the x, y or z direction.
@@ -350,9 +385,9 @@ class Phantom:
         skin dose distribution on the phantom. The colorscale is mapped to the
         absorbed skin dose value. Only available for phantom type: "plane",
         "cylinder" or "human"
-        """
 
-        hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2])} cm\
+        """
+        hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2],2)} cm\
                   <br>LON: {np.around(self.r[ind, 0])} cm\
                   <br>VER: {np.around(self.r[ind, 1])} cm\
                       <br><b>skin dose:</b><br>{round(self.dose[ind],2)} mGy"
@@ -374,7 +409,8 @@ class Phantom:
         layout = go.Layout(
             font=dict(family='roboto', color="white", size=18),
             hoverlabel=dict(font=dict(size=16)),
-            title='<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: dosemap',
+            # title='<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: dosemap',
+            title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
             titlefont=dict(family='Courier New', size=35,
                            color='white'),
             plot_bgcolor='rgb(45,45,45)',
@@ -392,3 +428,15 @@ class Phantom:
         fig = go.Figure(data=phantom_mesh, layout=layout)
         # Execure plot
         ply.plot(fig, filename='dose_map.html')
+
+
+# settings_example_path = \
+#             os.path.join(os.path.dirname(__file__), 'settings_example.json')
+
+# settings = open(settings_example_path, 'r').read()
+
+# param = PyskindoseSettings(settings)
+
+# ptm = Phantom(phantom_model='cylinder', phantom_dim=param.phantom.dimension)
+
+# ptm.plot_dosemap()

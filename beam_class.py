@@ -58,21 +58,30 @@ class Beam:
         """
         # Override beam angulation if plot_setup
         if plot_setup:
-            Ap1 = Ap2 = 0
+            ap1 = ap2 = ap3 = 0
 
         else:
-            # Fetch primary (Ap1/alpha), and secondary (Ap2/beta)
-            # rotation angles of the X-ray tube
-            Ap1 = np.deg2rad(data_norm.PPA[event])
-            Ap2 = np.deg2rad(data_norm.PSA[event])
+            # Fetch rotation angles of the X-ray tube
 
-        # Define ratation matrix about Ap1 and Ap2
-        Ra = np.array([[+np.cos(Ap1), +np.sin(Ap1), +0],
-                       [-np.sin(Ap1), +np.cos(Ap1), +0],
+            # Positioner isocenter primary angle (Ap1)
+            ap1 = np.deg2rad(data_norm.PPA[event])
+            # Positioner isocenter secondary angle (Ap2)
+            ap2 = np.deg2rad(data_norm.PSA[event])
+            # Positioner isocenter detector rotation angle (Ap3)
+            ap3 = 0  # PySkinDose does not yet Ap3 rotation
+
+        # Define ratation matrix about Ap1 and Ap2 and Ap3
+        R1 = np.array([[+np.cos(ap1), +np.sin(ap1), +0],
+                       [-np.sin(ap1), +np.cos(ap1), +0],
                        [+0, +0, +1]])
-        Rb = np.array([[+1, +0, +0],
-                       [+0, +np.cos(Ap2), -np.sin(Ap2)],
-                       [+0, +np.sin(Ap2), +np.cos(Ap2)]])
+
+        R2 = np.array([[+1, +0, +0],
+                       [+0, +np.cos(ap2), -np.sin(ap2)],
+                       [+0, +np.sin(ap2), +np.cos(ap2)]])
+
+        R3 = np.array([[+np.cos(ap3), +0, -np.sin(ap3)],
+                       [+0, +1, +0],
+                       [+np.sin(ap3), +0, +np.cos(ap3)]])
 
         # Located X-ray source
         source = np.array([0, data_norm.DSI[event], 0])
@@ -89,9 +98,14 @@ class Beam:
 
         r = np.vstack([source, r])
 
-        # Rorate beam about Ap1 and Ap2
-        for ind in range(5):
-            r[ind, :] = np.dot(np.dot(Rb, Ra), r[ind, :])
+        # Rorate beam about Ap1 and Ap2 and Ap3
+
+        # TODO OLD APPROACH
+        # for ind in range(5):
+        # r [ind, :] = np.dot(np.dot(Rb, Ra), r[ind, :])
+
+        # TODO NEW APPROACH
+        r = np.matmul(np.matmul(R2, R1).T, np.matmul(R3.T, r.T)).T
 
         self.r = r
 
@@ -116,10 +130,10 @@ class Beam:
                           [+0.5, -1.0, -0.5],
                           [-0.5, -1.0, -0.5],
                           [-0.5, -1.0, +0.5],
-                          [+0.5, -1.2, +0.5],
-                          [+0.5, -1.2, -0.5],
-                          [-0.5, -1.2, -0.5],
-                          [-0.5, -1.2, +0.5]])
+                          [+0.45, -1.2, +0.45],
+                          [+0.45, -1.2, -0.45],
+                          [-0.45, -1.2, -0.45],
+                          [-0.45, -1.2, +0.45]])
 
         # Add detector dimensions
         detector_width = data_norm.DSL[0]
@@ -129,8 +143,12 @@ class Beam:
         det_r[:, 1] *= data_norm.DID[event]
 
         # Rotate detector about Ap1 and Ap2
-        for ind in range(8):
-            det_r[ind, :] = np.dot(np.dot(Rb, Ra), det_r[ind, :])
+        # TODO OLD APPROACH
+        # for ind in range(8):
+        #     det_r[ind, :] = np.dot(np.dot(Rb, Ra), det_r[ind, :])
+
+        # TODO NEW APPROACH
+        det_r = np.matmul(np.matmul(R2, R1).T, np.matmul(R3.T, det_r.T)).T
         self.det_r = det_r
 
         # Manually construct vertex index vector for the X-ray detector

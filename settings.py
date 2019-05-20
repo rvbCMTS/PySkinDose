@@ -114,6 +114,10 @@ class PhantomDimensions:
         Second radii of the cylindrical cross section of the cylindrical
         phantom, which lies in the "thickness" direction. radii a should
         be greater than radii b.
+    cylinder_resolution: int
+        Select either 'coarse' or 'fine' resolution of the skin cell grid
+        on the surface of the elliptical cylinder. Note: fine is more
+        computational expensive.
     table_thickness : int
         Thickness of the support table phantom.
     table_length : int
@@ -156,6 +160,7 @@ class PhantomDimensions:
         self.cylinder_length = ptm_dim['cylinder_length']
         self.cylinder_radii_a = ptm_dim['cylinder_radii_a']
         self.cylinder_radii_b = ptm_dim['cylinder_radii_b']
+        self.cylinder_resolution = ptm_dim['cylinder_resolution']
         self.table_thickness = ptm_dim['table_thickness']
         self.table_length = ptm_dim['table_length']
         self.table_width = ptm_dim['table_width']

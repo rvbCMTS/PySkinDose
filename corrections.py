@@ -2,10 +2,11 @@ import numpy as np
 import pandas as pd
 from db_connect import db_connect
 from scipy.interpolate import CubicSpline
+import scipy.interpolate
 from typing import List
 
 
-def calculate_k_isq(source: np.array, cells: np.array, dref: float) -> np.array:
+def calculate_k_isq(source: np.array, cells: np.array, dref: float)-> np.array:
     """Calculate the IRP air kerma inverse-square law correction.
 
     This function corrects the X-ray fluence from the interventionl reference
@@ -28,10 +29,10 @@ def calculate_k_isq(source: np.array, cells: np.array, dref: float) -> np.array:
         Inverse-square law correction for all cells that are hit by the beam.
 
     """
-    # Scale X-ray fluence according to the inverse square law
-    k_isq = [np.sqrt(dref / np.linalg.norm((cell - source))) for cell in cells]
+    if len(cells) > 3:
+        return np.square(dref / np.linalg.norm(cells - source, axis=1))
 
-    return np.asarray(k_isq)
+    return np.square(dref / np.linalg.norm(cells - source, axis=0))
 
 
 def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
@@ -87,7 +88,7 @@ def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
 
         # Create cubic spline object, so that the backscatter factor
         # can be found for for any field size.
-        bs_interp[event] = CubicSpline(fsl_tab, bs_corr[event])
+        bs_interp[event] = scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event])
 
     return bs_interp
 
@@ -156,6 +157,7 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
 
     # Fetch corresponding k_med
     k_med = float(df.loc[(df['hvl_mmAl'] == HVL_round) & (df['kvp_kV'] == KVP_round) &
-                (df['field_side_length_cm'] == 20), "mu_en_quotient"])
+                 (df['field_side_length_cm'] == FSL), "mu_en_quotient"])
 
     return k_med
+

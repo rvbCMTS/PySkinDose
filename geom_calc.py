@@ -1,5 +1,5 @@
-from phantom_class import Phantom
 from typing import List, Any
+from phantom_class import Phantom
 import numpy as np
 import pandas as pd
 from db_connect import db_connect
@@ -21,7 +21,7 @@ def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
     patient : Phantom
         Patient phantom, either plane, cylinder or human.
     table : Phantom
-        Table phantom to represent the patient support table
+        Table phantom to represent the patient support$ table
     pad : Phantom
         Pad phantom to represent the patient support pad
     pad_thickness: Any
@@ -143,7 +143,7 @@ def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom,
     return field_area
 
 
-def fetch_HVL(data_norm: pd.DataFrame) -> None:
+def fetch_hvl(data_norm: pd.DataFrame) -> None:
     """Add event HVL to RDSR event data from database.
 
     Parameters

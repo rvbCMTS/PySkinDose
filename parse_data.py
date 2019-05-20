@@ -225,6 +225,7 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         # Device
         data_norm["model"] = data_parsed.model
         # Field size in cm at detector plane, in lateral direction
+        data_norm["acquisition_plane"] = data_parsed.AcquisitionPlane
         data_norm["FS_lat"] = \
             round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
         # Field size in cm at detector plane, in longitudinal direction
@@ -250,7 +251,7 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         # Table increment in lateral direction, in cm
         data_norm["dLAT"] = + data_parsed.TableLateralPosition_mm / 10
         # Table increment in longitudinal direction, in cm
-        data_norm["dLONG"] = - data_parsed.TableLongitudinalPosition_mm / 10
+        data_norm["dLONG"] = + data_parsed.TableLongitudinalPosition_mm / 10
         # Table increment in vertical direction, in cm
         data_norm["dVERT"] = + data_parsed.TableHeightPosition_mm / 10
         # Detector size lenth, in cm
@@ -259,7 +260,7 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         data_norm["filter_type"] = data_parsed.XRayFilterType
         # X-ray filter thickness
         data_norm["filter_thickness_Cu"] = data_parsed.XRayFilterThicknessMaximum_mm
-        data_norm["filter_thickness_Al"] = [0] * len(data_parsed.XRayFilterThicknessMaximum_mm)
+        data_norm["filter_thickness_Al"] = [0.0] * len(data_parsed.XRayFilterThicknessMaximum_mm)
         data_norm.filter_thickness_Cu = data_norm.filter_thickness_Cu.fillna(0.0)
         # more to be added
 

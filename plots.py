@@ -84,7 +84,8 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> {np.around(beam.r[0, 2])} cm <br><b>LON:</b> {np.around(beam.r[0, 0])} cm <br><b>VER:</b> {np.around(beam.r[0, 1])} cm"]
             beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.r[ind, 1])} cm" for ind in range(len(beam.r))]
             detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} cm" for ind in range(len(beam.det_r))]
-            title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: {mode}"""
+            # title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: {mode}"""
+            title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
 
         elif mode == 'plot_event':
             print(f"plotting event {event+1} of {len(data_norm)}...")
@@ -96,7 +97,8 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> {np.around(beam.r[0, 2])} cm <br><b>LON:</b> {np.around(beam.r[0, 0])} cm <br><b>VER:</b> {np.around(beam.r[0, 1])} cm"]
             beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.r[ind, 1])} cm" for ind in range(len(beam.r))]
             detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} cm" for ind in range(len(beam.det_r))]
-            title = f'<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: {mode}, event {event+1} of {len(data_norm)}'
+            #title = f'<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: {mode}, event {event+1} of {len(data_norm)}'
+            title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
 
             # Position geometry
             patient.position(data_norm, event)
@@ -195,8 +197,8 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
         source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> {np.around(beam.r[0, 2])} cm <br><b>LON:</b> {np.around(beam.r[0, 0])} cm <br><b>VER:</b> {np.around(beam.r[0, 1])} cm"]
         beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.r[ind, 1])} cm" for ind in range(len(beam.r))]
         detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} cm" for ind in range(len(beam.det_r))]
-        title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: {mode}"""
-
+        # title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: {mode}"""
+        title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
         source_mesh = [0] * len(data_norm)
         table_mesh = [0] * len(data_norm)
         patient_mesh = [0] * len(data_norm)
