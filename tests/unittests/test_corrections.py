@@ -52,7 +52,7 @@ def test_calculate_k_bs():
     # create interpolation object
     bs_interp = calculate_k_bs(data_norm)
 
-    # interpolate at tabulted filed sizes
+    # interpolate at tabulated filed sizes
     interp = bs_interp[0](data_norm.FSL)
     test = [round(k, 2) for k in interp]
 

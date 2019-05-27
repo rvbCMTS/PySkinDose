@@ -9,3 +9,4 @@ scratch*
 *.json
 RDSR_data/clinical*
 .DS_Store
+temp*

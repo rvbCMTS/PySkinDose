@@ -98,13 +98,7 @@ class Beam:
 
         r = np.vstack([source, r])
 
-        # Rorate beam about Ap1 and Ap2 and Ap3
-
-        # TODO OLD APPROACH
-        # for ind in range(5):
-        # r [ind, :] = np.dot(np.dot(Rb, Ra), r[ind, :])
-
-        # TODO NEW APPROACH
+        # Rotate beam about ap1, ap2 and ap3
         r = np.matmul(np.matmul(R2, R1).T, np.matmul(R3.T, r.T)).T
 
         self.r = r
@@ -126,14 +120,16 @@ class Beam:
                             np.cross(v3, v4), np.cross(v4, v1)])
 
         # Create detector corners for with side length 1
+        # The first four rows represent the X-ray detector surface, the last
+        # for are there to give the detector some depth for 3D visualization.
         det_r = np.array([[+0.5, -1.0, +0.5],
                           [+0.5, -1.0, -0.5],
                           [-0.5, -1.0, -0.5],
                           [-0.5, -1.0, +0.5],
-                          [+0.45, -1.2, +0.45],
-                          [+0.45, -1.2, -0.45],
-                          [-0.45, -1.2, -0.45],
-                          [-0.45, -1.2, +0.45]])
+                          [+0.5, -1.2, +0.5],
+                          [+0.5, -1.2, -0.5],
+                          [-0.5, -1.2, -0.5],
+                          [-0.5, -1.2, +0.5]])
 
         # Add detector dimensions
         detector_width = data_norm.DSL[0]
@@ -142,12 +138,8 @@ class Beam:
         # Place detector at actual distance
         det_r[:, 1] *= data_norm.DID[event]
 
-        # Rotate detector about Ap1 and Ap2
-        # TODO OLD APPROACH
-        # for ind in range(8):
-        #     det_r[ind, :] = np.dot(np.dot(Rb, Ra), det_r[ind, :])
+        # Rotate detector about ap1, ap2 and ap3
 
-        # TODO NEW APPROACH
         det_r = np.matmul(np.matmul(R2, R1).T, np.matmul(R3.T, det_r.T)).T
         self.det_r = det_r
 
@@ -181,7 +173,7 @@ class Beam:
 
         # If phantom type is plane, do not controll if cell is entrance or
         # exit, since the plane is 1D
-        if patient.type == "plane":
+        if patient.phantom_model == "plane":
             hits = [True if
                     np.dot(cells_vectors[ind], self.N[0, :]) <= 0 and
                     np.dot(cells_vectors[ind], self.N[1, :]) <= 0 and

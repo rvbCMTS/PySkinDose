@@ -11,7 +11,6 @@ from geom_calc import position_geometry
 from geom_calc import scale_field_area
 from geom_calc import fetch_hvl
 from geom_calc import check_new_geometry
-from geom_calc import check_table_hits
 from corrections import calculate_k_isq
 from corrections import calculate_k_med
 from corrections import calculate_k_bs
@@ -52,7 +51,7 @@ PARAM_DEV = dict(
 def main(settings: Union[str, dict]=None):
     """Run PySkinDose.
 
-    Copy settings_examples.json in /setting/ and save it as settings.json.
+    Copy settings_examples.json and save it as settings.json.
     Set all you parameters in this file. Then run PySkinDose by calling
     main() in the end of this script. For debugging and developement,
     the PARAM_dev settings dictionary can be used by calling main(PARAM_DEV)
@@ -107,13 +106,13 @@ def main(settings: Union[str, dict]=None):
     position_geometry(
         patient=patient, table=table, pad=pad,
         pad_thickness=param.phantom.dimension.pad_thickness,
-        patient_offset=[0, 0, -15])
+        patient_offset=[0, 0, -35])
 
     if param.mode in ["plot_setup", "plot_event", "plot_procedure"]:
 
         plot_geometry(patient, table, pad, data_norm,
                       mode=param.mode, event=param.plot_event_index,
-                      include_patient=patient.type != 'human')
+                      include_patient=patient.phantom_model != 'human')
 
     elif param.mode == "calculate_dose":
 

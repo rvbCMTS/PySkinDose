@@ -115,7 +115,7 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     Returns
     -------
     float
-        Medium correction k_k_med for all cells that are hit by the beam.
+        Medium correction k_med for all cells that are hit by the beam.
 
     """
     # Tabulated field side length in cm
@@ -157,7 +157,7 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
 
     # Fetch corresponding k_med
     k_med = float(df.loc[(df['hvl_mmAl'] == HVL_round) & (df['kvp_kV'] == KVP_round) &
-                 (df['field_side_length_cm'] == FSL), "mu_en_quotient"])
+                         (df['field_side_length_cm'] == FSL), "mu_en_quotient"])
 
     return k_med
 

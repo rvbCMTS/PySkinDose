@@ -9,20 +9,20 @@ import copy
 import os
 
 # valid phantom types
-VALID_PHANTOM_TYPES = ["plane", "cylinder", "human", "table", "pad"]
+VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
 
 
 class Phantom:
     """Create and handle phantoms for patient, support table and pad.
 
     This class creates a phatom of any of the types specified in
-    VALID_PHANTOM_TYPES (plane, cylinder or human to represent the patient,
+    VALID_PHANTOM_MODELS (plane, cylinder or human to represent the patient,
     as well as patient support table and pad). The patient phantoms consists of
     a number of skin cells where the skin dose can be calculated.
 
     Attributes
     ----------
-    type : str
+    phantom_model : str
         Type of phantom, i.e. "plane", "cylinder", "human", "table" or "pad"
     r : np.array
         n*3 array where n are the number of phantom skin cells. Each row
@@ -60,6 +60,7 @@ class Phantom:
         phantom skin cell corresponds to the estimated skin dose.
 
     """
+
     def __init__(self,
                  phantom_model: str, phantom_dim: PhantomDimensions,
                  human_model: Optional[str] = None):
@@ -68,8 +69,8 @@ class Phantom:
         Parameters
         ----------
         phantom_model : str
-            Type of phantom. Valid selections are 'plane', 'cylinder', 'human',
-            "table" an "pad".
+            Type of phantom to create. Valid selections are 'plane',
+            'cylinder', 'human', "table" an "pad".
         phantom_dim : PhantomDimensions
             instance of class PhantomDimensions containing dimensions for
             all phantoms models except human phantoms: Length, width, radius,
@@ -86,16 +87,14 @@ class Phantom:
             human_model
 
         """
-        phantom_model = phantom_model.lower()
-
+        self.phantom_model = phantom_model.lower()
         # Raise error if invalid phantom model selected
-        if phantom_model not in VALID_PHANTOM_TYPES:
+        if self.phantom_model not in VALID_PHANTOM_MODELS:
             raise ValueError(f"Unknown phantom model selected. Valid type:"
-                             f"{'.'.join(VALID_PHANTOM_TYPES)}")
+                             f"{'.'.join(VALID_PHANTOM_MODELS)}")
 
         # creates a plane phantom (2D grid)
         if phantom_model == "plane":
-            self.type = "plane"
 
             # Linearly spaced (1 cm) point along the longitudinal direction
             x_range = np.linspace(-0.5 * phantom_dim.plane_width,
@@ -134,7 +133,6 @@ class Phantom:
 
         # creates a cylinder phantom (elliptic)
         elif phantom_model == "cylinder":
-            self.type = "cylinder"
 
             # set more densly cell grid in both direction is needed
             if phantom_dim.cylinder_resolution.lower() == 'fine':
@@ -185,7 +183,6 @@ class Phantom:
             j2 = list(range(len(t), len(output["x"])))
 
 
-
             self.r = np.column_stack((output["x"], output["y"], output["z"]))
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
             self.dose = np.zeros(len(self.r))
@@ -193,7 +190,6 @@ class Phantom:
 
         # creates a human phantom
         elif phantom_model == "human":
-            self.type = "human"
 
             if human_model is None:
                 raise ValueError('Human model needs to be specified for'
@@ -222,7 +218,6 @@ class Phantom:
 
         # Creates the vertices of the patient support table
         elif phantom_model == "table":
-            self.type = "table"
 
             # Longitudinal position of the the vertices
             x = [index * phantom_dim.table_width for index in
@@ -258,7 +253,6 @@ class Phantom:
 
         # Creates the vertices of the patient support table
         elif phantom_model == "pad":
-            self.type = "pad"
 
             # Longitudinal position of the the vertices
             x = [index * phantom_dim.pad_width for index in
@@ -327,7 +321,7 @@ class Phantom:
         # TODO NEW APPROACH
         self.r = np.matmul(Rx, np.matmul(Ry, np.matmul(Rz, self.r.T))).T
 
-        if self.type in ["cylinder", "human"]:
+        if self.phantom_model in ["cylinder", "human"]:
             # TODO OlD APPROACH
             # for i in range(len(self.n)):
             #     self.n[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.n[i, :])))
@@ -409,7 +403,6 @@ class Phantom:
         layout = go.Layout(
             font=dict(family='roboto', color="white", size=18),
             hoverlabel=dict(font=dict(size=16)),
-            # title='<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: dosemap',
             title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
             titlefont=dict(family='Courier New', size=35,
                            color='white'),
@@ -428,15 +421,3 @@ class Phantom:
         fig = go.Figure(data=phantom_mesh, layout=layout)
         # Execure plot
         ply.plot(fig, filename='dose_map.html')
-
-
-# settings_example_path = \
-#             os.path.join(os.path.dirname(__file__), 'settings_example.json')
-
-# settings = open(settings_example_path, 'r').read()
-
-# param = PyskindoseSettings(settings)
-
-# ptm = Phantom(phantom_model='cylinder', phantom_dim=param.phantom.dimension)
-
-# ptm.plot_dosemap()

@@ -31,7 +31,6 @@ def db_connect(db_name: str = 'corrections.db'):
     # Create cursor (enables sql commands using the sql method)
     c = conn.cursor()
 
-    # If the database does not already exist
     if not db_exist:
 
         # load data from CSV files

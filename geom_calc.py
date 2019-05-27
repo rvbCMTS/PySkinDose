@@ -21,7 +21,7 @@ def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
     patient : Phantom
         Patient phantom, either plane, cylinder or human.
     table : Phantom
-        Table phantom to represent the patient support$ table
+        Table phantom to represent the patient support table
     pad : Phantom
         Pad phantom to represent the patient support pad
     pad_thickness: Any
