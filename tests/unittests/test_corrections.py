@@ -41,20 +41,27 @@ def test_calculate_k_isq_decreased_fluence():
 
 def test_calculate_k_bs():
     # Tests if the interpolated backscatter factor lies within 1% of the
-    # tabulated values, for all tabulated field sizes.
+    # tabulated value, for all tabulated field sizes at a specific kVp/HVL
+    # combination.
 
-    # expected backscatter factor for param in data
-    expected = [1.3, 1.46, 1.59, 1.62, 1.64]
+    expected = 5 * [True]
 
-    data = {'kVp': 5 * [80], 'HVL': 5 * [7.88], 'FSL': [5, 10, 20, 25, 35]}
-    data_norm = pd.DataFrame(data)
+    # Tabulated backscatter factor for param in data_norm
+    tabulated_k_bs = [1.3, 1.458, 1.589, 1.617, 1.639]
+
+    data_norm = pd.DataFrame({'kVp': 5 * [80], 'HVL': 5 * [7.88], 
+                              'FSL': [5, 10, 20, 25, 35]})
 
     # create interpolation object
     bs_interp = calculate_k_bs(data_norm)
 
     # interpolate at tabulated filed sizes
-    interp = bs_interp[0](data_norm.FSL)
-    test = [round(k, 2) for k in interp]
+    k_bs = bs_interp[0](data_norm.FSL)
+
+    diff = [100 * (abs(k_bs[i] - tabulated_k_bs[i])) / tabulated_k_bs[i]
+            for i in range(len(tabulated_k_bs))]
+
+    test = [percent_difference <= 1 for percent_difference in diff]
 
     assert expected == test
 

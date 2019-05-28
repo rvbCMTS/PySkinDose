@@ -224,10 +224,14 @@ class Phantom:
                  [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
                   0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
 
-            # Lateral position of the the vertices
-            #y = [index * phantom_dim.table_length for index in
+            # Lateral position of the vertices. Replace the list y below with 
+            # y = [index * phantom_dim.table_length for index in
             #     [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
             #      0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
+            # in order to clearly visualize the head-end of the table. Note
+            # that this extra segment is not included in table correction
+            # calculations (k_tab).
+
             y = [index * phantom_dim.table_length for index in
                  [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
                   1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
@@ -235,7 +239,7 @@ class Phantom:
             # Vertical position of the vertices
             z = [index * phantom_dim.table_thickness for index in
                  [0, 0, 0, 0, 0, 0, 0, 0,
-                 -1, -1, -1, -1, -1, -1, -1, -1]]
+                  -1, -1, -1, -1, -1, -1, -1, -1]]
 
             # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
@@ -249,7 +253,6 @@ class Phantom:
 
             self.r = np.column_stack((x, y, z))
             self.ijk = np.column_stack((i, j, k))
-
 
         # Creates the vertices of the patient support table
         elif phantom_model == "pad":
@@ -267,7 +270,7 @@ class Phantom:
             # Vertical position of the vertices
             z = [index * phantom_dim.pad_thickness for index in
                  [0, 0, 0, 0, 0, 0, 0, 0,
-                 1, 1, 1, 1, 1, 1, 1, 1]]
+                  1, 1, 1, 1, 1, 1, 1, 1]]
 
             # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
@@ -314,18 +317,10 @@ class Phantom:
 
         # Rotate position vectors to the phantom cells
 
-        # TODO OlD APPROACH
-        # for i in range(len(self.r)):
-        #     self.r[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.r[i, :])))
-
-        # TODO NEW APPROACH
         self.r = np.matmul(Rx, np.matmul(Ry, np.matmul(Rz, self.r.T))).T
 
         if self.phantom_model in ["cylinder", "human"]:
-            # TODO OlD APPROACH
-            # for i in range(len(self.n)):
-            #     self.n[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.n[i, :])))
-            # TODO NEW APPROACH
+
             self.n = np.matmul(Rx, np.matmul(Ry, np.matmul(Rz, self.n.T))).T
 
     def translate(self, dr: List[int]) -> None:
@@ -406,8 +401,8 @@ class Phantom:
             title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
             titlefont=dict(family='Courier New', size=35,
                            color='white'),
-            plot_bgcolor='rgb(45,45,45)',
-            paper_bgcolor='rgb(45,45,45)',
+            plot_bgcolor='#201f1e',
+            paper_bgcolor='#201f1e',
 
             scene=dict(aspectmode="data",
                        xaxis=dict(title='',

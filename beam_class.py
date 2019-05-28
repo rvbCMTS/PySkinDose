@@ -121,7 +121,7 @@ class Beam:
 
         # Create detector corners for with side length 1
         # The first four rows represent the X-ray detector surface, the last
-        # for are there to give the detector some depth for 3D visualization.
+        # four are there to give the detector some depth for 3D visualization.
         det_r = np.array([[+0.5, -1.0, +0.5],
                           [+0.5, -1.0, -0.5],
                           [-0.5, -1.0, -0.5],

@@ -75,20 +75,18 @@ def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
     kVp = data_norm.kVp
     HVL = data_norm.HVL
 
-    bs_corr = [0] * len(data_norm)
-    bs_interp = [0] * len(data_norm)
+    # Calculate k_bs for field side length [5, 10, 20, 25, 35] cm
+    # This is eq. (8) in doi:10.1088/0031-9155/58/2/247.
+    bs_corr = [(c[0, :] + c[1, :] * kVp[event] + c[2, :] *
+               np.square(kVp[event])) + (c[3, :] + c[4, :] * kVp[event] +
+               c[5, :] * np.square(kVp[event])) * HVL[event] + (c[6, :] +
+               c[7, :] * kVp[event] + c[8, :] * np.square(kVp[event])) *
+               np.square(HVL[event])
+               for event in range(len(kVp))]
 
-    for event in range(len(data_norm)):
-
-        # Calculate k_bs for field side length [5, 10, 20, 25, 35] cm
-        # This is eq. (8) in doi:10.1088/0031-9155/58/2/247.
-        bs_corr[event] = (c[0, :] + c[1, :] * kVp[event] + c[2, :] * np.square(kVp[event])) + \
-                         (c[3, :] + c[4, :] * kVp[event] + c[5, :] * np.square(kVp[event])) * HVL[event] + \
-                         (c[6, :] + c[7, :] * kVp[event] + c[8, :] * np.square(kVp[event])) * np.square(HVL[event])
-
-        # Create cubic spline object, so that the backscatter factor
-        # can be found for for any field size.
-        bs_interp[event] = scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event])
+    # Create interpolation object for bs_corr
+    bs_interp = [scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event])
+                 for event in range(len(kVp))]
 
     return bs_interp
 
@@ -160,4 +158,3 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
                          (df['field_side_length_cm'] == FSL), "mu_en_quotient"])
 
     return k_med
-

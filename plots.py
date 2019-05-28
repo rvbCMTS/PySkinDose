@@ -58,7 +58,8 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
     detector_color = '#D3D3D3'
     pad_color = 'slateblue'
     beam_color = 'red'
-    patient_color = "#CE967C"
+    patient_color = '#CE967C'
+    azure_dark = '#201f1e'
 
     # Camera view settings
     camera = dict(up=dict(x=0, y=-1, z=0),
@@ -163,8 +164,8 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             title=title,
             titlefont=dict(family='Courier New, monospace', size=35,
                            color='white'),
-            plot_bgcolor='rgb(45,45,45)',
-            paper_bgcolor='rgb(45,45,45)',
+            plot_bgcolor=azure_dark,
+            paper_bgcolor=azure_dark,
 
             scene=dict(aspectmode="data", camera=camera,
 
@@ -312,8 +313,8 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             title=title,
             titlefont=dict(family='Courier New, monospace', size=35,
                            color='white'),
-            plot_bgcolor='rgb(45,45,45)',
-            paper_bgcolor='rgb(45,45,45)',
+            plot_bgcolor=azure_dark,
+            paper_bgcolor=azure_dark,
 
             scene=dict(aspectmode="cube", camera=camera,
 
