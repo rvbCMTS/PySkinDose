@@ -10,3 +10,6 @@ scratch*
 RDSR_data/clinical*
 .DS_Store
 temp*
+!settings_example.json
+.mypy_cache/
+
