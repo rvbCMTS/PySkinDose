@@ -1,0 +1,24 @@
+{
+    "mode": "plot_procedure",
+    "rdsr_filename": "S1.dcm",
+    "plot_event_index": 21,
+    "phantom": {
+        "model": "cylinder",
+        "human_model": "Tman_flat",
+        "dimension": {
+            "plane_length": 180,
+            "plane_width": 50,
+            "cylinder_length": 160,
+            "cylinder_radii_a": 20,
+            "cylinder_radii_b": 10,
+            "cylinder_resolution": "coarse",
+            "table_thickness": 5,
+            "table_length": 210,
+            "table_width": 50,
+            "pad_thickness": 4,
+            "pad_length": 210,
+            "pad_width": 50,
+            "units": "cm"
+        }
+    }
+}

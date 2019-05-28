@@ -1,6 +1,5 @@
 venv/
 logs/
-settings.py
 .idea/
 .vscode/
 *.html
@@ -8,3 +7,9 @@ __pycache__/
 **/__pycache__/
 scratch*
 *.json
+RDSR_data/clinical*
+.DS_Store
+temp*
+!settings_example.json
+.mypy_cache/
+

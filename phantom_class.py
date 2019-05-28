@@ -1,4 +1,5 @@
 from typing import List, Optional
+from settings import PhantomDimensions
 import plotly.graph_objs as go
 import plotly.offline as ply
 from stl import mesh
@@ -8,38 +9,20 @@ import copy
 import os
 
 # valid phantom types
-VALID_PHANTOM_TYPES = ["plane", "cylinder", "human", "table", "pad"]
-# default phantom type
-DEFAULT_PHANTOM_TYPE = "human"
-# default human model (choose from phantom_data) folder
-DEFAULT_HUMAN_MODEL = "adult_male"
-
-# default phantom dimensions for plane- and cylinder phantom
-DEFAULT_PHANTOM_DIM = {"plane_length": 180,
-                       "plane_width": 50,
-                       "cylinder_length": 160,
-                       "cylinder_radii_a": 20,
-                       "cylinder_radii_b": 10,
-                       "table_width": 50,
-                       "table_length": 210,
-                       "table_thickness": 5,
-                       "pad_width": 50,
-                       "pad_length": 210,
-                       "pad_thickness": 4,
-                       "units": "cm"}
+VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
 
 
 class Phantom:
     """Create and handle phantoms for patient, support table and pad.
 
     This class creates a phatom of any of the types specified in
-    VALID_PHANTOM_TYPES (plane, cylinder or human to represent the patient,
+    VALID_PHANTOM_MODELS (plane, cylinder or human to represent the patient,
     as well as patient support table and pad). The patient phantoms consists of
     a number of skin cells where the skin dose can be calculated.
 
     Attributes
     ----------
-    type : str = phantom_type.lower()
+    phantom_model : str
         Type of phantom, i.e. "plane", "cylinder", "human", "table" or "pad"
     r : np.array
         n*3 array where n are the number of phantom skin cells. Each row
@@ -69,7 +52,7 @@ class Phantom:
         Saves the reference position after the phantom has been properly
         positioned in the irradiation geometry. This method is called in the
         position_geometry function
-    position_phantom(data_norm)
+    position(data_norm)
         Positions the phantom from reference position to actual position
         according to the table displacement info in data_norm
     plot_dosemap
@@ -79,59 +62,56 @@ class Phantom:
     """
 
     def __init__(self,
-                 phantom_type: str = DEFAULT_PHANTOM_TYPE,
-                 phantom_dim: dict = DEFAULT_PHANTOM_DIM,
-                 human_model: Optional[str] = DEFAULT_HUMAN_MODEL):
+                 phantom_model: str, phantom_dim: PhantomDimensions,
+                 human_model: Optional[str] = None):
         """Create the phantom of choice.
 
         Parameters
         ----------
-        phantom_type : str, optional
-            Type of phantom. Valid selections are 'plane', 'cylinder', 'human',
-            "table" an "pad" (the default choise is set in DEFAULT_PHANTOM_TYPE
-        phantom_dim : dict, optional
-            Dimensions of the mathematical phantoms (plane or cylinder) given
-            as {"plane_length": <int>, "plane_width": <int>, "cylinder_length":
-            <int>, "cylinder_radii_a": <float>, "cylinder_radii_b": <float>}
-            where radii "a" and "b" are the radii of an eliptical cylinder,
-            i.e., if a and b are equal, it will be a perfect cylinder. (the
-            default is set in DEFAULT_PHANTOM_DIM
-        human_model : Optional[str], optional
-            hoose which human phantom to use. Valid selection are names of the
-            *.stl-files in the phantom_data folder (the default is set in
-            DEFAULT_HUMAN_MODEL
+        phantom_model : str
+            Type of phantom to create. Valid selections are 'plane',
+            'cylinder', 'human', "table" an "pad".
+        phantom_dim : PhantomDimensions
+            instance of class PhantomDimensions containing dimensions for
+            all phantoms models except human phantoms: Length, width, radius,
+            thickness etc.
+        human_model : str, optional
+            Choose which human phantom to use. Valid selection are names of the
+            *.stl-files in the phantom_data folder (The default is none.
 
         Raises
         ------
         ValueError
-            Raises value error if unsupported phantom type are selected
+            Raises value error if unsupported phantom type are selected,
+            or if phantom_model='human' selected, without specifying
+            human_model
 
         """
-        # Raise error if invalid phantom type selected
-        if phantom_type.lower() not in VALID_PHANTOM_TYPES:
-            raise ValueError(f"Unknown phantom type selected. Valid type:"
-                             "{'.'.join(VALID_PHANTOM_TYPES)}")
+        self.phantom_model = phantom_model.lower()
+        # Raise error if invalid phantom model selected
+        if self.phantom_model not in VALID_PHANTOM_MODELS:
+            raise ValueError(f"Unknown phantom model selected. Valid type:"
+                             f"{'.'.join(VALID_PHANTOM_MODELS)}")
 
         # creates a plane phantom (2D grid)
-        if phantom_type.lower() == "plane":
-            self.type = "plane"
+        if phantom_model == "plane":
 
             # Linearly spaced (1 cm) point along the longitudinal direction
-            x_range = np.linspace(-0.5 * phantom_dim["plane_width"],
-                                  +0.5 * phantom_dim["plane_width"],
-                                  phantom_dim["plane_width"] + 1)
+            x_range = np.linspace(-0.5 * phantom_dim.plane_width,
+                                  +0.5 * phantom_dim.plane_width,
+                                  phantom_dim.plane_width + 1)
             # Linearly spaced (1 cm) point along the lateral direction
-            y_range = np.linspace(0, phantom_dim["plane_length"],
-                                  phantom_dim["plane_length"] + 1)
+            y_range = np.linspace(0, phantom_dim.plane_length,
+                                  phantom_dim.plane_length + 1)
             # Create phantom in form of rectangular grid
             x, y = np.meshgrid(x_range, y_range)
 
-            t = phantom_dim["plane_width"]
+            t = phantom_dim.plane_width
 
             # Create index vectors for plotly mesh3d plotting
             i1 = i2 = j1 = j2 = k1 = k2 = list()  # type: List[str]
 
-            for a in range(phantom_dim["plane_length"]):
+            for a in range(phantom_dim.plane_length):
                 i1 = i1 + list(range
                                (a * t + a, (a + 1) * t + a))
                 j1 = j1 + list(range
@@ -146,21 +126,41 @@ class Phantom:
                                ((a + 1) * t + (a + 2), (a + 2) * t + (a + 2)))
 
             self.r = np.column_stack((x.ravel(), y.ravel(),
-                                     np.zeros(len(x.ravel()))))
+                                      np.zeros(len(x.ravel()))))
+
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
             self.dose = np.zeros(len(self.r))
 
         # creates a cylinder phantom (elliptic)
-        elif phantom_type.lower() == "cylinder":
-            self.type = "cylinder"
+        elif phantom_model == "cylinder":
+
+            # set more densly cell grid in both direction is needed
+            if phantom_dim.cylinder_resolution.lower() == 'fine':
+                res_length = 4
+                res_width = 0.05
+
+            elif phantom_dim.cylinder_resolution.lower() == 'coarse':
+                res_length = 1
+                res_width = 0.1
 
             # Creates linearly spaced points along an ellipse
             #  in the lateral direction
-            t = np.arange(0, 2 * np.pi, 0.1)
-            x = (phantom_dim["cylinder_radii_a"] * np.cos(t)).tolist()
-            z = (phantom_dim["cylinder_radii_b"] * np.sin(t)).tolist()
+            t = np.arange(0 * np.pi, 2 * np.pi, res_width)
+            x = (phantom_dim.cylinder_radii_a * np.cos(t)).tolist()
+            z = (phantom_dim.cylinder_radii_b * np.sin(t)).tolist()
 
-            n = [[x[ind], 0.0, z[ind]] for ind in range(len(t))]
+            # calculate normal vectors of a cylinder (pointing outwards)
+            nx = np.cos(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+
+            ny = np.zeros(len(t))
+
+            nz = 2 * np.sin(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+
+            nx = nx.tolist()
+            ny = ny.tolist()
+            nz = nz.tolist()
+
+            n = [[nx[ind], ny[ind], nz[ind]] for ind in range(len(t))]
 
             # Store the  coordinates of the cylinder phantom
             output = {"type": "cylinder", "n": [],
@@ -168,9 +168,9 @@ class Phantom:
 
             # Extend the ellipse to span the entire length of the phantom,
             # in steps of 1 cm, thus creating an elliptic cylinder
-            for index in range(0, phantom_dim["cylinder_length"] + 2, 1):
+            for index in range(0, res_length * (phantom_dim.cylinder_length + 2), 1):
                 output["x"] = output["x"] + x
-                output["y"] = output["y"] + [index] * len(x)
+                output["y"] = output["y"] + [1 / res_length * index] * len(x)
                 output["z"] = output["z"] + z
                 output["n"] = output["n"] + n
 
@@ -182,14 +182,18 @@ class Phantom:
             k2 = list(range(len(t) - 1, len(output["x"]) - 1))
             j2 = list(range(len(t), len(output["x"])))
 
+
             self.r = np.column_stack((output["x"], output["y"], output["z"]))
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
             self.dose = np.zeros(len(self.r))
             self.n = np.asarray(output["n"])
 
         # creates a human phantom
-        elif phantom_type.lower() == "human":
-            self.type = "human"
+        elif phantom_model == "human":
+
+            if human_model is None:
+                raise ValueError('Human model needs to be specified for'
+                'phantom_model = "human"')
 
             # load selected phantom model from binary .stl file
             phantom_path = os.path.join(os.path.dirname(__file__),
@@ -200,7 +204,7 @@ class Phantom:
             n = phantom_mesh.normals
 
             self.r = np.asarray([el for el_list in r
-                                for el in el_list])
+                                 for el in el_list])
             self.n = np.asarray([
                 x for pair in zip(n, n, n) for x in pair])
 
@@ -213,23 +217,29 @@ class Phantom:
             self.dose = np.zeros(len(self.r))
 
         # Creates the vertices of the patient support table
-        elif phantom_type.lower() == "table":
-            self.type = "table"
+        elif phantom_model == "table":
 
             # Longitudinal position of the the vertices
-            x = [index * phantom_dim["table_width"] for index in
+            x = [index * phantom_dim.table_width for index in
                  [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
                   0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
 
-            # Lateral position of the the vertices
-            y = [index * phantom_dim["table_length"] for index in
-                 [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
-                  0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
+            # Lateral position of the vertices. Replace the list y below with 
+            # y = [index * phantom_dim.table_length for index in
+            #     [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
+            #      0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
+            # in order to clearly visualize the head-end of the table. Note
+            # that this extra segment is not included in table correction
+            # calculations (k_tab).
+
+            y = [index * phantom_dim.table_length for index in
+                 [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
+                  1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
 
             # Vertical position of the vertices
-            z = [index * phantom_dim["table_thickness"] for index in
-                                    [0, 0, 0, 0, 0, 0, 0, 0,
-                                     -1, -1, -1, -1, -1, -1, -1, -1]]
+            z = [index * phantom_dim.table_thickness for index in
+                 [0, 0, 0, 0, 0, 0, 0, 0,
+                  -1, -1, -1, -1, -1, -1, -1, -1]]
 
             # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
@@ -245,23 +255,22 @@ class Phantom:
             self.ijk = np.column_stack((i, j, k))
 
         # Creates the vertices of the patient support table
-        elif phantom_type.lower() == "pad":
-            self.type = "pad"
+        elif phantom_model == "pad":
 
             # Longitudinal position of the the vertices
-            x = [index * phantom_dim["pad_width"] for index in
+            x = [index * phantom_dim.pad_width for index in
                  [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
                   0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
 
             # Lateral position of the the vertices
-            y = [index * phantom_dim["pad_length"] for index in
-                 [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
-                  0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
+            y = [index * phantom_dim.pad_length for index in
+                 [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
+                  1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
 
             # Vertical position of the vertices
-            z = [index * phantom_dim["pad_thickness"] for index in
-                                    [0, 0, 0, 0, 0, 0, 0, 0,
-                                     1, 1, 1, 1, 1, 1, 1, 1]]
+            z = [index * phantom_dim.pad_thickness for index in
+                 [0, 0, 0, 0, 0, 0, 0, 0,
+                  1, 1, 1, 1, 1, 1, 1, 1]]
 
             # Create index vectors for plotly mesh3d plotting
             i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
@@ -307,12 +316,12 @@ class Phantom:
                        [+0, +0, +1]])
 
         # Rotate position vectors to the phantom cells
-        for i in range(len(self.r)):
-            self.r[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.r[i, :])))
 
-        if self.type in ["cylinder", "human"]:
-            for i in range(len(self.n)):
-                self.n[i, :] = np.dot(Rx, np.dot(Ry, np.dot(Rz, self.n[i, :])))
+        self.r = np.matmul(Rx, np.matmul(Ry, np.matmul(Rz, self.r.T))).T
+
+        if self.phantom_model in ["cylinder", "human"]:
+
+            self.n = np.matmul(Rx, np.matmul(Ry, np.matmul(Rz, self.n.T))).T
 
     def translate(self, dr: List[int]) -> None:
         """Translate the phantom in the x, y or z direction.
@@ -339,7 +348,7 @@ class Phantom:
         r_ref = copy.copy(self.r)
         self.r_ref = r_ref
 
-    def position_phantom(self, data_norm: pd.DataFrame, i: int) -> None:
+    def position(self, data_norm: pd.DataFrame, i: int) -> None:
         """Position the phantom for a event by adding RDSR table displacement.
 
         Positions the phantom from reference position to actual position
@@ -367,8 +376,7 @@ class Phantom:
         "cylinder" or "human"
 
         """
-
-        hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2])} cm\
+        hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2],2)} cm\
                   <br>LON: {np.around(self.r[ind, 0])} cm\
                   <br>VER: {np.around(self.r[ind, 1])} cm\
                       <br><b>skin dose:</b><br>{round(self.dose[ind],2)} mGy"
@@ -390,14 +398,13 @@ class Phantom:
         layout = go.Layout(
             font=dict(family='roboto', color="white", size=18),
             hoverlabel=dict(font=dict(size=16)),
-            title='<b>P</b>y<b>S</b>kin<b>D</b>ose[dev]<br>mode: dosemap',
+            title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
             titlefont=dict(family='Courier New', size=35,
                            color='white'),
-            plot_bgcolor='rgb(45,45,45)',
-            paper_bgcolor='rgb(45,45,45)',
+            plot_bgcolor='#201f1e',
+            paper_bgcolor='#201f1e',
 
             scene=dict(aspectmode="data",
-
                        xaxis=dict(title='',
                                   showgrid=False, showticklabels=False),
                        yaxis=dict(title='',
