@@ -1,9 +1,10 @@
-import plotly.graph_objs as go
-import plotly.offline as ply
 import numpy as np
 import pandas as pd
-from phantom_class import Phantom
-from beam_class import Beam
+import plotly.graph_objs as go
+import plotly.offline as ply
+
+from .phantom_class import Phantom
+from .beam_class import Beam
 
 
 def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,

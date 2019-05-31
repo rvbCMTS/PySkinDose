@@ -12,4 +12,7 @@ RDSR_data/clinical*
 temp*
 !settings_example.json
 .mypy_cache/
+*/pyskindose.egg*
+*/*/corrections\.db
 
+tests/corrections\.db

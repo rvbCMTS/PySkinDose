@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
-from geom_calc import vector
-from phantom_class import Phantom
 from typing import List
+
+from .geom_calc import vector
+from .phantom_class import Phantom
 
 
 class Beam:

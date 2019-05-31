@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
-from db_connect import db_connect
 from scipy.interpolate import CubicSpline
 import scipy.interpolate
 from typing import List
+
+from .db_connect import db_connect
 
 
 def calculate_k_isq(source: np.array, cells: np.array, dref: float)-> np.array:

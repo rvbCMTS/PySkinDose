@@ -1,12 +1,11 @@
 from __future__ import print_function
-from corrections import *
-from parse_data import *
 from datetime import datetime as dt
 import logging
 import os
 import pandas as pd
 import pydicom as dicom
-import settings
+
+from . import settings
 
 
 def skin_dose(file_path: str, print_result: bool=False, verbose: bool=False, save2db: bool=False):

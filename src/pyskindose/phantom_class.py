@@ -1,12 +1,13 @@
-from typing import List, Optional
-from settings import PhantomDimensions
+import copy
+import numpy as np
+import os
+import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as ply
 from stl import mesh
-import pandas as pd
-import numpy as np
-import copy
-import os
+from typing import List, Optional
+
+from .settings import PhantomDimensions
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]

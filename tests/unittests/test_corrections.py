@@ -2,11 +2,13 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import sys
+
+from pyskindose.corrections import calculate_k_bs
+from pyskindose.corrections import calculate_k_med
+from pyskindose.corrections import calculate_k_isq
+
 p = Path(__file__).parent.parent.parent
 sys.path.insert(1, str(p.absolute()))
-from corrections import calculate_k_isq
-from corrections import calculate_k_bs
-from corrections import calculate_k_med
 
 
 def test_calculate_k_isq_unchanged_fluence():

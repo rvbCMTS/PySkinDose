@@ -1,7 +1,6 @@
-import pandas as pd
-import numpy as np
 from datetime import datetime as dt
-from db_connect import db_connect
+import numpy as np
+import pandas as pd
 import pydicom
 
 

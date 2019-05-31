@@ -1,23 +1,22 @@
-import json
-import os
-import sys
-import numpy as np
-import pydicom
 import argparse
+import numpy as np
+import os
+import pydicom
 from typing import Union, Optional
-from phantom_class import Phantom
-from beam_class import Beam
-from plots import plot_geometry
-from geom_calc import position_geometry
-from geom_calc import scale_field_area
-from geom_calc import fetch_hvl
-from geom_calc import check_new_geometry
-from corrections import calculate_k_isq
-from corrections import calculate_k_med
-from corrections import calculate_k_bs
-from parse_data import rdsr_parser
-from parse_data import rdsr_normalizer
-from settings import PyskindoseSettings
+
+from pyskindose.beam_class import Beam
+from pyskindose.corrections import calculate_k_isq
+from pyskindose.corrections import calculate_k_med
+from pyskindose.corrections import calculate_k_bs
+from pyskindose.geom_calc import position_geometry
+from pyskindose.geom_calc import scale_field_area
+from pyskindose.geom_calc import fetch_hvl
+from pyskindose.geom_calc import check_new_geometry
+from pyskindose.parse_data import rdsr_parser
+from pyskindose.parse_data import rdsr_normalizer
+from pyskindose.phantom_class import Phantom
+from pyskindose.plots import plot_geometry
+from pyskindose.settings import PyskindoseSettings
 
 parser = argparse.ArgumentParser()
 
@@ -95,7 +94,7 @@ def main(file_path: Optional[str]=None, settings: Union[str, dict]=None):
     # If no file path to RDSR file is specified, check for file path to the
     # folder /RDSR_data
     if not file_path:
-        file_path = os.path.join(os.path.dirname(__file__), 'RDSR_data',
+        file_path = os.path.join(os.path.dirname(__file__), 'example_data', 'RDSR',
                                  param.rdsr_filename)
 
     # Read RDSR data with pydicom
