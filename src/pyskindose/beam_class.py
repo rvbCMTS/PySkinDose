@@ -2,9 +2,7 @@ import numpy as np
 import pandas as pd
 from typing import List
 
-from .geom_calc import vector
 from .phantom_class import Phantom
-
 
 class Beam:
     """A class used to create an X-ray beam and detector.
@@ -33,7 +31,8 @@ class Beam:
     -------
     check_hit(patient)
         Calculates which of the patient phantom's entrance skin cells are hit
-        by be X-ray beam
+        by the X-ray beam. For 3D phantoms, skin cells on the beams exit path
+        are neglected.
 
     """
 
@@ -84,7 +83,7 @@ class Beam:
                        [+0, +1, +0],
                        [+np.sin(ap3), +0, +np.cos(ap3)]])
 
-        # Located X-ray source
+        # Locate X-ray source
         source = np.array([0, data_norm.DSI[event], 0])
 
         # Create beam-detector interception point for a beam of side length 1
@@ -104,21 +103,21 @@ class Beam:
 
         self.r = r
 
-        # Manually construct vertex index vector for the X-ray beam
-        i = np.array([0, 0, 0, 0, 1, 1])
-        j = np.array([1, 1, 3, 3, 2, 3])
-        k = np.array([2, 4, 2, 4, 3, 4])
-        self.ijk = np.column_stack((i, j, k))
+        # Manually create vertex index vector for the X-ray beam
+        self.ijk = np.column_stack((
+            [0, 0, 0, 0, 1, 1],
+            [1, 1, 3, 3, 2, 3],
+            [2, 4, 2, 4, 3, 4]))
 
-        # Construct unit vectors from X-ray source beam verticies
-        v1 = vector(r[0, :], r[1, :], normalization=True)
-        v2 = vector(r[0, :], r[2, :], normalization=True)
-        v3 = vector(r[0, :], r[3, :], normalization=True)
-        v4 = vector(r[0, :], r[4, :], normalization=True)
+        # Create unit vectors from X-ray source to beam verticies
+        v = ((self.r[1:] - self.r[0, :]).T /
+             np.linalg.norm(self.r[1:] - self.r[0, :], axis=1)).T
 
         # Create the four normal vectors to the faces of the beam.
-        self.N = np.vstack([np.cross(v1, v2), np.cross(v2, v3),
-                            np.cross(v3, v4), np.cross(v4, v1)])
+        self.N = np.vstack([np.cross(v[0, :], v[1, :]),
+                            np.cross(v[1, :], v[2, :]),
+                            np.cross(v[2, :], v[3, :]),
+                            np.cross(v[3, :], v[0, :])])
 
         # Create detector corners for with side length 1
         # The first four rows represent the X-ray detector surface, the last
@@ -140,20 +139,20 @@ class Beam:
         det_r[:, 1] *= data_norm.DID[event]
 
         # Rotate detector about ap1, ap2 and ap3
-
         det_r = np.matmul(np.matmul(R2, R1).T, np.matmul(R3.T, det_r.T)).T
         self.det_r = det_r
 
         # Manually construct vertex index vector for the X-ray detector
-        det_i = np.array([0, 0, 4, 4, 0, 1, 0, 3, 3, 7, 1, 1])
-        det_j = np.array([1, 2, 5, 6, 1, 5, 3, 7, 2, 2, 2, 6])
-        det_k = np.array([2, 3, 6, 7, 4, 4, 4, 4, 7, 6, 6, 5])
-        self.det_ijk = np.column_stack((det_i, det_j, det_k))
+        self.det_ijk = np.column_stack((
+            [0, 0, 4, 4, 0, 1, 0, 3, 3, 7, 1, 1],
+            [1, 2, 5, 6, 1, 5, 3, 7, 2, 2, 2, 6],
+            [2, 3, 6, 7, 4, 4, 4, 4, 7, 6, 6, 5]))
 
     def check_hit(self, patient: Phantom) -> List[bool]:
         """Calculate which patient entrance skin cells are hit by the beam.
 
-        Here, I am going to present a clearer description of this algorithm.
+        A description of this algoritm is presented in the wiki, please visit
+        https://dev.azure.com/Sjukhusfysiker/PySkinDose/_wiki
 
         Parameters
         ----------
@@ -168,30 +167,19 @@ class Beam:
             cells. True for all entrance skin cells that are hit by the beam.
 
         """
-        source = self.r[0, :]
         # Create vectors from X-ray source to each phantom skin cell
-        cells_vectors = [vector(source, cell) for cell in patient.r]
+        v = patient.r - self.r[0, :]
 
-        # If phantom type is plane, do not controll if cell is entrance or
-        # exit, since the plane is 1D
-        if patient.phantom_model == "plane":
-            hits = [True if
-                    np.dot(cells_vectors[ind], self.N[0, :]) <= 0 and
-                    np.dot(cells_vectors[ind], self.N[1, :]) <= 0 and
-                    np.dot(cells_vectors[ind], self.N[2, :]) <= 0 and
-                    np.dot(cells_vectors[ind], self.N[3, :]) <= 0
-                    else False
-                    for ind in range(len(cells_vectors))]
-            return hits
+        # Check which skin cells lies within the beam
+        hits = (np.dot(v, self.N.T) <= 0).all(axis=1)
+        # if patient phantom is 3D, remove exit path skin cells
+        if patient.phantom_model != "plane":
+            temp1 = v[hits]
+            temp2 = patient.n[hits]
 
-        # Else if patient phantom is 3D, neglect the  skin cells that are on
-        # the exit side
-        hits = [True if
-                np.dot(cells_vectors[ind], self.N[0, :]) <= 0 and
-                np.dot(cells_vectors[ind], self.N[1, :]) <= 0 and
-                np.dot(cells_vectors[ind], self.N[2, :]) <= 0 and
-                np.dot(cells_vectors[ind], self.N[3, :]) <= 0 and
-                np.dot(cells_vectors[ind], patient.n[ind]) <= 0
-                else False
-                for ind in range(len(cells_vectors))]
-        return hits
+            bool_entrance = [np.dot(temp1[i], temp2[i]) <= 0
+                             for i in range(len(temp1))]
+
+            hits[np.where(hits)] = bool_entrance
+
+        return hits.tolist()

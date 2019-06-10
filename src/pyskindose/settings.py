@@ -56,6 +56,8 @@ class PyskindoseSettings:
         self.mode = tmp['mode']
         self.rdsr_filename = tmp['rdsr_filename']
         self.plot_event_index = tmp['plot_event_index']
+        self.estimate_k_tab = tmp['estimate_k_tab']
+        self.k_tab_val = tmp['k_tab_val']
         self.phantom = PhantomSettings(ptm_dim=tmp['phantom'])
 
 
@@ -70,11 +72,14 @@ class PhantomSettings:
         calculations. Valid selections: "plane" (2D planar surface),
         "cylinder" (cylinder with elliptical cross section) or "human" (phantom
         in the shape of a human, created with MakeHuman.)
-    human_model: str
+    human_mesh: str
         Select which MakeHuman phantom to represent the patient when
         model = "human" is selected. Valid selections: Any of the .stl files
-        in the fonlder phantom_data. Enter as a string without the .stl file
+        in the folder phantom_data. Enter as a string without the .stl file
         ending.
+    patient_offset : PhantomOffset
+        Instance of class PhantomOffset containing patient - table isocenter
+        offset.
     dimension : PhantomDimensions
         Instance of class PhantomDimensions containing all dimensions required
         to create any of the mathematical phantoms, which is all but human.
@@ -91,9 +96,9 @@ class PhantomSettings:
 
         """
         self.model = ptm_dim["model"]
-        self.human_model = ptm_dim["human_model"]
-        self.dimension = PhantomDimensions(
-            ptm_dim=ptm_dim['dimension'])
+        self.human_mesh = ptm_dim["human_mesh"]
+        self.patient_offset = PatientOffset(offset=ptm_dim["patient_offset"])
+        self.dimension = PhantomDimensions(ptm_dim=ptm_dim['dimension'])
 
 
 class PhantomDimensions:
@@ -105,6 +110,10 @@ class PhantomDimensions:
         Lenth of plane phantom.
     plane_width : int
         Width of plane phantom.
+    plane_resolution: str
+        Select either 'sparse' or 'dense' resolution of the skin cell grid
+        on the surface of the plane phantom. Note: dense is more computational
+        expensive.
     cylinder_length : int
         Length of cylider phantom.
     cylinder_radii_a : float
@@ -114,9 +123,9 @@ class PhantomDimensions:
         Second radii of the cylindrical cross section of the cylindrical
         phantom, which lies in the "thickness" direction. radii a should
         be greater than radii b.
-    cylinder_resolution: int
-        Select either 'coarse' or 'fine' resolution of the skin cell grid
-        on the surface of the elliptical cylinder. Note: fine is more
+    cylinder_resolution: str
+        Select either 'sparse' or 'dense' resolution of the skin cell grid
+        on the surface of the elliptical cylinder. Note: dense is more
         computational expensive.
     table_thickness : int
         Thickness of the support table phantom.
@@ -157,6 +166,7 @@ class PhantomDimensions:
         """
         self.plane_length = ptm_dim['plane_length']
         self.plane_width = ptm_dim['plane_width']
+        self.plane_resolution = ptm_dim['plane_resolution']
         self.cylinder_length = ptm_dim['cylinder_length']
         self.cylinder_radii_a = ptm_dim['cylinder_radii_a']
         self.cylinder_radii_b = ptm_dim['cylinder_radii_b']
@@ -168,6 +178,50 @@ class PhantomDimensions:
         self.pad_width = ptm_dim['pad_width']
         self.pad_length = ptm_dim['pad_length']
         self.units = ptm_dim['units']
+
+        if self.units != "cm":
+            raise NotImplementedError('Units must be given in cm.')
+
+
+class PatientOffset:
+    """A class for setting patient - table offset.
+
+    In PyskinDose, the table isocenter is located centered at the head end
+    of the support table. The attributes in this class is used to offset the
+    patient phantom from this isocenter, in order to get correct patient
+    positioning.
+
+    Attributes
+    ----------
+    d_lat : int
+        latertal offset from table isocenter
+    d_ver : int
+        Vertical offset from table isocenter
+    d_lon : int
+        longitudianl offset from table isocenter
+
+    Raises
+    ------
+    NotImplementedError
+            Raises error if other units then cm are used.
+
+    """
+    def __init__(self, offset: dict):
+        """
+        Parameters
+        ----------
+        offset : dict
+            offset in cm from the table isocenter in the lateral, vertical and
+            longitudinal direction.
+        Raises
+        ------
+        NotImplementedError
+            Raises error if other units then cm are used.
+        """
+        self.d_lat = offset["d_lat"]
+        self.d_ver = offset["d_ver"]
+        self.d_lon = offset["d_lon"]
+        self.units = offset["units"]
 
         if self.units != "cm":
             raise NotImplementedError('Units must be given in cm.')

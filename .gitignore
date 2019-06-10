@@ -7,7 +7,9 @@ __pycache__/
 **/__pycache__/
 scratch*
 *.json
-RDSR_data/clinical*
+#RDSR/clinical*
+src/pyskindose/example_data/RDSR/clinical*
+
 .DS_Store
 temp*
 !settings_example.json
@@ -16,3 +18,4 @@ temp*
 */*/corrections\.db
 
 tests/corrections\.db
+corrections.db

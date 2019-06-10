@@ -6,9 +6,10 @@ import sys
 from pyskindose.corrections import calculate_k_bs
 from pyskindose.corrections import calculate_k_med
 from pyskindose.corrections import calculate_k_isq
+from pyskindose.db_connect import db_connect
 
-p = Path(__file__).parent.parent.parent
-sys.path.insert(1, str(p.absolute()))
+P = Path(__file__).parent.parent.parent
+sys.path.insert(1, str(P.absolute()))
 
 
 def test_calculate_k_isq_unchanged_fluence():
@@ -51,7 +52,7 @@ def test_calculate_k_bs():
     # Tabulated backscatter factor for param in data_norm
     tabulated_k_bs = [1.3, 1.458, 1.589, 1.617, 1.639]
 
-    data_norm = pd.DataFrame({'kVp': 5 * [80], 'HVL': 5 * [7.88], 
+    data_norm = pd.DataFrame({'kVp': 5 * [80], 'HVL': 5 * [7.88],
                               'FSL': [5, 10, 20, 25, 35]})
 
     # create interpolation object
@@ -81,3 +82,29 @@ def test_calculate_k_med():
     test = calculate_k_med(data_norm, np.square([6, 10, 20, 22, 32]), 0)
 
     assert test in expected
+
+def test_calculate_k_tab():
+    # Tests if correct k_tab value is returned from database
+    expected = 0.7319
+
+    [conn, c] = db_connect()
+
+    # Set paramets for fetching table transmission correction factor.
+    params = (80,  # kVp, rounded to nearest integer
+              0.3,  # Filter thickness Cu
+              0,  # Filter thicknes Al
+              'AXIOMArtis',  # device model
+              'Single Plane',)  # acquisition plane
+
+    # Fetch k_tab
+    c.execute('SELECT k_patient_support FROM table_transmission WHERE \
+                kVp_kV=? AND AddedFiltration_mmCu=? AND \
+                AddedFiltration_mmAl=? AND DeviceModel=? AND \
+                AcquisitionPlane=?', params)
+
+    test = c.fetchone()[0]
+
+    conn.commit()
+    conn.close()
+
+    assert expected == test

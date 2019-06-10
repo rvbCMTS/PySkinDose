@@ -5,6 +5,7 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as ply
 from stl import mesh
+from typing import Dict
 from typing import List, Optional
 
 from .settings import PhantomDimensions
@@ -64,7 +65,7 @@ class Phantom:
 
     def __init__(self,
                  phantom_model: str, phantom_dim: PhantomDimensions,
-                 human_model: Optional[str] = None):
+                 human_mesh: Optional[str] = None):
         """Create the phantom of choice.
 
         Parameters
@@ -76,16 +77,16 @@ class Phantom:
             instance of class PhantomDimensions containing dimensions for
             all phantoms models except human phantoms: Length, width, radius,
             thickness etc.
-        human_model : str, optional
-            Choose which human phantom to use. Valid selection are names of the
-            *.stl-files in the phantom_data folder (The default is none.
+        human_mesh : str, optional
+            Choose which human mesh phantom to use. Valid selection are names
+            of the *.stl-files in the phantom_data folder (The default is none.
 
         Raises
         ------
         ValueError
             Raises value error if unsupported phantom type are selected,
             or if phantom_model='human' selected, without specifying
-            human_model
+            human_mesh
 
         """
         self.phantom_model = phantom_model.lower()
@@ -94,54 +95,59 @@ class Phantom:
             raise ValueError(f"Unknown phantom model selected. Valid type:"
                              f"{'.'.join(VALID_PHANTOM_MODELS)}")
 
+        self.r_ref: np.array
+
         # creates a plane phantom (2D grid)
         if phantom_model == "plane":
 
-            # Linearly spaced (1 cm) point along the longitudinal direction
-            x_range = np.linspace(-0.5 * phantom_dim.plane_width,
-                                  +0.5 * phantom_dim.plane_width,
-                                  phantom_dim.plane_width + 1)
-            # Linearly spaced (1 cm) point along the lateral direction
-            y_range = np.linspace(0, phantom_dim.plane_length,
-                                  phantom_dim.plane_length + 1)
+            # Use a dense grid if specified by user
+            if phantom_dim.plane_resolution.lower() == 'dense':
+                res_length = res_width = 2.0
+
+            elif phantom_dim.plane_resolution.lower() == 'sparse':
+                res_length = res_width = 1.0
+
+            # Linearly spaced points along the longitudinal direction
+            x = np.linspace(-phantom_dim.plane_width / 2,
+                            +phantom_dim.plane_width / 2,
+                            res_width * phantom_dim.plane_width + 1)
+            # Linearly spaced points along the lateral direction
+            y = np.linspace(0, phantom_dim.plane_length,
+                            res_length * phantom_dim.plane_length)
+
             # Create phantom in form of rectangular grid
-            x, y = np.meshgrid(x_range, y_range)
+            x_plane, y_plane = np.meshgrid(x, y)
 
             t = phantom_dim.plane_width
 
             # Create index vectors for plotly mesh3d plotting
-            i1 = i2 = j1 = j2 = k1 = k2 = list()  # type: List[str]
+            i2: List[int] = []
+            i1 = j1 = k1 = i2
 
-            for a in range(phantom_dim.plane_length):
-                i1 = i1 + list(range
-                               (a * t + a, (a + 1) * t + a))
-                j1 = j1 + list(range
-                               ((a + 1) * t + (a + 1), (a + 2) * t + (a + 1)))
-                k1 = k1 + list(range
-                               ((a + 1) * t + (a + 2), (2 + a) * t + (a + 2)))
-                i2 = i2 + list(range
-                               (a * t + a, (a + 1) * t + a))
-                j2 = j2 + list(range
-                               (a * t + (a + 1), (a + 1) * (t + 1)))
-                k2 = k2 + list(range
-                               ((a + 1) * t + (a + 2), (a + 2) * t + (a + 2)))
+            for i in range(len(x) - 1):
+                for j in range(len(y) - 1):
+                    i1 = i1 + [j * len(x) + i]
+                    j1 = j1 + [j * len(x) + i + 1]
+                    k1 = k1 + [j * len(x) + i + len(x)]
+                    i2 = i2 + [j * len(x) + i + len(x) + 1]
 
-            self.r = np.column_stack((x.ravel(), y.ravel(),
-                                      np.zeros(len(x.ravel()))))
+            self.r = np.column_stack((x_plane.ravel(),
+                                      y_plane.ravel(),
+                                      np.zeros(len(x_plane.ravel()))))
 
-            self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
+            self.ijk = np.column_stack((i1 + i2, j1 + k1, k1 + j1))
             self.dose = np.zeros(len(self.r))
 
         # creates a cylinder phantom (elliptic)
         elif phantom_model == "cylinder":
 
-            # set more densly cell grid in both direction is needed
-            if phantom_dim.cylinder_resolution.lower() == 'fine':
+            # Use a dense grid if specified by user
+            if phantom_dim.cylinder_resolution.lower() == 'dense':
                 res_length = 4
                 res_width = 0.05
 
-            elif phantom_dim.cylinder_resolution.lower() == 'coarse':
-                res_length = 1
+            elif phantom_dim.cylinder_resolution.lower() == 'sparse':
+                res_length = 1.0
                 res_width = 0.1
 
             # Creates linearly spaced points along an ellipse
@@ -151,11 +157,13 @@ class Phantom:
             z = (phantom_dim.cylinder_radii_b * np.sin(t)).tolist()
 
             # calculate normal vectors of a cylinder (pointing outwards)
-            nx = np.cos(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+            nx = np.cos(t) / (
+                np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
 
             ny = np.zeros(len(t))
 
-            nz = 2 * np.sin(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+            nz = 2 * np.sin(t) / (
+                np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
 
             nx = nx.tolist()
             ny = ny.tolist()
@@ -164,12 +172,13 @@ class Phantom:
             n = [[nx[ind], ny[ind], nz[ind]] for ind in range(len(t))]
 
             # Store the  coordinates of the cylinder phantom
-            output = {"type": "cylinder", "n": [],
-                      "x": [], "y": [], "z": []}
+            output: Dict = dict(n=[], x=[], y=[], z=[])
 
             # Extend the ellipse to span the entire length of the phantom,
-            # in steps of 1 cm, thus creating an elliptic cylinder
-            for index in range(0, res_length * (phantom_dim.cylinder_length + 2), 1):
+            # thus creating an elliptic cylinder
+            for index in range(
+                    0, int(res_length) * (phantom_dim.cylinder_length + 2), 1):
+
                 output["x"] = output["x"] + x
                 output["y"] = output["y"] + [1 / res_length * index] * len(x)
                 output["z"] = output["z"] + z
@@ -183,7 +192,6 @@ class Phantom:
             k2 = list(range(len(t) - 1, len(output["x"]) - 1))
             j2 = list(range(len(t), len(output["x"])))
 
-
             self.r = np.column_stack((output["x"], output["y"], output["z"]))
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
             self.dose = np.zeros(len(self.r))
@@ -192,99 +200,95 @@ class Phantom:
         # creates a human phantom
         elif phantom_model == "human":
 
-            if human_model is None:
+            if human_mesh is None:
                 raise ValueError('Human model needs to be specified for'
-                'phantom_model = "human"')
+                                 'phantom_model = "human"')
 
             # load selected phantom model from binary .stl file
             phantom_path = os.path.join(os.path.dirname(__file__),
-                                        'phantom_data', f"{human_model}.stl")
+                                        'phantom_data', f"{human_mesh}.stl")
             phantom_mesh = mesh.Mesh.from_file(phantom_path)
 
             r = phantom_mesh.vectors
             n = phantom_mesh.normals
 
-            self.r = np.asarray([el for el_list in r
-                                 for el in el_list])
-            self.n = np.asarray([
-                x for pair in zip(n, n, n) for x in pair])
+            self.r = np.asarray([el for el_list in r for el in el_list])
+            self.n = np.asarray([x for pair in zip(n, n, n) for x in pair])
 
             # Create index vectors for plotly mesh3d plotting
             self.ijk = np.column_stack((
                 np.arange(0, len(self.r) - 3, 3),
                 np.arange(1, len(self.r) - 2, 3),
                 np.arange(2, len(self.r) - 1, 3)))
-
             self.dose = np.zeros(len(self.r))
 
         # Creates the vertices of the patient support table
         elif phantom_model == "table":
-
             # Longitudinal position of the the vertices
-            x = [index * phantom_dim.table_width for index in
-                 [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
-                  0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
+            x_tab = [index * phantom_dim.table_width for index in
+                     [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
+                      0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
 
-            # Lateral position of the vertices. Replace the list y below with 
-            # y = [index * phantom_dim.table_length for index in
-            #     [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
-            #      0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
+            # Lateral position of the vertices. Replace the list y below with
+            # y_pad = [index * phantom_dim.table_length for index in
+            #          [0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0,
+            #           0.9, 0.9, 1, 1, 0.9, 0.9, 0, 0]]
             # in order to clearly visualize the head-end of the table. Note
             # that this extra segment is not included in table correction
             # calculations (k_tab).
 
-            y = [index * phantom_dim.table_length for index in
-                 [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
-                  1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
+            y_tab = [index * phantom_dim.table_length for index in
+                     [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
+                      1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
 
             # Vertical position of the vertices
-            z = [index * phantom_dim.table_thickness for index in
-                 [0, 0, 0, 0, 0, 0, 0, 0,
-                  -1, -1, -1, -1, -1, -1, -1, -1]]
+            z_tab = [index * phantom_dim.table_thickness for index in
+                     [0, 0, 0, 0, 0, 0, 0, 0,
+                      -1, -1, -1, -1, -1, -1, -1, -1]]
 
             # Create index vectors for plotly mesh3d plotting
-            i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
-                 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
+            i_tab = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
+                     1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
 
-            j = [5, 6, 2, 3, 13, 14, 10, 11, 7, 15, 1, 9,
-                 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15]
+            j_tab = [5, 6, 2, 3, 13, 14, 10, 11, 7, 15, 1, 9,
+                     2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15]
 
-            k = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
-                 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
+            k_tab = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
+                     9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
 
-            self.r = np.column_stack((x, y, z))
-            self.ijk = np.column_stack((i, j, k))
+            self.r = np.column_stack((x_tab, y_tab, z_tab))
+            self.ijk = np.column_stack((i_tab, j_tab, k_tab))
 
         # Creates the vertices of the patient support table
         elif phantom_model == "pad":
 
             # Longitudinal position of the the vertices
-            x = [index * phantom_dim.pad_width for index in
-                 [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
-                  0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
+            x_pad = [index * phantom_dim.pad_width for index in
+                     [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
+                      0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
 
             # Lateral position of the the vertices
-            y = [index * phantom_dim.pad_length for index in
-                 [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
-                  1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
+            y_pad = [index * phantom_dim.pad_length for index in
+                     [1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0,
+                      1.0, 1.0, 1, 1, 1.0, 1.0, 0, 0]]
 
             # Vertical position of the vertices
-            z = [index * phantom_dim.pad_thickness for index in
-                 [0, 0, 0, 0, 0, 0, 0, 0,
-                  1, 1, 1, 1, 1, 1, 1, 1]]
+            z_pad = [index * phantom_dim.pad_thickness for index in
+                     [0, 0, 0, 0, 0, 0, 0, 0,
+                      1, 1, 1, 1, 1, 1, 1, 1]]
 
             # Create index vectors for plotly mesh3d plotting
-            i = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
-                 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
+            i_pad = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
+                     1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
 
-            j = [5, 6, 2, 3, 13, 14, 10, 11, 7, 15, 1, 9,
-                 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15]
+            j_pad = [5, 6, 2, 3, 13, 14, 10, 11, 7, 15, 1, 9,
+                     2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15]
 
-            k = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
-                 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
+            k_pad = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
+                     9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
 
-            self.r = np.column_stack((x, y, z))
-            self.ijk = np.column_stack((i, j, k))
+            self.r = np.column_stack((x_pad, y_pad, z_pad))
+            self.ijk = np.column_stack((i_pad, j_pad, k_pad))
 
     def rotate(self, angles: List[int]) -> None:
         """Rotate the phantom about the angles specified in rotation.
@@ -377,10 +381,11 @@ class Phantom:
         "cylinder" or "human"
 
         """
-        hover_text = [f"<b>coordinate:</b><br>LAT: {np.around(self.r[ind, 2],2)} cm\
-                  <br>LON: {np.around(self.r[ind, 0])} cm\
-                  <br>VER: {np.around(self.r[ind, 1])} cm\
-                      <br><b>skin dose:</b><br>{round(self.dose[ind],2)} mGy"
+        hover_text = [f"<b>coordinate:</b>\
+                      <br>LAT: {np.around(self.r[ind, 2],2)} cm <br>LON:\
+                      {np.around(self.r[ind, 0])} cm <br>VER:\
+                      {np.around(self.r[ind, 1])} cm <br><b>skin dose:</b><br>\
+                      {round(self.dose[ind],2)} mGy"
                       for ind in range(len(self.r))]
 
         # create mesh object for the phantom

@@ -7,7 +7,8 @@ from typing import List
 from .db_connect import db_connect
 
 
-def calculate_k_isq(source: np.array, cells: np.array, dref: float)-> np.array:
+def calculate_k_isq(source: np.array, cells: np.array, dref: float
+                    ) -> np.array:
     """Calculate the IRP air kerma inverse-square law correction.
 
     This function corrects the X-ray fluence from the interventionl reference
@@ -73,26 +74,27 @@ def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
         [-2.74296e-7, -3.28449e-7, -2.54885e-7, -2.21399e-7, -1.79074e-7]])
 
     # Fetch kVp and HVL from data_norm
-    kVp = data_norm.kVp
-    HVL = data_norm.HVL
+    kvp = data_norm.kVp
+    hvl = data_norm.HVL
 
     # Calculate k_bs for field side length [5, 10, 20, 25, 35] cm
     # This is eq. (8) in doi:10.1088/0031-9155/58/2/247.
-    bs_corr = [(c[0, :] + c[1, :] * kVp[event] + c[2, :] *
-               np.square(kVp[event])) + (c[3, :] + c[4, :] * kVp[event] +
-               c[5, :] * np.square(kVp[event])) * HVL[event] + (c[6, :] +
-               c[7, :] * kVp[event] + c[8, :] * np.square(kVp[event])) *
-               np.square(HVL[event])
-               for event in range(len(kVp))]
+    bs_corr = (
+        [(c[0, :] + c[1, :] * kvp[event] + c[2, :] * np.square(kvp[event])) +
+         (c[3, :] + c[4, :] * kvp[event] + c[5, :] * np.square(kvp[event])) *
+         hvl[event] + (c[6, :] + c[7, :] * kvp[event] + c[8, :] *
+                       np.square(kvp[event])) * np.square(hvl[event])
+         for event in range(len(kvp))])
 
     # Create interpolation object for bs_corr
     bs_interp = [scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event])
-                 for event in range(len(kVp))]
+                 for event in range(len(kvp))]
 
     return bs_interp
 
 
-def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int) -> float:
+def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float],
+                    event: int) -> float:
     """Calculate medium correction.
 
     This function calculates and appends the medium correction factor
@@ -118,22 +120,22 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
 
     """
     # Tabulated field side length in cm
-    FSL_tab = [5, 10, 20, 25, 35]
+    fsl_tab = [5, 10, 20, 25, 35]
 
     # Fetch kVp and HVL from data_norm
-    kVp = data_norm.kVp[event]
-    HVL = data_norm.HVL[event]
+    kvp = data_norm.kVp[event]
+    hvl = data_norm.HVL[event]
 
     # Calculate mean side length for all cells that are hit by the beam.
     # This field size dependance of k_med is negligible (<= 1%), therefore,
     # independep field size resolution is omitted for computational speed.
-    FSL_mean = np.mean(np.sqrt(field_area))
+    fsl_mean = np.mean(np.sqrt(field_area))
 
     # Select the closest available tabulated field size length.
-    FSL = min(FSL_tab, key=lambda x: abs(x - FSL_mean))
+    fsl = min(fsl_tab, key=lambda x: abs(x - fsl_mean))
 
     # Connect to database
-    [conn, c] = db_connect()
+    conn = db_connect()[0]
 
     # Fetch k_med = f(kVp, HVL) from database. This is table 2 in
     # [doi:10.1088/0031-9155/58/2/247]
@@ -144,18 +146,77 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     conn.close()
 
     # Fetch kVp entries from table
-    KVP_data = df.loc[(df['field_side_length_cm'] == FSL), "kvp_kV"]
+    kvp_data = df.loc[(df['field_side_length_cm'] == fsl), "kvp_kV"]
     # Select closest tabulated kVp (strongest dependence for k_med)
-    KVP_round = min(KVP_data, key=lambda x: abs(x - kVp))
+    kvp_round = min(kvp_data, key=lambda x: abs(x - kvp))
 
     # Fetch HVL entries from table
-    HVL_data = df.loc[(df['field_side_length_cm'] == FSL) & (df['kvp_kV'] == KVP_round), "hvl_mmAl"]
+    hvl_data = df.loc[
+        (df['field_side_length_cm'] == fsl) & (df['kvp_kV'] == kvp_round),
+        "hvl_mmAl"]
 
     # Select closest tabulated HVL (second strongest dependence for k_med)
-    HVL_round = min(HVL_data, key=lambda x: abs(x - HVL))
+    hvl_round = min(hvl_data, key=lambda x: abs(x - hvl))
 
     # Fetch corresponding k_med
-    k_med = float(df.loc[(df['hvl_mmAl'] == HVL_round) & (df['kvp_kV'] == KVP_round) &
-                         (df['field_side_length_cm'] == FSL), "mu_en_quotient"])
+    k_med = float(
+        df.loc[(df['hvl_mmAl'] == hvl_round) & (df['kvp_kV'] == kvp_round) &
+               (df['field_side_length_cm'] == fsl), "mu_en_quotient"])
 
     return k_med
+
+
+def calculate_k_tab(data_norm: pd.DataFrame,
+                    estimate_k_tab: bool = False,
+                    k_tab_val: float = 0.8) -> List[float]:
+    """Fetches table correction factor from database.
+
+    This function fetches measured table correction factor as a function of
+    HVL and kVp. Further, if no measurement are conducted on a specific unit,
+    the function can also return user specified estimated table correction.
+
+    Parameters
+    ----------
+    data_norm : pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
+    estimate_k_tab: bool
+        Set to True to use estimated table correction, default is False.
+    k_tab_val: float
+        Value of estimated table corrections, must be in range (0, 1).
+
+    Returns
+    -------
+    List[float]
+        List of table correction factor for all events in procedure.
+    """
+
+    if estimate_k_tab:
+        return [k_tab_val] * len(data_norm)
+
+    # Connect to database
+    [conn, c] = db_connect()
+
+    k_tab = [1.0] * len(data_norm)
+
+    # For every irradiation event
+    for event in range(len(data_norm)):
+
+        # Set paramets for fetching table transmission correction factor.
+        params = (round(data_norm.kVp[event]),  # kVp, rounded to nearest integer
+                  data_norm.filter_thickness_Cu[event],  # Filter thickness Cu
+                  data_norm.filter_thickness_Al[event],  # Filter thicknes Al
+                  data_norm.model[event],  # device model
+                  data_norm.acquisition_plane[event],)  # acquisition plane
+
+        # Fetch k_tab
+        c.execute('SELECT k_patient_support FROM table_transmission WHERE \
+                   kVp_kV=? AND AddedFiltration_mmCu=? AND \
+                   AddedFiltration_mmAl=? AND DeviceModel=? AND \
+                   AcquisitionPlane=?', params)
+
+        k_tab[event] = c.fetchone()[0]
+
+    conn.commit()
+    conn.close()
+
+    return k_tab

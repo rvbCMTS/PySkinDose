@@ -16,7 +16,7 @@ def db_connect(db_name: str = 'corrections.db'):
     -------
     conn
         connection to database
-    c
+    cursor
         cursor to database connection
 
     """
@@ -29,7 +29,7 @@ def db_connect(db_name: str = 'corrections.db'):
     conn = sqlite3.connect(db_name)
 
     # Create cursor (enables sql commands using the sql method)
-    c = conn.cursor()
+    cursor = conn.cursor()
 
     if not db_exist:
 
@@ -72,4 +72,4 @@ def db_connect(db_name: str = 'corrections.db'):
         # Commits the current transactions
         conn.commit()
 
-    return conn, c
+    return conn, cursor

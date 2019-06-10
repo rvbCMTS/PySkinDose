@@ -5,15 +5,14 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
-pep8 = "*"
 pydocstyle = "*"
 pylint = "*"
 mypy = "*"
-matplotlib = "*"
+pylama = "*"
 v = {editable = true,version = "*"}
 
 [packages]
-pyskindose = {editable = true, path = "."}
+pyskindose = {editable = true,path = "."}
 
 [requires]
 python_version = "3.7"

@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as ply
+from typing import Dict
 
 from .phantom_class import Phantom
 from .beam_class import Beam
@@ -62,17 +63,16 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
     patient_color = '#CE967C'
     azure_dark = '#201f1e'
 
+    # Visual offset to show plane phantom correctly
+    if patient.phantom_model == "plane":
+        visual_offset = -0.01
+    else:
+        visual_offset = 0
+
     # Camera view settings
     camera = dict(up=dict(x=0, y=-1, z=0),
                   center=dict(x=0, y=0, z=0),
                   eye=dict(x=-1.3, y=-1.3, z=0.7))
-
-    beam = Beam(data_norm, event=0, plot_setup=True)
-
-    # Define hoover texts for patient, table and pad
-    patient_text = [f"<b>Patient phantom</b><br><br><b>LAT:</b> {np.around(patient.r[ind, 2])} cm<br><b>LON:</b> {np.around(patient.r[ind, 0])} cm<br><b>VER:</b> {np.around(patient.r[ind, 1])} cm" for ind in range(len(patient.r))]
-    table_text = [f"<b>Support table</b><br><br><b>LAT:</b> {np.around(table.r[ind, 2])} cm <br><b>LON:</b> {np.around(table.r[ind, 0])} cm <br><b>VER:</b> {np.around(table.r[ind, 1])} cm" for ind in range(len(table.r))]       
-    pad_text = [f"<b>Support pad</b><br><br><b>LAT:</b> {np.around(pad.r[ind, 2])} cm <br><b>LON:</b> {np.around(pad.r[ind, 0])} cm <br><b>VER:</b> {np.around(pad.r[ind, 1])} cm" for ind in range(len(pad.r))]
 
     if mode in ['plot_setup', 'plot_event']:
 
@@ -82,10 +82,43 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             # Create beam
             beam = Beam(data_norm, event=0, plot_setup=True)
 
-            # Define hoover texts and plot title
-            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> {np.around(beam.r[0, 2])} cm <br><b>LON:</b> {np.around(beam.r[0, 0])} cm <br><b>VER:</b> {np.around(beam.r[0, 1])} cm"]
-            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.r[ind, 1])} cm" for ind in range(len(beam.r))]
-            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} cm" for ind in range(len(beam.det_r))]
+            # Define hoover texts
+            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT:</b> \
+                            {np.around(patient.r[ind, 2])} cm<br><b>LON:</b> \
+                            {np.around(patient.r[ind, 0])} cm<br><b>VER:</b> \
+                            {np.around(patient.r[ind, 1])} cm"
+                            for ind in range(len(patient.r))]
+
+            table_text = [f"<b>Support table</b><br><br><b>LAT:</b> \
+                          {np.around(table.r[ind, 2])} cm <br><b>LON:</b> \
+                          {np.around(table.r[ind, 0])} cm <br><b>VER:</b> \
+                          {np.around(table.r[ind, 1])} cm"
+                          for ind in range(len(table.r))]
+
+            pad_text = [f"<b>Support pad</b><br><br><b>LAT:</b> \
+                        {np.around(pad.r[ind, 2])} cm <br><b>LON:</b> \
+                        {np.around(pad.r[ind, 0])} cm <br><b>VER:</b> \
+                        {np.around(pad.r[ind, 1])} cm"
+                        for ind in range(len(pad.r))]
+
+            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> \
+                           {np.around(beam.r[0, 2])} cm <br><b>LON:</b> \
+                           {np.around(beam.r[0, 0])} cm <br><b>VER:</b> \
+                           {np.around(beam.r[0, 1])} cm"]
+
+            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> \
+                         {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> \
+                         {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> \
+                         {np.around(beam.r[ind, 1])} cm"
+                         for ind in range(len(beam.r))]
+
+            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> \
+                              {np.around(beam.det_r[ind, 2])} \
+                              cm <br><b>LON:</b> \
+                              {np.around(beam.det_r[ind, 0])} cm \
+                              <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} \
+                              cm" for ind in range(len(beam.det_r))]
+            # Define plot title
             title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
 
         elif mode == 'plot_event':
@@ -94,21 +127,57 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             # Create beam
             beam = Beam(data_norm, event=event, plot_setup=False)
 
-            # Define hoover texts and plot title
-            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> {np.around(beam.r[0, 2])} cm <br><b>LON:</b> {np.around(beam.r[0, 0])} cm <br><b>VER:</b> {np.around(beam.r[0, 1])} cm"]
-            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.r[ind, 1])} cm" for ind in range(len(beam.r))]
-            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} cm" for ind in range(len(beam.det_r))]
-            title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
-
             # Position geometry
             patient.position(data_norm, event)
             table.position(data_norm, event)
             pad.position(data_norm, event)
 
+            # Define hoover texts
+            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT:</b> \
+                            {np.around(patient.r[ind, 2])} cm<br><b>LON:</b> \
+                            {np.around(patient.r[ind, 0])} cm<br><b>VER:</b> \
+                            {np.around(patient.r[ind, 1])} cm"
+                            for ind in range(len(patient.r))]
+
+            table_text = [f"<b>Support table</b><br><br><b>LAT:</b> \
+                          {np.around(table.r[ind, 2])} cm <br><b>LON:</b> \
+                          {np.around(table.r[ind, 0])} cm <br><b>VER:</b> \
+                          {np.around(table.r[ind, 1])} cm"
+                          for ind in range(len(table.r))]
+
+            pad_text = [f"<b>Support pad</b><br><br><b>LAT:</b> \
+                        {np.around(pad.r[ind, 2])} cm <br><b>LON:</b> \
+                        {np.around(pad.r[ind, 0])} cm <br><b>VER:</b> \
+                        {np.around(pad.r[ind, 1])} cm"
+                        for ind in range(len(pad.r))]
+
+            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> \
+                           {np.around(beam.r[0, 2])} cm <br><b>LON:</b> \
+                           {np.around(beam.r[0, 0])} cm <br><b>VER:</b> \
+                           {np.around(beam.r[0, 1])} cm"]
+
+            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> \
+                         {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> \
+                         {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> \
+                         {np.around(beam.r[ind, 1])} cm"
+                         for ind in range(len(beam.r))]
+
+            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> \
+                              {np.around(beam.det_r[ind, 2])} \
+                              cm <br><b>LON:</b> \
+                              {np.around(beam.det_r[ind, 0])} cm \
+                              <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} \
+                              cm" for ind in range(len(beam.det_r))]
+
+            # Define plot title
+            title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
+
         # Create patient mesh
+
         patient_mesh = go.Mesh3d(
-            x=patient.r[:, 0], y=patient.r[:, 1], z=patient.r[:, 2],
-            i=patient.ijk[:, 0], j=patient.ijk[:, 1], k=patient.ijk[:, 2],
+            x=patient.r[:, 0], y=patient.r[:, 1]+visual_offset,
+            z=patient.r[:, 2], i=patient.ijk[:, 0], j=patient.ijk[:, 1],
+            k=patient.ijk[:, 2],
             color=patient_color, hoverinfo="text",
             text=patient_text,
             lighting=dict(diffuse=0.5, ambient=0.5))
@@ -193,10 +262,6 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
         print(f'plotting entire procedure with {len(data_norm)}'
               ' irradiation events...')
 
-        # Define hoover texts and title
-        source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> {np.around(beam.r[0, 2])} cm <br><b>LON:</b> {np.around(beam.r[0, 0])} cm <br><b>VER:</b> {np.around(beam.r[0, 1])} cm"]
-        beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.r[ind, 1])} cm" for ind in range(len(beam.r))]
-        detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b> {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} cm" for ind in range(len(beam.det_r))]
         title = f"<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"
         source_mesh = [0] * len(data_norm)
         table_mesh = [0] * len(data_norm)
@@ -217,14 +282,52 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             table.position(data_norm, i)
             pad.position(data_norm, i)
 
+            # Define hoover texts and title
+            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> \
+                        {np.around(beam.r[0, 2])} cm <br><b>LON:</b> \
+                        {np.around(beam.r[0, 0])} cm <br><b>VER:</b> \
+                        {np.around(beam.r[0, 1])} cm"]
+
+            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> \
+                        {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> \
+                        {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> \
+                        {np.around(beam.r[ind, 1])} cm"
+                         for ind in range(len(beam.r))]
+
+            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> \
+                              {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b>\
+                              {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> \
+                              {np.around(beam.det_r[ind, 1])} cm"
+                              for ind in range(len(beam.det_r))]
+
+            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT:</b> \
+                            {np.around(patient.r[ind, 2])} cm<br><b>LON:</b> \
+                            {np.around(patient.r[ind, 0])} cm<br><b>VER:</b> \
+                            {np.around(patient.r[ind, 1])} cm"
+                            for ind in range(len(patient.r))]
+
+            table_text = [f"<b>Support table</b><br><br><b>LAT:</b> \
+                          {np.around(table.r[ind, 2])} cm <br><b>LON:</b> \
+                          {np.around(table.r[ind, 0])} cm <br><b>VER:</b> \
+                          {np.around(table.r[ind, 1])} cm"
+                          for ind in range(len(table.r))]
+
+            pad_text = [f"<b>Support pad</b><br><br><b>LAT:</b> \
+                        {np.around(pad.r[ind, 2])} cm <br><b>LON:</b> \
+                        {np.around(pad.r[ind, 0])} cm <br><b>VER:</b> \
+                        {np.around(pad.r[ind, 1])} cm"
+                        for ind in range(len(pad.r))]
+
+
             if include_patient:
                 patient.position(data_norm, i)
 
                 # Create patient mesh
                 patient_mesh[i] = go.Mesh3d(
-                    x=patient.r[:, 0], y=patient.r[:, 1], z=patient.r[:, 2],
-                    i=patient.ijk[:, 0], j=patient.ijk[:, 1],
-                    k=patient.ijk[:, 2], color=patient_color, hoverinfo="text",
+                    x=patient.r[:, 0], y=patient.r[:, 1] + visual_offset,
+                    z=patient.r[:, 2], i=patient.ijk[:, 0],
+                    j=patient.ijk[:, 1], k=patient.ijk[:, 2],
+                    color=patient_color, hoverinfo="text",
                     visible=False, text=patient_text,
                     lighting=dict(diffuse=0.5, ambient=0.5))
 
@@ -269,7 +372,7 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
 
             # Add wireframes to mesh objects
             wf_beam[i], wf_table[i], wf_pad[i], wf_detector[i] = \
-                create_wireframes(beam, table, pad, 
+                create_wireframes(beam, table, pad,
                                   line_width=4, visible=False)
 
         # Set first irradiation event initally visible
@@ -285,9 +388,9 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
 
         # Event slider settings
         for i in range(len(data_norm)):
-            step = dict(method='restyle',
-                        args=['visible', [False] * len(data_norm)],
-                        label=i + 1)
+            step: Dict = dict(method='restyle',
+                              args=['visible', [False] * len(data_norm)],
+                              label=i + 1)
             step['args'][1][i] = True  # Toggle i'th trace to "visible"
             steps.append(step)
 
@@ -405,9 +508,20 @@ def create_wireframes(beam: Beam, table: Phantom, pad: Phantom,
     y2 = table.r[8:16, 1].tolist() + [table.r[8, 1]]
     z2 = table.r[8:16, 2].tolist() + [table.r[8, 2]]
 
-    x3 = [table.r[8, 0], table.r[9, 0], table.r[10, 0], table.r[2, 0], table.r[3, 0], table.r[11, 0], table.r[12, 0], table.r[13, 0], table.r[5, 0], table.r[6, 0], table.r[14, 0], table.r[15, 0], table.r[7, 0]]
-    y3 = [table.r[8, 1], table.r[9, 1], table.r[10, 1], table.r[2, 1], table.r[3, 1], table.r[11, 1], table.r[12, 1], table.r[13, 1], table.r[5, 1], table.r[6, 1], table.r[14, 1], table.r[15, 1], table.r[7, 1]]
-    z3 = [table.r[8, 2], table.r[9, 2], table.r[10, 2], table.r[2, 2], table.r[3, 2], table.r[11, 2], table.r[12, 2], table.r[13, 2], table.r[5, 2], table.r[6, 2], table.r[14, 2], table.r[15, 2], table.r[7, 2]]
+    x3 = [table.r[8, 0], table.r[9, 0], table.r[10, 0], table.r[2, 0],
+          table.r[3, 0], table.r[11, 0], table.r[12, 0], table.r[13, 0],
+          table.r[5, 0], table.r[6, 0], table.r[14, 0], table.r[15, 0],
+          table.r[7, 0]]
+
+    y3 = [table.r[8, 1], table.r[9, 1], table.r[10, 1], table.r[2, 1],
+          table.r[3, 1], table.r[11, 1], table.r[12, 1], table.r[13, 1],
+          table.r[5, 1], table.r[6, 1], table.r[14, 1], table.r[15, 1],
+          table.r[7, 1]]
+
+    z3 = [table.r[8, 2], table.r[9, 2], table.r[10, 2], table.r[2, 2],
+          table.r[3, 2], table.r[11, 2], table.r[12, 2], table.r[13, 2],
+          table.r[5, 2], table.r[6, 2], table.r[14, 2], table.r[15, 2],
+          table.r[7, 2]]
 
     temp_x = x1 + x2 + x3
     temp_y = y1 + y2 + y3
@@ -426,9 +540,17 @@ def create_wireframes(beam: Beam, table: Phantom, pad: Phantom,
     y2 = pad.r[8:16, 1].tolist() + [pad.r[8, 1]]
     z2 = pad.r[8:16, 2].tolist() + [pad.r[8, 2]]
 
-    x3 = [pad.r[8, 0], pad.r[9, 0], pad.r[10, 0], pad.r[2, 0], pad.r[3, 0], pad.r[11, 0], pad.r[12, 0], pad.r[13, 0], pad.r[5, 0], pad.r[6, 0], pad.r[14, 0], pad.r[15, 0], pad.r[7, 0]]
-    y3 = [pad.r[8, 1], pad.r[9, 1], pad.r[10, 1], pad.r[2, 1], pad.r[3, 1], pad.r[11, 1], pad.r[12, 1], pad.r[13, 1], pad.r[5, 1], pad.r[6, 1], pad.r[14, 1], pad.r[15, 1], pad.r[7, 1]]
-    z3 = [pad.r[8, 2], pad.r[9, 2], pad.r[10, 2], pad.r[2, 2], pad.r[3, 2], pad.r[11, 2], pad.r[12, 2], pad.r[13, 2], pad.r[5, 2], pad.r[6, 2], pad.r[14, 2], pad.r[15, 2], pad.r[7, 2]]
+    x3 = [pad.r[8, 0], pad.r[9, 0], pad.r[10, 0], pad.r[2, 0], pad.r[3, 0],
+          pad.r[11, 0], pad.r[12, 0], pad.r[13, 0], pad.r[5, 0], pad.r[6, 0],
+          pad.r[14, 0], pad.r[15, 0], pad.r[7, 0]]
+
+    y3 = [pad.r[8, 1], pad.r[9, 1], pad.r[10, 1], pad.r[2, 1], pad.r[3, 1],
+          pad.r[11, 1], pad.r[12, 1], pad.r[13, 1], pad.r[5, 1], pad.r[6, 1],
+          pad.r[14, 1], pad.r[15, 1], pad.r[7, 1]]
+
+    z3 = [pad.r[8, 2], pad.r[9, 2], pad.r[10, 2], pad.r[2, 2], pad.r[3, 2],
+          pad.r[11, 2], pad.r[12, 2], pad.r[13, 2], pad.r[5, 2], pad.r[6, 2],
+          pad.r[14, 2], pad.r[15, 2], pad.r[7, 2]]
 
     temp_x = x1 + x2 + x3
     temp_y = y1 + y2 + y3
@@ -447,9 +569,17 @@ def create_wireframes(beam: Beam, table: Phantom, pad: Phantom,
     y2 = beam.det_r[4:8, 1].tolist() + [beam.det_r[4, 1]]
     z2 = beam.det_r[4:8, 2].tolist() + [beam.det_r[4, 2]]
 
-    x3 = [beam.det_r[4, 0], beam.det_r[5, 0], beam.det_r[1, 0], beam.det_r[2, 0], beam.det_r[6, 0], beam.det_r[7, 0], beam.det_r[3, 0]]
-    y3 = [beam.det_r[4, 1], beam.det_r[5, 1], beam.det_r[1, 1], beam.det_r[2, 1], beam.det_r[6, 1], beam.det_r[7, 1], beam.det_r[3, 1]]
-    z3 = [beam.det_r[4, 2], beam.det_r[5, 2], beam.det_r[1, 2], beam.det_r[2, 2], beam.det_r[6, 2], beam.det_r[7, 2], beam.det_r[3, 2]]
+    x3 = [beam.det_r[4, 0], beam.det_r[5, 0], beam.det_r[1, 0],
+          beam.det_r[2, 0], beam.det_r[6, 0], beam.det_r[7, 0],
+          beam.det_r[3, 0]]
+
+    y3 = [beam.det_r[4, 1], beam.det_r[5, 1], beam.det_r[1, 1],
+          beam.det_r[2, 1], beam.det_r[6, 1], beam.det_r[7, 1],
+          beam.det_r[3, 1]]
+
+    z3 = [beam.det_r[4, 2], beam.det_r[5, 2], beam.det_r[1, 2],
+          beam.det_r[2, 2], beam.det_r[6, 2], beam.det_r[7, 2],
+          beam.det_r[3, 2]]
 
     temp_x = x1 + x2 + x3
     temp_y = y1 + y2 + y3
