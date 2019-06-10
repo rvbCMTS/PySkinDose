@@ -28,7 +28,7 @@ ARGS = PARSER.parse_args()
 
 PARAM_DEV = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
-    mode='calculate_dose',
+    mode='plot_procedure',
     # RDSR filename
     rdsr_filename='S1.dcm',
     # Irrading event index for mode='plot_event'
@@ -131,10 +131,15 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
         elif param.phantom.model == 'cylinder':
             param.phantom.dimension.cylinder_resolution = 'sparse'
 
+    # override dense .stl phantoms in plot_procedure .html plotting
+    if param.mode == 'plot_procedure' and param.phantom.model == 'human':
+        param.phantom.human_mesh += '_reduced_1000t'
+
     patient = Phantom(
         phantom_model=param.phantom.model,
         phantom_dim=param.phantom.dimension,
         human_mesh=param.phantom.human_mesh)
+
     # position objects in starting position
     position_geometry(
         patient=patient, table=table, pad=pad,
@@ -146,9 +151,11 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
 
     if param.mode in ["plot_setup", "plot_event", "plot_procedure"]:
 
+        # Plot geometry, include human phantom only if < 100 events,
+        # to avoid memory errors.
         plot_geometry(patient, table, pad, data_norm,
                       mode=param.mode, event=param.plot_event_index,
-                      include_patient=patient.phantom_model != 'human')
+                      include_patient = len(data_norm) < 100)
 
     elif param.mode == "calculate_dose":
 
