@@ -83,41 +83,24 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             beam = Beam(data_norm, event=0, plot_setup=True)
 
             # Define hoover texts
-            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT:</b> \
-                            {np.around(patient.r[ind, 2])} cm<br><b>LON:</b> \
-                            {np.around(patient.r[ind, 0])} cm<br><b>VER:</b> \
-                            {np.around(patient.r[ind, 1])} cm"
-                            for ind in range(len(patient.r))]
 
-            table_text = [f"<b>Support table</b><br><br><b>LAT:</b> \
-                          {np.around(table.r[ind, 2])} cm <br><b>LON:</b> \
-                          {np.around(table.r[ind, 0])} cm <br><b>VER:</b> \
-                          {np.around(table.r[ind, 1])} cm"
-                          for ind in range(len(table.r))]
+            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT: </b>{np.around(patient.r[ind, 2])} cm<br><b>LON: </b>{np.around(patient.r[ind, 0])} cm<br><b>VER: </b>{np.around(patient.r[ind, 1])} cm"
+                for ind in range(len(patient.r))]
 
-            pad_text = [f"<b>Support pad</b><br><br><b>LAT:</b> \
-                        {np.around(pad.r[ind, 2])} cm <br><b>LON:</b> \
-                        {np.around(pad.r[ind, 0])} cm <br><b>VER:</b> \
-                        {np.around(pad.r[ind, 1])} cm"
-                        for ind in range(len(pad.r))]
+            table_text = [f"<b>Support table</b><br><br><b>LAT: </b>{np.around(table.r[ind, 2])} cm<br><b>LON: </b>{np.around(table.r[ind, 0])} cm<br><b>VER: </b>{np.around(table.r[ind, 1])} cm"
+                for ind in range(len(table.r))]
 
-            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> \
-                           {np.around(beam.r[0, 2])} cm <br><b>LON:</b> \
-                           {np.around(beam.r[0, 0])} cm <br><b>VER:</b> \
-                           {np.around(beam.r[0, 1])} cm"]
+            pad_text = [f"<b>Support pad</b><br><br><b>LAT: </b>{np.around(pad.r[ind, 2])} cm<br><b>LON: </b>{np.around(pad.r[ind, 0])} cm<br><b>VER: </b>{np.around(pad.r[ind, 1])} cm"
+                for ind in range(len(pad.r))]
 
-            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> \
-                         {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> \
-                         {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> \
-                         {np.around(beam.r[ind, 1])} cm"
-                         for ind in range(len(beam.r))]
+            source_text = [f"<b>X-ray source</b><br><br><b>LAT: </b>{np.around(beam.r[0, 2])} cm<br><b>LON: </b>{np.around(beam.r[0, 0])} cm<br><b>VER: </b>{np.around(beam.r[0, 1])} cm"]
 
-            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> \
-                              {np.around(beam.det_r[ind, 2])} \
-                              cm <br><b>LON:</b> \
-                              {np.around(beam.det_r[ind, 0])} cm \
-                              <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} \
-                              cm" for ind in range(len(beam.det_r))]
+            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT: </b>{np.around(beam.r[ind, 2])} cm<br><b>LON: </b>{np.around(beam.r[ind, 0])} cm<br><b>VER: </b>{np.around(beam.r[ind, 1])} cm"
+                for ind in range(len(beam.r))]
+
+            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT: </b>{np.around(beam.det_r[ind, 2])} cm<br><b>LON: </b>{np.around(beam.det_r[ind, 0])} cm<br><b>VER: </b> {np.around(beam.det_r[ind, 1])} cm"
+                for ind in range(len(beam.det_r))]
+            
             # Define plot title
             title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
 
@@ -133,41 +116,23 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             pad.position(data_norm, event)
 
             # Define hoover texts
-            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT:</b> \
-                            {np.around(patient.r[ind, 2])} cm<br><b>LON:</b> \
-                            {np.around(patient.r[ind, 0])} cm<br><b>VER:</b> \
-                            {np.around(patient.r[ind, 1])} cm"
-                            for ind in range(len(patient.r))]
+            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT: </b>{np.around(patient.r[ind, 2])} cm<br><b>LON: </b>{np.around(patient.r[ind, 0])} cm<br><b>VER: </b>{np.around(patient.r[ind, 1])} cm"
+                for ind in range(len(patient.r))]
 
-            table_text = [f"<b>Support table</b><br><br><b>LAT:</b> \
-                          {np.around(table.r[ind, 2])} cm <br><b>LON:</b> \
-                          {np.around(table.r[ind, 0])} cm <br><b>VER:</b> \
-                          {np.around(table.r[ind, 1])} cm"
-                          for ind in range(len(table.r))]
+            table_text = [f"<b>Support table</b><br><br><b>LAT: </b>{np.around(table.r[ind, 2])} cm<br><b>LON: </b>{np.around(table.r[ind, 0])} cm<br><b>VER: </b>{np.around(table.r[ind, 1])} cm"
+                for ind in range(len(table.r))]
 
-            pad_text = [f"<b>Support pad</b><br><br><b>LAT:</b> \
-                        {np.around(pad.r[ind, 2])} cm <br><b>LON:</b> \
-                        {np.around(pad.r[ind, 0])} cm <br><b>VER:</b> \
-                        {np.around(pad.r[ind, 1])} cm"
-                        for ind in range(len(pad.r))]
+            pad_text = [f"<b>Support pad</b><br><br><b>LAT: </b>{np.around(pad.r[ind, 2])} cm<br><b>LON: </b>{np.around(pad.r[ind, 0])} cm<br><b>VER: </b>{np.around(pad.r[ind, 1])} cm"
+                for ind in range(len(pad.r))]
 
-            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> \
-                           {np.around(beam.r[0, 2])} cm <br><b>LON:</b> \
-                           {np.around(beam.r[0, 0])} cm <br><b>VER:</b> \
-                           {np.around(beam.r[0, 1])} cm"]
+            source_text = [f"<b>X-ray source</b><br><br><b>LAT: </b>{np.around(beam.r[0, 2])} cm<br><b>LON: </b>{np.around(beam.r[0, 0])} cm<br><b>VER: </b>{np.around(beam.r[0, 1])} cm"]
 
-            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> \
-                         {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> \
-                         {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> \
-                         {np.around(beam.r[ind, 1])} cm"
-                         for ind in range(len(beam.r))]
 
-            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> \
-                              {np.around(beam.det_r[ind, 2])} \
-                              cm <br><b>LON:</b> \
-                              {np.around(beam.det_r[ind, 0])} cm \
-                              <br><b>VER:</b> {np.around(beam.det_r[ind, 1])} \
-                              cm" for ind in range(len(beam.det_r))]
+            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT: </b>{np.around(beam.r[ind, 2])} cm<br><b>LON: </b>{np.around(beam.r[ind, 0])} cm<br><b>VER: </b>{np.around(beam.r[ind, 1])} cm"
+                for ind in range(len(beam.r))]
+
+            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT: </b>{np.around(beam.det_r[ind, 2])} cm<br><b>LON: </b>{np.around(beam.det_r[ind, 0])} cm<br><b>VER: </b>{np.around(beam.det_r[ind, 1])} cm"
+                for ind in range(len(beam.det_r))]
 
             # Define plot title
             title = f"""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"""
@@ -227,12 +192,12 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
 
         # Layout settings
         layout = go.Layout(
-            font=dict(family='roboto', size=14),
+            font=dict(family='Franklin Gothic', size=14),
             showlegend=False,
-            hoverlabel=dict(font=dict(size=16)),
+            hoverlabel=dict(font=dict(size=16, family="Consolas, monospace")),
             dragmode="orbit",
             title=title,
-            titlefont=dict(family='Courier New, monospace', size=35,
+            titlefont=dict(family='Franklin Gothic', size=35,
                            color='white'),
             plot_bgcolor=azure_dark,
             paper_bgcolor=azure_dark,
@@ -283,40 +248,23 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
             pad.position(data_norm, i)
 
             # Define hoover texts and title
-            source_text = [f"<b>X-ray source</b><br><br><b>LAT:</b> \
-                        {np.around(beam.r[0, 2])} cm <br><b>LON:</b> \
-                        {np.around(beam.r[0, 0])} cm <br><b>VER:</b> \
-                        {np.around(beam.r[0, 1])} cm"]
+            source_text = [f"<b>X-ray source</b><br><br><b>LAT: </b>{np.around(beam.r[0, 2])} cm<br><b>LON: </b>{np.around(beam.r[0, 0])} cm<br><b>VER: </b>{np.around(beam.r[0, 1])} cm"]
 
-            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT:</b> \
-                        {np.around(beam.r[ind, 2])} cm <br><b>LON:</b> \
-                        {np.around(beam.r[ind, 0])} cm <br><b>VER:</b> \
-                        {np.around(beam.r[ind, 1])} cm"
-                         for ind in range(len(beam.r))]
+            beam_text = [f"<b>X-ray beam vertex</b><br><br><b>LAT: </b>{np.around(beam.r[ind, 2])} cm<br><b>LON: </b>{np.around(beam.r[ind, 0])} cm<br><b>VER: </b>{np.around(beam.r[ind, 1])} cm"
+                for ind in range(len(beam.r))]
 
-            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT:</b> \
-                              {np.around(beam.det_r[ind, 2])} cm <br><b>LON:</b>\
-                              {np.around(beam.det_r[ind, 0])} cm <br><b>VER:</b> \
-                              {np.around(beam.det_r[ind, 1])} cm"
-                              for ind in range(len(beam.det_r))]
+            detectors_text = [f"<b>X-ray detector</b><br><br><b>LAT: </b>{np.around(beam.det_r[ind, 2])} cm<br><b>LON: </b>{np.around(beam.det_r[ind, 0])} cm<br><b>VER: </b>{np.around(beam.det_r[ind, 1])} cm"
+                for ind in range(len(beam.det_r))]
 
-            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT:</b> \
-                            {np.around(patient.r[ind, 2])} cm<br><b>LON:</b> \
-                            {np.around(patient.r[ind, 0])} cm<br><b>VER:</b> \
-                            {np.around(patient.r[ind, 1])} cm"
-                            for ind in range(len(patient.r))]
+            patient_text = [f"<b>Patient phantom</b><br><br><b>LAT: </b>{np.around(patient.r[ind, 2])} cm<br><b>LON: </b>{np.around(patient.r[ind, 0])} cm<br><b>VER: </b>{np.around(patient.r[ind, 1])} cm"
+                for ind in range(len(patient.r))]
 
-            table_text = [f"<b>Support table</b><br><br><b>LAT:</b> \
-                          {np.around(table.r[ind, 2])} cm <br><b>LON:</b> \
-                          {np.around(table.r[ind, 0])} cm <br><b>VER:</b> \
-                          {np.around(table.r[ind, 1])} cm"
-                          for ind in range(len(table.r))]
+            table_text = [f"<b>Support table</b><br><br><b>LAT: </b>{np.around(table.r[ind, 2])} cm<br><b>LON: </b>{np.around(table.r[ind, 0])} cm<br><b>VER: </b>{np.around(table.r[ind, 1])} cm"
+                for ind in range(len(table.r))]
 
-            pad_text = [f"<b>Support pad</b><br><br><b>LAT:</b> \
-                        {np.around(pad.r[ind, 2])} cm <br><b>LON:</b> \
-                        {np.around(pad.r[ind, 0])} cm <br><b>VER:</b> \
-                        {np.around(pad.r[ind, 1])} cm"
-                        for ind in range(len(pad.r))]
+
+            pad_text = [f"<b>Support pad</b><br><br><b>LAT: </b>{np.around(pad.r[ind, 2])} cm<br><b>LON: </b>{np.around(pad.r[ind, 0])} cm<br><b>VER: </b>{np.around(pad.r[ind, 1])} cm"
+                for ind in range(len(pad.r))]
 
 
             if include_patient:
@@ -401,21 +349,21 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
                         tickcolor="white",
                         bgcolor="red",
                         currentvalue=dict(prefix="Active event: ",
-                                          suffix=f" of  {len(data_norm)}",
+                                          suffix=f" of {len(data_norm)}",
                                           font=dict(color="white", size=30)),
-                        font=dict(color="white", size=16),
+                        font=dict(family="Franklin Gothic", color="white", size=16),
                         pad=dict(b=10, t=10, l=250, r=250),
                         steps=steps)]
 
         # Layout settings
         layout = go.Layout(
             sliders=sliders,
-            font=dict(family='roboto', size=14),
-            hoverlabel=dict(font=dict(size=16)),
+            font=dict(family='Franklin Gothic', size=14),
+            hoverlabel=dict(font=dict(family="Consolas, monospace", size=16)),
             showlegend=False,
             dragmode="orbit",
             title=title,
-            titlefont=dict(family='Courier New, monospace', size=35,
+            titlefont=dict(family='Franklin Gothic', size=35,
                            color='white'),
             plot_bgcolor=azure_dark,
             paper_bgcolor=azure_dark,
