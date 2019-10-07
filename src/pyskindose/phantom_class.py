@@ -381,12 +381,8 @@ class Phantom:
         "cylinder" or "human"
 
         """
-        hover_text = [f"<b>coordinate:</b>\
-                      <br>LAT: {np.around(self.r[ind, 2],2)} cm <br>LON:\
-                      {np.around(self.r[ind, 0])} cm <br>VER:\
-                      {np.around(self.r[ind, 1])} cm <br><b>skin dose:</b><br>\
-                      {round(self.dose[ind],2)} mGy"
-                      for ind in range(len(self.r))]
+        hover_text = [f"<b>coordinate:</b><br><b>LAT:</b> {np.around(self.r[ind, 2],2)} cm<br><b>LON:</b> {np.around(self.r[ind, 0])} cm<br><b>VER:</b> {np.around(self.r[ind, 1])} cm<br><b>skin dose: </b><br>{round(self.dose[ind],2)} mGy"
+            for ind in range(len(self.r))]
 
         # create mesh object for the phantom
         phantom_mesh = [
@@ -398,14 +394,14 @@ class Phantom:
                 text=hover_text, name="Human",
                 colorbar=dict(tickfont=dict(color="white"),
                               title="Skin dose [mGy]",
-                              titlefont=dict(color="white")))]
+                              titlefont=dict(family="Franklin Gothic", color="white")))]
 
         # Layout settings
         layout = go.Layout(
-            font=dict(family='roboto', color="white", size=18),
-            hoverlabel=dict(font=dict(size=16)),
+            font=dict(family='Franklin Gothic', color="white", size=18),
+            hoverlabel=dict(font=dict(family="Consolas, monospace", size=16)),
             title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
-            titlefont=dict(family='Courier New', size=35,
+            titlefont=dict(family='Franklin Gothic', size=35,
                            color='white'),
             plot_bgcolor='#201f1e',
             paper_bgcolor='#201f1e',
