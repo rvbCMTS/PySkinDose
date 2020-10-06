@@ -294,12 +294,12 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
                 temp_after = data_norm.loc[event+1:] # everthing after rot
 
                 # Discretize beam angulation from start angle to stop angle,
-                range_PPA = np.linspace(data_norm.ix[event, 'PPA'],
-                                        data_norm.ix[event, 'PPA_end'],
+                range_PPA = np.linspace(data_norm.PPA[event],
+                                        data_norm.PPA_end[event],
                                         nr_rot_steps)
 
-                range_PSA = np.linspace(data_norm.ix[event, 'PSA'],
-                                        data_norm.ix[event, 'PSA_end'],
+                range_PSA = np.linspace(data_norm.PSA[event],
+                                        data_norm.PSA_end[event],
                                         nr_rot_steps)
 
                 # for every angle increment

@@ -6,13 +6,13 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pydocstyle = "*"
-pylint = "*"
-mypy = "*"
-pylama = "*"
-v = {editable = true,version = "*"}
+black = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

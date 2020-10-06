@@ -1,14 +1,17 @@
+import logging
+from typing import List
+
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CubicSpline
 import scipy.interpolate
-from typing import List
 
 from .db_connect import db_connect
 
+# logger = logging.getLogger(__name__)
 
-def calculate_k_isq(source: np.array, cells: np.array, dref: float
-                    ) -> np.array:
+
+def calculate_k_isq(source: np.array, cells: np.array, dref: float) -> np.array:
     """Calculate the IRP air kerma inverse-square law correction.
 
     This function corrects the X-ray fluence from the interventionl reference
@@ -62,16 +65,19 @@ def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
     fsl_tab = [5, 10, 20, 25, 35]
 
     # polynomial coefficents
-    c = np.array([
-        [+1.00870e+0, +9.29969e-1, +8.65442e-1, +8.58665e-1, +8.57065e-1],
-        [+2.35816e-3, +4.08549e-3, +5.36739e-3, +5.51579e-3, +5.55933e-3],
-        [-9.48937e-6, -1.66271e-5, -2.21494e-5, -2.27532e-5, -2.28004e-5],
-        [+1.03143e-1, +1.53605e-1, +1.72418e-1, +1.70826e-1, +1.66418e-1],
-        [-1.04881e-3, -1.45187e-3, -1.46088e-3, -1.38540e-3, -1.28180e-3],
-        [+3.59731e-6, +5.05312e-6, +5.17430e-6, +4.91192e-6, +4.53036e-6],
-        [-7.31303e-3, -9.32427E-3, -8.30138E-3, -7.64330e-3, -6.81574e-3],
-        [+7.93272E-5, +9.40568E-5, +7.13576E-5, +6.13126e-5, +4.94197e-5],
-        [-2.74296e-7, -3.28449e-7, -2.54885e-7, -2.21399e-7, -1.79074e-7]])
+    c = np.array(
+        [
+            [+1.00870e0, +9.29969e-1, +8.65442e-1, +8.58665e-1, +8.57065e-1],
+            [+2.35816e-3, +4.08549e-3, +5.36739e-3, +5.51579e-3, +5.55933e-3],
+            [-9.48937e-6, -1.66271e-5, -2.21494e-5, -2.27532e-5, -2.28004e-5],
+            [+1.03143e-1, +1.53605e-1, +1.72418e-1, +1.70826e-1, +1.66418e-1],
+            [-1.04881e-3, -1.45187e-3, -1.46088e-3, -1.38540e-3, -1.28180e-3],
+            [+3.59731e-6, +5.05312e-6, +5.17430e-6, +4.91192e-6, +4.53036e-6],
+            [-7.31303e-3, -9.32427e-3, -8.30138e-3, -7.64330e-3, -6.81574e-3],
+            [+7.93272e-5, +9.40568e-5, +7.13576e-5, +6.13126e-5, +4.94197e-5],
+            [-2.74296e-7, -3.28449e-7, -2.54885e-7, -2.21399e-7, -1.79074e-7],
+        ]
+    )
 
     # Fetch kVp and HVL from data_norm
     kvp = data_norm.kVp
@@ -79,22 +85,27 @@ def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
 
     # Calculate k_bs for field side length [5, 10, 20, 25, 35] cm
     # This is eq. (8) in doi:10.1088/0031-9155/58/2/247.
-    bs_corr = (
-        [(c[0, :] + c[1, :] * kvp[event] + c[2, :] * np.square(kvp[event])) +
-         (c[3, :] + c[4, :] * kvp[event] + c[5, :] * np.square(kvp[event])) *
-         hvl[event] + (c[6, :] + c[7, :] * kvp[event] + c[8, :] *
-                       np.square(kvp[event])) * np.square(hvl[event])
-         for event in range(len(kvp))])
+    bs_corr = [
+        (c[0, :] + c[1, :] * kvp[event] + c[2, :] * np.square(kvp[event]))
+        + (c[3, :] + c[4, :] * kvp[event] + c[5, :] * np.square(kvp[event]))
+        * hvl[event]
+        + (c[6, :] + c[7, :] * kvp[event] + c[8, :] * np.square(kvp[event]))
+        * np.square(hvl[event])
+        for event in range(len(kvp))
+    ]
 
     # Create interpolation object for bs_corr
-    bs_interp = [scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event])
-                 for event in range(len(kvp))]
+    bs_interp = [
+        scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event])
+        for event in range(len(kvp))
+    ]
 
     return bs_interp
 
 
-def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float],
-                    event: int) -> float:
+def calculate_k_med(
+    data_norm: pd.DataFrame, field_area: List[float], event: int
+) -> float:
     """Calculate medium correction.
 
     This function calculates and appends the medium correction factor
@@ -139,37 +150,45 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float],
 
     # Fetch k_med = f(kVp, HVL) from database. This is table 2 in
     # [doi:10.1088/0031-9155/58/2/247]
-    df = pd.read_sql_query("""SELECT kvp_kV, hvl_mmAl, field_side_length_cm,
-                           mu_en_quotient FROM ks_table_concatenated""", conn)
+    df = pd.read_sql_query(
+        """SELECT kvp_kV, hvl_mmAl, field_side_length_cm,
+                           mu_en_quotient FROM ks_table_concatenated""",
+        conn,
+    )
 
     conn.commit()
     conn.close()
 
     # Fetch kVp entries from table
-    kvp_data = df.loc[(df['field_side_length_cm'] == fsl), "kvp_kV"]
+    kvp_data = df.loc[(df["field_side_length_cm"] == fsl), "kvp_kV"]
     # Select closest tabulated kVp (strongest dependence for k_med)
     kvp_round = min(kvp_data, key=lambda x: abs(x - kvp))
 
     # Fetch HVL entries from table
     hvl_data = df.loc[
-        (df['field_side_length_cm'] == fsl) & (df['kvp_kV'] == kvp_round),
-        "hvl_mmAl"]
+        (df["field_side_length_cm"] == fsl) & (df["kvp_kV"] == kvp_round), "hvl_mmAl"
+    ]
 
     # Select closest tabulated HVL (second strongest dependence for k_med)
     hvl_round = min(hvl_data, key=lambda x: abs(x - hvl))
 
     # Fetch corresponding k_med
     k_med = float(
-        df.loc[(df['hvl_mmAl'] == hvl_round) & (df['kvp_kV'] == kvp_round) &
-               (df['field_side_length_cm'] == fsl), "mu_en_quotient"])
+        df.loc[
+            (df["hvl_mmAl"] == hvl_round)
+            & (df["kvp_kV"] == kvp_round)
+            & (df["field_side_length_cm"] == fsl),
+            "mu_en_quotient",
+        ]
+    )
 
     return k_med
 
 
-def calculate_k_tab(data_norm: pd.DataFrame,
-                    estimate_k_tab: bool = False,
-                    k_tab_val: float = 0.8) -> List[float]:
-    """Fetches table correction factor from database.
+def calculate_k_tab(
+    data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab_val: float = 0.8
+) -> List[float]:
+    """Fetch table correction factor from database.
 
     This function fetches measured table correction factor as a function of
     HVL and kVp. Further, if no measurement are conducted on a specific unit,
@@ -188,8 +207,8 @@ def calculate_k_tab(data_norm: pd.DataFrame,
     -------
     List[float]
         List of table correction factor for all events in procedure.
-    """
 
+    """
     if estimate_k_tab:
         return [k_tab_val] * len(data_norm)
 
@@ -202,17 +221,22 @@ def calculate_k_tab(data_norm: pd.DataFrame,
     for event in range(len(data_norm)):
 
         # Set paramets for fetching table transmission correction factor.
-        params = (round(data_norm.kVp[event]),  # kVp, rounded to nearest integer
-                  data_norm.filter_thickness_Cu[event],  # Filter thickness Cu
-                  data_norm.filter_thickness_Al[event],  # Filter thicknes Al
-                  data_norm.model[event],  # device model
-                  data_norm.acquisition_plane[event],)  # acquisition plane
+        params = (
+            round(float(data_norm.kVp[event])),  # kVp, rounded to nearest integer
+            data_norm.filter_thickness_Cu[event],  # Filter thickness Cu
+            data_norm.filter_thickness_Al[event],  # Filter thicknes Al
+            data_norm.model[event],  # device model
+            data_norm.acquisition_plane[event],  # acquisition plane
+        ) 
 
         # Fetch k_tab
-        c.execute('SELECT k_patient_support FROM table_transmission WHERE \
+        c.execute(
+            "SELECT k_patient_support FROM table_transmission WHERE \
                    kVp_kV=? AND AddedFiltration_mmCu=? AND \
                    AddedFiltration_mmAl=? AND DeviceModel=? AND \
-                   AcquisitionPlane=?', params)
+                   AcquisitionPlane=?",
+            params,
+        )
 
         k_tab[event] = c.fetchone()[0]
 

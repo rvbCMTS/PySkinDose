@@ -12,7 +12,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://dev.azure.com/Sjukhusfysiker/PySkinDose',
     author='Max Hellström',
-    author_email='add you email',
+    author_email='max.hellstrom@gmail.com',
     license='MIT',
     classifiers=[
         'License :: OSI Approved :: MIT License',

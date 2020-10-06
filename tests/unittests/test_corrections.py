@@ -13,8 +13,7 @@ sys.path.insert(1, str(P.absolute()))
 
 
 def test_calculate_k_isq_unchanged_fluence():
-    # Tests if the X-ray fluence is left unscaled if cell is located at the
-    # distance source to IRP
+    """Tests if the X-ray fluence is left unscaled at d = d_IRP."""
     expected = 1
     test = calculate_k_isq(source=np.array([0, 0, 0]),
                            cells=np.array([0, 100, 0]),
@@ -23,8 +22,7 @@ def test_calculate_k_isq_unchanged_fluence():
 
 
 def test_calculate_k_isq_increased_fluence():
-    # Tests if the fluence is correctly increased at a smaller distance then
-    # distance source to IRP
+    """Tests if the fluence is correctly increased if d < d_IRP."""
     expected = 4
     test = calculate_k_isq(source=np.array([0, 0, 0]),
                            cells=np.array([0, 50, 0]),
@@ -33,8 +31,7 @@ def test_calculate_k_isq_increased_fluence():
 
 
 def test_calculate_k_isq_decreased_fluence():
-    # Tests if the fluence is correctly decreased at a larger distance then
-    # distance source to IRP
+    """Tests if the fluence is correctly increased if d > d_IRP."""
     expected = 0.25
     test = calculate_k_isq(source=np.array([0, 0, 0]),
                            cells=np.array([0, 200, 0]),
@@ -43,10 +40,11 @@ def test_calculate_k_isq_decreased_fluence():
 
 
 def test_calculate_k_bs():
-    # Tests if the interpolated backscatter factor lies within 1% of the
-    # tabulated value, for all tabulated field sizes at a specific kVp/HVL
-    # combination.
+    """Tests the backscatter correction.
 
+    Tests if the interpolated backscatter factor lies within 1% of the tabulated value,
+    for all tabulated field sizes at a specific kVp/HVL combination.
+    """
     expected = 5 * [True]
 
     # Tabulated backscatter factor for param in data_norm
@@ -70,7 +68,7 @@ def test_calculate_k_bs():
 
 
 def test_calculate_k_med():
-
+    """Tests the medium correction."""
     # Expected k_med factors for kVp = 80 kV and HVL = 4.99 mmAl
     expected = [1.027, 1.026, 1.025, 1.025, 1.025]
 
@@ -84,6 +82,7 @@ def test_calculate_k_med():
     assert test in expected
 
 def test_calculate_k_tab():
+    """Testa the table correction."""
     # Tests if correct k_tab value is returned from database
     expected = 0.7319
 

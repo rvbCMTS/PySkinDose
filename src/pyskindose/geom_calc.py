@@ -1,9 +1,13 @@
+import logging
+from typing import List, Any
+
 import numpy as np
 import pandas as pd
-from typing import List, Any
 
 from .db_connect import db_connect
 from .phantom_class import Phantom
+
+# logger = logging.getLogger(__name__)
 
 
 def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
@@ -144,7 +148,7 @@ def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom,
     return field_area
 
 
-def fetch_hvl(data_norm: pd.DataFrame) -> None:
+def fetch_and_append_hvl(data_norm: pd.DataFrame) -> pd.DataFrame:
     """Add event HVL to RDSR event data from database.
 
     Parameters
@@ -154,10 +158,10 @@ def fetch_hvl(data_norm: pd.DataFrame) -> None:
 
     Returns
     -------
-    None
+    data_norm
         This function appends event specific HVL (mmAl) as a function of device
         model, kVp, and copper- and aluminum filtration to the normalized RDSR
-        data in data_norm.
+        data in data_norm and returns the DataFrame with the HVL info appended.
 
     """
     # Open connection to database
@@ -180,6 +184,8 @@ def fetch_hvl(data_norm: pd.DataFrame) -> None:
     conn.commit()
     conn.close()
 
+    return data_norm
+
 
 def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
     """Check which events has unchanged geometry since the event before.
@@ -200,19 +206,20 @@ def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
         geometry since the preceding irradiation event.
 
     """
-    # List all RDSR parameters that contains geometry parameters.
+    #logger.info("Checking which irradiation events contain changes in geometry compared to previous event")
+
+    #logger.debug("Listing all RDSR geometry parameters")
     geom_params = data_norm[['dLAT', 'dLONG', 'dVERT', 'FS_lat',
                              'FS_long', 'PPA', 'PSA']]
 
-    # check which event has the same parameters as the previous
-    same_geometry = [geom_params.iloc[event].equals(
-        geom_params.iloc[event - 1]) for event in range(1, len(geom_params))]
+    #logger.debug("Checking which irradiation events that does not have same parameters as previous")
+    changed_geometry = [not geom_params.iloc[event].equals( geom_params.iloc[event - 1])
+                        for event in range(1, len(geom_params))]
 
-    # insert false to first event
-    same_geometry.insert(0, False)
+    #logger.debug("Insert True to the first event to indicate that it has a new geometry")
+    changed_geometry.insert(0, True)
 
-    # return inverted list, to get correct output
-    return [not event for event in same_geometry]
+    return changed_geometry
 
 
 class Triangle:
@@ -272,6 +279,7 @@ class Triangle:
         stop : np.array
             Carthesian 3D coordinates to the end points of the segment. Note,
             can be several points, e.g, several skin cells.
+
         Returns
         -------
             List[bool]
@@ -279,7 +287,6 @@ class Triangle:
             and each of coordinates in stop are intercepted by the triangle.
 
         """
-
         # Vector from source to central vertex
         # w = vector(start, self.p)
         w = self.p - start
