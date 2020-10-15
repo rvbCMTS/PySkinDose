@@ -31,11 +31,14 @@ release = '19.6.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.mathjax",
     "myst_parser",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon"
 ]
 
+mathjax_config = {
+        "HTML-CSS": { 'availableFonts': ["TeX"] }
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
