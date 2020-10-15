@@ -10,6 +10,8 @@ black = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}
+sphinx = "*"
+myst-parser = "*"
 
 [requires]
 python_version = "3.7"
