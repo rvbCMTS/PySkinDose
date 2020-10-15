@@ -7,6 +7,7 @@ verify_ssl = true
 pytest = "*"
 pydocstyle = "*"
 black = "*"
+sphinx-rtd-theme = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}
