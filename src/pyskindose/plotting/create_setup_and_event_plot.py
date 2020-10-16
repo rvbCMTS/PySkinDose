@@ -26,7 +26,8 @@ from ..constants import (
     PLOT_AXIS_TITLE_Y,
     PLOT_AXIS_TITLE_Z,
     PLOT_FONT_FAMILY,
-    PLOT_HOVER_LABEL_FONT_FAMILY
+    PLOT_HOVER_LABEL_FONT_FAMILY,
+    PLOT_ZERO_LINE_WIDTH
 )
 from .create_mesh3d import create_mesh_3d_general
 from .create_plot_and_save_to_file import create_plot_and_save_to_file
@@ -104,21 +105,24 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
                               backgroundcolor=COLOR_CANVAS,
                               gridcolor=COLOR_GRID,
                               linecolor=COLOR_GRID,
-                              zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
+                              zerolinecolor=COLOR_ZERO_LINE,
+                              zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
                    yaxis=dict(title=PLOT_AXIS_TITLE_Y,
                               color=COLOR_PLOT_TEXT,
                               gridcolor=COLOR_GRID,
                               linecolor=COLOR_GRID,
                               backgroundcolor=COLOR_CANVAS,
-                              zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
+                              zerolinecolor=COLOR_ZERO_LINE,
+                              zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
                    zaxis=dict(title=PLOT_AXIS_TITLE_Z,
                               color=COLOR_PLOT_TEXT,
                               gridcolor=COLOR_GRID,
                               linecolor=COLOR_GRID,
                               backgroundcolor=COLOR_CANVAS,
-                              zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3)))
+                              zerolinecolor=COLOR_ZERO_LINE,
+                              zerolinewidth=PLOT_ZERO_LINE_WIDTH)))
 
     data = [patient_mesh, source_mesh, table_mesh, detector_mesh, pad_mesh,
             beam_mesh, wf_beam, wf_table, wf_pad, wf_detector]

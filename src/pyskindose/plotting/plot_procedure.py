@@ -11,6 +11,9 @@ from ..constants import (
     COLOR_PLOT_TEXT_DARK,
     COLOR_ZERO_LINE_LIGHT,
     COLOR_ZERO_LINE_DARK,
+    COLOR_GRID_LIGHT,
+    COLOR_GRID_DARK,
+    COLOR_GRID_LIGHT,
     COLOR_BEAM,
     COLOR_DETECTOR,
     COLOR_PAD,
@@ -37,8 +40,10 @@ from ..constants import (
     PLOT_SLIDER_PADDING,
     PLOT_SLIDER_TRANSITION,
     PLOT_TITLE_FONT_FAMILY,
-    PLOT_TITLE_FONT_SIZE
+    PLOT_TITLE_FONT_SIZE,
+    PLOT_ZERO_LINE_WIDTH
 )
+
 from .create_irradiation_event_procedure_plot_data import create_irradiation_event_procedure_plot_data
 from .create_plot_and_save_to_file import create_plot_and_save_to_file
 from .get_camera_view import get_camera_view
@@ -127,11 +132,14 @@ def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True
     if dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_DARK
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
+        COLOR_GRID = COLOR_GRID_DARK
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
+
 
     if not dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_LIGHT
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
+        COLOR_GRID = COLOR_GRID_LIGHT
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
         
 
@@ -150,23 +158,28 @@ def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True
                    xaxis=dict(title=PLOT_AXIS_TITLE_X,
                               range=[-150, 150],
                               color=COLOR_PLOT_TEXT,
+                              gridcolor=COLOR_GRID,
+                              linecolor=COLOR_GRID,
                               backgroundcolor=COLOR_CANVAS,
-                              zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
+                              zerolinecolor=COLOR_ZERO_LINE,
+                              zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
                    yaxis=dict(title=PLOT_AXIS_TITLE_Y,
                               range=[-150, 150],
                               color=COLOR_PLOT_TEXT,
+                              gridcolor=COLOR_GRID,
+                              linecolor=COLOR_GRID,
                               backgroundcolor=COLOR_CANVAS,
-                              zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
+                              zerolinecolor=COLOR_ZERO_LINE,
+                              zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
                    zaxis=dict(title=PLOT_AXIS_TITLE_Z,
                               range=[-150, 150],
                               color=COLOR_PLOT_TEXT,
+                              gridcolor=COLOR_GRID,
+                              linecolor=COLOR_GRID,
                               backgroundcolor=COLOR_CANVAS,
-                              zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3)
+                              zerolinecolor=COLOR_ZERO_LINE,
+                              zerolinewidth=PLOT_ZERO_LINE_WIDTH)
                    )
     )
-
-
-
-
