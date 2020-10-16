@@ -12,6 +12,8 @@ from ..constants import (
     COLOR_PLOT_TEXT_DARK,
     COLOR_ZERO_LINE_LIGHT,
     COLOR_ZERO_LINE_DARK,
+    COLOR_GRID_DARK,
+    COLOR_GRID_LIGHT,
     COLOR_BEAM,
     COLOR_DETECTOR,
     COLOR_PAD,
@@ -34,7 +36,6 @@ from ..phantom_class import Phantom
 
 logger = logging.getLogger(__name__)
 
-
 def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, beam: Beam, mode: str,
                                 patient_text: List[str], source_text: List[str], table_text: List[str],
                                 detectors_text: List[str], pad_text: List[str], beam_text: List[str],
@@ -45,11 +46,14 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
     if dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_DARK
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
+        COLOR_GRID = COLOR_GRID_DARK
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
+
 
     if not dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_LIGHT
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
+        COLOR_GRID = COLOR_GRID_LIGHT
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
 
     patient_mesh = create_mesh_3d_general(obj=patient, color=COLOR_PATIENT,
@@ -98,15 +102,21 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
                    xaxis=dict(title=PLOT_AXIS_TITLE_X,
                               color=COLOR_PLOT_TEXT,
                               backgroundcolor=COLOR_CANVAS,
+                              gridcolor=COLOR_GRID,
+                              linecolor=COLOR_GRID,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
 
                    yaxis=dict(title=PLOT_AXIS_TITLE_Y,
                               color=COLOR_PLOT_TEXT,
+                              gridcolor=COLOR_GRID,
+                              linecolor=COLOR_GRID,
                               backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
 
                    zaxis=dict(title=PLOT_AXIS_TITLE_Z,
                               color=COLOR_PLOT_TEXT,
+                              gridcolor=COLOR_GRID,
+                              linecolor=COLOR_GRID,
                               backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3)))
 
