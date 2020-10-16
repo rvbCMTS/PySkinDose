@@ -3,7 +3,7 @@ import numpy as np
 import os
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.offline as ply
+import plotly
 from stl import mesh
 from typing import Dict
 from typing import List, Optional
@@ -443,4 +443,4 @@ class Phantom:
         # create figure
         fig = go.Figure(data=phantom_mesh, layout=layout)
         # Execure plot
-        ply.plot(fig, filename='dose_map.html')
+        fig.show()

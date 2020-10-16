@@ -3,7 +3,7 @@ from typing import Dict, Optional, Union
 
 import numpy as np
 import pandas as pd
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 
 from ..beam_class import Beam
 from .create_geometry_plot_texts import create_geometry_plot_texts

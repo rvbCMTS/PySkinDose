@@ -1,8 +1,8 @@
 import logging
 from typing import List
 
-import plotly.graph_objs as go
-import plotly.offline as ply
+import plotly.graph_objects as go
+import plotly
 
 from ..beam_class import Beam
 from ..constants import (
