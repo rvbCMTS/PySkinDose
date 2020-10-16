@@ -12,7 +12,7 @@ from ..phantom_class import Phantom
 logger = logging.getLogger(__name__)
 
 
-def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom, table: Phantom, pad: Phantom):
+def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom, table: Phantom, pad: Phantom, dark_mode: bool=True):
     """Visualize the geometry from a specific irradiation event.
 
     This function plots an irradiation event with the patient,
@@ -38,6 +38,8 @@ def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom,
     pad : Phantom
         Pad phantom from instance of class Phantom. phantom_model must be
         "pad"
+    dark_mode : bool, optional
+        Set dark mode for plot
     """
     if mode != MODE_PLOT_EVENT:
         return
@@ -64,4 +66,4 @@ def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom,
                                 table=table, table_text=table_text,
                                 pad=pad, pad_text=pad_text,
                                 beam=beam, beam_text=beam_text,
-                                source_text=source_text, detectors_text=detectors_text)
+                                source_text=source_text, detectors_text=detectors_text, dark_mode=dark_mode)

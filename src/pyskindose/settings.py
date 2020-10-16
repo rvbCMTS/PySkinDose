@@ -1,7 +1,6 @@
 import json
 from typing import Union
 
-
 class PyskindoseSettings:
     """A class to store all settings required to run PySkinDose.
 
@@ -34,6 +33,8 @@ class PyskindoseSettings:
     phantom : PhantomSettings
         Instance of class PhantomSettings containing all phantom related
         settings.
+    plot : Plotsettings.
+        Instace of class Plottsettings containing all plot related settings
 
     """
 
@@ -59,7 +60,7 @@ class PyskindoseSettings:
         self.estimate_k_tab = tmp['estimate_k_tab']
         self.k_tab_val = tmp['k_tab_val']
         self.phantom = PhantomSettings(ptm_dim=tmp['phantom'])
-
+        self.plot = Plotsettings(plt_dict=tmp['plot'])
 
 class PhantomSettings:
     """A class for setting all the phantom related settings required to run
@@ -177,7 +178,7 @@ class PhantomDimensions:
         self.pad_thickness = ptm_dim['pad_thickness']
         self.pad_width = ptm_dim['pad_width']
         self.pad_length = ptm_dim['pad_length']
-        self.units = ptm_dim['units']
+        self.units = ptm_dim['unit']
 
         if self.units != "cm":
             raise NotImplementedError('Units must be given in cm.')
@@ -225,3 +226,22 @@ class PatientOffset:
 
         if self.units != "cm":
             raise NotImplementedError('Units must be given in cm.')
+
+
+class Plotsettings:
+    """A class for setting plot settings
+
+    Attributes
+    ----------
+    dark_mode : bool
+        dark mode boolean
+    """
+    def __init__(self, plt_dict):
+        """
+        Parameters
+        ----------
+        plt_dict : dict
+            Dictionary containing all of the plot setting that are
+            appended as attributes to this class, see class attributes.
+        """
+        self.dark_mode = plt_dict['dark_mode']

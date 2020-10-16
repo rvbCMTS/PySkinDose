@@ -8,10 +8,18 @@ from stl import mesh
 from typing import Dict
 from typing import List, Optional
 
-from .settings import PhantomDimensions
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
+
+from .constants import (
+    COLOR_CANVAS_DARK,
+    COLOR_CANVAS_LIGHT,
+    COLOR_PLOT_TEXT_LIGHT,
+    COLOR_PLOT_TEXT_DARK,
+    PLOT_FONT_FAMILY,
+    PLOT_HOVER_LABEL_FONT_FAMILY
+)
 
 
 class Phantom:
@@ -64,7 +72,7 @@ class Phantom:
     """
 
     def __init__(self,
-                 phantom_model: str, phantom_dim: PhantomDimensions,
+                 phantom_model: str, phantom_dim,
                  human_mesh: Optional[str] = None):
         """Create the phantom of choice.
 
@@ -372,7 +380,7 @@ class Phantom:
         self.r[:, 1] += data_norm.dVERT[i]
         self.r[:, 2] += data_norm.dLAT[i]
 
-    def plot_dosemap(self):
+    def plot_dosemap(self, dark_mode: bool=True):
         """Plot a map of the absorbed skindose upon the patient phantom.
 
         This function creates and plots an offline plotly graph of the
@@ -380,7 +388,22 @@ class Phantom:
         absorbed skin dose value. Only available for phantom type: "plane",
         "cylinder" or "human"
 
+        Parameters
+        ----------
+        dark_mode : book
+            set dark for for plot
+
         """
+
+        if dark_mode:
+            COLOR_CANVAS = COLOR_CANVAS_DARK
+            COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
+
+        if not dark_mode:
+            COLOR_CANVAS = COLOR_CANVAS_LIGHT
+            COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
+
+
         hover_text = [f"<b>coordinate:</b><br><b>LAT:</b> {np.around(self.r[ind, 2],2)} cm<br><b>LON:</b> {np.around(self.r[ind, 0])} cm<br><b>VER:</b> {np.around(self.r[ind, 1])} cm<br><b>skin dose: </b><br>{round(self.dose[ind],2)} mGy"
             for ind in range(len(self.r))]
 
@@ -392,19 +415,19 @@ class Phantom:
                 intensity=self.dose, colorscale="Jet", showscale=True,
                 hoverinfo='text',
                 text=hover_text, name="Human",
-                colorbar=dict(tickfont=dict(color="white"),
+                colorbar=dict(tickfont=dict(color=COLOR_PLOT_TEXT),
                               title="Skin dose [mGy]",
-                              titlefont=dict(family="Franklin Gothic", color="white")))]
+                              titlefont=dict(family=PLOT_FONT_FAMILY, color=COLOR_PLOT_TEXT)))]
 
         # Layout settings
         layout = go.Layout(
-            font=dict(family='Franklin Gothic', color="white", size=18),
-            hoverlabel=dict(font=dict(family="Consolas, monospace", size=16)),
+            font=dict(family=PLOT_FONT_FAMILY, color=COLOR_PLOT_TEXT, size=18),
+            hoverlabel=dict(font=dict(family=PLOT_HOVER_LABEL_FONT_FAMILY, size=16)),
             title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
-            titlefont=dict(family='Franklin Gothic', size=35,
-                           color='white'),
-            plot_bgcolor='#201f1e',
-            paper_bgcolor='#201f1e',
+            titlefont=dict(family=PLOT_FONT_FAMILY, size=35,
+                           color=COLOR_PLOT_TEXT),
+            plot_bgcolor=COLOR_CANVAS,
+            paper_bgcolor=COLOR_CANVAS,
 
             scene=dict(aspectmode="data",
                        xaxis=dict(title='',

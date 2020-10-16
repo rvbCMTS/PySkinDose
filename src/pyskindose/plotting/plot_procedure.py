@@ -5,9 +5,23 @@ import pandas as pd
 import plotly.graph_objs as go
 
 from ..constants import (
-    COLOR_AZURE_DARK,
-    COLOR_PLOT_TEXT,
-    COLOR_ZERO_LINE,
+    COLOR_CANVAS_DARK,
+    COLOR_CANVAS_LIGHT,
+    COLOR_PLOT_TEXT_LIGHT,
+    COLOR_PLOT_TEXT_DARK,
+    COLOR_ZERO_LINE_LIGHT,
+    COLOR_ZERO_LINE_DARK,
+    COLOR_BEAM,
+    COLOR_DETECTOR,
+    COLOR_PAD,
+    COLOR_PATIENT,
+    COLOR_SOURCE,
+    COLOR_TABLE,
+    COLOR_SLIDER_BACKGROUND,
+    COLOR_SLIDER_BORDER_LIGHT,
+    COLOR_SLIDER_BORDER_DARK,
+    COLOR_SLIDER_TICK_LIGHT,
+    COLOR_SLIDER_TICK_DARK,
     IRRADIATION_EVENT_STEP_KEY_ARGUMENTS,
     IRRADIATION_EVENT_STEP_KEY_LABEL,
     IRRADIATION_EVENT_STEP_KEY_METHOD,
@@ -17,13 +31,10 @@ from ..constants import (
     PLOT_AXIS_TITLE_Z,
     PLOT_FONT_FAMILY,
     PLOT_HOVER_LABEL_FONT_FAMILY,
-    PLOT_SLIDER_BACKGROUND_COLOR,
-    PLOT_SLIDER_BORDER_COLOR,
     PLOT_SLIDER_BORDER_WIDTH,
     PLOT_SLIDER_FONT_SIZE_CURRENT,
     PLOT_SLIDER_FONT_SIZE_GENERAL,
     PLOT_SLIDER_PADDING,
-    PLOT_SLIDER_TICK_COLOR,
     PLOT_SLIDER_TRANSITION,
     PLOT_TITLE_FONT_FAMILY,
     PLOT_TITLE_FONT_SIZE
@@ -36,7 +47,7 @@ from ..phantom_class import Phantom
 logger = logging.getLogger(__name__)
 
 
-def plot_procedure(mode: str, data_norm: pd.DataFrame, table: Phantom, pad: Phantom, include_patient: bool, patient: Optional[Phantom] = None):
+def plot_procedure(mode: str, data_norm: pd.DataFrame, table: Phantom, pad: Phantom, include_patient: bool, patient: Optional[Phantom] = None, dark_mode: bool=True):
     if mode != MODE_PLOT_PROCEDURE:
         return
 
@@ -65,7 +76,7 @@ def plot_procedure(mode: str, data_norm: pd.DataFrame, table: Phantom, pad: Phan
             for plot_object in meshes[0].keys()
             for event in meshes]
 
-    layout = _create_procedure_layout(title=title, total_events=len(data_norm))
+    layout = _create_procedure_layout(title=title, total_events=len(data_norm), dark_mode=dark_mode)
 
     create_plot_and_save_to_file(mode=mode, data=data, layout=layout)
 
@@ -81,15 +92,25 @@ def _create_event_slider_step(total_events: int, event: int) -> Dict[str, Any]:
     return step
 
 
-def _create_sliders(steps: List[Dict], total_events: int) -> List[Dict[str, Any]]:
+def _create_sliders(steps: List[Dict], total_events: int, dark_mode: bool=True) -> List[Dict[str, Any]]:
+
+    if dark_mode:
+        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
+        COLOR_SLIDER_TICK = COLOR_SLIDER_TICK_DARK
+        COLOR_SLIDER_BORDER = COLOR_SLIDER_BORDER_DARK
+
+    if not dark_mode:
+        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
+        COLOR_SLIDER_TICK = COLOR_SLIDER_TICK_LIGHT
+        COLOR_SLIDER_BORDER = COLOR_SLIDER_BORDER_LIGHT
     return [
         dict(
             active=0,
             transition=PLOT_SLIDER_TRANSITION,
-            bordercolor=PLOT_SLIDER_BORDER_COLOR,
+            bordercolor=COLOR_SLIDER_BORDER,
             borderwidth=PLOT_SLIDER_BORDER_WIDTH,
-            tickcolor=PLOT_SLIDER_TICK_COLOR,
-            bgcolor=PLOT_SLIDER_BACKGROUND_COLOR,
+            tickcolor=COLOR_SLIDER_TICK,
+            bgcolor=COLOR_SLIDER_BACKGROUND,
             currentvalue=dict(prefix="Active event: ",
                               suffix=f" of {total_events}",
                               font=dict(color=COLOR_PLOT_TEXT, size=PLOT_SLIDER_FONT_SIZE_CURRENT)),
@@ -100,11 +121,22 @@ def _create_sliders(steps: List[Dict], total_events: int) -> List[Dict[str, Any]
     ]
 
 
-def _create_procedure_layout(title: str, total_events: int) -> go.Layout:
+def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True) -> go.Layout:
     steps = [_create_event_slider_step(total_events=total_events, event=ind) for ind in range(total_events)]
 
+    if dark_mode:
+        COLOR_CANVAS = COLOR_CANVAS_DARK
+        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
+        COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
+
+    if not dark_mode:
+        COLOR_CANVAS = COLOR_CANVAS_LIGHT
+        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
+        COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
+        
+
     return go.Layout(
-        sliders=_create_sliders(steps=steps, total_events=total_events),
+        sliders=_create_sliders(steps=steps, total_events=total_events, dark_mode=dark_mode),
         font=dict(family=PLOT_FONT_FAMILY, size=14),
         hoverlabel=dict(font=dict(family=PLOT_HOVER_LABEL_FONT_FAMILY, size=PLOT_SLIDER_FONT_SIZE_GENERAL)),
         showlegend=False,
@@ -112,8 +144,8 @@ def _create_procedure_layout(title: str, total_events: int) -> go.Layout:
         title=title,
         titlefont=dict(family=PLOT_TITLE_FONT_FAMILY, size=PLOT_TITLE_FONT_SIZE,
                        color=COLOR_PLOT_TEXT),
-        plot_bgcolor=COLOR_AZURE_DARK,
-        paper_bgcolor=COLOR_AZURE_DARK,
+        plot_bgcolor=COLOR_CANVAS,
+        paper_bgcolor=COLOR_CANVAS,
         scene=dict(aspectmode="cube",
                    camera=get_camera_view(),
                    xaxis=dict(title=PLOT_AXIS_TITLE_X,

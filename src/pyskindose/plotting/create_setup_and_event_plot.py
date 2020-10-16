@@ -6,15 +6,18 @@ import plotly.offline as ply
 
 from ..beam_class import Beam
 from ..constants import (
-    COLOR_AZURE_DARK,
+    COLOR_CANVAS_DARK,
+    COLOR_CANVAS_LIGHT,
+    COLOR_PLOT_TEXT_LIGHT,
+    COLOR_PLOT_TEXT_DARK,
+    COLOR_ZERO_LINE_LIGHT,
+    COLOR_ZERO_LINE_DARK,
     COLOR_BEAM,
     COLOR_DETECTOR,
     COLOR_PAD,
     COLOR_PATIENT,
-    COLOR_PLOT_TEXT,
     COLOR_SOURCE,
     COLOR_TABLE,
-    COLOR_ZERO_LINE,
     MESH_NAME_PAD,
     MESH_OPACITY_BEAM,
     PLOT_AXIS_TITLE_X,
@@ -35,10 +38,24 @@ logger = logging.getLogger(__name__)
 def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, beam: Beam, mode: str,
                                 patient_text: List[str], source_text: List[str], table_text: List[str],
                                 detectors_text: List[str], pad_text: List[str], beam_text: List[str],
-                                title: str):
+                                title: str, dark_mode=True):
     logger.debug("Creating meshes for plot")
+
+
+    if dark_mode:
+        COLOR_CANVAS = COLOR_CANVAS_DARK
+        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
+        COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
+
+    if not dark_mode:
+        COLOR_CANVAS = COLOR_CANVAS_LIGHT
+        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
+        COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
+
     patient_mesh = create_mesh_3d_general(obj=patient, color=COLOR_PATIENT,
                                           mesh_text=patient_text, lighting=dict(diffuse=0.5, ambient=0.5))
+
+
 
     source_mesh = go.Scatter3d(
         x=[beam.r[0, 0], beam.r[0, 0]],
@@ -74,8 +91,8 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
         title=title,
         titlefont=dict(family=PLOT_FONT_FAMILY, size=35,
                        color=COLOR_PLOT_TEXT),
-        plot_bgcolor=COLOR_AZURE_DARK,
-        paper_bgcolor=COLOR_AZURE_DARK,
+        plot_bgcolor=COLOR_CANVAS,
+        paper_bgcolor=COLOR_CANVAS,
 
         scene=dict(aspectmode="data", camera=get_camera_view(),
 
