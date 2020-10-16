@@ -45,12 +45,12 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
     if dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_DARK
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
-        COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
+        COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
 
     if not dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_LIGHT
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
-        COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
+        COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
 
     patient_mesh = create_mesh_3d_general(obj=patient, color=COLOR_PATIENT,
                                           mesh_text=patient_text, lighting=dict(diffuse=0.5, ambient=0.5))
@@ -91,21 +91,23 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
         title=title,
         titlefont=dict(family=PLOT_FONT_FAMILY, size=35,
                        color=COLOR_PLOT_TEXT),
-        plot_bgcolor=COLOR_CANVAS,
         paper_bgcolor=COLOR_CANVAS,
-
+        
         scene=dict(aspectmode="data", camera=get_camera_view(),
 
                    xaxis=dict(title=PLOT_AXIS_TITLE_X,
                               color=COLOR_PLOT_TEXT,
+                              backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
 
                    yaxis=dict(title=PLOT_AXIS_TITLE_Y,
                               color=COLOR_PLOT_TEXT,
+                              backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
 
                    zaxis=dict(title=PLOT_AXIS_TITLE_Z,
                               color=COLOR_PLOT_TEXT,
+                              backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3)))
 
     data = [patient_mesh, source_mesh, table_mesh, detector_mesh, pad_mesh,

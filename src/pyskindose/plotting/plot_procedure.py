@@ -2,7 +2,7 @@ import logging
 from typing import Any, Dict, List, Optional
 
 import pandas as pd
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 
 from ..constants import (
     COLOR_CANVAS_DARK,
@@ -144,23 +144,25 @@ def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True
         title=title,
         titlefont=dict(family=PLOT_TITLE_FONT_FAMILY, size=PLOT_TITLE_FONT_SIZE,
                        color=COLOR_PLOT_TEXT),
-        plot_bgcolor=COLOR_CANVAS,
         paper_bgcolor=COLOR_CANVAS,
         scene=dict(aspectmode="cube",
                    camera=get_camera_view(),
                    xaxis=dict(title=PLOT_AXIS_TITLE_X,
                               range=[-150, 150],
                               color=COLOR_PLOT_TEXT,
+                              backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
 
                    yaxis=dict(title=PLOT_AXIS_TITLE_Y,
                               range=[-150, 150],
                               color=COLOR_PLOT_TEXT,
+                              backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3),
 
                    zaxis=dict(title=PLOT_AXIS_TITLE_Z,
                               range=[-150, 150],
                               color=COLOR_PLOT_TEXT,
+                              backgroundcolor=COLOR_CANVAS,
                               zerolinecolor=COLOR_ZERO_LINE, zerolinewidth=3)
                    )
     )

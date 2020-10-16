@@ -2,7 +2,7 @@ import copy
 import numpy as np
 import os
 import pandas as pd
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 import plotly.offline as ply
 from stl import mesh
 from typing import Dict
@@ -431,10 +431,13 @@ class Phantom:
 
             scene=dict(aspectmode="data",
                        xaxis=dict(title='',
+                                  backgroundcolor=COLOR_CANVAS,
                                   showgrid=False, showticklabels=False),
                        yaxis=dict(title='',
+                                  backgroundcolor=COLOR_CANVAS,
                                   showgrid=False, showticklabels=False),
                        zaxis=dict(title='',
+                                  backgroundcolor=COLOR_CANVAS,
                                   showgrid=False, showticklabels=False)))
 
         # create figure
