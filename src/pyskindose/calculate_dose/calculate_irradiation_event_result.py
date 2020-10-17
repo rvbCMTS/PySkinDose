@@ -114,8 +114,6 @@ def calculate_irradiation_event_result(
     event += 1
     if event < total_events:
 
-        print(event)
-
         output = calculate_irradiation_event_result(
             normalized_data=normalized_data,
             event=event,
