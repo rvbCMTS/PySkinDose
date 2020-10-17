@@ -7,6 +7,8 @@ import plotly.graph_objects as go
 from ..constants import (
     COLOR_CANVAS_DARK,
     COLOR_CANVAS_LIGHT,
+    COLOR_CANVAS_JUPYTERLAB_DARK,
+    COLOR_CANVAS_JUPYTERLAB_LIGHT,
     COLOR_PLOT_TEXT_LIGHT,
     COLOR_PLOT_TEXT_DARK,
     COLOR_ZERO_LINE_LIGHT,
@@ -33,7 +35,9 @@ from ..constants import (
     PLOT_AXIS_TITLE_Y,
     PLOT_AXIS_TITLE_Z,
     PLOT_FONT_FAMILY,
-    PLOT_HOVER_LABEL_FONT_FAMILY,
+    PLOT_FONT_SIZE,
+    PLOT_HOVERLABEL_FONT_FAMILY,
+    PLOT_HOVERLABEL_FONT_SIZE,
     PLOT_SLIDER_BORDER_WIDTH,
     PLOT_SLIDER_FONT_SIZE_CURRENT,
     PLOT_SLIDER_FONT_SIZE_GENERAL,
@@ -41,7 +45,14 @@ from ..constants import (
     PLOT_SLIDER_TRANSITION,
     PLOT_TITLE_FONT_FAMILY,
     PLOT_TITLE_FONT_SIZE,
-    PLOT_ZERO_LINE_WIDTH
+    PLOT_ZERO_LINE_WIDTH,
+    PLOT_DRAGMODE,
+    PLOT_ASPECTMODE_PLOT_PROCEDURE,
+    PLOT_PROCEDURE_AXIS_RANGE_X,
+    PLOT_PROCEDURE_AXIS_RANGE_Y,
+    PLOT_PROCEDURE_AXIS_RANGE_Z,
+    PLOT_HEIGHT_NOTEBOOK,
+    PLOT_MARGIN_NOTEBOOK,
 )
 
 from .create_irradiation_event_procedure_plot_data import create_irradiation_event_procedure_plot_data
@@ -52,7 +63,16 @@ from ..phantom_class import Phantom
 logger = logging.getLogger(__name__)
 
 
-def plot_procedure(mode: str, data_norm: pd.DataFrame, table: Phantom, pad: Phantom, include_patient: bool, patient: Optional[Phantom] = None, dark_mode: bool=True):
+def plot_procedure(
+    mode: str,
+    data_norm: pd.DataFrame,
+    table: Phantom,
+    pad: Phantom,
+    include_patient: bool,
+    patient: Optional[Phantom] = None,
+    dark_mode: bool=True,
+    notebook_mode: bool=False):
+
     if mode != MODE_PLOT_PROCEDURE:
         return
 
@@ -81,12 +101,22 @@ def plot_procedure(mode: str, data_norm: pd.DataFrame, table: Phantom, pad: Phan
             for plot_object in meshes[0].keys()
             for event in meshes]
 
-    layout = _create_procedure_layout(title=title, total_events=len(data_norm), dark_mode=dark_mode)
+    layout = _create_procedure_layout(
+        title=title,
+        total_events=len(data_norm),
+        dark_mode=dark_mode,
+        notebook_mode=notebook_mode)
 
-    create_plot_and_save_to_file(mode=mode, data=data, layout=layout)
+    create_plot_and_save_to_file(
+        mode=mode,
+        data=data,
+        layout=layout)
 
 
-def _create_event_slider_step(total_events: int, event: int) -> Dict[str, Any]:
+def _create_event_slider_step(
+    total_events: int,
+    event: int) -> Dict[str, Any]:
+    
     step = {
         IRRADIATION_EVENT_STEP_KEY_METHOD: "restyle",
         IRRADIATION_EVENT_STEP_KEY_ARGUMENTS: ['visible', [False] * total_events],
@@ -97,7 +127,10 @@ def _create_event_slider_step(total_events: int, event: int) -> Dict[str, Any]:
     return step
 
 
-def _create_sliders(steps: List[Dict], total_events: int, dark_mode: bool=True) -> List[Dict[str, Any]]:
+def _create_sliders(
+    steps: List[Dict],
+    total_events: int,
+    dark_mode: bool=True) -> List[Dict[str, Any]]:
 
     if dark_mode:
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
@@ -108,6 +141,7 @@ def _create_sliders(steps: List[Dict], total_events: int, dark_mode: bool=True) 
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
         COLOR_SLIDER_TICK = COLOR_SLIDER_TICK_LIGHT
         COLOR_SLIDER_BORDER = COLOR_SLIDER_BORDER_LIGHT
+
     return [
         dict(
             active=0,
@@ -116,47 +150,79 @@ def _create_sliders(steps: List[Dict], total_events: int, dark_mode: bool=True) 
             borderwidth=PLOT_SLIDER_BORDER_WIDTH,
             tickcolor=COLOR_SLIDER_TICK,
             bgcolor=COLOR_SLIDER_BACKGROUND,
-            currentvalue=dict(prefix="Active event: ",
-                              suffix=f" of {total_events}",
-                              font=dict(color=COLOR_PLOT_TEXT, size=PLOT_SLIDER_FONT_SIZE_CURRENT)),
-            font=dict(family=PLOT_FONT_FAMILY, color=COLOR_PLOT_TEXT, size=PLOT_SLIDER_FONT_SIZE_GENERAL),
+            currentvalue=dict(
+                prefix="Active event: ",
+                suffix=f" of {total_events}",
+                font=dict(
+                    color=COLOR_PLOT_TEXT,
+                    size=PLOT_SLIDER_FONT_SIZE_CURRENT)),
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                color=COLOR_PLOT_TEXT,
+                size=PLOT_SLIDER_FONT_SIZE_GENERAL),
             pad=PLOT_SLIDER_PADDING,
             steps=steps
         )
     ]
 
 
-def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True) -> go.Layout:
-    steps = [_create_event_slider_step(total_events=total_events, event=ind) for ind in range(total_events)]
+def _create_procedure_layout(
+    title: str,
+    total_events: int,
+    dark_mode: bool=True,
+    notebook_mode: bool=False) -> go.Layout:
+
+    steps = [_create_event_slider_step(
+        total_events=total_events, event=ind) for ind in range(total_events)]
 
     if dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_DARK
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
         COLOR_GRID = COLOR_GRID_DARK
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
-
+        if notebook_mode:
+            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_DARK
 
     if not dark_mode:
         COLOR_CANVAS = COLOR_CANVAS_LIGHT
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
         COLOR_GRID = COLOR_GRID_LIGHT
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
-        
+        if notebook_mode:
+            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_LIGHT
 
-    return go.Layout(
-        sliders=_create_sliders(steps=steps, total_events=total_events, dark_mode=dark_mode),
-        font=dict(family=PLOT_FONT_FAMILY, size=14),
-        hoverlabel=dict(font=dict(family=PLOT_HOVER_LABEL_FONT_FAMILY, size=PLOT_SLIDER_FONT_SIZE_GENERAL)),
+    layout = go.Layout(
+
+        sliders=_create_sliders(
+            steps=steps, 
+            total_events=total_events,
+            dark_mode=dark_mode),
+
+        font=dict(
+            family=PLOT_FONT_FAMILY,
+            size=PLOT_FONT_SIZE,
+            color=COLOR_PLOT_TEXT
+            ),
+        
+        hoverlabel=dict(
+            font=dict(
+                family=PLOT_HOVERLABEL_FONT_FAMILY,
+                size=PLOT_SLIDER_FONT_SIZE_GENERAL)),
+
         showlegend=False,
-        dragmode="orbit",
+        dragmode=PLOT_DRAGMODE,
         title=title,
-        titlefont=dict(family=PLOT_TITLE_FONT_FAMILY, size=PLOT_TITLE_FONT_SIZE,
-                       color=COLOR_PLOT_TEXT),
+        
+        titlefont=dict(
+            family=PLOT_TITLE_FONT_FAMILY,
+            size=PLOT_TITLE_FONT_SIZE,
+            color=COLOR_PLOT_TEXT),
+        
         paper_bgcolor=COLOR_CANVAS,
-        scene=dict(aspectmode="cube",
+        scene=dict(aspectmode=PLOT_ASPECTMODE_PLOT_PROCEDURE,
                    camera=get_camera_view(),
                    xaxis=dict(title=PLOT_AXIS_TITLE_X,
-                              range=[-150, 150],
+                              range=PLOT_PROCEDURE_AXIS_RANGE_X,
                               color=COLOR_PLOT_TEXT,
                               gridcolor=COLOR_GRID,
                               linecolor=COLOR_GRID,
@@ -165,7 +231,7 @@ def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True
                               zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
                    yaxis=dict(title=PLOT_AXIS_TITLE_Y,
-                              range=[-150, 150],
+                              range=PLOT_PROCEDURE_AXIS_RANGE_Y,
                               color=COLOR_PLOT_TEXT,
                               gridcolor=COLOR_GRID,
                               linecolor=COLOR_GRID,
@@ -174,7 +240,7 @@ def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True
                               zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
                    zaxis=dict(title=PLOT_AXIS_TITLE_Z,
-                              range=[-150, 150],
+                              range=PLOT_PROCEDURE_AXIS_RANGE_Z,
                               color=COLOR_PLOT_TEXT,
                               gridcolor=COLOR_GRID,
                               linecolor=COLOR_GRID,
@@ -183,3 +249,9 @@ def _create_procedure_layout(title: str, total_events: int, dark_mode: bool=True
                               zerolinewidth=PLOT_ZERO_LINE_WIDTH)
                    )
     )
+
+    if notebook_mode:
+        layout['height'] = PLOT_HEIGHT_NOTEBOOK
+        layout['margin'] = PLOT_MARGIN_NOTEBOOK
+
+    return layout

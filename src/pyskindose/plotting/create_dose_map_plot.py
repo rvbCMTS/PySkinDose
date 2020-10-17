@@ -16,4 +16,6 @@ def create_dose_map_plot(
 
     # Append and plot dose map
     patient.dose = dose_map
-    patient.plot_dosemap(dark_mode=settings.plot.dark_mode)
+    patient.plot_dosemap(
+        dark_mode=settings.plot.dark_mode,
+        notebook_mode=settings.plot.notebook_mode)

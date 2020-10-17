@@ -1,6 +1,6 @@
 from typing import List
 
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 
 from ..beam_class import Beam
 from ..constants import (

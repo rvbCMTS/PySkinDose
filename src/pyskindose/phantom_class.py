@@ -15,10 +15,16 @@ VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
 from .constants import (
     COLOR_CANVAS_DARK,
     COLOR_CANVAS_LIGHT,
+    COLOR_CANVAS_JUPYTERLAB_DARK,
+    COLOR_CANVAS_JUPYTERLAB_LIGHT,
     COLOR_PLOT_TEXT_LIGHT,
     COLOR_PLOT_TEXT_DARK,
     PLOT_FONT_FAMILY,
-    PLOT_HOVER_LABEL_FONT_FAMILY
+    PLOT_FONT_SIZE,
+    PLOT_HOVERLABEL_FONT_FAMILY,
+    PLOT_HOVERLABEL_FONT_SIZE,
+    PLOT_HEIGHT_NOTEBOOK,
+    PLOT_MARGIN_NOTEBOOK,
 )
 
 
@@ -380,7 +386,7 @@ class Phantom:
         self.r[:, 1] += data_norm.dVERT[i]
         self.r[:, 2] += data_norm.dLAT[i]
 
-    def plot_dosemap(self, dark_mode: bool=True):
+    def plot_dosemap(self, dark_mode: bool=True, notebook_mode: bool=False):
         """Plot a map of the absorbed skindose upon the patient phantom.
 
         This function creates and plots an offline plotly graph of the
@@ -390,18 +396,23 @@ class Phantom:
 
         Parameters
         ----------
-        dark_mode : book
+        dark_mode : bool
             set dark for for plot
-
+        notebook_mode : bool, default is true
+            optimize plot size and margin for notebooks.
         """
 
         if dark_mode:
             COLOR_CANVAS = COLOR_CANVAS_DARK
             COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
+            if notebook_mode:
+                COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_DARK
 
         if not dark_mode:
             COLOR_CANVAS = COLOR_CANVAS_LIGHT
             COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
+            if notebook_mode:
+                COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_LIGHT
 
 
         hover_text = [f"<b>coordinate:</b><br><b>LAT:</b> {np.around(self.r[ind, 2],2)} cm<br><b>LON:</b> {np.around(self.r[ind, 0])} cm<br><b>VER:</b> {np.around(self.r[ind, 1])} cm<br><b>skin dose: </b><br>{round(self.dose[ind],2)} mGy"
@@ -421,12 +432,23 @@ class Phantom:
 
         # Layout settings
         layout = go.Layout(
-            font=dict(family=PLOT_FONT_FAMILY, color=COLOR_PLOT_TEXT, size=18),
-            hoverlabel=dict(font=dict(family=PLOT_HOVER_LABEL_FONT_FAMILY, size=16)),
+            
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                color=COLOR_PLOT_TEXT, 
+                size=18),
+            
+            hoverlabel=dict(
+                font=dict(
+                    family=PLOT_HOVERLABEL_FONT_FAMILY,
+                    size=16)),
+    
             title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
-            titlefont=dict(family=PLOT_FONT_FAMILY, size=35,
-                           color=COLOR_PLOT_TEXT),
-            plot_bgcolor=COLOR_CANVAS,
+            titlefont=dict(
+                family=PLOT_FONT_FAMILY,
+                size=PLOT_FONT_SIZE,
+                color=COLOR_PLOT_TEXT),
+            
             paper_bgcolor=COLOR_CANVAS,
 
             scene=dict(aspectmode="data",
@@ -439,6 +461,10 @@ class Phantom:
                        zaxis=dict(title='',
                                   backgroundcolor=COLOR_CANVAS,
                                   showgrid=False, showticklabels=False)))
+        
+        if notebook_mode:
+            layout['height'] = PLOT_HEIGHT_NOTEBOOK
+            layout['margin'] = PLOT_MARGIN_NOTEBOOK
 
         # create figure
         fig = go.Figure(data=phantom_mesh, layout=layout)

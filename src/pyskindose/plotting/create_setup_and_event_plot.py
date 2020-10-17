@@ -8,6 +8,8 @@ from ..beam_class import Beam
 from ..constants import (
     COLOR_CANVAS_DARK,
     COLOR_CANVAS_LIGHT,
+    COLOR_CANVAS_JUPYTERLAB_DARK,
+    COLOR_CANVAS_JUPYTERLAB_LIGHT,
     COLOR_PLOT_TEXT_LIGHT,
     COLOR_PLOT_TEXT_DARK,
     COLOR_ZERO_LINE_LIGHT,
@@ -26,8 +28,20 @@ from ..constants import (
     PLOT_AXIS_TITLE_Y,
     PLOT_AXIS_TITLE_Z,
     PLOT_FONT_FAMILY,
-    PLOT_HOVER_LABEL_FONT_FAMILY,
-    PLOT_ZERO_LINE_WIDTH
+    PLOT_FONT_SIZE,
+    PLOT_HOVERLABEL_FONT_FAMILY,
+    PLOT_HOVERLABEL_FONT_SIZE,
+    PLOT_TITLE_FONT_FAMILY,
+    PLOT_TITLE_FONT_SIZE,
+    PLOT_ZERO_LINE_WIDTH,
+    PLOT_WIREFRAME_LINE_WIDTH,
+    PLOT_DRAGMODE,
+    PLOT_ASPECTMODE_SETUP_AND_EVENT,
+    PLOT_SOURCE_SIZE,
+    PLOT_LIGHTNING_DIFFUSE,
+    PLOT_LIGHTNING_AMBIENT,
+    PLOT_HEIGHT_NOTEBOOK,
+    PLOT_MARGIN_NOTEBOOK,
 )
 from .create_mesh3d import create_mesh_3d_general
 from .create_plot_and_save_to_file import create_plot_and_save_to_file
@@ -37,10 +51,22 @@ from ..phantom_class import Phantom
 
 logger = logging.getLogger(__name__)
 
-def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, beam: Beam, mode: str,
-                                patient_text: List[str], source_text: List[str], table_text: List[str],
-                                detectors_text: List[str], pad_text: List[str], beam_text: List[str],
-                                title: str, dark_mode=True):
+def create_setup_and_event_plot(
+    patient: Phantom,
+    table: Phantom,
+    pad: Phantom,
+    beam: Beam,
+    mode: str,
+    patient_text: List[str],
+    source_text: List[str],
+    table_text: List[str],
+    detectors_text: List[str],
+    pad_text: List[str],
+    beam_text: List[str],
+    title: str,
+    dark_mode=True,
+    notebook_mode: bool=False):
+    
     logger.debug("Creating meshes for plot")
 
 
@@ -49,6 +75,8 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
         COLOR_GRID = COLOR_GRID_DARK
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
+        if notebook_mode:
+            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_DARK
 
 
     if not dark_mode:
@@ -56,11 +84,19 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
         COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
         COLOR_GRID = COLOR_GRID_LIGHT
         COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
+        if notebook_mode:
+            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_LIGHT
 
-    patient_mesh = create_mesh_3d_general(obj=patient, color=COLOR_PATIENT,
-                                          mesh_text=patient_text, lighting=dict(diffuse=0.5, ambient=0.5))
 
-
+    patient_mesh = create_mesh_3d_general(
+        obj=patient,
+        color=COLOR_PATIENT,
+        mesh_text=patient_text,
+        lighting=dict(
+            diffuse=PLOT_LIGHTNING_DIFFUSE, 
+            ambient=PLOT_LIGHTNING_AMBIENT
+            )
+        )
 
     source_mesh = go.Scatter3d(
         x=[beam.r[0, 0], beam.r[0, 0]],
@@ -68,61 +104,105 @@ def create_setup_and_event_plot(patient: Phantom, table: Phantom, pad: Phantom, 
         z=[beam.r[0, 2], beam.r[0, 2]],
         hoverinfo="text",
         mode="markers",
-        marker=dict(size=8, color=COLOR_SOURCE),
+        marker=dict(
+            size=PLOT_SOURCE_SIZE,
+            color=COLOR_SOURCE),
         text=source_text)
 
-    table_mesh = create_mesh_3d_general(obj=table, color=COLOR_TABLE,
-                                        mesh_text=table_text)
+    table_mesh = create_mesh_3d_general(
+        obj=table, 
+        color=COLOR_TABLE,
+        mesh_text=table_text
+        )
 
-    detector_mesh = create_mesh_3d_general(obj=beam, color=COLOR_DETECTOR,
-                                           mesh_text=detectors_text, detector_mesh=True)
+    detector_mesh = create_mesh_3d_general(
+        obj=beam,
+        color=COLOR_DETECTOR,
+        mesh_text=detectors_text,
+        detector_mesh=True
+        )
 
-    pad_mesh = create_mesh_3d_general(obj=pad, color=COLOR_PAD,
-                                      mesh_text=pad_text, mesh_name=MESH_NAME_PAD)
+    pad_mesh = create_mesh_3d_general(
+        obj=pad,
+        color=COLOR_PAD,
+        mesh_text=pad_text,
+        mesh_name=MESH_NAME_PAD)
 
-    beam_mesh = create_mesh_3d_general(obj=beam, color=COLOR_BEAM, opacity=MESH_OPACITY_BEAM,
-                                       mesh_text=beam_text)
+    beam_mesh = create_mesh_3d_general(
+        obj=beam,
+        color=COLOR_BEAM,
+        opacity=MESH_OPACITY_BEAM,
+        mesh_text=beam_text)
 
     logger.debug("Create wireframes")
     wf_beam, wf_table, wf_pad, wf_detector = create_wireframes(
-        beam=beam, table=table, pad=pad, line_width=4, visible=True)
+        beam=beam,
+        table=table,
+        pad=pad,
+        line_width=PLOT_WIREFRAME_LINE_WIDTH,
+        visible=True)
 
     logger.debug("Setting up plot layout settings")
     layout = go.Layout(
-        font=dict(family=PLOT_FONT_FAMILY, size=14),
-        showlegend=False,
-        hoverlabel=dict(font=dict(size=16, family=PLOT_HOVER_LABEL_FONT_FAMILY)),
-        dragmode="orbit",
-        title=title,
-        titlefont=dict(family=PLOT_FONT_FAMILY, size=35,
-                       color=COLOR_PLOT_TEXT),
+
+        font=dict(
+            family=PLOT_FONT_FAMILY,
+            size=PLOT_FONT_SIZE,
+            color=COLOR_PLOT_TEXT
+            ),
+
+        title=dict(
+            font=dict(
+                family=PLOT_TITLE_FONT_FAMILY,
+                size=PLOT_TITLE_FONT_SIZE,
+                color=COLOR_PLOT_TEXT,
+            ),
+            text=title,
+            ),
+
+        hoverlabel=dict(
+            font=dict(
+                family=PLOT_HOVERLABEL_FONT_FAMILY,
+                size=PLOT_HOVERLABEL_FONT_SIZE,
+                color=COLOR_PLOT_TEXT
+                )
+            ),
+
         paper_bgcolor=COLOR_CANVAS,
+
+        showlegend=False,
         
-        scene=dict(aspectmode="data", camera=get_camera_view(),
+        dragmode=PLOT_DRAGMODE,
+        
+        scene=dict(
+            aspectmode=PLOT_ASPECTMODE_SETUP_AND_EVENT,
+            camera=get_camera_view(),
 
-                   xaxis=dict(title=PLOT_AXIS_TITLE_X,
-                              color=COLOR_PLOT_TEXT,
-                              backgroundcolor=COLOR_CANVAS,
-                              gridcolor=COLOR_GRID,
-                              linecolor=COLOR_GRID,
-                              zerolinecolor=COLOR_ZERO_LINE,
-                              zerolinewidth=PLOT_ZERO_LINE_WIDTH),
+            xaxis=dict(title=PLOT_AXIS_TITLE_X,
+                        backgroundcolor=COLOR_CANVAS,
+                        gridcolor=COLOR_GRID,
+                        linecolor=COLOR_GRID,
+                        zerolinecolor=COLOR_ZERO_LINE,
+                        zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
-                   yaxis=dict(title=PLOT_AXIS_TITLE_Y,
-                              color=COLOR_PLOT_TEXT,
-                              gridcolor=COLOR_GRID,
-                              linecolor=COLOR_GRID,
-                              backgroundcolor=COLOR_CANVAS,
-                              zerolinecolor=COLOR_ZERO_LINE,
-                              zerolinewidth=PLOT_ZERO_LINE_WIDTH),
+            yaxis=dict(title=PLOT_AXIS_TITLE_Y,
+                        gridcolor=COLOR_GRID,
+                        linecolor=COLOR_GRID,
+                        backgroundcolor=COLOR_CANVAS,
+                        zerolinecolor=COLOR_ZERO_LINE,
+                        zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
-                   zaxis=dict(title=PLOT_AXIS_TITLE_Z,
-                              color=COLOR_PLOT_TEXT,
-                              gridcolor=COLOR_GRID,
-                              linecolor=COLOR_GRID,
-                              backgroundcolor=COLOR_CANVAS,
-                              zerolinecolor=COLOR_ZERO_LINE,
-                              zerolinewidth=PLOT_ZERO_LINE_WIDTH)))
+            zaxis=dict(title=PLOT_AXIS_TITLE_Z,
+                        gridcolor=COLOR_GRID,
+                        linecolor=COLOR_GRID,
+                        backgroundcolor=COLOR_CANVAS,
+                        zerolinecolor=COLOR_ZERO_LINE,
+                        zerolinewidth=PLOT_ZERO_LINE_WIDTH)))
+
+    if notebook_mode:
+        print('notebook mode!!!')
+        layout['height'] = PLOT_HEIGHT_NOTEBOOK
+        layout['margin'] = PLOT_MARGIN_NOTEBOOK
 
     data = [patient_mesh, source_mesh, table_mesh, detector_mesh, pad_mesh,
             beam_mesh, wf_beam, wf_table, wf_pad, wf_detector]

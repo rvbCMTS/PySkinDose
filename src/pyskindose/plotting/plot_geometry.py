@@ -9,6 +9,7 @@ from .plot_setup import plot_setup
 def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
                   data_norm: pd.DataFrame, mode: str, event: int = 0,
                   dark_mode: bool=True,
+                  notebook_mode: bool=False,
                   include_patient: bool = False) -> None:
     """Visualize the geometry from the irradiation events.
 
@@ -50,14 +51,42 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
 
     dark_mode : bool, optional
         set dark mode for plots
+    
+    notebook_mode : bool, optional
+        optimize plot size for notebooks, default is True.
 
     include_patient : bool, optional
         Choose if the patient phantom should be included in the plot_procedure
         function. WARNING, very heavy on memory. Default is False.
 
     """
-    plot_setup(mode=mode, data_norm=data_norm, patient=patient, table=table, pad=pad, dark_mode=dark_mode)
-    plot_event(mode=mode, data_norm=data_norm, event=event, patient=patient, table=table, pad=pad, dark_mode=dark_mode)
-    plot_procedure(mode=mode, data_norm=data_norm, include_patient=include_patient, patient=patient, table=table, pad=pad, dark_mode=dark_mode)
+    plot_setup(
+        mode=mode,
+        data_norm=data_norm,
+        patient=patient,
+        table=table,
+        pad=pad,
+        dark_mode=dark_mode,
+        notebook_mode=notebook_mode)
+
+    plot_event(
+        mode=mode,
+        data_norm=data_norm,
+        event=event,
+        patient=patient,
+        table=table,
+        pad=pad,
+        dark_mode=dark_mode,
+        notebook_mode=notebook_mode)
+
+    plot_procedure(
+        mode=mode,
+        data_norm=data_norm,
+        include_patient=include_patient,
+        patient=patient,
+        table=table,
+        pad=pad,
+        dark_mode=dark_mode,
+        notebook_mode=notebook_mode)
 
 

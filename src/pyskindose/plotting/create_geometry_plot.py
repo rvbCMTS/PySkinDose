@@ -48,6 +48,13 @@ def create_geometry_plot(normalized_data: pd.DataFrame, table: Phantom, pad: Pha
             settings.phantom.patient_offset.d_ver,
             settings.phantom.patient_offset.d_lon])
 
-    plot_geometry(patient=patient, table=table, pad=pad, data_norm=normalized_data,
-                  mode=settings.mode, event=settings.plot_event_index, dark_mode=settings.plot.dark_mode,
-                  include_patient=len(normalized_data) <= const.MAXIMUM_NUMBER_OF_EVENTS_FOR_INCLUDING_PHANTOM_IN_EVENT_PLOT)
+    plot_geometry(
+        patient=patient,
+        table=table,
+        pad=pad,
+        data_norm=normalized_data,
+        mode=settings.mode,
+        event=settings.plot_event_index,
+        dark_mode=settings.plot.dark_mode,
+        notebook_mode=settings.plot.notebook_mode,
+        include_patient=len(normalized_data) <= const.MAXIMUM_NUMBER_OF_EVENTS_FOR_INCLUDING_PHANTOM_IN_EVENT_PLOT)

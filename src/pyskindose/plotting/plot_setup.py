@@ -12,7 +12,14 @@ from ..phantom_class import Phantom
 logger = logging.getLogger(__name__)
 
 
-def plot_setup(mode: str, data_norm: pd.DataFrame, patient: Phantom, table: Phantom, pad: Phantom, dark_mode=True):
+def plot_setup(
+    mode: str,
+    data_norm: pd.DataFrame,
+    patient: Phantom,
+    table: Phantom,
+    pad: Phantom,
+    dark_mode: bool=True,
+    notebook_mode:bool=False):
     """Debugging feature for visualizing the geometry setup from the irradiation events.
 
     This function plots the patient, table and pad in reference position
@@ -36,6 +43,9 @@ def plot_setup(mode: str, data_norm: pd.DataFrame, patient: Phantom, table: Phan
         "pad"
     dark_mode : bool, optional
         set dark mode for plot
+    notebook_mode : bool, optional
+        optimize plot size for notebooks, default is True.
+
     """
     if mode != MODE_PLOT_SETUP:
         return
@@ -52,10 +62,17 @@ def plot_setup(mode: str, data_norm: pd.DataFrame, patient: Phantom, table: Phan
     # Define plot title
     title = f"<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"
 
-    create_setup_and_event_plot(mode=mode, title=title,
-                                patient=patient, patient_text=patient_text,
-                                table=table, table_text=table_text,
-                                pad=pad, pad_text=pad_text,
-                                beam=beam, beam_text=beam_text,
-                                source_text=source_text, detectors_text=detectors_text,
-                                dark_mode=dark_mode)
+    create_setup_and_event_plot(
+        mode=mode,
+        title=title,
+        patient=patient,
+        patient_text=patient_text,
+        table=table, table_text=table_text,
+        pad=pad,
+        pad_text=pad_text,
+        beam=beam,
+        beam_text=beam_text,
+        source_text=source_text,
+        detectors_text=detectors_text,
+        dark_mode=dark_mode,
+        notebook_mode=notebook_mode)
