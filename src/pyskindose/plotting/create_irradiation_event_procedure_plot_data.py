@@ -33,10 +33,16 @@ from ..phantom_class import Phantom
 logger = logging.getLogger(__name__)
 
 
-def create_irradiation_event_procedure_plot_data(data_norm: pd.DataFrame, include_patient: bool,
-                                                 visible_status: bool, event: int, table: Phantom,
-                                                 pad: Phantom, patient: Optional[Phantom] = None
-                                                 ) -> Dict[str, Union[go.Scatter3d, go.Mesh3d]]:
+def create_irradiation_event_procedure_plot_data(
+    data_norm: pd.DataFrame,
+    include_patient: bool,
+    visible_status: bool,
+    event: int,
+    table: Phantom,
+    pad: Phantom,
+    patient: Optional[Phantom] = None
+    ) -> Dict[str, Union[go.Scatter3d, go.Mesh3d]]:
+    
     # Position geometry objects
     beam = Beam(data_norm, event=event, plot_setup=False)
     table.position(data_norm, event)

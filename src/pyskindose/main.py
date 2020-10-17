@@ -47,12 +47,18 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
     settings = _parse_settings_to_settings_class(settings=settings)
 
     data_norm = _read_and_normalise_data_from_rdsr_file(
-        rdsr_filepath=file_path, settings=settings
+        rdsr_filepath=file_path,
+        settings=settings
     )
 
-    _ = analyze_data(normalized_data=data_norm, settings=settings, plot_dose_map=False)
+    _ = analyze_data(
+        normalized_data=data_norm,
+        settings=settings,
+        plot_dose_map=settings.plot.plot_dosemap)
 
-def _parse_settings_to_settings_class(settings: Optional[str] = None):
+def _parse_settings_to_settings_class(
+    settings: Optional[str] = None):
+    
     if settings is not None:
         return PyskindoseSettings(settings)
 
@@ -60,7 +66,8 @@ def _parse_settings_to_settings_class(settings: Optional[str] = None):
 
     if not os.path.exists(settings_path):
         # logger.warning("The give settings path does not exist. Using example settings.")
-        settings_path = os.path.join(os.path.dirname(__file__), "settings_example.json")
+        settings_path = os.path.join(
+            os.path.dirname(__file__), "settings_example.json")
 
     with open(settings_path, "r") as fp:
         output = fp.read()
@@ -88,4 +95,5 @@ def _read_and_normalise_data_from_rdsr_file(
     return normalized_data
 
 
-main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)
+if __name__=='__main__':
+    main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)
