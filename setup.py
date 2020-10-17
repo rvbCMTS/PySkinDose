@@ -25,7 +25,7 @@ setup(
         'numpy',
         'pydicom>=1.0',
         'numpy-stl',
-        'plotly==3.7.1',
+        'plotly==4.11',
         'scipy'
     ],
     include_package_data=True,

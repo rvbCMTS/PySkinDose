@@ -235,6 +235,7 @@ class Plotsettings:
     ----------
     dark_mode : bool
         dark mode boolean
+    
     """
     def __init__(self, plt_dict):
         """
@@ -243,5 +244,13 @@ class Plotsettings:
         plt_dict : dict
             Dictionary containing all of the plot setting that are
             appended as attributes to this class, see class attributes.
+        notebook_mode : bool
+            Set true if main is called from within a notebook. This optimizes plot
+            sizing for notebook output cells.
+        plot_dosemap : bool, default is True
+            Whether dosemap should be plotted after dose calculation
+
         """
         self.dark_mode = plt_dict['dark_mode']
+        self.notebook_mode = plt_dict['notebook_mode']
+        self.plot_dosemap = plt_dict['plot_dosemap']
