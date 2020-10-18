@@ -451,16 +451,31 @@ class Phantom:
             
             paper_bgcolor=COLOR_CANVAS,
 
-            scene=dict(aspectmode="data",
-                       xaxis=dict(title='',
-                                  backgroundcolor=COLOR_CANVAS,
-                                  showgrid=False, showticklabels=False),
-                       yaxis=dict(title='',
-                                  backgroundcolor=COLOR_CANVAS,
-                                  showgrid=False, showticklabels=False),
-                       zaxis=dict(title='',
-                                  backgroundcolor=COLOR_CANVAS,
-                                  showgrid=False, showticklabels=False)))
+            scene=dict(
+                aspectmode="data",
+                
+                xaxis=dict(
+                    title='',
+                    backgroundcolor=COLOR_CANVAS,
+                    showgrid=False,
+                    zeroline=False,
+                    showticklabels=False),
+                
+                yaxis=dict(
+                    title='',
+                    backgroundcolor=COLOR_CANVAS,
+                    showgrid=False,
+                    zeroline=False,
+                    showticklabels=False),
+                
+                zaxis=dict(
+                    title='',
+                    backgroundcolor=COLOR_CANVAS,
+                    showgrid=False,
+                    zeroline=False,
+                    showticklabels=False)
+                    )
+            )
         
         if notebook_mode:
             layout['height'] = PLOT_HEIGHT_NOTEBOOK
