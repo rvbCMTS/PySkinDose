@@ -42,6 +42,7 @@ from ..constants import (
     PLOT_LIGHTNING_AMBIENT,
     PLOT_HEIGHT_NOTEBOOK,
     PLOT_MARGIN_NOTEBOOK,
+    PLOT_MARGIN,
 )
 from .create_mesh3d import create_mesh_3d_general
 from .create_plot_and_save_to_file import create_plot_and_save_to_file
@@ -144,6 +145,8 @@ def create_setup_and_event_plot(
 
     logger.debug("Setting up plot layout settings")
     layout = go.Layout(
+
+        margin=PLOT_MARGIN,
 
         font=dict(
             family=PLOT_FONT_FAMILY,

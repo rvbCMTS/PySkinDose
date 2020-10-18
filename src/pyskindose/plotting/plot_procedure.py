@@ -53,6 +53,7 @@ from ..constants import (
     PLOT_PROCEDURE_AXIS_RANGE_Z,
     PLOT_HEIGHT_NOTEBOOK,
     PLOT_MARGIN_NOTEBOOK,
+    PLOT_MARGIN,
 )
 
 from .create_irradiation_event_procedure_plot_data import create_irradiation_event_procedure_plot_data
@@ -192,6 +193,7 @@ def _create_procedure_layout(
             COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_LIGHT
 
     layout = go.Layout(
+        margin = PLOT_MARGIN,
 
         sliders=_create_sliders(
             steps=steps, 
