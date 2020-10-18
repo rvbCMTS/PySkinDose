@@ -4,6 +4,4 @@ from pyskindose.main import main
 
 DEVELOPMENT_PARAMETERS['mode'] = constants.MODE_PLOT_EVENT
 
-
-
 main(settings=DEVELOPMENT_PARAMETERS)

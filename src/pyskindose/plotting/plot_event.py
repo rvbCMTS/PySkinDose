@@ -72,9 +72,17 @@ def plot_event(
     # Define plot title
     title = f"<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"
 
-    create_setup_and_event_plot(mode=mode, title=title,
-                                patient=patient, patient_text=patient_text,
-                                table=table, table_text=table_text,
-                                pad=pad, pad_text=pad_text,
-                                beam=beam, beam_text=beam_text,
-                                source_text=source_text, detectors_text=detectors_text, dark_mode=dark_mode)
+    create_setup_and_event_plot(
+        mode=mode,
+        title=title,
+        patient=patient,
+        patient_text=patient_text,
+        table=table,
+        table_text=table_text,
+        pad=pad,
+        pad_text=pad_text,
+        beam=beam,
+        beam_text=beam_text,
+        source_text=source_text,
+        detectors_text=detectors_text,
+        dark_mode=dark_mode)

@@ -200,7 +200,6 @@ def create_setup_and_event_plot(
                         zerolinewidth=PLOT_ZERO_LINE_WIDTH)))
 
     if notebook_mode:
-        print('notebook mode!!!')
         layout['height'] = PLOT_HEIGHT_NOTEBOOK
         layout['margin'] = PLOT_MARGIN_NOTEBOOK
 
