@@ -13,6 +13,7 @@ sphinx-rtd-theme = "*"
 pyskindose = {editable = true,path = "."}
 sphinx = "*"
 myst-parser = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.7"

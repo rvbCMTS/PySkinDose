@@ -1,7 +1,8 @@
 from typing import List, Dict, Any
-
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
+
 from pyskindose import Phantom, constants as const
 from pyskindose.calculate_dose.add_correction_and_event_dose_to_output import (
     add_corrections_and_event_dose_to_output,
@@ -29,6 +30,7 @@ def calculate_irradiation_event_result(
     table_hits: List[bool] = None,
     field_area: List[float] = None,
     k_isq: np.array = None,
+    pbar: tqdm = None
 ) -> Dict[str, Any]:
     """Conducts skin dose calculation.
 
@@ -72,6 +74,8 @@ def calculate_irradiation_event_result(
         X-ray the beam, by default None
     k_isq : np.array, optional
         Inverse-square-law correction factors, by default None
+    pbar : tqdm
+        progress bar object
 
     Returns
     -------
@@ -110,10 +114,13 @@ def calculate_irradiation_event_result(
         k_tab=k_tab,
         output=output,
     )
-
+    
     event += 1
+
     if event < total_events:
 
+        pbar.update()
+        
         output = calculate_irradiation_event_result(
             normalized_data=normalized_data,
             event=event,
@@ -129,6 +136,10 @@ def calculate_irradiation_event_result(
             table_hits=table_hits,
             field_area=field_area,
             k_isq=k_isq,
+            pbar=pbar
         )
+
+    else:
+        pbar.update()
 
     return output

@@ -1,5 +1,6 @@
 import logging
 from typing import Any, Dict, Optional, Tuple
+from tqdm import tqdm
 
 import numpy as np
 import pandas as pd
@@ -110,6 +111,7 @@ def calculate_dose(
         pad=pad,
         back_scatter_interpolation=back_scatter_interpolation,
         output=output_template,
+        pbar=tqdm(total=total_number_of_events, desc='calculating dose')
     )
 
     return patient, output
