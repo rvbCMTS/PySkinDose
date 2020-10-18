@@ -12,16 +12,6 @@ from pyskindose.settings import PyskindoseSettings
 
 # logger = logging.getLogger(__name__)
 
-DESCRIPTION = (
-    "PySkinDose is a Python version 3.7 based program for patient peak skin dose (PSD)"
-    "estimations from fluoroscopic procedures in interventional radiology."
-)
-
-PARSER = argparse.ArgumentParser(description=DESCRIPTION)
-
-PARSER.add_argument("--file-path", help="Path to RDSR DICOM file")
-ARGS = PARSER.parse_args()
-
 
 def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
     """Run PySkinDose.
@@ -96,4 +86,14 @@ def _read_and_normalise_data_from_rdsr_file(
 
 
 if __name__=='__main__':
+
+    DESCRIPTION = (
+        "PySkinDose is a Python version 3.7 based program for patient peak skin dose (PSD)"
+        "estimations from fluoroscopic procedures in interventional radiology.")
+
+    PARSER = argparse.ArgumentParser(description=DESCRIPTION)
+    PARSER.add_argument("--file-path", help="Path to RDSR DICOM file")
+    
+    ARGS = PARSER.parse_args()
+
     main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)
