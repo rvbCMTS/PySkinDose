@@ -1,6 +1,7 @@
 import json
 from typing import Union
 
+
 class PyskindoseSettings:
     """A class to store all settings required to run PySkinDose.
 
@@ -178,9 +179,9 @@ class PhantomDimensions:
         self.pad_thickness = ptm_dim['pad_thickness']
         self.pad_width = ptm_dim['pad_width']
         self.pad_length = ptm_dim['pad_length']
-        self.units = ptm_dim['unit']
+        self.unit = ptm_dim['unit']
 
-        if self.units != "cm":
+        if self.unit != "cm":
             raise NotImplementedError('Units must be given in cm.')
 
 
@@ -222,7 +223,7 @@ class PatientOffset:
         self.d_lat = offset["d_lat"]
         self.d_ver = offset["d_ver"]
         self.d_lon = offset["d_lon"]
-        self.units = offset["units"]
+        self.units = offset["unit"]
 
         if self.units != "cm":
             raise NotImplementedError('Units must be given in cm.')

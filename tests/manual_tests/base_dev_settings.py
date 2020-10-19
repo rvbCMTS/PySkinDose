@@ -24,10 +24,10 @@ DEVELOPMENT_PARAMETERS = dict(
         # Human phantom .stl filename, without .stl ending.
         human_mesh=const.PHANTOM_MESH_ADULT_MALE,
         # Patient offset from table isocenter (centered at head end side).
-        patient_offset={'d_lat': 0,
-                        'd_ver': 0,
-                        'd_lon': -35,
-                        'units': 'cm'},
+        patient_offset={const.OFFSET_LATERAL_KEY: const.OFFSET_LATERAL,
+                        const.OFFSET_VERTICAL_KEY: const.OFFSET_VERTICAL,
+                        const.OFFSET_LONGITUDINAL_KEY: const.OFFSET_LONGITUDINAL,
+                        const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM},
         # Dimensions of matematical phantoms (except model='human')
         dimension={
             const.DIMENSION_PLANE_LENGTH: 120,  # Length of plane phantom
@@ -43,6 +43,6 @@ DEVELOPMENT_PARAMETERS = dict(
             const.DIMENSION_PAD_LENGTH: 260,  # Support pad length
             const.DIMENSION_PAD_WIDTH: 50,  # Support pad width
             const.DIMENSION_PAD_THICKNESS: 4,  # Support pad thickness
-            const.DIMENSION_UNIT: const.DIMENSION_UNIT_CM})  # unit of dimension. Only 'cm' is supported.
+            const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM})  # unit of dimension. Only 'cm' is supported.
     ,
 )
