@@ -1,7 +1,7 @@
 
-*****
+************
 Static plots
-*****
+************
 
 .. image:: figures/beam.svg
     :width: 49 %
