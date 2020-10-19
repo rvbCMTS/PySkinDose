@@ -72,7 +72,8 @@ def _read_and_normalise_data_from_rdsr_file(
         rdsr_filepath = os.path.join(
             os.path.dirname(__file__), "example_data", "RDSR", settings.rdsr_filename
         )
-        # logger.debug(rdsr_filepath)
+    
+    # logger.debug(rdsr_filepath)
     # Read RDSR data with pydicom
     data_raw = pydicom.read_file(rdsr_filepath)
 

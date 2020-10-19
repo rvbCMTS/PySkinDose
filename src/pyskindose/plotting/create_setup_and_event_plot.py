@@ -1,21 +1,11 @@
 import logging
 from typing import List
-
+from .plot_settings import fetch_plot_colors, fetch_plot_size, fetch_plot_margin
 import plotly.graph_objects as go
 import plotly
 
 from ..beam_class import Beam
 from ..constants import (
-    COLOR_CANVAS_DARK,
-    COLOR_CANVAS_LIGHT,
-    COLOR_CANVAS_JUPYTERLAB_DARK,
-    COLOR_CANVAS_JUPYTERLAB_LIGHT,
-    COLOR_PLOT_TEXT_LIGHT,
-    COLOR_PLOT_TEXT_DARK,
-    COLOR_ZERO_LINE_LIGHT,
-    COLOR_ZERO_LINE_DARK,
-    COLOR_GRID_DARK,
-    COLOR_GRID_LIGHT,
     COLOR_BEAM,
     COLOR_DETECTOR,
     COLOR_PAD,
@@ -40,9 +30,6 @@ from ..constants import (
     PLOT_SOURCE_SIZE,
     PLOT_LIGHTNING_DIFFUSE,
     PLOT_LIGHTNING_AMBIENT,
-    PLOT_HEIGHT_NOTEBOOK,
-    PLOT_MARGIN_NOTEBOOK,
-    PLOT_MARGIN,
 )
 from .create_mesh3d import create_mesh_3d_general
 from .create_plot_and_save_to_file import create_plot_and_save_to_file
@@ -70,24 +57,14 @@ def create_setup_and_event_plot(
     
     logger.debug("Creating meshes for plot")
 
+    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
+        dark_mode=dark_mode)
 
-    if dark_mode:
-        COLOR_CANVAS = COLOR_CANVAS_DARK
-        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
-        COLOR_GRID = COLOR_GRID_DARK
-        COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
-        if notebook_mode:
-            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_DARK
+    PLOT_WIDTH, PLOT_HEIGHT = fetch_plot_size(
+        notebook_mode=notebook_mode)
 
-
-    if not dark_mode:
-        COLOR_CANVAS = COLOR_CANVAS_LIGHT
-        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
-        COLOR_GRID = COLOR_GRID_LIGHT
-        COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
-        if notebook_mode:
-            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_LIGHT
-
+    PLOT_MARGIN = fetch_plot_margin(
+        notebook_mode=notebook_mode)
 
     patient_mesh = create_mesh_3d_general(
         obj=patient,
@@ -146,6 +123,8 @@ def create_setup_and_event_plot(
     logger.debug("Setting up plot layout settings")
     layout = go.Layout(
 
+        height=PLOT_HEIGHT,
+        width=PLOT_WIDTH,
         margin=PLOT_MARGIN,
 
         font=dict(
@@ -202,9 +181,6 @@ def create_setup_and_event_plot(
                         zerolinecolor=COLOR_ZERO_LINE,
                         zerolinewidth=PLOT_ZERO_LINE_WIDTH)))
 
-    if notebook_mode:
-        layout['height'] = PLOT_HEIGHT_NOTEBOOK
-        layout['margin'] = PLOT_MARGIN_NOTEBOOK
 
     data = [patient_mesh, source_mesh, table_mesh, detector_mesh, pad_mesh,
             beam_mesh, wf_beam, wf_table, wf_pad, wf_detector]

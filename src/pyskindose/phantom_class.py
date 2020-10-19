@@ -8,23 +8,16 @@ from stl import mesh
 from typing import Dict
 from typing import List, Optional
 
+from .plotting.plot_settings import fetch_plot_colors, fetch_plot_margin, fetch_plot_size
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
 
 from .constants import (
-    COLOR_CANVAS_DARK,
-    COLOR_CANVAS_LIGHT,
-    COLOR_CANVAS_JUPYTERLAB_DARK,
-    COLOR_CANVAS_JUPYTERLAB_LIGHT,
-    COLOR_PLOT_TEXT_LIGHT,
-    COLOR_PLOT_TEXT_DARK,
     PLOT_FONT_FAMILY,
     PLOT_FONT_SIZE,
     PLOT_HOVERLABEL_FONT_FAMILY,
     PLOT_HOVERLABEL_FONT_SIZE,
-    PLOT_HEIGHT_NOTEBOOK,
-    PLOT_MARGIN_NOTEBOOK,
 )
 
 
@@ -402,18 +395,12 @@ class Phantom:
             optimize plot size and margin for notebooks.
         """
 
-        if dark_mode:
-            COLOR_CANVAS = COLOR_CANVAS_DARK
-            COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
-            if notebook_mode:
-                COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_DARK
+        COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
+            dark_mode=dark_mode)
 
-        if not dark_mode:
-            COLOR_CANVAS = COLOR_CANVAS_LIGHT
-            COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
-            if notebook_mode:
-                COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_LIGHT
+        PLOT_HEIGHT, PLOT_WIDTH = fetch_plot_size(notebook_mode=notebook_mode)
 
+        PLOT_MARGINS = fetch_plot_margin(notebook_mode=notebook_mode)
 
         hover_text = [f"<b>coordinate:</b><br><b>LAT:</b> {np.around(self.r[ind, 2],2)} cm<br><b>LON:</b> {np.around(self.r[ind, 0])} cm<br><b>VER:</b> {np.around(self.r[ind, 1])} cm<br><b>skin dose: </b><br>{round(self.dose[ind],2)} mGy"
             for ind in range(len(self.r))]
@@ -433,17 +420,22 @@ class Phantom:
         # Layout settings
         layout = go.Layout(
             
+            height = PLOT_HEIGHT,
+            width = PLOT_WIDTH,
+            margin = PLOT_MARGINS,
+
             font=dict(
                 family=PLOT_FONT_FAMILY,
                 color=COLOR_PLOT_TEXT, 
-                size=18),
+                size=PLOT_FONT_SIZE),
             
             hoverlabel=dict(
                 font=dict(
                     family=PLOT_HOVERLABEL_FONT_FAMILY,
-                    size=16)),
+                    size=PLOT_HOVERLABEL_FONT_SIZE)),
     
             title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
+            
             titlefont=dict(
                 family=PLOT_FONT_FAMILY,
                 size=PLOT_FONT_SIZE,
@@ -476,10 +468,6 @@ class Phantom:
                     showticklabels=False)
                     )
             )
-        
-        if notebook_mode:
-            layout['height'] = PLOT_HEIGHT_NOTEBOOK
-            layout['margin'] = PLOT_MARGIN_NOTEBOOK
 
         # create figure
         fig = go.Figure(data=phantom_mesh, layout=layout)

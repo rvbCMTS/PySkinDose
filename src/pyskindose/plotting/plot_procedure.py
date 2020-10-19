@@ -3,19 +3,10 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 import plotly.graph_objects as go
+from .plot_settings import fetch_plot_colors, fetch_slider_colors, fetch_slider_padding, fetch_plot_size, fetch_plot_margin
+
 
 from ..constants import (
-    COLOR_CANVAS_DARK,
-    COLOR_CANVAS_LIGHT,
-    COLOR_CANVAS_JUPYTERLAB_DARK,
-    COLOR_CANVAS_JUPYTERLAB_LIGHT,
-    COLOR_PLOT_TEXT_LIGHT,
-    COLOR_PLOT_TEXT_DARK,
-    COLOR_ZERO_LINE_LIGHT,
-    COLOR_ZERO_LINE_DARK,
-    COLOR_GRID_LIGHT,
-    COLOR_GRID_DARK,
-    COLOR_GRID_LIGHT,
     COLOR_BEAM,
     COLOR_DETECTOR,
     COLOR_PAD,
@@ -23,10 +14,6 @@ from ..constants import (
     COLOR_SOURCE,
     COLOR_TABLE,
     COLOR_SLIDER_BACKGROUND,
-    COLOR_SLIDER_BORDER_LIGHT,
-    COLOR_SLIDER_BORDER_DARK,
-    COLOR_SLIDER_TICK_LIGHT,
-    COLOR_SLIDER_TICK_DARK,
     IRRADIATION_EVENT_STEP_KEY_ARGUMENTS,
     IRRADIATION_EVENT_STEP_KEY_LABEL,
     IRRADIATION_EVENT_STEP_KEY_METHOD,
@@ -51,9 +38,6 @@ from ..constants import (
     PLOT_PROCEDURE_AXIS_RANGE_X,
     PLOT_PROCEDURE_AXIS_RANGE_Y,
     PLOT_PROCEDURE_AXIS_RANGE_Z,
-    PLOT_HEIGHT_NOTEBOOK,
-    PLOT_MARGIN_NOTEBOOK,
-    PLOT_MARGIN,
 )
 
 from .create_irradiation_event_procedure_plot_data import create_irradiation_event_procedure_plot_data
@@ -131,17 +115,13 @@ def _create_event_slider_step(
 def _create_sliders(
     steps: List[Dict],
     total_events: int,
-    dark_mode: bool=True) -> List[Dict[str, Any]]:
+    dark_mode: bool=True,
+    notebook_mode: bool=False) -> List[Dict[str, Any]]:
 
-    if dark_mode:
-        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
-        COLOR_SLIDER_TICK = COLOR_SLIDER_TICK_DARK
-        COLOR_SLIDER_BORDER = COLOR_SLIDER_BORDER_DARK
+    COLOR_PLOT_TEXT, COLOR_SLIDER_TICK, COLOR_SLIDER_BORDER = fetch_slider_colors(
+        dark_mode=dark_mode)
 
-    if not dark_mode:
-        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
-        COLOR_SLIDER_TICK = COLOR_SLIDER_TICK_LIGHT
-        COLOR_SLIDER_BORDER = COLOR_SLIDER_BORDER_LIGHT
+    PLOT_SLIDER_PADDING = fetch_slider_padding(notebook_mode=notebook_mode)
 
     return [
         dict(
@@ -176,29 +156,24 @@ def _create_procedure_layout(
     steps = [_create_event_slider_step(
         total_events=total_events, event=ind) for ind in range(total_events)]
 
-    if dark_mode:
-        COLOR_CANVAS = COLOR_CANVAS_DARK
-        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_DARK
-        COLOR_GRID = COLOR_GRID_DARK
-        COLOR_ZERO_LINE = COLOR_ZERO_LINE_DARK
-        if notebook_mode:
-            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_DARK
+    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
+        dark_mode=dark_mode)
 
-    if not dark_mode:
-        COLOR_CANVAS = COLOR_CANVAS_LIGHT
-        COLOR_PLOT_TEXT = COLOR_PLOT_TEXT_LIGHT
-        COLOR_GRID = COLOR_GRID_LIGHT
-        COLOR_ZERO_LINE = COLOR_ZERO_LINE_LIGHT
-        if notebook_mode:
-            COLOR_CANVAS=COLOR_CANVAS_JUPYTERLAB_LIGHT
+    PLOT_HEIGHT, PLOT_WIDTH = fetch_plot_size(notebook_mode=notebook_mode)
+
+    PLOT_MARGIN = fetch_plot_margin(notebook_mode=notebook_mode)
 
     layout = go.Layout(
+
+        height = PLOT_HEIGHT,
+        width = PLOT_WIDTH,
         margin = PLOT_MARGIN,
 
         sliders=_create_sliders(
             steps=steps, 
             total_events=total_events,
-            dark_mode=dark_mode),
+            dark_mode=dark_mode,
+            notebook_mode=notebook_mode),
 
         font=dict(
             family=PLOT_FONT_FAMILY,
@@ -251,9 +226,5 @@ def _create_procedure_layout(
                               zerolinewidth=PLOT_ZERO_LINE_WIDTH)
                    )
     )
-
-    if notebook_mode:
-        layout['height'] = PLOT_HEIGHT_NOTEBOOK
-        layout['margin'] = PLOT_MARGIN_NOTEBOOK
 
     return layout
