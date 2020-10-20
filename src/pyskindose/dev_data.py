@@ -3,7 +3,7 @@ from . import constants as const
 
 DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
-    mode=const.MODE_PLOT_PROCEDURE,
+    mode=const.MODE_CALCULATE_DOSE,
     # RDSR filename
     rdsr_filename='s1.dcm',
     # Irrading event index for mode='plot_event'
@@ -14,10 +14,14 @@ DEVELOPMENT_PARAMETERS = dict(
     k_tab_val=0.8,
     # plot settings
     plot={
-        #dark mode for plots
+        # dark mode for plots
         const.MODE_DARK_MODE: True,
+        # notebook mode
         const.MODE_NOTEBOOK_MODE: False,
-        const.MODE_PLOT_DOSEMAP: False},
+        # choose if dosemap should be plotted after dose calculations.
+        const.MODE_PLOT_DOSEMAP: True,
+        # colorscale for dosemaps
+        const.DOSEMAP_COLORSCALE_KEY: const.DOSEMAP_COLORSCALE},
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'

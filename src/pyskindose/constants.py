@@ -158,3 +158,9 @@ MODE_NOTEBOOK_MODE = 'notebook_mode'
 
 PLOT_HEIGHT_KEY = 'height'
 PLOT_WIDTH_KEY = 'width'
+
+
+DOSEMAP_COLORSCALE_KEY = 'colorscale'
+# Available colorscales are documented here:
+# https://plotly.com/python/builtin-colorscales/
+DOSEMAP_COLORSCALE = 'amp'

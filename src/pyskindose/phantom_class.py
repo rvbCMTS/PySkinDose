@@ -18,6 +18,7 @@ from .constants import (
     PLOT_FONT_SIZE,
     PLOT_HOVERLABEL_FONT_FAMILY,
     PLOT_HOVERLABEL_FONT_SIZE,
+    DOSEMAP_COLORSCALE
 )
 
 
@@ -410,7 +411,7 @@ class Phantom:
             go.Mesh3d(
                 x=self.r[:, 0], y=self.r[:, 1], z=self.r[:, 2],
                 i=self.ijk[:, 0], j=self.ijk[:, 1], k=self.ijk[:, 2],
-                intensity=self.dose, colorscale="Jet", showscale=True,
+                intensity=self.dose, colorscale=DOSEMAP_COLORSCALE, showscale=True,
                 hoverinfo='text',
                 text=hover_text, name="Human",
                 colorbar=dict(tickfont=dict(color=COLOR_PLOT_TEXT),

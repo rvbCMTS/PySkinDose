@@ -12,11 +12,15 @@ DEVELOPMENT_PARAMETERS = dict(
     # Numeric value of estimated table correction    
     k_tab_val=0.8,
     # plot settings
-    plot={
-        #dark mode for plots
+plot={
+        # dark mode for plots
         const.MODE_DARK_MODE: True,
+        # notebook mode
         const.MODE_NOTEBOOK_MODE: False,
-        const.MODE_PLOT_DOSEMAP: False},
+        # choose if dosemap should be plotted after dose calculations.
+        const.MODE_PLOT_DOSEMAP: True,
+        # colorscale for dosemaps
+        const.DOSEMAP_COLORSCALE_KEY: const.DOSEMAP_COLORSCALE},
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'
