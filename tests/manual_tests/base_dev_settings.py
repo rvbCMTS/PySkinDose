@@ -18,7 +18,7 @@ plot={
         # notebook mode
         const.MODE_NOTEBOOK_MODE: False,
         # choose if dosemap should be plotted after dose calculations.
-        const.MODE_PLOT_DOSEMAP: True,
+        const.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
         const.DOSEMAP_COLORSCALE_KEY: const.DOSEMAP_COLORSCALE},
     # Phantom settings:

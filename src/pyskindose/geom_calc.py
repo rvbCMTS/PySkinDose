@@ -12,10 +12,9 @@ from .phantom_class import Phantom
 
 def calculate_field_size(field_size_mode, data_parsed, data_norm):
     # calculate field size at detector plane
-
+    
     # if collimated field are mode, set FS_lat = FS_long = sqrt(collimate field area).
     # NOTE: This should only beu used when actual shutter distances are unavailable.
-
     if field_size_mode == 'CFA':
         FS_lat = round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
         FS_long = FS_lat
