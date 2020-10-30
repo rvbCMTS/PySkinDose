@@ -1,4 +1,5 @@
-class _NormalizationSettings:
+
+class NormalizationSettings:
 
     def __init__(self, normalization_settings, data_parsed):
 
@@ -51,16 +52,21 @@ class _TranslationDirection:
         pos_dir = +1
         neg_dir = -1
 
+
         for dimension in directions:
+            
+            # kontrollera fel
 
             if directions[dimension] == '+':
                 setattr(self, dimension, pos_dir)
+                continue
 
             elif directions[dimension] == '-':
                 setattr(self, dimension, neg_dir)
             
             else:
-                assert False
+                raise ValueError(f'direction {directions[dimension]} not understood.
+                                 choose either  + or -')
 
         return 
 
