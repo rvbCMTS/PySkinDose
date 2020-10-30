@@ -7,7 +7,6 @@ logs/
 __pycache__/
 **/__pycache__/
 scratch*
-*.json
 #RDSR/clinical*
 src/pyskindose/example_data/RDSR/clinical*
 
