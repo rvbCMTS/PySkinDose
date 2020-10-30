@@ -22,3 +22,5 @@ tests/corrections\.db
 corrections.db
 
 tests/manual_tests/.ipynb_checkpoints/
+
+src/pyskindose/.ipynb_checkpoints/

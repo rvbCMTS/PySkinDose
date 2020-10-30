@@ -65,7 +65,13 @@ span {
     font-family: "Computer Modern";
 }
 
+*.wy-nav-content {
+    max-width: 80%;
+/*
+
+
 /* sidebar color */
 
 /* .wy-nav-side {
     background: #413c3c;} /*
+
