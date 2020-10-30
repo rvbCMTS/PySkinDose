@@ -1,10 +1,7 @@
-from datetime import datetime as dt
-import numpy as np
 import pandas as pd
-import pydicom
 from pathlib import Path
 import json
-from settings_normalization import _NormalizationSettings
+from .settings_normalization import _NormalizationSettings
 from .geom_calc import calculate_field_size
 
 
@@ -12,7 +9,7 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
 
     normalization_settings_path = Path(__file__).parent / "normalization_settings.json"
     
-    with open(normalization_settings_path) as json_file:
+    with normalization_settings_path.open("r") as json_file:
         normalization_settings = json.load(json_file) 
     
     norm = _NormalizationSettings(

@@ -3,15 +3,13 @@ import logging
 import os
 import pydicom
 from typing import Union, Optional
-import pandas as pd
 from pyskindose.analyze_data import analyze_data
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
 from pyskindose.rdsr_parser import rdsr_parser
 from pyskindose.rdsr_normalizer import rdsr_normalizer
 from pyskindose.settings_pyskindose import PyskindoseSettings
 
-# logger = logg
-# ing.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
@@ -47,6 +45,7 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
         settings=settings,
         plot_dose_map=settings.plot.plot_dosemap)
 
+
 def _parse_settings_to_settings_class(
     settings: Optional[str] = None):
     
@@ -56,7 +55,7 @@ def _parse_settings_to_settings_class(
     settings_path = os.path.join(os.path.dirname(__file__), "settings.json")
 
     if not os.path.exists(settings_path):
-        # logger.warning("The give settings path does not exist. Using example settings.")
+        logger.warning("The give settings path does not exist. Using example settings.")
         settings_path = os.path.join(
             os.path.dirname(__file__), "settings_example.json")
 
@@ -74,7 +73,7 @@ def _read_and_normalise_data_from_rdsr_file(
             os.path.dirname(__file__), "example_data", "RDSR", settings.rdsr_filename
         )
     
-    # logger.debug(rdsr_filepath)
+    logger.debug(rdsr_filepath)
     # Read RDSR data with pydicom
     data_raw = pydicom.read_file(rdsr_filepath)
 
