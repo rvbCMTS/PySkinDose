@@ -33,7 +33,7 @@ def plot_event(
         The function will only run if this is set to "plot_event".
     data_norm : pd.DataFrame
         Table containing dicom RDSR information from each irradiation event
-        See parse_data.py for more information.
+        See rdsr_normalizer.py for more information.
     event : int, optional
         choose specific irradiation event if mode "plot_event" are used
         Default is 0, in which the first irradiation event is considered.

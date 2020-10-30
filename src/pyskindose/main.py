@@ -3,14 +3,15 @@ import logging
 import os
 import pydicom
 from typing import Union, Optional
-
+import pandas as pd
 from pyskindose.analyze_data import analyze_data
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
-from pyskindose.parse_data import rdsr_parser
-from pyskindose.parse_data import rdsr_normalizer
-from pyskindose.settings import PyskindoseSettings
+from pyskindose.rdsr_parser import rdsr_parser
+from pyskindose.rdsr_normalizer import rdsr_normalizer
+from pyskindose.settings_pyskindose import PyskindoseSettings
 
-# logger = logging.getLogger(__name__)
+# logger = logg
+# ing.getLogger(__name__)
 
 
 def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
@@ -40,7 +41,7 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
         rdsr_filepath=file_path,
         settings=settings
     )
-
+    
     _ = analyze_data(
         normalized_data=data_norm,
         settings=settings,

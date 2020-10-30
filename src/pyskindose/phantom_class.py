@@ -18,7 +18,8 @@ from .constants import (
     PLOT_FONT_SIZE,
     PLOT_HOVERLABEL_FONT_FAMILY,
     PLOT_HOVERLABEL_FONT_SIZE,
-    DOSEMAP_COLORSCALE
+    DOSEMAP_COLORSCALE,
+    PLOT_ASPECTMODE_PLOT_DOSEMAP
 )
 
 
@@ -51,6 +52,9 @@ class Phantom:
         Empty array to store of reference position of the phantom cells after
         the phantom has been aligned in the geometry with the position_geometry
         function in geom_calc.py
+    table_length : float
+        length of patient support table. The is needed for all phantom object to
+        select correct rotation origin for At1, At2, and At3.
 
     Methods
     -------
@@ -104,6 +108,10 @@ class Phantom:
                              f"{'.'.join(VALID_PHANTOM_MODELS)}")
 
         self.r_ref: np.array
+
+        # Save table length for all phantom in order to choose correct rotation origin
+        # when applying At1, At2, and At3
+        self.table_length = phantom_dim.table_length
 
         # creates a plane phantom (2D grid)
         if phantom_model == "plane":
@@ -371,14 +379,41 @@ class Phantom:
         ----------
         data_norm : pd.DataFrame
             Table containing dicom RDSR information from each irradiation event
-            See parse_data.py for more information.
+            See rdsr_normalizer.py for more information.
 
         """
         self.r = copy.copy(self.r_ref)
 
-        self.r[:, 0] += data_norm.dLONG[i]
-        self.r[:, 1] += data_norm.dVERT[i]
-        self.r[:, 2] += data_norm.dLAT[i]
+        #position phantom centered about isocenter
+        self.r[:, 2] += self.table_length / 2
+
+        # Fetch At1, At2, and At3
+        rot = np.deg2rad(data_norm['At1'][i])
+        tilt = np.deg2rad(data_norm['At2'][i])
+        cradle = np.deg2rad(data_norm['At3'][i])
+
+
+        R1 = np.array([[+np.cos(rot),   0,  +np.sin(rot)],
+                      [0,              1,   0],
+                      [-np.sin(rot), 0, +np.cos(rot)]])
+
+        R2 = np.array([[+1, +0, +0],
+                       [+0, +np.cos(tilt), -np.sin(tilt)],
+                       [+0, +np.sin(tilt), +np.cos(tilt)]])
+
+        R3 = np.array([[+np.cos(cradle), +np.sin(cradle), 0],
+                       [-np.sin(cradle), +np.cos(cradle), +0],
+                       [+0, +0, +1]])
+
+        #Apply table rotation
+        self.r = np.matmul(np.matmul(R3,np.matmul(R2,R1)), (self.r).T).T
+        
+        # Replace phantom to stanting position
+        self.r[:, 2] -= self.table_length/2
+
+        # Apply phantom translation
+        t = np.array([data_norm.Tx[i], data_norm.Ty[i], data_norm.Tz[i]])
+        self.r = self.r + t
 
     def plot_dosemap(self, dark_mode: bool=True, notebook_mode: bool=False):
         """Plot a map of the absorbed skindose upon the patient phantom.
@@ -394,8 +429,8 @@ class Phantom:
             set dark for for plot
         notebook_mode : bool, default is true
             optimize plot size and margin for notebooks.
-        """
 
+        """
         COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
             dark_mode=dark_mode)
 
@@ -445,7 +480,7 @@ class Phantom:
             paper_bgcolor=COLOR_CANVAS,
 
             scene=dict(
-                aspectmode="data",
+                aspectmode=PLOT_ASPECTMODE_PLOT_DOSEMAP,
                 
                 xaxis=dict(
                     title='',

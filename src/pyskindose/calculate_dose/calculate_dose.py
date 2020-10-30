@@ -16,7 +16,7 @@ from pyskindose.geom_calc import (
     position_geometry,
 )
 from pyskindose.phantom_class import Phantom
-from pyskindose.settings import PyskindoseSettings
+from pyskindose.settings_pyskindose import PyskindoseSettings
 
 # logger = logging.getLogger(__name__)
 

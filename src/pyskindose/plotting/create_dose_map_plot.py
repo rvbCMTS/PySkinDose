@@ -2,7 +2,7 @@ import numpy as np
 
 from pyskindose import constants as const
 from pyskindose.phantom_class import Phantom
-from pyskindose.settings import PyskindoseSettings
+from pyskindose.settings_pyskindose import PyskindoseSettings
 
 
 def create_dose_map_plot(

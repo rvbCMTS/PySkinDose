@@ -31,7 +31,7 @@ def plot_setup(
         The function will only run if this is set to "plot_setup".
     data_norm : pd.DataFrame
         Table containing dicom RDSR information from each irradiation event
-        See parse_data.py for more information.
+        See rdsr_normalizer.py for more information.
     patient : Phantom
         Patient phantom from instance of class Phantom. Can be of
         phantom_model "plane", "cylinder" or "human"

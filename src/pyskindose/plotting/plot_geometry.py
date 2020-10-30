@@ -29,7 +29,7 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
         "pad"
     data_norm : pd.DataFrame
         Table containing dicom RDSR information from each irradiation event
-        See parse_data.py for more information.
+        See rdsr_normalizer.py for more information.
     mode : str
         Choose between "plot_setup", "plot_event" and "plot_procedure".
 

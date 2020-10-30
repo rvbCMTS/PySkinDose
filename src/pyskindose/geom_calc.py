@@ -10,6 +10,19 @@ from .phantom_class import Phantom
 # logger = logging.getLogger(__name__)
 
 
+def calculate_field_size(field_size_mode, data_parsed, data_norm):
+    # calculate field size at detector plane
+
+    # if collimated field are mode, set FS_lat = FS_long = sqrt(collimate field area).
+    # NOTE: This should only beu used when actual shutter distances are unavailable.
+
+    if field_size_mode == 'CFA':
+        FS_lat = round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
+        FS_long = FS_lat
+
+    return FS_lat, FS_long
+
+
 def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
                       pad_thickness: Any, patient_offset: List[int]) -> None:
     """Manual positioning of the phantoms before procedure starts.
@@ -33,7 +46,7 @@ def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
         Patient support pad thickness
     patient_offset : List[int]
         Offsets the patient phantom from the centered along the head end of the
-        table top, given as [dLON: <int>, "dVER": <int>, "dLAT": <int>] in cm.
+        table top, given as [Tx: <int>, "Ty": <int>, "Tz": <int>] in cm.
 
     """
     # rotate 90 deg about LON axis to get head end in positive LAT direction
@@ -209,8 +222,8 @@ def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
     #logger.info("Checking which irradiation events contain changes in geometry compared to previous event")
 
     #logger.debug("Listing all RDSR geometry parameters")
-    geom_params = data_norm[['dLAT', 'dLONG', 'dVERT', 'FS_lat',
-                             'FS_long', 'PPA', 'PSA']]
+    geom_params = data_norm[['Tx', 'Ty', 'Tz', 'FS_lat', 'FS_long',
+                             'Ap1', 'Ap2', 'Ap3', 'At1', 'At2', 'At3']]
 
     #logger.debug("Checking which irradiation events that does not have same parameters as previous")
     changed_geometry = [not geom_params.iloc[event].equals( geom_params.iloc[event - 1])

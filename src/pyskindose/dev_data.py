@@ -3,7 +3,7 @@ from . import constants as const
 
 DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
-    mode=const.MODE_CALCULATE_DOSE,
+    mode=const.MODE_PLOT_EVENT,
     # RDSR filename
     rdsr_filename='s1.dcm',
     # Irrading event index for mode='plot_event'
@@ -19,7 +19,7 @@ DEVELOPMENT_PARAMETERS = dict(
         # notebook mode
         const.MODE_NOTEBOOK_MODE: False,
         # choose if dosemap should be plotted after dose calculations.
-        const.MODE_PLOT_DOSEMAP: True,
+        const.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
         const.DOSEMAP_COLORSCALE_KEY: const.DOSEMAP_COLORSCALE},
     # Phantom settings:
@@ -42,11 +42,11 @@ DEVELOPMENT_PARAMETERS = dict(
             const.DIMENSION_CYLINDER_RADII_A: 20,  # First radii of cylinder phantom
             const.DIMENSION_CYLINDER_RADII_B: 10,  # Second radii of cylinder phantom
             const.DIMENSION_CYLINDER_RESOLUTION: const.RESOLUTION_SPARSE,  # Resolution of cylinder.
-            const.DIMENSION_TABLE_LENGTH: 260,  # Support table length
-            const.DIMENSION_TABLE_WIDTH: 50,  # Support table width
+            const.DIMENSION_TABLE_LENGTH: 281.5,  #281.5 Support table length
+            const.DIMENSION_TABLE_WIDTH: 45,  # Support table width
             const.DIMENSION_TABLE_THICKNESS: 5,  # Support table thickness
-            const.DIMENSION_PAD_LENGTH: 260,  # Support pad length
-            const.DIMENSION_PAD_WIDTH: 50,  # Support pad width
+            const.DIMENSION_PAD_LENGTH: 281.5,  # Support pad length
+            const.DIMENSION_PAD_WIDTH: 45,  # Support pad width
             const.DIMENSION_PAD_THICKNESS: 4,  # Support pad thickness
             const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM})  # unit of dimension. Only 'cm' is supported.
     ,
