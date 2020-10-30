@@ -54,9 +54,8 @@ class _TranslationDirection:
 
 
         for dimension in directions:
-            
-            # kontrollera fel
 
+            # kontrollera fel
             if directions[dimension] == '+':
                 setattr(self, dimension, pos_dir)
                 continue
@@ -65,10 +64,9 @@ class _TranslationDirection:
                 setattr(self, dimension, neg_dir)
             
             else:
-                raise ValueError(f'direction {directions[dimension]} not understood.
-                                 choose either  + or -')
+                raise ValueError(f'direction {directions[dimension]} not understood. choose either  + or -')
 
-        return 
+        return
 
 
 class _TranslationOffset:

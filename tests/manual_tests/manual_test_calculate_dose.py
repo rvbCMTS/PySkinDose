@@ -3,6 +3,6 @@ from pyskindose import constants
 from pyskindose.main import main
 
 DEVELOPMENT_PARAMETERS['mode'] = constants.MODE_CALCULATE_DOSE
-DEVELOPMENT_PARAMETERS['plot']['plot_dosemap'] = constants.MODE_PLOT_DOSEMAP
+DEVELOPMENT_PARAMETERS['plot']['plot_dosemap'] = True
 
 main(settings=DEVELOPMENT_PARAMETERS)
