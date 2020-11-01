@@ -8,8 +8,8 @@ from .plot_setup import plot_setup
 
 def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
                   data_norm: pd.DataFrame, mode: str, event: int = 0,
-                  dark_mode: bool=True,
-                  notebook_mode: bool=False,
+                  dark_mode: bool = True,
+                  notebook_mode: bool = False,
                   include_patient: bool = False) -> None:
     """Visualize the geometry from the irradiation events.
 
@@ -51,7 +51,7 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
 
     dark_mode : bool, optional
         set dark mode for plots
-    
+
     notebook_mode : bool, optional
         optimize plot size for notebooks, default is True.
 
@@ -88,5 +88,3 @@ def plot_geometry(patient: Phantom, table: Phantom, pad: Phantom,
         pad=pad,
         dark_mode=dark_mode,
         notebook_mode=notebook_mode)
-
-

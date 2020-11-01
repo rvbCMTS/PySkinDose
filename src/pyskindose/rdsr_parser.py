@@ -1,5 +1,4 @@
 from datetime import datetime as dt
-import numpy as np
 import pandas as pd
 import pydicom
 
@@ -33,7 +32,8 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
 
             # Save manufacturer, and manufacturer model name
             data_parsed_dict["Manufacturer"] = data_raw.Manufacturer
-            data_parsed_dict["ManufacturerModelName"] = data_raw.ManufacturerModelName
+            data_parsed_dict["ManufacturerModelName"] = \
+                data_raw.ManufacturerModelName
 
             # For each content in 'Irradiation Event X-Ray Data'
             for xray_event_content in rdsr_content.ContentSequence:

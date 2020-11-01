@@ -1,6 +1,4 @@
 import logging
-
-import numpy as np
 import pandas as pd
 
 from ..beam_class import Beam
@@ -13,14 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 def plot_setup(
-    mode: str,
-    data_norm: pd.DataFrame,
-    patient: Phantom,
-    table: Phantom,
-    pad: Phantom,
-    dark_mode: bool=True,
-    notebook_mode:bool=False):
-    """Debugging feature for visualizing the geometry setup from the irradiation events.
+        mode: str,
+        data_norm: pd.DataFrame,
+        patient: Phantom,
+        table: Phantom,
+        pad: Phantom,
+        dark_mode: bool = True,
+        notebook_mode: bool = False):
+    """Debugging feature for visualizing the geometry setup.
 
     This function plots the patient, table and pad in reference position
     together with the X-ray system with zero angulation.
@@ -55,9 +53,9 @@ def plot_setup(
     logger.debug("Creating beam")
     beam = Beam(data_norm, event=0, plot_setup=True)
 
-    source_text, beam_text, detectors_text, table_text, pad_text, patient_text = create_geometry_plot_texts(
-        beam=beam, table=table, pad=pad, patient=patient
-    )
+    source_text, beam_text, detectors_text, table_text, pad_text, \
+        patient_text = create_geometry_plot_texts(
+            beam=beam, table=table, pad=pad, patient=patient)
 
     # Define plot title
     title = f"<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"

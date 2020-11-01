@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 from typing import List
-
 from .phantom_class import Phantom
+
 
 class Beam:
     """A class used to create an X-ray beam and detector.
@@ -73,7 +73,6 @@ class Beam:
         R1 = np.array([[+np.cos(ap1), -np.sin(ap1), +0],
                       [+np.sin(ap1), +np.cos(ap1), +0],
                       [+0, +0, +1]])
-
 
         R2 = np.array([[+1, +0, +0],
                        [+0, +np.cos(ap2), -np.sin(ap2)],

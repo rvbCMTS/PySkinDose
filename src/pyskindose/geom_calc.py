@@ -7,14 +7,40 @@ import pandas as pd
 from .db_connect import db_connect
 from .phantom_class import Phantom
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def calculate_field_size(field_size_mode, data_parsed, data_norm):
-    # calculate field size at detector plane
-    
-    # if collimated field are mode, set FS_lat = FS_long = sqrt(collimate field area).
-    # NOTE: This should only beu used when actual shutter distances are unavailable.
+    """Calculate X-ray field size at image recepter plane.
+
+    Parameters
+    ----------
+    field_size_mode : str
+        Choose either 'CFA' ('collimated field area) or 'ASD' (actual shutter
+        distance).
+
+        If field_size_mode = 'CFA', the field side in lateral- and
+        longutudinal direction are set equal to the square root of the
+        collimated field area. NOTE, this should only be used when actual
+        shutter distances are unavailabe.
+
+        IF field_size_mode = 'ASD', the function calculates the field size
+        by distance scaling the actual shutter distance to the detector plane
+
+    data_parsed : [type]
+        [description]
+    data_norm : [type]
+        [description]
+
+    Returns
+    -------
+    [type]
+        [description]
+
+    """
+    # if collimated field are mode, set FS_lat = FS_long =
+    # sqrt(collimate field area). NOTE: This should only be used when actual
+    # shutter distances are unavailable.
     if field_size_mode == 'CFA':
         FS_lat = round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
         FS_long = FS_lat
@@ -218,17 +244,17 @@ def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
         geometry since the preceding irradiation event.
 
     """
-    #logger.info("Checking which irradiation events contain changes in geometry compared to previous event")
+    logger.info("Checking which irradiation events contain changes in geometry compared to previous event")
 
-    #logger.debug("Listing all RDSR geometry parameters")
+    logger.debug("Listing all RDSR geometry parameters")
     geom_params = data_norm[['Tx', 'Ty', 'Tz', 'FS_lat', 'FS_long',
                              'Ap1', 'Ap2', 'Ap3', 'At1', 'At2', 'At3']]
 
-    #logger.debug("Checking which irradiation events that does not have same parameters as previous")
+    logger.debug("Checking which irradiation events that does not have same parameters as previous")
     changed_geometry = [not geom_params.iloc[event].equals( geom_params.iloc[event - 1])
                         for event in range(1, len(geom_params))]
 
-    #logger.debug("Insert True to the first event to indicate that it has a new geometry")
+    logger.debug("Insert True to the first event to indicate that it has a new geometry")
     changed_geometry.insert(0, True)
 
     return changed_geometry

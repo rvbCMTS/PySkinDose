@@ -1,8 +1,11 @@
 import logging
 from typing import List
-from .plot_settings import fetch_plot_colors, fetch_plot_size, fetch_plot_margin
+from .plot_settings import (
+    fetch_plot_colors,
+    fetch_plot_size,
+    fetch_plot_margin)
+
 import plotly.graph_objects as go
-import plotly
 
 from ..beam_class import Beam
 from ..constants import (
@@ -39,26 +42,27 @@ from ..phantom_class import Phantom
 
 logger = logging.getLogger(__name__)
 
+
 def create_setup_and_event_plot(
-    patient: Phantom,
-    table: Phantom,
-    pad: Phantom,
-    beam: Beam,
-    mode: str,
-    patient_text: List[str],
-    source_text: List[str],
-    table_text: List[str],
-    detectors_text: List[str],
-    pad_text: List[str],
-    beam_text: List[str],
-    title: str,
-    dark_mode=True,
-    notebook_mode: bool=False):
-    
+        patient: Phantom,
+        table: Phantom,
+        pad: Phantom,
+        beam: Beam,
+        mode: str,
+        patient_text: List[str],
+        source_text: List[str],
+        table_text: List[str],
+        detectors_text: List[str],
+        pad_text: List[str],
+        beam_text: List[str],
+        title: str,
+        dark_mode=True,
+        notebook_mode: bool = False):
+
     logger.debug("Creating meshes for plot")
 
-    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
-        dark_mode=dark_mode)
+    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = \
+        fetch_plot_colors(dark_mode=dark_mode)
 
     PLOT_WIDTH, PLOT_HEIGHT = fetch_plot_size(
         notebook_mode=notebook_mode)
@@ -71,7 +75,7 @@ def create_setup_and_event_plot(
         color=COLOR_PATIENT,
         mesh_text=patient_text,
         lighting=dict(
-            diffuse=PLOT_LIGHTNING_DIFFUSE, 
+            diffuse=PLOT_LIGHTNING_DIFFUSE,
             ambient=PLOT_LIGHTNING_AMBIENT
             )
         )
@@ -88,7 +92,7 @@ def create_setup_and_event_plot(
         text=source_text)
 
     table_mesh = create_mesh_3d_general(
-        obj=table, 
+        obj=table,
         color=COLOR_TABLE,
         mesh_text=table_text
         )
@@ -153,34 +157,36 @@ def create_setup_and_event_plot(
         paper_bgcolor=COLOR_CANVAS,
 
         showlegend=False,
-        
+
         dragmode=PLOT_DRAGMODE,
-        
+
         scene=dict(
             aspectmode=PLOT_ASPECTMODE_SETUP_AND_EVENT,
             camera=get_camera_view(),
 
-            xaxis=dict(title=PLOT_AXIS_TITLE_X,
-                        backgroundcolor=COLOR_CANVAS,
-                        gridcolor=COLOR_GRID,
-                        linecolor=COLOR_GRID,
-                        zerolinecolor=COLOR_ZERO_LINE,
-                        zerolinewidth=PLOT_ZERO_LINE_WIDTH),
+            xaxis=dict(
+                title=PLOT_AXIS_TITLE_X,
+                backgroundcolor=COLOR_CANVAS,
+                gridcolor=COLOR_GRID,
+                linecolor=COLOR_GRID,
+                zerolinecolor=COLOR_ZERO_LINE,
+                zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
-            yaxis=dict(title=PLOT_AXIS_TITLE_Y,
-                        gridcolor=COLOR_GRID,
-                        linecolor=COLOR_GRID,
-                        backgroundcolor=COLOR_CANVAS,
-                        zerolinecolor=COLOR_ZERO_LINE,
-                        zerolinewidth=PLOT_ZERO_LINE_WIDTH),
+            yaxis=dict(
+                title=PLOT_AXIS_TITLE_Y,
+                gridcolor=COLOR_GRID,
+                linecolor=COLOR_GRID,
+                backgroundcolor=COLOR_CANVAS,
+                zerolinecolor=COLOR_ZERO_LINE,
+                zerolinewidth=PLOT_ZERO_LINE_WIDTH),
 
-            zaxis=dict(title=PLOT_AXIS_TITLE_Z,
-                        gridcolor=COLOR_GRID,
-                        linecolor=COLOR_GRID,
-                        backgroundcolor=COLOR_CANVAS,
-                        zerolinecolor=COLOR_ZERO_LINE,
-                        zerolinewidth=PLOT_ZERO_LINE_WIDTH)))
-
+            zaxis=dict(
+                title=PLOT_AXIS_TITLE_Z,
+                gridcolor=COLOR_GRID,
+                linecolor=COLOR_GRID,
+                backgroundcolor=COLOR_CANVAS,
+                zerolinecolor=COLOR_ZERO_LINE,
+                zerolinewidth=PLOT_ZERO_LINE_WIDTH)))
 
     data = [patient_mesh, source_mesh, table_mesh, detector_mesh, pad_mesh,
             beam_mesh, wf_beam, wf_table, wf_pad, wf_detector]

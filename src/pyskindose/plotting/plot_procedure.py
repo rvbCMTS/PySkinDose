@@ -3,16 +3,14 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 import plotly.graph_objects as go
-from .plot_settings import fetch_plot_colors, fetch_slider_colors, fetch_slider_padding, fetch_plot_size, fetch_plot_margin
-
+from .plot_settings import (
+    fetch_plot_colors,
+    fetch_slider_colors,
+    fetch_slider_padding,
+    fetch_plot_size,
+    fetch_plot_margin)
 
 from ..constants import (
-    COLOR_BEAM,
-    COLOR_DETECTOR,
-    COLOR_PAD,
-    COLOR_PATIENT,
-    COLOR_SOURCE,
-    COLOR_TABLE,
     COLOR_SLIDER_BACKGROUND,
     IRRADIATION_EVENT_STEP_KEY_ARGUMENTS,
     IRRADIATION_EVENT_STEP_KEY_LABEL,
@@ -24,11 +22,9 @@ from ..constants import (
     PLOT_FONT_FAMILY,
     PLOT_FONT_SIZE,
     PLOT_HOVERLABEL_FONT_FAMILY,
-    PLOT_HOVERLABEL_FONT_SIZE,
     PLOT_SLIDER_BORDER_WIDTH,
     PLOT_SLIDER_FONT_SIZE_CURRENT,
     PLOT_SLIDER_FONT_SIZE_GENERAL,
-    PLOT_SLIDER_PADDING,
     PLOT_SLIDER_TRANSITION,
     PLOT_TITLE_FONT_FAMILY,
     PLOT_TITLE_FONT_SIZE,
@@ -40,7 +36,9 @@ from ..constants import (
     PLOT_PROCEDURE_AXIS_RANGE_Z,
 )
 
-from .create_irradiation_event_procedure_plot_data import create_irradiation_event_procedure_plot_data
+from .create_irradiation_event_procedure_plot_data import (
+        create_irradiation_event_procedure_plot_data)
+
 from .create_plot_and_save_to_file import create_plot_and_save_to_file
 from .get_camera_view import get_camera_view
 from ..phantom_class import Phantom
@@ -49,23 +47,53 @@ logger = logging.getLogger(__name__)
 
 
 def plot_procedure(
-    mode: str,
-    data_norm: pd.DataFrame,
-    table: Phantom,
-    pad: Phantom,
-    include_patient: bool,
-    patient: Optional[Phantom] = None,
-    dark_mode: bool=True,
-    notebook_mode: bool=False):
+        mode: str,
+        data_norm: pd.DataFrame,
+        table: Phantom,
+        pad: Phantom,
+        include_patient: bool,
+        patient: Optional[Phantom] = None,
+        dark_mode: bool = True,
+        notebook_mode: bool = False):
+    """Create plot_procedure plot.
 
+    Parameters
+    ----------
+    mode : str
+        The function will only run if this is set to "plot_procedure".
+    data_norm : pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
+    table : Phantom
+        Patient support table phantom
+    pad : Phantom
+        Patient support pad phantom
+    include_patient : bool
+        Choose if the patient phantom should be included
+    patient : Optional[Phantom], optional
+        patient phantom, by default None
+    dark_mode : bool, optional
+        set dark mode for plots, by default True
+    notebook_mode : bool, optional
+        optimize plot size for notebooks, default is True.
+
+    Raises
+    ------
+    IOError
+        Raises error if patient not provided when include_patient = True
+
+    """
     if mode != MODE_PLOT_PROCEDURE:
         return
 
     if include_patient and patient is None:
-        logger.error("Plot procedure called with include patient but no patient input")
-        raise IOError("Patient object must be given when include_patient set to True")
+        logger.error(
+            "Plot procedure called with include patient but no patient input")
+        raise IOError(
+            "Patient object must be given when include_patient set to True")
 
-    logger.info(f"Plotting entire procedure with {len(data_norm)} irradiation events")
+    logger.info(
+        f"Plotting entire procedure with {len(data_norm)} irradiation events")
+
     title = f"<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"
 
     meshes = [
@@ -81,8 +109,7 @@ def plot_procedure(
         for ind in range(len(data_norm))
     ]
 
-    # data = [val for el in meshes for _, val in el.items()]
-    data = [event.get(plot_object) 
+    data = [event.get(plot_object)
             for plot_object in meshes[0].keys()
             for event in meshes]
 
@@ -98,13 +125,12 @@ def plot_procedure(
         layout=layout)
 
 
-def _create_event_slider_step(
-    total_events: int,
-    event: int) -> Dict[str, Any]:
-    
+def _create_event_slider_step(total_events: int, event: int) -> Dict[str, Any]:
+
     step = {
         IRRADIATION_EVENT_STEP_KEY_METHOD: "restyle",
-        IRRADIATION_EVENT_STEP_KEY_ARGUMENTS: ['visible', [False] * total_events],
+        IRRADIATION_EVENT_STEP_KEY_ARGUMENTS:
+            ['visible', [False] * total_events],
         IRRADIATION_EVENT_STEP_KEY_LABEL: event + 1
     }
     step[IRRADIATION_EVENT_STEP_KEY_ARGUMENTS][1][event] = True
@@ -113,13 +139,13 @@ def _create_event_slider_step(
 
 
 def _create_sliders(
-    steps: List[Dict],
-    total_events: int,
-    dark_mode: bool=True,
-    notebook_mode: bool=False) -> List[Dict[str, Any]]:
+        steps: List[Dict],
+        total_events: int,
+        dark_mode: bool = True,
+        notebook_mode: bool = False) -> List[Dict[str, Any]]:
 
-    COLOR_PLOT_TEXT, COLOR_SLIDER_TICK, COLOR_SLIDER_BORDER = fetch_slider_colors(
-        dark_mode=dark_mode)
+    COLOR_PLOT_TEXT, COLOR_SLIDER_TICK, COLOR_SLIDER_BORDER = \
+        fetch_slider_colors(dark_mode=dark_mode)
 
     PLOT_SLIDER_PADDING = fetch_slider_padding(notebook_mode=notebook_mode)
 
@@ -148,16 +174,16 @@ def _create_sliders(
 
 
 def _create_procedure_layout(
-    title: str,
-    total_events: int,
-    dark_mode: bool=True,
-    notebook_mode: bool=False) -> go.Layout:
+        title: str,
+        total_events: int,
+        dark_mode: bool = True,
+        notebook_mode: bool = False) -> go.Layout:
 
     steps = [_create_event_slider_step(
         total_events=total_events, event=ind) for ind in range(total_events)]
 
-    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
-        dark_mode=dark_mode)
+    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = \
+        fetch_plot_colors(dark_mode=dark_mode)
 
     PLOT_HEIGHT, PLOT_WIDTH = fetch_plot_size(notebook_mode=notebook_mode)
 
@@ -165,12 +191,12 @@ def _create_procedure_layout(
 
     layout = go.Layout(
 
-        height = PLOT_HEIGHT,
-        width = PLOT_WIDTH,
-        margin = PLOT_MARGIN,
+        height=PLOT_HEIGHT,
+        width=PLOT_WIDTH,
+        margin=PLOT_MARGIN,
 
         sliders=_create_sliders(
-            steps=steps, 
+            steps=steps,
             total_events=total_events,
             dark_mode=dark_mode,
             notebook_mode=notebook_mode),
@@ -180,7 +206,7 @@ def _create_procedure_layout(
             size=PLOT_FONT_SIZE,
             color=COLOR_PLOT_TEXT
             ),
-        
+
         hoverlabel=dict(
             font=dict(
                 family=PLOT_HOVERLABEL_FONT_FAMILY,
@@ -189,12 +215,13 @@ def _create_procedure_layout(
         showlegend=False,
         dragmode=PLOT_DRAGMODE,
         title=title,
-        
+
         titlefont=dict(
             family=PLOT_TITLE_FONT_FAMILY,
             size=PLOT_TITLE_FONT_SIZE,
             color=COLOR_PLOT_TEXT),
-        
+
+
         paper_bgcolor=COLOR_CANVAS,
         scene=dict(aspectmode=PLOT_ASPECTMODE_PLOT_PROCEDURE,
                    camera=get_camera_view(),

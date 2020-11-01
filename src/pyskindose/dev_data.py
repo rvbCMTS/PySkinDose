@@ -10,7 +10,7 @@ DEVELOPMENT_PARAMETERS = dict(
     plot_event_index=12,
     # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
-    # Numeric value of estimated table correction    
+    # Numeric value of estimated table correction
     k_tab_val=0.8,
     # plot settings
     plot={
@@ -29,23 +29,34 @@ DEVELOPMENT_PARAMETERS = dict(
         # Human phantom .stl filename, without .stl ending.
         human_mesh=const.PHANTOM_MESH_ADULT_MALE,
         # Patient offset from table isocenter (centered at head end side).
-        patient_offset={const.OFFSET_LATERAL_KEY: const.OFFSET_LATERAL,
-                        const.OFFSET_VERTICAL_KEY: const.OFFSET_VERTICAL,
-                        const.OFFSET_LONGITUDINAL_KEY: const.OFFSET_LONGITUDINAL,
+        patient_offset={const.OFFSET_LATERAL_KEY: 0,
+                        const.OFFSET_VERTICAL_KEY: 0,
+                        const.OFFSET_LONGITUDINAL_KEY: -35,
                         const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM},
         # Dimensions of matematical phantoms (except model='human')
         dimension={
-            const.DIMENSION_PLANE_LENGTH: 120,  # Length of plane phantom
-            const.DIMENSION_PLANE_WIDTH: 40,  # Width of plane phantom
-            const.DIMENSION_PLANE_RESOLUTION: const.RESOLUTION_SPARSE,  # Resolution of plane phantom
-            const.DIMENSION_CYLINDER_LENGTH: 150,  # Length of cylinder phantom
-            const.DIMENSION_CYLINDER_RADII_A: 20,  # First radii of cylinder phantom
-            const.DIMENSION_CYLINDER_RADII_B: 10,  # Second radii of cylinder phantom
-            const.DIMENSION_CYLINDER_RESOLUTION: const.RESOLUTION_SPARSE,  # Resolution of cylinder.
-            const.DIMENSION_TABLE_LENGTH: 281.5,  #281.5 Support table length
-            const.DIMENSION_TABLE_WIDTH: 45,  # Support table width
-            const.DIMENSION_TABLE_THICKNESS: 5,  # Support table thickness
-            const.DIMENSION_PAD_LENGTH: 281.5,  # Support pad length
+            # Length of plane phantom
+            const.DIMENSION_PLANE_LENGTH: 120,
+            # Width of plane phantom
+            const.DIMENSION_PLANE_WIDTH: 40,
+            # Resolution of plane phantom
+            const.DIMENSION_PLANE_RESOLUTION: const.RESOLUTION_SPARSE,
+            # Length of cylinder phantom
+            const.DIMENSION_CYLINDER_LENGTH: 150,
+            # First radii of cylinder phantom
+            const.DIMENSION_CYLINDER_RADII_A: 20,
+            # Second radii of cylinder phantom
+            const.DIMENSION_CYLINDER_RADII_B: 10,
+            # Resolution of cylinder.
+            const.DIMENSION_CYLINDER_RESOLUTION: const.RESOLUTION_SPARSE,
+            # 281.5 Support table length
+            const.DIMENSION_TABLE_LENGTH: 281.5,
+            # Support table width
+            const.DIMENSION_TABLE_WIDTH: 45,
+            # Support table thickness
+            const.DIMENSION_TABLE_THICKNESS: 5,
+            # Support pad length
+            const.DIMENSION_PAD_LENGTH: 281.5,
             const.DIMENSION_PAD_WIDTH: 45,  # Support pad width
             const.DIMENSION_PAD_THICKNESS: 4,  # Support pad thickness
             const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM})  # unit of dimension. Only 'cm' is supported.

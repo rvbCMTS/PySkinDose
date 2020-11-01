@@ -2,17 +2,17 @@ from typing import List, Dict, Any
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
-
+import logging
 from pyskindose import Phantom, constants as const
 from pyskindose.calculate_dose.add_correction_and_event_dose_to_output import (
     add_corrections_and_event_dose_to_output,
 )
-
-# from pyskindose.calculate_dose.calculate_dose import logger
 from pyskindose.calculate_dose.perform_calculations_for_new_geometries import (
     perform_calculations_for_new_geometries,
 )
 from scipy.interpolate import CubicSpline
+
+logger = logging.getLogger(__name__)
 
 
 def calculate_irradiation_event_result(
@@ -34,8 +34,8 @@ def calculate_irradiation_event_result(
 ) -> Dict[str, Any]:
     """Conducts skin dose calculation.
 
-    This function loops though all irradiation events in the the normalized data, and
-    calculates the skin dose contribution from each event.
+    This function loops though all irradiation events in the the normalized
+    data, and calculates the skin dose contribution from each event.
 
     Parameters
     ----------
@@ -46,14 +46,13 @@ def calculate_irradiation_event_result(
     total_events :
         Total number of irradiation events
     new_geometry : List[bool]
-        A boolean list that specifies whether the irradiation geometry has changes
-        since the preceding event. See the function check_new_geometry
+        A boolean list that specifies whether the irradiation geometry has
+        changes since the preceding event. See the function check_new_geometry
     k_tab : List[float]
         List of table correction factors
     hits : List[bool]
-        A boolean list that specifies (for a single event) the hit/miss status of each
-        skin cell upon the patient phantom.
-        patient phantom
+        A boolean list that specifies (for a single event) the hit/miss status
+        of each skin cell upon the patient phantom.
     patient : Phantom
         Patient skin surface phantom
     table : Phantom
@@ -61,14 +60,14 @@ def calculate_irradiation_event_result(
     pad : Phantom
         Patient support pad phantom
     back_scatter_interpolation : List[CubicSpline]
-        List of interpolation objects to used to estimate backscatter correction
-        from the correction database
+        List of interpolation objects to used to estimate backscatter
+        correction from the correction database
     output : Dict[str, Any]
-        Dictionary containing outputs to store from the calculations. E.g. dose map and
-        correction factors.
+        Dictionary containing outputs to store from the calculations. E.g.
+        dose map and correction factors.
     table_hits : List[bool], optional
-        A boolean list that specfies (for each hit), if the bean passes through the
-        patient support table, by default None
+        A boolean list that specfies (for each hit), if the bean passes through
+        the patient support table, by default None
     field_area : List[float], optional
         X-ray field area in (cm^2) for each phantom skin cell that are hit by
         X-ray the beam, by default None
@@ -83,22 +82,25 @@ def calculate_irradiation_event_result(
         Dictionary containing skin dose calculation results.
 
     """
-    # logger.debug(f"Calculating irradiation event {event + 1} out of {total_events}")
+    logger.debug(
+        f"Calculating irradiation event {event + 1} out of {total_events}")
 
-    hits, table_hits, field_area, k_isq = perform_calculations_for_new_geometries(
-        normalized_data=normalized_data,
-        event=event,
-        new_geometry=new_geometry[event],
-        patient=patient,
-        table=table,
-        pad=pad,
-        hits=hits,
-        table_hits=table_hits,
-        field_area=field_area,
-        k_isq=k_isq,
-    )
+    hits, table_hits, field_area, k_isq = \
+        perform_calculations_for_new_geometries(
+            normalized_data=normalized_data,
+            event=event,
+            new_geometry=new_geometry[event],
+            patient=patient,
+            table=table,
+            pad=pad,
+            hits=hits,
+            table_hits=table_hits,
+            field_area=field_area,
+            k_isq=k_isq,
+        )
 
-    # logger.debug("Saving event data")
+    logger.debug("Saving event data")
+
     output[const.OUTPUT_KEY_HITS][event] = hits
     output[const.OUTPUT_KEY_KERMA][event] = normalized_data.K_IRP[event]
     output[const.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW][event] = k_isq
@@ -114,13 +116,13 @@ def calculate_irradiation_event_result(
         k_tab=k_tab,
         output=output,
     )
-    
+
     event += 1
 
     if event < total_events:
 
         pbar.update()
-        
+
         output = calculate_irradiation_event_result(
             normalized_data=normalized_data,
             event=event,

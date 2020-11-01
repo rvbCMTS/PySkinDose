@@ -39,23 +39,23 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
         rdsr_filepath=file_path,
         settings=settings
     )
-    
+
     _ = analyze_data(
         normalized_data=data_norm,
         settings=settings,
         plot_dose_map=settings.plot.plot_dosemap)
 
 
-def _parse_settings_to_settings_class(
-    settings: Optional[str] = None):
-    
+def _parse_settings_to_settings_class(settings: Optional[str] = None):
+
     if settings is not None:
         return PyskindoseSettings(settings)
 
     settings_path = os.path.join(os.path.dirname(__file__), "settings.json")
 
     if not os.path.exists(settings_path):
-        logger.warning("The give settings path does not exist. Using example settings.")
+        logger.warning(
+            "The give settings path does not exist. Using example settings.")
         settings_path = os.path.join(
             os.path.dirname(__file__), "settings_example.json")
 
@@ -65,14 +65,14 @@ def _parse_settings_to_settings_class(
     return PyskindoseSettings(output)
 
 
-def _read_and_normalise_data_from_rdsr_file(
-    rdsr_filepath: str, settings: PyskindoseSettings
-):
+def _read_and_normalise_data_from_rdsr_file(rdsr_filepath: str,
+                                            settings: PyskindoseSettings):
     if not rdsr_filepath:
         rdsr_filepath = os.path.join(
-            os.path.dirname(__file__), "example_data", "RDSR", settings.rdsr_filename
+            os.path.dirname(__file__), "example_data", "RDSR",
+            settings.rdsr_filename
         )
-    
+
     logger.debug(rdsr_filepath)
     # Read RDSR data with pydicom
     data_raw = pydicom.read_file(rdsr_filepath)
@@ -86,15 +86,15 @@ def _read_and_normalise_data_from_rdsr_file(
     return normalized_data
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
 
     DESCRIPTION = (
-        "PySkinDose is a Python version 3.7 based program for patient peak skin dose (PSD)"
-        "estimations from fluoroscopic procedures in interventional radiology.")
+        "PySkinDose is a Python version 3.7 based program for patient peak"
+        " skin dose (PSD) estimations from fluoroscopic procedures in"
+        " interventional radiology.")
 
     PARSER = argparse.ArgumentParser(description=DESCRIPTION)
     PARSER.add_argument("--file-path", help="Path to RDSR DICOM file")
-    
     ARGS = PARSER.parse_args()
 
     main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)

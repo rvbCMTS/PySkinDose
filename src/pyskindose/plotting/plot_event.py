@@ -1,6 +1,4 @@
 import logging
-
-import numpy as np
 import pandas as pd
 
 from ..beam_class import Beam
@@ -13,14 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 def plot_event(
-    mode: str,
-    data_norm: pd.DataFrame,
-    event: int,
-    patient: Phantom,
-    table: Phantom,
-    pad: Phantom,
-    dark_mode: bool=True,
-    notebook_mode: bool=False):
+        mode: str,
+        data_norm: pd.DataFrame,
+        event: int,
+        patient: Phantom,
+        table: Phantom,
+        pad: Phantom,
+        dark_mode: bool = True,
+        notebook_mode: bool = False):
     """Visualize the geometry from a specific irradiation event.
 
     This function plots an irradiation event with the patient,
@@ -50,7 +48,7 @@ def plot_event(
         Set dark mode for plot, default is True
     notebook_mode : bool, optional
         optimize plot size for notebooks, default is False.
-        
+
     """
     if mode != MODE_PLOT_EVENT:
         return
@@ -65,9 +63,12 @@ def plot_event(
     table.position(data_norm, event)
     pad.position(data_norm, event)
 
-    source_text, beam_text, detectors_text, table_text, pad_text, patient_text = create_geometry_plot_texts(
-        beam=beam, table=table, pad=pad, patient=patient
-    )
+    source_text, beam_text, detectors_text, table_text, pad_text, patient_text\
+        = create_geometry_plot_texts(
+                beam=beam,
+                table=table,
+                pad=pad,
+                patient=patient)
 
     # Define plot title
     title = f"<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"

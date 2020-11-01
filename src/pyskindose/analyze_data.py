@@ -28,32 +28,37 @@ def analyze_data(
     Returns
     -------
     Dict[str, Any]
-        output dictionary containing calculation specifics such as dose map, correction
-        factors, etc..
+        output dictionary containing calculation specifics such as dose map,
+        correction factors, etc..
 
     """
     # create table, pad and patient phantoms.
     table = Phantom(
-        phantom_model=const.PHANTOM_MODEL_TABLE, phantom_dim=settings.phantom.dimension
+        phantom_model=const.PHANTOM_MODEL_TABLE,
+        phantom_dim=settings.phantom.dimension
     )
 
     pad = Phantom(
-        phantom_model=const.PHANTOM_MODEL_PAD, phantom_dim=settings.phantom.dimension
+        phantom_model=const.PHANTOM_MODEL_PAD,
+        phantom_dim=settings.phantom.dimension
     )
 
     create_geometry_plot(
-        normalized_data=normalized_data, table=table, pad=pad, settings=settings
+        normalized_data=normalized_data, table=table, pad=pad,
+        settings=settings
     )
 
     patient, output = calculate_dose(
-        normalized_data=normalized_data, settings=settings, table=table, pad=pad
+        normalized_data=normalized_data, settings=settings, table=table,
+        pad=pad
     )
 
     if not plot_dose_map:
         return output
 
     create_dose_map_plot(
-        patient=patient, settings=settings, dose_map=output[const.OUTPUT_KEY_DOSE_MAP]
+        patient=patient, settings=settings,
+        dose_map=output[const.OUTPUT_KEY_DOSE_MAP]
     )
 
     return output

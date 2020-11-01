@@ -21,6 +21,7 @@ from ..constants import (
     PLOT_SLIDER_PADDING_NOTEBOOK,
 )
 
+
 def fetch_plot_colors(dark_mode: bool):
     """Fetch correct colors scheme for plotly plots.
 
@@ -31,8 +32,11 @@ def fetch_plot_colors(dark_mode: bool):
 
     """
     if dark_mode:
-        return COLOR_CANVAS_DARK, COLOR_PLOT_TEXT_DARK, COLOR_GRID_DARK, COLOR_ZERO_LINE_DARK
-    return COLOR_CANVAS_LIGHT, COLOR_PLOT_TEXT_LIGHT, COLOR_GRID_LIGHT, COLOR_ZERO_LINE_LIGHT
+        return COLOR_CANVAS_DARK, COLOR_PLOT_TEXT_DARK, COLOR_GRID_DARK, \
+            COLOR_ZERO_LINE_DARK
+
+    return COLOR_CANVAS_LIGHT, COLOR_PLOT_TEXT_LIGHT, COLOR_GRID_LIGHT, \
+        COLOR_ZERO_LINE_LIGHT
 
 
 def fetch_slider_colors(dark_mode: bool):
@@ -45,9 +49,11 @@ def fetch_slider_colors(dark_mode: bool):
 
     """
     if dark_mode:
-        return COLOR_PLOT_TEXT_DARK, COLOR_SLIDER_TICK_DARK, COLOR_SLIDER_BORDER_DARK,
-    
-    return COLOR_PLOT_TEXT_LIGHT, COLOR_SLIDER_TICK_LIGHT, COLOR_SLIDER_BORDER_LIGHT
+        return COLOR_PLOT_TEXT_DARK, COLOR_SLIDER_TICK_DARK, \
+            COLOR_SLIDER_BORDER_DARK,
+
+    return COLOR_PLOT_TEXT_LIGHT, COLOR_SLIDER_TICK_LIGHT, \
+        COLOR_SLIDER_BORDER_LIGHT
 
 
 def fetch_plot_size(notebook_mode: bool):
@@ -63,6 +69,7 @@ def fetch_plot_size(notebook_mode: bool):
         return PLOT_HEIGHT_NOTEBOOK, PLOT_WIDTH_NOTEBOOK
 
     return PLOT_HEIGHT, PLOT_WIDTH
+
 
 def fetch_plot_margin(notebook_mode: bool):
     """Fetch correct margins for plotly plots.
@@ -86,7 +93,7 @@ def fetch_slider_padding(notebook_mode: bool):
     ----------
     notebook_mode : bool
         Specifies whether the slider padding should be optimized for notebooks
-    
+
     """
     if notebook_mode:
         return PLOT_SLIDER_PADDING_NOTEBOOK

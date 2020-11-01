@@ -18,7 +18,7 @@ from pyskindose.geom_calc import (
 from pyskindose.phantom_class import Phantom
 from pyskindose.settings_pyskindose import PyskindoseSettings
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def calculate_dose(
@@ -49,10 +49,11 @@ def calculate_dose(
 
     """
     if settings.mode != const.MODE_CALCULATE_DOSE:
-        # logger.debug("Mode not set to calculate dose. Returning without doing anything")
+        logger.debug(
+            "Mode not set to calculate dose. Returning without doing anything")
         return None, None
 
-    # logger.info("Start performing dose calculations")
+    logger.info("Start performing dose calculations")
     patient = Phantom(
         phantom_model=settings.phantom.model,
         phantom_dim=settings.phantom.dimension,
@@ -98,6 +99,8 @@ def calculate_dose(
         const.OUTPUT_KEY_CORRECTION_TABLE: [[]] * total_number_of_events,
         const.OUTPUT_KEY_DOSE_MAP: np.zeros(len(patient.r)),
     }
+
+    print('\n')
 
     output = calculate_irradiation_event_result(
         normalized_data=normalized_data,

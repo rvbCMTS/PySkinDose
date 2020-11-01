@@ -8,10 +8,12 @@ class NormalizationSettings:
 
         # Select correct normalization settings
         for setting in normalization_settings['normalization_settings']:
-            if not (manufacturer == setting['manufacturer'] and model in setting['models']):
+            if not (manufacturer == setting['manufacturer']
+                    and model in setting['models']):
                 continue
 
-            self.trans_offset = _TranslationOffset(offset=setting['translation_offset'])
+            self.trans_offset = _TranslationOffset(
+                offset=setting['translation_offset'])
 
             self.trans_dir = _TranslationDirection(
                 directions=setting['translation_direction'])
@@ -21,6 +23,7 @@ class NormalizationSettings:
 
             self.field_size_mode = setting['field_size_mode']
             self.detector_side_length = setting['detector_side_length']
+
             return
 
         raise NotImplementedError
@@ -52,19 +55,19 @@ class _TranslationDirection:
         pos_dir = +1
         neg_dir = -1
 
-
         for dimension in directions:
 
-            # kontrollera fel
             if directions[dimension] == '+':
                 setattr(self, dimension, pos_dir)
                 continue
 
             elif directions[dimension] == '-':
                 setattr(self, dimension, neg_dir)
-            
+
             else:
-                raise ValueError(f'direction {directions[dimension]} not understood. choose either  + or -')
+                raise ValueError(
+                    f'direction {directions[dimension]} not understood. choose'
+                    'either  + or -')
 
         return
 

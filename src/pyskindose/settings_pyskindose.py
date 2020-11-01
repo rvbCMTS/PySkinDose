@@ -40,7 +40,8 @@ class PyskindoseSettings:
     """
 
     def __init__(self, settings: Union[str, dict]):
-        """
+        """Initialize settings class.
+
         Parameters
         ----------
         settings : Union[str, dict]
@@ -63,9 +64,9 @@ class PyskindoseSettings:
         self.phantom = PhantomSettings(ptm_dim=tmp['phantom'])
         self.plot = Plotsettings(plt_dict=tmp['plot'])
 
+
 class PhantomSettings:
-    """A class for setting all the phantom related settings required to run
-    PySkinDose
+    """A class for setting all the phantom related settings required.
 
     Attributes
     ----------
@@ -89,7 +90,8 @@ class PhantomSettings:
     """
 
     def __init__(self, ptm_dim: dict):
-        """
+        """Initialize phantom settings class.
+
         Parameters
         ----------
         ptm_dim : PhantomDimensions
@@ -153,7 +155,8 @@ class PhantomDimensions:
     """
 
     def __init__(self, ptm_dim: dict):
-        """
+        """Initialize phantom dimension class.
+
         Parameters
         ----------
         ptm_dim : dict
@@ -208,17 +211,21 @@ class PatientOffset:
             Raises error if other units then cm are used.
 
     """
+
     def __init__(self, offset: dict):
-        """
+        """Initialize patient-table offset class.
+
         Parameters
         ----------
         offset : dict
             offset in cm from the table isocenter in the lateral, vertical and
             longitudinal direction.
+
         Raises
         ------
         NotImplementedError
             Raises error if other units then cm are used.
+
         """
         self.d_lat = offset["d_lat"]
         self.d_ver = offset["d_ver"]
@@ -230,24 +237,26 @@ class PatientOffset:
 
 
 class Plotsettings:
-    """A class for setting plot settings
+    """A class for setting plot settings.
 
     Attributes
     ----------
     dark_mode : bool
         dark mode boolean
-    
+
     """
+
     def __init__(self, plt_dict):
-        """
+        """Initialize plot settings class.
+
         Parameters
         ----------
         plt_dict : dict
             Dictionary containing all of the plot setting that are
             appended as attributes to this class, see class attributes.
         notebook_mode : bool
-            Set true if main is called from within a notebook. This optimizes plot
-            sizing for notebook output cells.
+            Set true if main is called from within a notebook.
+            This optimizes plot sizing for notebook output cells.
         plot_dosemap : bool, default is True
             Whether dosemap should be plotted after dose calculation
 
