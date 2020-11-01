@@ -82,7 +82,7 @@ def test_calculate_k_med():
     assert test in expected
 
 def test_calculate_k_tab():
-    """Testa the table correction."""
+    """Test the table correction."""
     # Tests if correct k_tab value is returned from database
     expected = 0.7319
 
@@ -92,7 +92,7 @@ def test_calculate_k_tab():
     params = (80,  # kVp, rounded to nearest integer
               0.3,  # Filter thickness Cu
               0,  # Filter thicknes Al
-              'AXIOMArtis',  # device model
+              'AXIOM-Artis',  # device model
               'Single Plane',)  # acquisition plane
 
     # Fetch k_tab
