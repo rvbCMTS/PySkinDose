@@ -8,7 +8,7 @@ from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
 from pyskindose.rdsr_parser import rdsr_parser
 from pyskindose.rdsr_normalizer import rdsr_normalizer
 from pyskindose.settings_pyskindose import PyskindoseSettings
-
+import pandas as pd
 logger = logging.getLogger(__name__)
 
 
@@ -27,7 +27,7 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
     Parameters
     ----------
     file_path : str, optional
-        file path to RDSR file
+        file path to RDSR file or preparsed RDSR data in .json format
     settings : Union[str, dict], optional
         Setting file in either dict or json string format, by default
         settings_examples.json is enabled.
@@ -35,7 +35,7 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
     """
     settings = _parse_settings_to_settings_class(settings=settings)
 
-    data_norm = _read_and_normalise_data_from_rdsr_file(
+    data_norm = _read_and_normalise_rdsr_data(
         rdsr_filepath=file_path,
         settings=settings
     )
@@ -65,8 +65,9 @@ def _parse_settings_to_settings_class(settings: Optional[str] = None):
     return PyskindoseSettings(output)
 
 
-def _read_and_normalise_data_from_rdsr_file(rdsr_filepath: str,
-                                            settings: PyskindoseSettings):
+def _read_and_normalise_rdsr_data(
+        rdsr_filepath: str, settings: PyskindoseSettings):
+
     if not rdsr_filepath:
         rdsr_filepath = os.path.join(
             os.path.dirname(__file__), "example_data", "RDSR",
@@ -74,7 +75,12 @@ def _read_and_normalise_data_from_rdsr_file(rdsr_filepath: str,
         )
 
     logger.debug(rdsr_filepath)
-    # Read RDSR data with pydicom
+
+    "If provided, load preparsed rdsr data in .json format"
+    if '.json' in rdsr_filepath:
+        return pd.read_json(rdsr_filepath)
+
+    # else load RDSR data with pydicom
     data_raw = pydicom.read_file(rdsr_filepath)
 
     # parse RDSR data from raw .dicom file
