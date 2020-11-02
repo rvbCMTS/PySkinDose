@@ -8,6 +8,10 @@ pytest = "*"
 pydocstyle = "*"
 black = "*"
 sphinx-rtd-theme = "*"
+ipywidgets = ">=7.5"
+jupyterlab = "*"
+npm = "*"
+node = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}

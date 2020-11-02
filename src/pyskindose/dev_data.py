@@ -25,7 +25,7 @@ DEVELOPMENT_PARAMETERS = dict(
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'
-        model=const.PHANTOM_MODEL_HUMAN,
+        model=const.PHANTOM_MODEL_CYLINDER,
         # Human phantom .stl filename, without .stl ending.
         human_mesh=const.PHANTOM_MESH_ADULT_MALE,
         # Patient offset from table isocenter (centered at head end side).
