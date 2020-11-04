@@ -8,19 +8,19 @@ plot setup
 ##########
 
 .. raw:: html
-    :file: figures/plot_setup_light.html
+    :file: figures/interactive/plot_setup_light.html
 
 
 plot procedure
 ##############
 
 .. raw:: html
-    :file: figures/plot_procedure_light.html
+    :file: figures/interactive/plot_procedure_light.html
 
 
 plot dosemap
 ############
 
 .. raw:: html
-    :file: figures/plot_dosemap_light.html
+    :file: figures/interactive/plot_dosemap_light.html
 

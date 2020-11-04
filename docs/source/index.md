@@ -2,7 +2,7 @@
 
 Welcome!
 
-PySkinDose is an __open-source framework for RDSR-based skin-dose mapping with fluoroscopic procedures__ This is a _text in itallic_.
+PySkinDose is an __open-source framework for RDSR-based skin-dose mapping with fluoroscopic procedures__.
 
 ```{toctree}
 ---
@@ -10,7 +10,7 @@ maxdepth: 2
 caption: Contents
 ---
 user/install.md
-user/static_plots.rst
+user/static_plots.md
 user/interactive_plots.rst
 ```
 
