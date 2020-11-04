@@ -12,7 +12,9 @@ import pandas as pd
 logger = logging.getLogger(__name__)
 
 
-def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
+def main(
+        file_path: Optional[str] = None,
+        settings: Union[str, dict, PyskindoseSettings] = None):
     """Run PySkinDose.
 
     Copy settings_examples.json and save it as settings.json.
@@ -21,16 +23,17 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
     main(settings=PARAM_DEV).
 
     See settings.py for a description of all the parameters. Please visit
-    https://dev.azure.com/Sjukhusfysiker/PySkinDose for info on how to run
+    https://github.com/rvbCMTS/PySkinDose for info on how to run
     PySkinDose.
 
     Parameters
     ----------
     file_path : str, optional
         file path to RDSR file or preparsed RDSR data in .json format
-    settings : Union[str, dict], optional
-        Setting file in either dict or json string format, by default
-        settings_examples.json is enabled.
+    settings : Union[str, dict, PyskindoseSettings], optional
+        Setting file in either dict, json string format, or as a
+        PyskindoseSettings object. By default, settings_examples.json is
+        enabled.
 
     """
     settings = _parse_settings_to_settings_class(settings=settings)
@@ -49,6 +52,10 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
 def _parse_settings_to_settings_class(settings: Optional[str] = None):
 
     if settings is not None:
+
+        if isinstance(settings, PyskindoseSettings):
+            return settings
+
         return PyskindoseSettings(settings)
 
     settings_path = os.path.join(os.path.dirname(__file__), "settings.json")
