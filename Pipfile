@@ -12,6 +12,7 @@ ipywidgets = ">=7.5"
 jupyterlab = "*"
 npm = "*"
 node = "*"
+pylama = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}

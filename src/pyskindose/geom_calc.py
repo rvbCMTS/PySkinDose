@@ -1,6 +1,6 @@
 import logging
 from typing import List, Any
-import pyskindose.constants as const 
+import pyskindose.constants as const
 
 import numpy as np
 import pandas as pd

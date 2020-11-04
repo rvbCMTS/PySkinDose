@@ -10,5 +10,4 @@ settings.mode = constants.MODE_PLOT_PROCEDURE
 # settings.rdsr_filename = 'table_translation.json'
 # settings.rdsr_filename = 'table_rot.json'
 
-
 main(settings=settings)
