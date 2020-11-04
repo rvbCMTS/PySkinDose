@@ -34,6 +34,7 @@ DEVELOPMENT_PARAMETERS = dict(
             const.OFFSET_LATERAL_KEY: -35,
             const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM},
         # Dimensions of matematical phantoms (except model='human')
+        patient_orientation=const.PATIENT_ORIENTATION_HEAD_FIRST_SUPERIOR,
         dimension={
             # Length of plane phantom
             const.DIMENSION_PLANE_LENGTH: 120,

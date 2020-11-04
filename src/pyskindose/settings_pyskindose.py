@@ -83,6 +83,9 @@ class PhantomSettings:
     patient_offset : PhantomOffset
         Instance of class PhantomOffset containing patient - table isocenter
         offset.
+    patient_orientation : str
+        patient orientation on table. Choose between 'head_first_superior' and
+        'feet_first_superior'.
     dimension : PhantomDimensions
         Instance of class PhantomDimensions containing all dimensions required
         to create any of the mathematical phantoms, which is all but human.
@@ -102,6 +105,7 @@ class PhantomSettings:
         self.model = ptm_dim["model"]
         self.human_mesh = ptm_dim["human_mesh"]
         self.patient_offset = PatientOffset(offset=ptm_dim["patient_offset"])
+        self.patient_orientation = ptm_dim["patient_orientation"]
         self.dimension = PhantomDimensions(ptm_dim=ptm_dim['dimension'])
 
 

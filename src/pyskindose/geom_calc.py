@@ -1,5 +1,6 @@
 import logging
 from typing import List, Any
+import pyskindose.constants as const 
 
 import numpy as np
 import pandas as pd
@@ -48,8 +49,13 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
     return FS_lat, FS_long
 
 
-def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
-                      pad_thickness: Any, patient_offset: List[int]) -> None:
+def position_geometry(
+        patient: Phantom,
+        table: Phantom,
+        pad: Phantom,
+        pad_thickness: Any,
+        patient_offset: List[int],
+        patient_orientation: const.PATIENT_ORIENTATION_HEAD_FIRST_SUPERIOR) -> None:
     """Manual positioning of the phantoms before procedure starts.
 
     In this function, the patient phantom, support table, and pad are
@@ -74,10 +80,15 @@ def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
         table top, given as [Tx: <int>, "Ty": <int>, "Tz": <int>] in cm.
 
     """
-    # rotate 90 deg about LON axis to get head end in positive LAT direction
+    # rotate 90 deg about LON axis to get head end in positive LAT direction,
+    # i.e. in head first superior position.
     table.rotate(angles=[90, 0, 0])
     pad.rotate(angles=[90, 0, 0])
     patient.rotate(angles=[90, 0, 0])
+
+    # if feet-first, rotate patient 180 degrees about y-axis
+    if patient_orientation == const.PATIENT_ORIENTATION_FEET_FIRST_SUPERIOR:
+        patient.rotate(angles=[0, 180, 0])
 
     # translate to get origin centered along the head end of the table
     table.translate(dr=[0, 0, -max(table.r[:, 2])])

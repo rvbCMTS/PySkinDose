@@ -163,3 +163,6 @@ DOSEMAP_COLORSCALE_KEY = 'colorscale'
 # https://plotly.com/python/builtin-colorscales/
 DOSEMAP_COLORSCALE = 'jet'
 # amp
+
+PATIENT_ORIENTATION_HEAD_FIRST_SUPERIOR = 'head_first_superior'
+PATIENT_ORIENTATION_FEET_FIRST_SUPERIOR = 'feet_first_superior'

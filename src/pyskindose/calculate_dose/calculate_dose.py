@@ -62,16 +62,13 @@ def calculate_dose(
 
     # position objects in starting position
     position_geometry(
-        patient=patient,
-        table=table,
-        pad=pad,
-        pad_thickness=settings.phantom.dimension.pad_thickness,
-        patient_offset=[
-            settings.phantom.patient_offset.d_lon,
-            settings.phantom.patient_offset.d_ver,
-            settings.phantom.patient_offset.d_lat,
-        ],
-    )
+            patient=patient, table=table, pad=pad,
+            pad_thickness=settings.phantom.dimension.pad_thickness,
+            patient_offset=[
+                settings.phantom.patient_offset.d_lon,
+                settings.phantom.patient_offset.d_ver,
+                settings.phantom.patient_offset.d_lat],
+            patient_orientation=settings.phantom.patient_orientation)
 
     normalized_data = fetch_and_append_hvl(data_norm=normalized_data)
 
