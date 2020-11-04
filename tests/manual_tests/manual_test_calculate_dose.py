@@ -1,8 +1,10 @@
 from base_dev_settings import DEVELOPMENT_PARAMETERS
 from pyskindose import constants
 from pyskindose.main import main
+from pyskindose.settings_pyskindose import PyskindoseSettings
 
-DEVELOPMENT_PARAMETERS['mode'] = constants.MODE_CALCULATE_DOSE
-DEVELOPMENT_PARAMETERS['plot']['plot_dosemap'] = True
+settings = PyskindoseSettings(settings=DEVELOPMENT_PARAMETERS)
+settings.mode = constants.MODE_CALCULATE_DOSE
+settings.plot.plot_dosemap = True
 
-main(settings=DEVELOPMENT_PARAMETERS)
+main(settings=settings)
