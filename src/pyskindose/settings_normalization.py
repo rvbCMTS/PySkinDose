@@ -1,8 +1,26 @@
 
 class NormalizationSettings:
+    """A class to normalize RDSR for PySkinDose compliance.
+
+    Attributes
+    ----------
+    trans_offset : _TranslationOffset
+        See class variables of _TranslationOffset
+    trans_dir : _TranslationDirection
+        See class variables of _TranslationDirection
+    rot_dir : _RotationDirection
+        See class variables of _RotationDirection
+    field_size_mode : str
+        method for calculating field size at image receptor plane.
+        Choose either "CFA" (collimated field area) or "ACD" (actual shutter
+        distance). For more info, see calculate_field_size in geom_calc.py.
+    detector_side_length : str
+        side length of active image receptor area in cm.
+
+    """
 
     def __init__(self, normalization_settings, data_parsed):
-
+        """Initialize class attributes."""
         manufacturer = data_parsed['Manufacturer'][0]
         model = data_parsed['ManufacturerModelName'][0]
 
@@ -30,8 +48,27 @@ class NormalizationSettings:
 
 
 class _RotationDirection:
-    def __init__(self, directions):
+    """Switch pos/neg direction of beam- and table angles.
 
+    Attributes
+    ----------
+    keys of __init__ parameter directions
+        Value of each attribute (i.e. key) is integers of either +1 or -1 to be
+        used as a multiplicative correction factor to switch pos/neg direction
+        in each angle. PySkinDose default angles are all +1.
+
+    """
+
+    def __init__(self, directions):
+        """Initialize class attributes.
+
+        Parameters
+        ----------
+        directions : dict
+            dictionary with keys 'Ap1', 'Ap2', 'Ap3', 'At1', 'At2' and 'At3'.
+            Each key contains either '+' or '-'.
+
+        """
         pos_dir = +1
         neg_dir = -1
 
@@ -50,8 +87,27 @@ class _RotationDirection:
 
 
 class _TranslationDirection:
-    def __init__(self, directions):
+    """Switch pos/neg direction of table translations.
 
+    Attributes
+    ----------
+    keys of __init__ parameter directions
+        Value of each attribute (i.e. key) is integers of either +1 or -1 to be
+        used as a multiplicative correction factor to switch pos/neg direction
+        in each direction. PySkinDose default angles are all +1.
+
+    """
+
+    def __init__(self, directions):
+        """Initialize class attributes.
+
+        Parameters
+        ----------
+        directions : dict
+            dictionary with keys 'x', 'y' and 'z'.
+            Each key contains either '+' or '-'.
+
+        """
         pos_dir = +1
         neg_dir = -1
 
@@ -73,7 +129,30 @@ class _TranslationDirection:
 
 
 class _TranslationOffset:
+    """Set translation offset of patient support table.
+
+    Use this class to set the translation offset (in cm) between the machine
+    origin (the unit that generated the RDSR) and the machine origin of
+    PySkinDose (which is located at (x,y,z) = (0, 0, 0)).
+
+    Attributes
+    ----------
+    keys of __init__ parameter offset
+        Value of each attribute (i.e. key) is a float specifying the offset
+        in cm.
+
+    """
+
     def __init__(self, offset):
+        """Initialize class attributes.
+
+        Parameters
+        ----------
+        offset : dict
+            dictionary with keys 'x', 'y' and 'z'. Each key contains the
+            translation offset (in that direction), specified as a float in cm.
+
+        """
         for dimension in offset:
             setattr(self, dimension, offset[dimension])
 

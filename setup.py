@@ -25,7 +25,7 @@ setup(
         'numpy',
         'pydicom>=1.0',
         'numpy-stl',
-        'plotly==4.11',
+        'plotly==4.12',
         'scipy',
         'tqdm'
     ],

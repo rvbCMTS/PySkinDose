@@ -6,6 +6,8 @@ logs/
 *.html
 __pycache__/
 **/__pycache__/
+.ipynb_checkpoints
+
 scratch*
 #RDSR/clinical*
 src/pyskindose/example_data/RDSR/clinical*

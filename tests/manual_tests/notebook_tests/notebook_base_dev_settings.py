@@ -63,5 +63,4 @@ DEVELOPMENT_PARAMETERS = dict(
             # Support pad thickness
             const.DIMENSION_PAD_THICKNESS: 4,
             # unit of dimension. Only 'cm' is supported.
-            const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM}),
-)
+            const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM}))
