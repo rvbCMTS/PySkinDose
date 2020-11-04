@@ -67,9 +67,9 @@ def calculate_dose(
         pad=pad,
         pad_thickness=settings.phantom.dimension.pad_thickness,
         patient_offset=[
-            settings.phantom.patient_offset.d_lat,
-            settings.phantom.patient_offset.d_ver,
             settings.phantom.patient_offset.d_lon,
+            settings.phantom.patient_offset.d_ver,
+            settings.phantom.patient_offset.d_lat,
         ],
     )
 

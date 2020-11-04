@@ -29,9 +29,9 @@ DEVELOPMENT_PARAMETERS = dict(
         human_mesh=const.PHANTOM_MESH_ADULT_MALE,
         # Patient offset from table isocenter (centered at head end side).
         patient_offset={
-            const.OFFSET_LATERAL_KEY: 0,
+            const.OFFSET_LONGITUDINAL_KEY: 0,
             const.OFFSET_VERTICAL_KEY: 0,
-            const.OFFSET_LONGITUDINAL_KEY: -35,
+            const.OFFSET_LATERAL_KEY: -35,
             const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM},
         # Dimensions of matematical phantoms (except model='human')
         dimension={
