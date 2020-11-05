@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional
 import pandas as pd
 
-from pyskindose import constants as const
+from pyskindose import constants as c
 from pyskindose.calculate_dose.calculate_dose import calculate_dose
 from pyskindose.phantom_class import Phantom
 from pyskindose.plotting.create_dose_map_plot import create_dose_map_plot
@@ -34,12 +34,12 @@ def analyze_data(
     """
     # create table, pad and patient phantoms.
     table = Phantom(
-        phantom_model=const.PHANTOM_MODEL_TABLE,
+        phantom_model=c.PHANTOM_MODEL_TABLE,
         phantom_dim=settings.phantom.dimension
     )
 
     pad = Phantom(
-        phantom_model=const.PHANTOM_MODEL_PAD,
+        phantom_model=c.PHANTOM_MODEL_PAD,
         phantom_dim=settings.phantom.dimension
     )
 
@@ -58,7 +58,7 @@ def analyze_data(
 
     create_dose_map_plot(
         patient=patient, settings=settings,
-        dose_map=output[const.OUTPUT_KEY_DOSE_MAP]
+        dose_map=output[c.OUTPUT_KEY_DOSE_MAP]
     )
 
     return output

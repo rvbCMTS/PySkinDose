@@ -1,8 +1,8 @@
-from pyskindose import constants as const
+from pyskindose import constants as c
 
 DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
-    mode=const.MODE_PLOT_PROCEDURE,
+    mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
     rdsr_filename='s1.dcm',
     # Irrading event index for mode='plot_event'
@@ -14,54 +14,53 @@ DEVELOPMENT_PARAMETERS = dict(
     # plot settings
     plot={
         # dark mode for plots
-        const.MODE_DARK_MODE: True,
+        c.MODE_DARK_MODE: True,
         # notebook mode
-        const.MODE_NOTEBOOK_MODE: False,
+        c.MODE_NOTEBOOK_MODE: False,
         # choose if dosemap should be plotted after dose calculations.
-        const.MODE_PLOT_DOSEMAP: False,
+        c.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
-        const.DOSEMAP_COLORSCALE_KEY: const.DOSEMAP_COLORSCALE},
+        c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE},
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'
-        model=const.PHANTOM_MODEL_HUMAN,
+        model=c.PHANTOM_MODEL_HUMAN,
         # Human phantom .stl filename, without .stl ending.
-        human_mesh=const.PHANTOM_MESH_ADULT_MALE,
+        human_mesh=c.PHANTOM_MESH_ADULT_MALE,
         # Patient offset from table isocenter (centered at head end side).
         patient_offset={
-            const.OFFSET_LONGITUDINAL_KEY: 0,
-            const.OFFSET_VERTICAL_KEY: 0,
-            const.OFFSET_LATERAL_KEY: -35,
-            const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM},
+            c.OFFSET_LONGITUDINAL_KEY: 0,
+            c.OFFSET_VERTICAL_KEY: 0,
+            c.OFFSET_LATERAL_KEY: -35,
+            c.DIMENSION_UNIT_KEY: c.DIMENSION_UNIT_CM},
         # Dimensions of matematical phantoms (except model='human')
-        patient_orientation=const.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE,
+        patient_orientation=c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE,
         dimension={
             # Length of plane phantom
-            const.DIMENSION_PLANE_LENGTH: 120,
+            c.DIMENSION_PLANE_LENGTH: 120,
             # Width of plane phantom
-            const.DIMENSION_PLANE_WIDTH: 40,
+            c.DIMENSION_PLANE_WIDTH: 40,
             # Resolution of plane phantom
-            const.DIMENSION_PLANE_RESOLUTION: const.RESOLUTION_SPARSE,
+            c.DIMENSION_PLANE_RESOLUTION: c.RESOLUTION_SPARSE,
             # Length of cylinder phantom
-            const.DIMENSION_CYLINDER_LENGTH: 150,
+            c.DIMENSION_CYLINDER_LENGTH: 150,
             # First radii of cylinder phantom
-            const.DIMENSION_CYLINDER_RADII_A: 20,
+            c.DIMENSION_CYLINDER_RADII_A: 20,
             # Second radii of cylinder phantom
-            const.DIMENSION_CYLINDER_RADII_B: 10,
+            c.DIMENSION_CYLINDER_RADII_B: 10,
             # Resolution of cylinder.
-            const.DIMENSION_CYLINDER_RESOLUTION: const.RESOLUTION_SPARSE,
+            c.DIMENSION_CYLINDER_RESOLUTION: c.RESOLUTION_SPARSE,
             # Support table length
-            const.DIMENSION_TABLE_LENGTH: 281.5,
+            c.DIMENSION_TABLE_LENGTH: 281.5,
             # Support table width
-            const.DIMENSION_TABLE_WIDTH: 45,
+            c.DIMENSION_TABLE_WIDTH: 45,
             # Support table thickness
-            const.DIMENSION_TABLE_THICKNESS: 5,
+            c.DIMENSION_TABLE_THICKNESS: 5,
             # Support pad length
-            const.DIMENSION_PAD_LENGTH: 281.5,
+            c.DIMENSION_PAD_LENGTH: 281.5,
             # Support pad width
-            const.DIMENSION_PAD_WIDTH: 45,
+            c.DIMENSION_PAD_WIDTH: 45,
             # Support pad thickness
-            const.DIMENSION_PAD_THICKNESS: 4,
+            c.DIMENSION_PAD_THICKNESS: 4,
             # unit of dimension. Only 'cm' is supported.
-            const.DIMENSION_UNIT_KEY: const.DIMENSION_UNIT_CM}),
-)
+            c.DIMENSION_UNIT_KEY: c.DIMENSION_UNIT_CM}))

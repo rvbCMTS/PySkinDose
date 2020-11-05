@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 import numpy as np
 import pandas as pd
-from pyskindose import Phantom, constants as const
+from pyskindose import Phantom, constants as c
 import logging
 
 from pyskindose.corrections import calculate_k_med
@@ -60,7 +60,7 @@ def add_corrections_and_event_dose_to_output(
     """
     event_dose = np.zeros(len(patient.r))
     if not sum(hits):
-        output[const.OUTPUT_KEY_DOSE_MAP] += event_dose
+        output[c.OUTPUT_KEY_DOSE_MAP] += event_dose
         return output
 
     logger.debug("Calculating back scatter correction factor")
@@ -72,16 +72,16 @@ def add_corrections_and_event_dose_to_output(
         data_norm=normalized_data, field_area=field_area, event=event
     )
 
-    output[const.OUTPUT_KEY_CORRECTION_BACK_SCATTER][event] = k_bs
-    output[const.OUTPUT_KEY_CORRECTION_MEDIUM][event] = k_med
-    output[const.OUTPUT_KEY_CORRECTION_TABLE][event] = k_tab[event]
+    output[c.OUTPUT_KEY_CORRECTION_BACK_SCATTER][event] = k_bs
+    output[c.OUTPUT_KEY_CORRECTION_MEDIUM][event] = k_med
+    output[c.OUTPUT_KEY_CORRECTION_TABLE][event] = k_tab[event]
 
     logger.debug("Calculating event skin dose by applying each correction"
                  "factor to the reference point air kerma")
 
     event_dose[hits] += normalized_data.K_IRP[event]
     event_dose[hits] *= \
-        output[const.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW][event]
+        output[c.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW][event]
 
     event_dose[hits] *= k_med
     event_dose[hits] *= k_bs
@@ -90,6 +90,6 @@ def add_corrections_and_event_dose_to_output(
     temp[table_hits] = k_tab[event]
     event_dose[hits] *= temp
 
-    output[const.OUTPUT_KEY_DOSE_MAP] += event_dose
+    output[c.OUTPUT_KEY_DOSE_MAP] += event_dose
 
     return output

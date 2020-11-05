@@ -3,7 +3,7 @@ import logging
 
 import numpy as np
 import pandas as pd
-from pyskindose import Phantom, Beam, scale_field_area, constants as const
+from pyskindose import Phantom, Beam, scale_field_area, constants as c
 from pyskindose.corrections import calculate_k_isq
 from pyskindose.geom_calc import check_table_hits
 logger = logging.getLogger(__name__)
@@ -48,6 +48,6 @@ def perform_calculations_for_new_geometries(
         logger.debug("Calculating inverse-square law fluence correction")
         k_isq = calculate_k_isq(source=beam.r[0, :],
                                 cells=patient.r[hits],
-                                dref=normalized_data[const.DATA_DS_IRP][0])
+                                dref=normalized_data[c.DATA_DS_IRP][0])
 
     return hits, table_hits, field_area, k_isq

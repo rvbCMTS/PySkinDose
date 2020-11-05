@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pyskindose import constants as const, position_geometry
+from pyskindose import constants as c, position_geometry
 from pyskindose.phantom_class import Phantom
 from pyskindose.settings_pyskindose import PyskindoseSettings
 from pyskindose.plotting.plot_geometry import plot_geometry
@@ -21,18 +21,18 @@ def create_geometry_plot(normalized_data: pd.DataFrame, table: Phantom, pad: Pha
         Settings class for PySkinDose
 
     """
-    if settings.mode not in [const.MODE_PLOT_SETUP, const.MODE_PLOT_EVENT, const.MODE_PLOT_PROCEDURE]:
+    if settings.mode not in [c.MODE_PLOT_SETUP, c.MODE_PLOT_EVENT, c.MODE_PLOT_PROCEDURE]:
         return
 
     # override dense mathematical phantom in .html plotting
-    if settings.phantom.model == const.PHANTOM_MODEL_PLANE:
-        settings.phantom.dimension.plane_resolution = const.RESOLUTION_SPARSE
-    elif settings.phantom.model == const.PHANTOM_MODEL_CYLINDER:
-        settings.phantom.dimension.cylinder_resolution = const.RESOLUTION_SPARSE
+    if settings.phantom.model == c.PHANTOM_MODEL_PLANE:
+        settings.phantom.dimension.plane_resolution = c.RESOLUTION_SPARSE
+    elif settings.phantom.model == c.PHANTOM_MODEL_CYLINDER:
+        settings.phantom.dimension.cylinder_resolution = c.RESOLUTION_SPARSE
 
     # override dense .stl phantoms in plot_procedure .html plotting
-    if settings.mode == const.MODE_PLOT_PROCEDURE and settings.phantom.model == const.PHANTOM_MODEL_HUMAN:
-        settings.phantom.human_mesh += const.PHANTOM_HUMAN_MESH_SPARSE_MODEL_ENDING
+    if settings.mode == c.MODE_PLOT_PROCEDURE and settings.phantom.model == c.PHANTOM_MODEL_HUMAN:
+        settings.phantom.human_mesh += c.PHANTOM_HUMAN_MESH_SPARSE_MODEL_ENDING
 
     patient = Phantom(
         phantom_model=settings.phantom.model,
@@ -58,4 +58,4 @@ def create_geometry_plot(normalized_data: pd.DataFrame, table: Phantom, pad: Pha
         event=settings.plot_event_index,
         dark_mode=settings.plot.dark_mode,
         notebook_mode=settings.plot.notebook_mode,
-        include_patient=len(normalized_data) <= const.MAXIMUM_NUMBER_OF_EVENTS_FOR_INCLUDING_PHANTOM_IN_EVENT_PLOT)
+        include_patient=len(normalized_data) <= c.MAXIMUM_NUMBER_OF_EVENTS_FOR_INCLUDING_PHANTOM_IN_EVENT_PLOT)

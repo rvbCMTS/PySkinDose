@@ -3,7 +3,7 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import logging
-from pyskindose import Phantom, constants as const
+from pyskindose import Phantom, constants as c
 from pyskindose.calculate_dose.add_correction_and_event_dose_to_output import (
     add_corrections_and_event_dose_to_output,
 )
@@ -101,9 +101,9 @@ def calculate_irradiation_event_result(
 
     logger.debug("Saving event data")
 
-    output[const.OUTPUT_KEY_HITS][event] = hits
-    output[const.OUTPUT_KEY_KERMA][event] = normalized_data.K_IRP[event]
-    output[const.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW][event] = k_isq
+    output[c.OUTPUT_KEY_HITS][event] = hits
+    output[c.OUTPUT_KEY_KERMA][event] = normalized_data.K_IRP[event]
+    output[c.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW][event] = k_isq
 
     output = add_corrections_and_event_dose_to_output(
         normalized_data=normalized_data,

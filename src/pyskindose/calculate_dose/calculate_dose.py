@@ -8,7 +8,7 @@ from pyskindose.calculate_dose.calculate_irradiation_event_result import (
     calculate_irradiation_event_result,
 )
 
-from pyskindose import constants as const
+from pyskindose import constants as c
 from pyskindose.corrections import calculate_k_bs, calculate_k_tab
 from pyskindose.geom_calc import (
     check_new_geometry,
@@ -48,7 +48,7 @@ def calculate_dose(
         [description]
 
     """
-    if settings.mode != const.MODE_CALCULATE_DOSE:
+    if settings.mode != c.MODE_CALCULATE_DOSE:
         logger.debug(
             "Mode not set to calculate dose. Returning without doing anything")
         return None, None
@@ -88,13 +88,13 @@ def calculate_dose(
     total_number_of_events = len(normalized_data)
 
     output_template = {
-        const.OUTPUT_KEY_HITS: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_KERMA: [np.array] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_BACK_SCATTER: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_MEDIUM: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_TABLE: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_DOSE_MAP: np.zeros(len(patient.r)),
+        c.OUTPUT_KEY_HITS: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_KERMA: [np.array] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_BACK_SCATTER: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_MEDIUM: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_TABLE: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_DOSE_MAP: np.zeros(len(patient.r)),
     }
 
     #print('\n')
