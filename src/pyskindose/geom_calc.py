@@ -55,7 +55,7 @@ def position_geometry(
         pad: Phantom,
         pad_thickness: Any,
         patient_offset: List[int],
-        patient_orientation: const.PATIENT_ORIENTATION_HEAD_FIRST_SUPERIOR
+        patient_orientation: const.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE
                     ) -> None:
     """Manual positioning of the phantoms before procedure starts.
 
@@ -81,18 +81,18 @@ def position_geometry(
         table top, given as [Tx: <int>, "Ty": <int>, "Tz": <int>] in cm.
     patient_orientation : str
         patient orientation upon table. Choose between
-        const.PATIENT_ORIENTATION_HEAD_FIRST_SUPERIOR and
-        const.PATIENT_ORIENTATION_FEET_FIRST_SUPERIOR.
+        const.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE and
+        const.PATIENT_ORIENTATION_FEET_FIRST_SUPINE.
 
     """
     # rotate 90 deg about LON axis to get head end in positive LAT direction,
-    # i.e. in head first superior position.
+    # i.e. in head first supine position.
     table.rotate(angles=[90, 0, 0])
     pad.rotate(angles=[90, 0, 0])
     patient.rotate(angles=[90, 0, 0])
 
     # if feet-first, rotate patient 180 degrees about y-axis
-    if patient_orientation == const.PATIENT_ORIENTATION_FEET_FIRST_SUPERIOR:
+    if patient_orientation == const.PATIENT_ORIENTATION_FEET_FIRST_SUPINE:
         patient.rotate(angles=[0, 180, 0])
 
     # translate to get origin centered along the head end of the table

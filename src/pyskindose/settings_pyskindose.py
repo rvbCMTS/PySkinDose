@@ -84,8 +84,8 @@ class PhantomSettings:
         Instance of class PhantomOffset containing patient - table isocenter
         offset.
     patient_orientation : str
-        patient orientation on table. Choose between 'head_first_superior' and
-        'feet_first_superior'.
+        patient orientation on table. Choose between 'head_first_supine' and
+        'feet_first_supine'.
     dimension : PhantomDimensions
         Instance of class PhantomDimensions containing all dimensions required
         to create any of the mathematical phantoms, which is all but human.
