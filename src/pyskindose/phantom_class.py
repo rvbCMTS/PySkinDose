@@ -406,8 +406,8 @@ class Phantom:
                        [+0, +np.cos(tilt), -np.sin(tilt)],
                        [+0, +np.sin(tilt), +np.cos(tilt)]])
 
-        R3 = np.array([[+np.cos(cradle), +np.sin(cradle), 0],
-                       [-np.sin(cradle), +np.cos(cradle), +0],
+        R3 = np.array([[+np.cos(cradle), -np.sin(cradle), 0],
+                       [+np.sin(cradle), +np.cos(cradle), +0],
                        [+0, +0, +1]])
 
         # Apply table rotation

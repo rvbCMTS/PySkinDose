@@ -70,13 +70,13 @@ class Beam:
             # Positioner isocenter detector rotation angle (Ap3)
             ap3 = np.deg2rad(data_norm.Ap3[event])
 
-        R1 = np.array([[+np.cos(ap1), -np.sin(ap1), +0],
-                      [+np.sin(ap1), +np.cos(ap1), +0],
+        R1 = np.array([[+np.cos(ap1), np.sin(ap1), +0],
+                      [-np.sin(ap1), +np.cos(ap1), +0],
                       [+0, +0, +1]])
 
         R2 = np.array([[+1, +0, +0],
-                       [+0, +np.cos(ap2), -np.sin(ap2)],
-                       [+0, +np.sin(ap2), +np.cos(ap2)]])
+                       [+0, +np.cos(ap2), +np.sin(ap2)],
+                       [+0, -np.sin(ap2), +np.cos(ap2)]])
 
         R3 = np.array([[+np.cos(ap3), +0, -np.sin(ap3)],
                        [+0, +1, +0],
