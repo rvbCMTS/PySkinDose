@@ -1,5 +1,5 @@
 {
-    "mode": "plot_procedure",
+    "mode": "plot_event",
     "rdsr_filename": "S1.dcm",
     "plot_event_index": 12,
     "estimate_k_tab": false,
