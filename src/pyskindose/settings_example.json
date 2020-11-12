@@ -1,32 +1,40 @@
 {
-    "mode": "plot_procedure",
+    "mode": "plot_event",
     "rdsr_filename": "S1.dcm",
-    "plot_event_index": 21,
+    "plot_event_index": 12,
     "estimate_k_tab": false,
     "k_tab_val": 0.8,
+    "plot": {
+        "dark_mode": true,
+        "notebook_mode": false,
+        "plot_dosemap": false,
+        "colorscale": "jet"
+    },
     "phantom": {
         "model": "cylinder",
-        "human_mesh": "Tman_flat",
+        "human_mesh": "hudfrid",
         "patient_offset": {
-            "d_lat": 0,
+            "d_lon": 0,
             "d_ver": 0,
-            "d_lon": -30,
-            "units": "cm"},
+            "d_lat": -35,
+            "unit": "cm"
+        },
+        "patient_orientation": "head_first_supine",
         "dimension": {
-            "plane_length": 180,
-            "plane_width": 50,
+            "plane_length": 120,
+            "plane_width": 40,
             "plane_resolution": "sparse",
-            "cylinder_length": 160,
+            "cylinder_length": 150,
             "cylinder_radii_a": 20,
             "cylinder_radii_b": 10,
             "cylinder_resolution": "sparse",
+            "table_length": 281.5,
+            "table_width": 45,
             "table_thickness": 5,
-            "table_length": 210,
-            "table_width": 50,
+            "pad_length": 281.5,
+            "pad_width": 45,
             "pad_thickness": 4,
-            "pad_length": 210,
-            "pad_width": 50,
-            "units": "cm"
+            "unit": "cm"
         }
     }
 }
