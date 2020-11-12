@@ -9,6 +9,7 @@ from pyskindose.rdsr_parser import rdsr_parser
 from pyskindose.rdsr_normalizer import rdsr_normalizer
 from pyskindose.settings_pyskindose import PyskindoseSettings
 import pandas as pd
+
 logger = logging.getLogger(__name__)
 
 
@@ -62,7 +63,7 @@ def _parse_settings_to_settings_class(settings: Optional[str] = None):
 
     if not os.path.exists(settings_path):
         logger.warning(
-            "The give settings path does not exist. Using example settings.")
+            "Settings path not specified. Using example settings.")
         settings_path = os.path.join(
             os.path.dirname(__file__), "settings_example.json")
 
