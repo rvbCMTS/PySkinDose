@@ -97,8 +97,6 @@ def calculate_dose(
         c.OUTPUT_KEY_DOSE_MAP: np.zeros(len(patient.r)),
     }
 
-    #print('\n')
-
     output = calculate_irradiation_event_result(
         normalized_data=normalized_data,
         event=0,
