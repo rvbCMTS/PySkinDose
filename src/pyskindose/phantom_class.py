@@ -22,6 +22,7 @@ from .plotting.plot_settings import (
     fetch_plot_size
     )
 
+from .settings_pyskindose import PhantomDimensions
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
@@ -80,7 +81,7 @@ class Phantom:
     """
 
     def __init__(self,
-                 phantom_model: str, phantom_dim,
+                 phantom_model: str, phantom_dim: PhantomDimensions,
                  human_mesh: Optional[str] = None):
         """Create the phantom of choice.
 
