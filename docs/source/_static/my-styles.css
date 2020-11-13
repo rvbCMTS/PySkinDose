@@ -16,62 +16,19 @@
     font-style: italic;
 }
 
-style {
-    bar
-}
 
-
-body {
-    font-family: "Computer Modern";
-}
-
-h1 {
-    font-family: "Computer Modern";
-}
-
-h2 {
-    font-family: "Computer Modern";
-}
-
-h3 {
-    font-family: "Computer Modern";
-}
-
-h4 {
-    font-family: "Computer Modern";
-}
-
-h5 {
-    font-family: "Computer Modern";
-}
-
-h6 {
-    font-family: "Computer Modern";
-}
-
-thead {
-    font-family: "Computer Modern";
-}
-
-section{
-    font-family: "Computer Modern";
-}
-
-caption {
-    font-family: "Computer Modern";
-}
-
+body,
+h1, h2, h3,
+h4,
+h5,
+h6,
+thead,
+section,
+caption,
 span {
     font-family: "Computer Modern";
 }
 
 *.wy-nav-content {
     max-width: 80%;
-/*
-
-
-/* sidebar color */
-
-/* .wy-nav-side {
-    background: #413c3c;} /*
-
+}
