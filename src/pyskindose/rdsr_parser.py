@@ -2,6 +2,22 @@ from datetime import datetime as dt
 import pandas as pd
 import pydicom
 
+from pyskindose.constants import (
+    KEY_RDSR_ACQUISITION_DATA,
+    KEY_RDSR_COMMENT,
+    KEY_RDSR_CONCEPT_CODE_SEQUENCE,
+    KEY_RDSR_CONTENT_SEQUENCE,
+    KEY_RDSR_DATE_TIME,
+    KEY_RDSR_DETECTORSIZE_MM,
+    KEY_RDSR_EVENT_XRAY_DATA,
+    KEY_RDSR_II_DIAMETER_SRDATA,
+    KEY_RDSR_MANUFACTURER,
+    KEY_RDSR_MANUFACTURER_MODEL_NAME,
+    KEY_RDSR_MEASURED_VALUE_SEQUENCE,
+    KEY_RDSR_TEXT_VALUE,
+    KEY_RDSR_UID,
+)
+
 
 def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
     """Parse event data from radiation dose structure reports (RDSR).
@@ -25,14 +41,14 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
 
         # If content = irradiation event
         if rdsr_content.ConceptNameCodeSequence[0].CodeMeaning\
-                == 'Irradiation Event X-Ray Data':
+                == KEY_RDSR_EVENT_XRAY_DATA:
 
             # Declare temporary dictionary
             data_parsed_dict = dict()
 
             # Save manufacturer, and manufacturer model name
-            data_parsed_dict["Manufacturer"] = data_raw.Manufacturer
-            data_parsed_dict["ManufacturerModelName"] = \
+            data_parsed_dict[KEY_RDSR_MANUFACTURER] = data_raw.Manufacturer
+            data_parsed_dict[KEY_RDSR_MANUFACTURER_MODEL_NAME] = \
                 data_raw.ManufacturerModelName
 
             # For each content in 'Irradiation Event X-Ray Data'
@@ -44,7 +60,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                     replace(")", "").replace(".", ""))
 
                 # Save 'Concept Name' to dictionary, assign corresponding value
-                if 'ConceptCodeSequence' in xray_event_content:
+                if KEY_RDSR_CONCEPT_CODE_SEQUENCE in xray_event_content:
                     if tag in data_parsed_dict.keys():
                         data_parsed_dict[tag] = (
                             [data_parsed_dict[tag],
@@ -54,7 +70,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                         data_parsed_dict[tag] = xray_event_content\
                             .ConceptCodeSequence[0].CodeMeaning
 
-                elif 'MeasuredValueSequence' in xray_event_content:
+                elif KEY_RDSR_MEASURED_VALUE_SEQUENCE in xray_event_content:
                     # If the content contains a 'Measured Value Sequence'
                     # Reformat 'Concept Name' to include unit of measurement
                     unit = xray_event_content.MeasuredValueSequence[0]\
@@ -73,16 +89,16 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                         data_parsed_dict[tag] = xray_event_content\
                             .MeasuredValueSequence[0].NumericValue
 
-                elif 'TextValue' in xray_event_content:
+                elif KEY_RDSR_TEXT_VALUE in xray_event_content:
 
                     # This loop extracts detector size for static acquisitions,
                     # which is given as a 'Comment' for siemens artis zee units
-                    if tag == 'Comment':
+                    if tag == KEY_RDSR_COMMENT:
                         comment = xray_event_content.TextValue.split('/')
-                        if 'AcquisitionData' in comment[0]:
+                        if KEY_RDSR_ACQUISITION_DATA in comment[0]:
                             for index in comment:
-                                if 'iiDiameter SRData' in index:
-                                    data_parsed_dict['DetectorSize_mm']\
+                                if KEY_RDSR_II_DIAMETER_SRDATA in index:
+                                    data_parsed_dict[KEY_RDSR_DETECTORSIZE_MM]\
                                         = index.split('=')[1].replace('"', '')
 
                     elif tag in data_parsed_dict.keys():
@@ -92,7 +108,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                     else:
                         data_parsed_dict[tag] = xray_event_content.TextValue
 
-                elif 'DateTime' in xray_event_content:
+                elif KEY_RDSR_DATE_TIME in xray_event_content:
                     if tag in data_parsed_dict.keys():
                         data_parsed_dict[tag] = (
                             [data_parsed_dict[tag],
@@ -103,7 +119,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                         data_parsed_dict[tag] = dt.strptime(str(round(float(
                             xray_event_content.DateTime))), '%Y%m%d%H%M%S')
 
-                elif 'UID' in xray_event_content:
+                elif KEY_RDSR_UID in xray_event_content:
                     if tag in data_parsed_dict.keys():
                         data_parsed_dict[tag] =\
                             [data_parsed_dict[tag], xray_event_content.UID]
@@ -111,7 +127,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                         data_parsed_dict[tag] = xray_event_content.UID
 
                 # If the 'Irradiation Event X-Ray Data' contains subcontent
-                elif 'ContentSequence' in xray_event_content:
+                elif KEY_RDSR_CONTENT_SEQUENCE in xray_event_content:
                     # For each subcontent
                     for xray_event_subcontent in xray_event_content.\
                             ContentSequence:
@@ -122,7 +138,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                             replace("(", "").replace(")", "").replace(".", ""))
 
                         # corresponding value
-                        if 'ConceptCodeSequence' in xray_event_subcontent:
+                        if KEY_RDSR_CONCEPT_CODE_SEQUENCE in xray_event_subcontent:
                             if tag in data_parsed_dict.keys():
                                 data_parsed_dict[tag] = (
                                     [data_parsed_dict[tag],
@@ -133,7 +149,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                                     xray_event_subcontent.
                                     ConceptCodeSequence[0].CodeMeaning)
 
-                        elif 'DateTime' in xray_event_subcontent:
+                        elif KEY_RDSR_DATE_TIME in xray_event_subcontent:
 
                             if tag in data_parsed_dict.keys():
                                 data_parsed_dict[tag] = (
@@ -151,7 +167,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                                             DateTime))),
                                         '%Y%m%d%H%M%S'))
 
-                        elif 'TextValue' in xray_event_subcontent:
+                        elif KEY_RDSR_TEXT_VALUE in xray_event_subcontent:
 
                             if tag in data_parsed_dict.keys():
                                 data_parsed_dict[tag] = (
@@ -162,7 +178,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                                 data_parsed_dict[tag] =\
                                     xray_event_subcontent.TextValue
 
-                        elif 'UID' in xray_event_subcontent:
+                        elif KEY_RDSR_UID in xray_event_subcontent:
                             if tag in data_parsed_dict.keys():
                                 data_parsed_dict[tag] = (
                                     [data_parsed_dict[tag],
@@ -170,7 +186,7 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                             else:
                                 data_parsed_dict[tag] =\
                                     xray_event_subcontent.UID
-                        elif 'MeasuredValueSequence' in xray_event_subcontent:
+                        elif KEY_RDSR_MEASURED_VALUE_SEQUENCE in xray_event_subcontent:
                             # Reformat 'Concept Name' to include unit of
                             # measurement
                             unit = xray_event_subcontent\
