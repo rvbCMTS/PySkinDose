@@ -20,7 +20,10 @@ DEVELOPMENT_PARAMETERS = dict(
         # choose if dosemap should be plotted after dose calculations.
         c.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
-        c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE},
+        c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE,
+        # max number of event for inclusion of patient phantom in plot
+        # procedure
+        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 200},
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'

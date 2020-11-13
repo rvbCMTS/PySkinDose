@@ -60,8 +60,9 @@ IRRADIATION_EVENT_STEP_KEY_ARGUMENTS = "args"
 IRRADIATION_EVENT_STEP_KEY_LABEL = "label"
 IRRADIATION_EVENT_STEP_KEY_METHOD = "method"
 
-# Set to avoid memory errors
-MAXIMUM_NUMBER_OF_EVENTS_FOR_INCLUDING_PHANTOM_IN_EVENT_PLOT = 200
+MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY = \
+    'max_events_for_patient_inclusion'
+
 MESH_NAME_PAD = "Support pad"
 # Plotly cannot handle opacity less than 1 at the moment
 MESH_OPACITY_BEAM = 0.4

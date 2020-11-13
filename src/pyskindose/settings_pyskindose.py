@@ -247,7 +247,16 @@ class Plotsettings:
     ----------
     dark_mode : bool
         dark mode boolean
-
+    notebook_mode : bool
+        Set true if main is called from within a notebook.
+        This optimizes plot sizing for notebook output cells.
+    plot_dosemap : bool, default is True
+        Whether dosemap should be plotted after dose calculation
+    max_events_for_patient_inclusion : int
+        maximum number of irradiation event for patient inclusion in
+        plot_procedure. If the SR file contains more events than this number,
+        the patient phantom is not shown in plot_procedure to avoid memory
+        error.
     """
 
     def __init__(self, plt_dict):
@@ -258,13 +267,7 @@ class Plotsettings:
         plt_dict : dict
             Dictionary containing all of the plot setting that are
             appended as attributes to this class, see class attributes.
-        notebook_mode : bool
-            Set true if main is called from within a notebook.
-            This optimizes plot sizing for notebook output cells.
-        plot_dosemap : bool, default is True
-            Whether dosemap should be plotted after dose calculation
-
         """
-        self.dark_mode = plt_dict['dark_mode']
-        self.notebook_mode = plt_dict['notebook_mode']
-        self.plot_dosemap = plt_dict['plot_dosemap']
+        for key in plt_dict.keys():
+            setattr(self, key, plt_dict[key])
+

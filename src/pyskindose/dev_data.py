@@ -3,7 +3,7 @@ from . import constants as c
 
 DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
-    mode=c.MODE_PLOT_EVENT,
+    mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
     rdsr_filename='s1.dcm',
     # Irrading event index for mode='plot_event'
@@ -21,7 +21,10 @@ DEVELOPMENT_PARAMETERS = dict(
         # choose if dosemap should be plotted after dose calculations.
         c.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
-        c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE},
+        c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE,
+        # max number of event for inclusion of patient phantom in plot
+        # procedure
+        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 200},
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'
