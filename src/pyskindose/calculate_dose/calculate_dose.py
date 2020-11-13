@@ -1,13 +1,12 @@
 import logging
 from typing import Any, Dict, Optional, Tuple
 from tqdm import tqdm
-
 import numpy as np
 import pandas as pd
+
 from pyskindose.calculate_dose.calculate_irradiation_event_result import (
     calculate_irradiation_event_result,
 )
-
 from pyskindose import constants as c
 from pyskindose.corrections import calculate_k_bs, calculate_k_tab
 from pyskindose.geom_calc import (
