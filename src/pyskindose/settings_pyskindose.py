@@ -270,4 +270,3 @@ class Plotsettings:
         """
         for key in plt_dict.keys():
             setattr(self, key, plt_dict[key])
-

@@ -58,4 +58,5 @@ def create_geometry_plot(normalized_data: pd.DataFrame, table: Phantom, pad: Pha
         event=settings.plot_event_index,
         dark_mode=settings.plot.dark_mode,
         notebook_mode=settings.plot.notebook_mode,
-        include_patient=len(normalized_data) <= settings.plot.max_events_for_patient_inclusion)
+        include_patient=len(normalized_data) <=
+        settings.plot.max_events_for_patient_inclusion)

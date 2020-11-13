@@ -1,3 +1,12 @@
+from pyskindose.constants import (
+    KEY_NORMALIZATION_FIELD_SIZE_MODE,
+    KEY_RDSR_MANUFACTURER,
+    KEY_RDSR_MANUFACTURER_MODEL_NAME,
+    KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH,
+    KEY_NORMALIZATION_MANUFACTURER,
+    KEY_NORMALIZATION_MODELS
+)
+
 
 class NormalizationSettings:
     """A class to normalize RDSR for PySkinDose compliance.
@@ -21,13 +30,15 @@ class NormalizationSettings:
 
     def __init__(self, normalization_settings, data_parsed):
         """Initialize class attributes."""
-        manufacturer = data_parsed['Manufacturer'][0]
-        model = data_parsed['ManufacturerModelName'][0]
+        manufacturer = data_parsed[KEY_RDSR_MANUFACTURER][0]
+        model = data_parsed[KEY_RDSR_MANUFACTURER_MODEL_NAME][0]
 
         # Select correct normalization settings
         for setting in normalization_settings['normalization_settings']:
-            if not (manufacturer == setting['manufacturer']
-                    and model in setting['models']):
+
+            if not (manufacturer.lower() ==
+                    setting[KEY_NORMALIZATION_MANUFACTURER.lower()].lower()
+                    and model in setting[KEY_NORMALIZATION_MODELS]):
                 continue
 
             self.trans_offset = _TranslationOffset(
@@ -39,8 +50,9 @@ class NormalizationSettings:
             self.rot_dir = _RotationDirection(
                 directions=setting['rotation_direction'])
 
-            self.field_size_mode = setting['field_size_mode']
-            self.detector_side_length = setting['detector_side_length']
+            self.field_size_mode = setting[KEY_NORMALIZATION_FIELD_SIZE_MODE]
+            self.detector_side_length =  \
+                setting[KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH]
 
             return
 
@@ -76,12 +88,15 @@ class _RotationDirection:
 
             if directions[dimension] == '+':
                 setattr(self, dimension, pos_dir)
+                continue
 
             elif directions[dimension] == '-':
                 setattr(self, dimension, neg_dir)
 
             else:
-                assert False
+                raise ValueError(
+                    f'direction {directions[dimension]} not understood. choose'
+                    'either  + or -')
 
         return
 
