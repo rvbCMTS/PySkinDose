@@ -1,10 +1,9 @@
 import logging
 from typing import List, Any
-import pyskindose.constants as c
-
 import numpy as np
 import pandas as pd
 
+import pyskindose.constants as c
 from .db_connect import db_connect
 from .phantom_class import Phantom
 

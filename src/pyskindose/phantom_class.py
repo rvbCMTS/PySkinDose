@@ -1,11 +1,11 @@
-import copy
-import numpy as np
 import os
+import copy
+
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from stl import mesh
-from typing import Dict
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from .constants import (
     DOSEMAP_COLORSCALE,
