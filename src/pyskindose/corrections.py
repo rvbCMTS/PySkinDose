@@ -224,15 +224,10 @@ def calculate_k_tab(
 
         # Set paramets for fetching table transmission correction factor.
         params = (
-            # kVp, rounded to nearest integer
             round(float(data_norm.kVp[event])),
-            # Filter thickness Cu
             data_norm.filter_thickness_Cu[event],
-            # Filter thicknes Al
             data_norm.filter_thickness_Al[event],
-            # device model
             data_norm.model[event],
-            # acquisition plane
             data_norm.acquisition_plane[event],
         )
 
