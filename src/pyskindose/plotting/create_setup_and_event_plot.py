@@ -17,23 +17,24 @@ from ..constants import (
     COLOR_TABLE,
     MESH_NAME_PAD,
     MESH_OPACITY_BEAM,
+    PLOT_ASPECTMODE_SETUP_AND_EVENT,
     PLOT_AXIS_TITLE_X,
     PLOT_AXIS_TITLE_Y,
     PLOT_AXIS_TITLE_Z,
+    PLOT_DRAGMODE,
     PLOT_FONT_FAMILY,
     PLOT_FONT_SIZE,
     PLOT_HOVERLABEL_FONT_FAMILY,
     PLOT_HOVERLABEL_FONT_SIZE,
-    PLOT_TITLE_FONT_FAMILY,
-    PLOT_TITLE_FONT_SIZE,
-    PLOT_ZERO_LINE_WIDTH,
-    PLOT_WIREFRAME_LINE_WIDTH,
-    PLOT_DRAGMODE,
-    PLOT_ASPECTMODE_SETUP_AND_EVENT,
-    PLOT_SOURCE_SIZE,
     PLOT_LIGHTNING_DIFFUSE,
     PLOT_LIGHTNING_AMBIENT,
+    PLOT_SOURCE_SIZE,
+    PLOT_TITLE_FONT_FAMILY,
+    PLOT_TITLE_FONT_SIZE,
+    PLOT_WIREFRAME_LINE_WIDTH,
+    PLOT_ZERO_LINE_WIDTH,
 )
+
 from .create_mesh3d import create_mesh_3d_general
 from .create_plot_and_save_to_file import create_plot_and_save_to_file
 from .create_wireframes import create_wireframes
