@@ -1,6 +1,18 @@
 import json
 from typing import Union
 
+from pyskindose.constants import (
+    KEY_PARAM_MODE,
+    KEY_PARAM_RDSR_FILENAME,
+    KEY_PARAM_ESTIMATE_K_TAB,
+    KEY_PARAM_K_TAB_VAL,
+    KEY_PARAM_PHANTOM_MODEL,
+    KEY_PARAM_HUMAN_MESH,
+    OFFSET_LATERAL_KEY,
+    OFFSET_VERTICAL_KEY,
+    OFFSET_LONGITUDINAL_KEY
+)
+
 
 class PyskindoseSettings:
     """A class to store all settings required to run PySkinDose.
@@ -28,9 +40,11 @@ class PyskindoseSettings:
 
     rdsr_filename : str
         filename of the RDSR file, without the .dcm file ending.
-    plot_event_index : int
-        Index for the event that should be plotted when mode="plot_event" is
-        chosen.
+    estimate_k_tab : bool
+        Wheter k_tab should be approximated or not. You this if have not
+        conducted table attenatuion measurements.
+    k_tab_val : float
+        Value of k_tab, in range 0.0 -> 1.0.
     phantom : PhantomSettings
         Instance of class PhantomSettings containing all phantom related
         settings.
@@ -56,11 +70,10 @@ class PyskindoseSettings:
         else:
             tmp = settings
 
-        self.mode = tmp['mode']
-        self.rdsr_filename = tmp['rdsr_filename']
-        self.plot_event_index = tmp['plot_event_index']
-        self.estimate_k_tab = tmp['estimate_k_tab']
-        self.k_tab_val = tmp['k_tab_val']
+        self.mode = tmp[KEY_PARAM_MODE]
+        self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
+        self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
+        self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.phantom = PhantomSettings(ptm_dim=tmp['phantom'])
         self.plot = Plotsettings(plt_dict=tmp['plot'])
 
@@ -99,11 +112,12 @@ class PhantomSettings:
         ----------
         ptm_dim : PhantomDimensions
             Instance of class PhantomDimensions containing all dimensions for
-            the mathematical phantoms.
+            the mathematical phantoms. See attributes of PhantomDimensions.
 
         """
-        self.model = ptm_dim["model"]
-        self.human_mesh = ptm_dim["human_mesh"]
+
+        self.model = ptm_dim[KEY_PARAM_PHANTOM_MODEL]
+        self.human_mesh = ptm_dim[KEY_PARAM_HUMAN_MESH]
         self.patient_offset = PatientOffset(offset=ptm_dim["patient_offset"])
         self.patient_orientation = ptm_dim["patient_orientation"]
         self.dimension = PhantomDimensions(ptm_dim=ptm_dim['dimension'])
@@ -147,14 +161,6 @@ class PhantomDimensions:
         Width of the patient support table phantom.
     pad_length : int
         Length of the patient support table phantom.
-    units : float
-        Units of the all attributes in this class. Only "cm" are currently
-        implemented.
-
-    Raises
-    ------
-    NotImplementedError
-        Raises error if other units then cm are used.
 
     """
 
@@ -167,29 +173,9 @@ class PhantomDimensions:
             Dictionary containing all of the phantom dimensions that are
             appended as attributes to this class, see class attributes.
 
-        Raises
-        ------
-        NotImplementedError
-            Raises error if other units then cm are used.
-
         """
-        self.plane_length = ptm_dim['plane_length']
-        self.plane_width = ptm_dim['plane_width']
-        self.plane_resolution = ptm_dim['plane_resolution']
-        self.cylinder_length = ptm_dim['cylinder_length']
-        self.cylinder_radii_a = ptm_dim['cylinder_radii_a']
-        self.cylinder_radii_b = ptm_dim['cylinder_radii_b']
-        self.cylinder_resolution = ptm_dim['cylinder_resolution']
-        self.table_thickness = ptm_dim['table_thickness']
-        self.table_length = ptm_dim['table_length']
-        self.table_width = ptm_dim['table_width']
-        self.pad_thickness = ptm_dim['pad_thickness']
-        self.pad_width = ptm_dim['pad_width']
-        self.pad_length = ptm_dim['pad_length']
-        self.unit = ptm_dim['unit']
-
-        if self.unit != "cm":
-            raise NotImplementedError('Units must be given in cm.')
+        for dimension in ptm_dim.keys():
+            setattr(self, dimension, ptm_dim[dimension])
 
 
 class PatientOffset:
@@ -225,19 +211,11 @@ class PatientOffset:
             offset in cm from the table isocenter in the lateral, vertical and
             longitudinal direction.
 
-        Raises
-        ------
-        NotImplementedError
-            Raises error if other units then cm are used.
 
         """
-        self.d_lat = offset["d_lat"]
-        self.d_ver = offset["d_ver"]
-        self.d_lon = offset["d_lon"]
-        self.units = offset["unit"]
-
-        if self.units != "cm":
-            raise NotImplementedError('Units must be given in cm.')
+        self.d_lat = offset[OFFSET_LATERAL_KEY]
+        self.d_ver = offset[OFFSET_VERTICAL_KEY]
+        self.d_lon = offset[OFFSET_LONGITUDINAL_KEY]
 
 
 class Plotsettings:
@@ -257,6 +235,10 @@ class Plotsettings:
         plot_procedure. If the SR file contains more events than this number,
         the patient phantom is not shown in plot_procedure to avoid memory
         error.
+    plot_event_index : int
+        Index for the event that should be plotted when mode="plot_event" is
+        chosen.
+
     """
 
     def __init__(self, plt_dict):
