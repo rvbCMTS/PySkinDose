@@ -1,14 +1,16 @@
 import argparse
 import logging
 import os
-import pydicom
 from typing import Union, Optional
+
+import pandas as pd
+import pydicom
+
 from pyskindose.analyze_data import analyze_data
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
 from pyskindose.rdsr_parser import rdsr_parser
 from pyskindose.rdsr_normalizer import rdsr_normalizer
 from pyskindose.settings_pyskindose import PyskindoseSettings
-import pandas as pd
 
 logger = logging.getLogger(__name__)
 
