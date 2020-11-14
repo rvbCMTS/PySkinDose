@@ -5,8 +5,6 @@ DEVELOPMENT_PARAMETERS = dict(
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
     rdsr_filename='s1.dcm',
-    # Irrading event index for mode='plot_event'
-    plot_event_index=12,
     # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
     # Numeric value of estimated table correction
@@ -23,7 +21,9 @@ DEVELOPMENT_PARAMETERS = dict(
         c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE,
         # max number of event for inclusion of patient phantom in plot
         # procedure
-        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 200},
+        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 200,
+        # Irrading event index for mode='plot_event'
+        c.PLOT_EVENT_INDEX_KEY: 12},
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'
@@ -34,8 +34,7 @@ DEVELOPMENT_PARAMETERS = dict(
         patient_offset={
             c.OFFSET_LONGITUDINAL_KEY: 0,
             c.OFFSET_VERTICAL_KEY: 0,
-            c.OFFSET_LATERAL_KEY: -35,
-            c.DIMENSION_UNIT_KEY: c.DIMENSION_UNIT_CM},
+            c.OFFSET_LATERAL_KEY: -35},
         patient_orientation=c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE,
         # Dimensions of matematical phantoms (except model='human')
         dimension={
@@ -66,4 +65,4 @@ DEVELOPMENT_PARAMETERS = dict(
             # Support pad thickness
             c.DIMENSION_PAD_THICKNESS: 4,
             # unit of dimension. Only 'cm' is supported.
-            c.DIMENSION_UNIT_KEY: c.DIMENSION_UNIT_CM}))
+            }))
