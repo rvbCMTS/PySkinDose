@@ -15,6 +15,7 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 
+
 # -- Project information -----------------------------------------------------
 
 project = 'PySkinDose'
@@ -31,10 +32,19 @@ release = '19.6.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.mathjax",
     "myst_parser",
+    'sphinx_rtd_theme',
     "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon"
+    "sphinx.ext.napoleon",
 ]
+
+
+# Avoid STIX-font fallback
+mathjax_config = {
+        "HTML-CSS": { 'availableFonts': ["TeX"] }
+}
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -50,9 +60,22 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
+html_theme_options = {
+    #'style_nav_header_background': 'green',
+}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+
+def setup(app):
+    app.add_stylesheet("my-styles.css") # also can be a full URL
+    # app.add_stylesheet("ANOTHER.css")
+    # app.add_stylesheet("AND_ANOTHER.css")
+
+
+myst_figure_enable = True
+myst_html_img_enable=True

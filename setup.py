@@ -25,8 +25,9 @@ setup(
         'numpy',
         'pydicom>=1.0',
         'numpy-stl',
-        'plotly==3.7.1',
-        'scipy'
+        'plotly==4.12',
+        'scipy',
+        'tqdm'
     ],
     include_package_data=True,
     zip_safe=False

@@ -1,29 +1,23 @@
 import argparse
 import logging
 import os
-import pydicom
 from typing import Union, Optional
+
+import pandas as pd
+import pydicom
 
 from pyskindose.analyze_data import analyze_data
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
-from pyskindose.parse_data import rdsr_parser
-from pyskindose.parse_data import rdsr_normalizer
-from pyskindose.settings import PyskindoseSettings
+from pyskindose.rdsr_parser import rdsr_parser
+from pyskindose.rdsr_normalizer import rdsr_normalizer
+from pyskindose.settings_pyskindose import PyskindoseSettings
 
-# logger = logging.getLogger(__name__)
-
-DESCRIPTION = (
-    "PySkinDose is a Python version 3.7 based program for patient peak skin dose (PSD)"
-    "estimations from fluoroscopic procedures in interventional radiology."
-)
-
-PARSER = argparse.ArgumentParser(description=DESCRIPTION)
-
-PARSER.add_argument("--file-path", help="Path to RDSR DICOM file")
-ARGS = PARSER.parse_args()
+logger = logging.getLogger(__name__)
 
 
-def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
+def main(
+        file_path: Optional[str] = None,
+        settings: Union[str, dict, PyskindoseSettings] = None):
     """Run PySkinDose.
 
     Copy settings_examples.json and save it as settings.json.
@@ -32,35 +26,48 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict] = None):
     main(settings=PARAM_DEV).
 
     See settings.py for a description of all the parameters. Please visit
-    https://dev.azure.com/Sjukhusfysiker/PySkinDose for info on how to run
+    https://github.com/rvbCMTS/PySkinDose for info on how to run
     PySkinDose.
 
     Parameters
     ----------
     file_path : str, optional
-        file path to RDSR file
-    settings : Union[str, dict], optional
-        Setting file in either dict or json string format, by default
-        settings_examples.json is enabled.
+        file path to RDSR file or preparsed RDSR data in .json format
+    settings : Union[str, dict, PyskindoseSettings], optional
+        Setting file in either dict, json string format, or as a
+        PyskindoseSettings object. By default, settings_examples.json is
+        enabled.
 
     """
     settings = _parse_settings_to_settings_class(settings=settings)
 
-    data_norm = _read_and_normalise_data_from_rdsr_file(
-        rdsr_filepath=file_path, settings=settings
+    data_norm = _read_and_normalise_rdsr_data(
+        rdsr_filepath=file_path,
+        settings=settings
     )
 
-    _ = analyze_data(normalized_data=data_norm, settings=settings, plot_dose_map=False)
+    _ = analyze_data(
+        normalized_data=data_norm,
+        settings=settings,
+        plot_dose_map=settings.plot.plot_dosemap)
+
 
 def _parse_settings_to_settings_class(settings: Optional[str] = None):
+
     if settings is not None:
+
+        if isinstance(settings, PyskindoseSettings):
+            return settings
+
         return PyskindoseSettings(settings)
 
     settings_path = os.path.join(os.path.dirname(__file__), "settings.json")
 
     if not os.path.exists(settings_path):
-        # logger.warning("The give settings path does not exist. Using example settings.")
-        settings_path = os.path.join(os.path.dirname(__file__), "settings_example.json")
+        logger.warning(
+            "Settings path not specified. Using example settings.")
+        settings_path = os.path.join(
+            os.path.dirname(__file__), "settings_example.json")
 
     with open(settings_path, "r") as fp:
         output = fp.read()
@@ -68,15 +75,22 @@ def _parse_settings_to_settings_class(settings: Optional[str] = None):
     return PyskindoseSettings(output)
 
 
-def _read_and_normalise_data_from_rdsr_file(
-    rdsr_filepath: str, settings: PyskindoseSettings
-):
+def _read_and_normalise_rdsr_data(
+        rdsr_filepath: str, settings: PyskindoseSettings):
+
     if not rdsr_filepath:
         rdsr_filepath = os.path.join(
-            os.path.dirname(__file__), "example_data", "RDSR", settings.rdsr_filename
+            os.path.dirname(__file__), "example_data", "RDSR",
+            settings.rdsr_filename
         )
-        # logger.debug(rdsr_filepath)
-    # Read RDSR data with pydicom
+
+    logger.debug(rdsr_filepath)
+
+    "If provided, load preparsed rdsr data in .json format"
+    if '.json' in rdsr_filepath:
+        return pd.read_json(rdsr_filepath)
+
+    # else load RDSR data with pydicom
     data_raw = pydicom.read_file(rdsr_filepath)
 
     # parse RDSR data from raw .dicom file
@@ -88,4 +102,15 @@ def _read_and_normalise_data_from_rdsr_file(
     return normalized_data
 
 
-main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)
+if __name__ == '__main__':
+
+    DESCRIPTION = (
+        "PySkinDose is a Python version 3.7 based program for patient peak"
+        " skin dose (PSD) estimations from fluoroscopic procedures in"
+        " interventional radiology.")
+
+    PARSER = argparse.ArgumentParser(description=DESCRIPTION)
+    PARSER.add_argument("--file-path", help="Path to RDSR DICOM file")
+    ARGS = PARSER.parse_args()
+
+    main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)

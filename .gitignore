@@ -6,8 +6,9 @@ logs/
 *.html
 __pycache__/
 **/__pycache__/
+.ipynb_checkpoints
+
 scratch*
-*.json
 #RDSR/clinical*
 src/pyskindose/example_data/RDSR/clinical*
 
@@ -20,3 +21,7 @@ temp*
 
 tests/corrections\.db
 corrections.db
+
+tests/manual_tests/.ipynb_checkpoints/
+
+src/pyskindose/.ipynb_checkpoints/

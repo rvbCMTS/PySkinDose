@@ -1,6 +1,4 @@
 import logging
-
-import numpy as np
 import pandas as pd
 
 from ..beam_class import Beam
@@ -12,7 +10,15 @@ from ..phantom_class import Phantom
 logger = logging.getLogger(__name__)
 
 
-def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom, table: Phantom, pad: Phantom):
+def plot_event(
+        mode: str,
+        data_norm: pd.DataFrame,
+        event: int,
+        patient: Phantom,
+        table: Phantom,
+        pad: Phantom,
+        dark_mode: bool = True,
+        notebook_mode: bool = False):
     """Visualize the geometry from a specific irradiation event.
 
     This function plots an irradiation event with the patient,
@@ -25,7 +31,7 @@ def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom,
         The function will only run if this is set to "plot_event".
     data_norm : pd.DataFrame
         Table containing dicom RDSR information from each irradiation event
-        See parse_data.py for more information.
+        See rdsr_normalizer.py for more information.
     event : int, optional
         choose specific irradiation event if mode "plot_event" are used
         Default is 0, in which the first irradiation event is considered.
@@ -38,6 +44,11 @@ def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom,
     pad : Phantom
         Pad phantom from instance of class Phantom. phantom_model must be
         "pad"
+    dark_mode : bool, optional
+        Set dark mode for plot, default is True
+    notebook_mode : bool, optional
+        optimize plot size for notebooks, default is False.
+
     """
     if mode != MODE_PLOT_EVENT:
         return
@@ -52,16 +63,27 @@ def plot_event(mode: str, data_norm: pd.DataFrame, event: int, patient: Phantom,
     table.position(data_norm, event)
     pad.position(data_norm, event)
 
-    source_text, beam_text, detectors_text, table_text, pad_text, patient_text = create_geometry_plot_texts(
-        beam=beam, table=table, pad=pad, patient=patient
-    )
+    source_text, beam_text, detectors_text, table_text, pad_text, patient_text\
+        = create_geometry_plot_texts(
+                beam=beam,
+                table=table,
+                pad=pad,
+                patient=patient)
 
     # Define plot title
     title = f"<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: {mode}]"
 
-    create_setup_and_event_plot(mode=mode, title=title,
-                                patient=patient, patient_text=patient_text,
-                                table=table, table_text=table_text,
-                                pad=pad, pad_text=pad_text,
-                                beam=beam, beam_text=beam_text,
-                                source_text=source_text, detectors_text=detectors_text)
+    create_setup_and_event_plot(
+        mode=mode,
+        title=title,
+        patient=patient,
+        patient_text=patient_text,
+        table=table,
+        table_text=table_text,
+        pad=pad,
+        pad_text=pad_text,
+        beam=beam,
+        beam_text=beam_text,
+        source_text=source_text,
+        detectors_text=detectors_text,
+        dark_mode=dark_mode)

@@ -1,16 +1,22 @@
 from typing import Dict, Optional, Union, List
 
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 
 from ..beam_class import Beam
 from .get_visual_offset import _get_visual_offset
 from ..phantom_class import Phantom
 
 
-def create_mesh_3d_general(obj: Union[Phantom, Beam], color: str, mesh_text: List[str],
-                           opacity: Optional[float] = None, mesh_name: Optional[str] = None,
-                           lighting: Optional[Dict] = None, detector_mesh: bool = False,
-                           visible_status: Optional[bool] = True) -> go.Mesh3d:
+def create_mesh_3d_general(
+        obj: Union[Phantom, Beam],
+        color: str,
+        mesh_text: List[str],
+        opacity: Optional[float] = None,
+        mesh_name: Optional[str] = None,
+        lighting: Optional[Dict] = None,
+        detector_mesh: bool = False,
+        visible_status: Optional[bool] = True) -> go.Mesh3d:
+
     if opacity is None:
         opacity = 1.0
 

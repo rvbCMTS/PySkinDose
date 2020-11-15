@@ -7,11 +7,18 @@ verify_ssl = true
 pytest = "*"
 pydocstyle = "*"
 black = "*"
+sphinx-rtd-theme = "*"
+ipywidgets = ">=7.5"
+jupyterlab = "*"
+npm = "*"
+node = "*"
+pylama = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}
 sphinx = "*"
 myst-parser = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.7"

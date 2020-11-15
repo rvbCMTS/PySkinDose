@@ -1,17 +1,61 @@
 import logging
 from typing import List, Any
-
 import numpy as np
 import pandas as pd
 
+import pyskindose.constants as c
 from .db_connect import db_connect
 from .phantom_class import Phantom
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
-def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
-                      pad_thickness: Any, patient_offset: List[int]) -> None:
+def calculate_field_size(field_size_mode, data_parsed, data_norm):
+    """Calculate X-ray field size at image recepter plane.
+
+    Parameters
+    ----------
+    field_size_mode : str
+        Choose either 'CFA' ('collimated field area) or 'ASD' (actual shutter
+        distance).
+
+        If field_size_mode = 'CFA', the field side in lateral- and
+        longutudinal direction are set equal to the square root of the
+        collimated field area. NOTE, this should only be used when actual
+        shutter distances are unavailabe.
+
+        IF field_size_mode = 'ASD', the function calculates the field size
+        by distance scaling the actual shutter distance to the detector plane
+
+    data_parsed : [type]
+        [description]
+    data_norm : [type]
+        [description]
+
+    Returns
+    -------
+    [type]
+        [description]
+
+    """
+    # if collimated field are mode, set FS_lat = FS_long =
+    # sqrt(collimate field area). NOTE: This should only be used when actual
+    # shutter distances are unavailable.
+    if field_size_mode == 'CFA':
+        FS_lat = round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
+        FS_long = FS_lat
+
+    return FS_lat, FS_long
+
+
+def position_geometry(
+        patient: Phantom,
+        table: Phantom,
+        pad: Phantom,
+        pad_thickness: Any,
+        patient_offset: List[int],
+        patient_orientation: c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE
+                    ) -> None:
     """Manual positioning of the phantoms before procedure starts.
 
     In this function, the patient phantom, support table, and pad are
@@ -33,13 +77,22 @@ def position_geometry(patient: Phantom, table: Phantom, pad: Phantom,
         Patient support pad thickness
     patient_offset : List[int]
         Offsets the patient phantom from the centered along the head end of the
-        table top, given as [dLON: <int>, "dVER": <int>, "dLAT": <int>] in cm.
+        table top, given as [Tx: <int>, "Ty": <int>, "Tz": <int>] in cm.
+    patient_orientation : str
+        patient orientation upon table. Choose between
+        c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE and
+        c.PATIENT_ORIENTATION_FEET_FIRST_SUPINE.
 
     """
-    # rotate 90 deg about LON axis to get head end in positive LAT direction
+    # rotate 90 deg about LON axis to get head end in positive LAT direction,
+    # i.e. in head first supine position.
     table.rotate(angles=[90, 0, 0])
     pad.rotate(angles=[90, 0, 0])
     patient.rotate(angles=[90, 0, 0])
+
+    # if feet-first, rotate patient 180 degrees about y-axis
+    if patient_orientation == c.PATIENT_ORIENTATION_FEET_FIRST_SUPINE:
+        patient.rotate(angles=[0, 180, 0])
 
     # translate to get origin centered along the head end of the table
     table.translate(dr=[0, 0, -max(table.r[:, 2])])
@@ -206,17 +259,23 @@ def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
         geometry since the preceding irradiation event.
 
     """
-    #logger.info("Checking which irradiation events contain changes in geometry compared to previous event")
+    logger.info(
+        "Checking which irradiation events contain changes in geometry"
+        "compared to previous event")
 
-    #logger.debug("Listing all RDSR geometry parameters")
-    geom_params = data_norm[['dLAT', 'dLONG', 'dVERT', 'FS_lat',
-                             'FS_long', 'PPA', 'PSA']]
+    logger.debug("Listing all RDSR geometry parameters")
+    geom_params = data_norm[['Tx', 'Ty', 'Tz', 'FS_lat', 'FS_long',
+                             'Ap1', 'Ap2', 'Ap3', 'At1', 'At2', 'At3']]
 
-    #logger.debug("Checking which irradiation events that does not have same parameters as previous")
-    changed_geometry = [not geom_params.iloc[event].equals( geom_params.iloc[event - 1])
-                        for event in range(1, len(geom_params))]
+    logger.debug(
+        "Checking which irradiation events that does not have same"
+        "parameters as previous")
+    changed_geometry = [not geom_params.iloc[event].equals(
+        geom_params.iloc[event - 1]) for event in range(1, len(geom_params))]
 
-    #logger.debug("Insert True to the first event to indicate that it has a new geometry")
+    logger.debug("Insert True to the first event to indicate that it has a"
+                 "new geometry")
+
     changed_geometry.insert(0, True)
 
     return changed_geometry
@@ -254,7 +313,7 @@ class Triangle:
     """
 
     def __init__(self, p: np.array, p1: np.array, p2: np.array):
-
+        """Initialize class attributes."""
         self.p = p
         self.p1 = vector(self.p, p1)
         self.p2 = vector(self.p, p2)

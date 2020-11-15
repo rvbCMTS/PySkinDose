@@ -1,6 +1,6 @@
 from typing import List
 
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 
 from ..beam_class import Beam
 from ..constants import (
@@ -36,20 +36,30 @@ def create_wireframes(beam: Beam, table: Phantom, pad: Phantom,
 
     """
     # The following section creates a wireframe plot for the X-ray beam
-    wf_beam = _create_beam_wireframe(beam=beam, line_width=line_width, visible=visible)
+    wf_beam = _create_beam_wireframe(
+            beam=beam, line_width=line_width, visible=visible)
 
-    wf_table = _create_phantom_object_wireframe(obj=table, color=COLOR_WIRE_FRAME_TABLE, line_width=line_width,
-                                                visible=visible)
+    wf_table = _create_phantom_object_wireframe(
+            obj=table,
+            color=COLOR_WIRE_FRAME_TABLE,
+            line_width=line_width,
+            visible=visible)
 
-    wf_pad = _create_phantom_object_wireframe(obj=pad, color=COLOR_WIRE_FRAME_PAD, line_width=line_width,
-                                              visible=visible)
+    wf_pad = _create_phantom_object_wireframe(
+            obj=pad,
+            color=COLOR_WIRE_FRAME_PAD,
+            line_width=line_width,
+            visible=visible)
 
-    wf_detector = _create_detector_wire_frame(beam=beam, line_width=line_width, visible=visible)
+    wf_detector = _create_detector_wire_frame(
+        beam=beam, line_width=line_width, visible=visible)
 
     return wf_beam, wf_table, wf_pad, wf_detector
 
 
-def _create_beam_wireframe(beam: Beam, line_width: int, visible: bool) -> go.Scatter3d:
+def _create_beam_wireframe(
+        beam: Beam, line_width: int, visible: bool) -> go.Scatter3d:
+
     temp_x = [beam.r[0, 0], beam.r[1, 0], beam.r[0, 0], beam.r[2, 0],
               beam.r[0, 0], beam.r[3, 0], beam.r[0, 0], beam.r[4, 0],
               beam.r[1, 0], beam.r[2, 0], beam.r[3, 0], beam.r[4, 0],
@@ -70,7 +80,13 @@ def _create_beam_wireframe(beam: Beam, line_width: int, visible: bool) -> go.Sca
                                        color=COLOR_WIRE_FRAME_BEAM)
 
 
-def _create_phantom_object_wireframe(obj: Phantom, color: str, line_width: int, visible: bool) -> go.Scatter3d:
+def _create_phantom_object_wireframe(
+        obj: Phantom,
+        color: str,
+        line_width: int,
+        visible: bool
+        ) -> go.Scatter3d:
+
     # The following section creates a wireframe plot for the support table
     x1 = obj.r[0:8, 0].tolist() + [obj.r[0, 0]]
     y1 = obj.r[0:8, 1].tolist() + [obj.r[0, 1]]
@@ -104,7 +120,9 @@ def _create_phantom_object_wireframe(obj: Phantom, color: str, line_width: int, 
                                        color=color)
 
 
-def _create_detector_wire_frame(beam: Beam, line_width: int, visible: bool) -> go.Scatter3d:
+def _create_detector_wire_frame(
+        beam: Beam, line_width: int, visible: bool) -> go.Scatter3d:
+
     x1 = beam.det_r[0:4, 0].tolist() + [beam.det_r[0, 0]]
     y1 = beam.det_r[0:4, 1].tolist() + [beam.det_r[0, 1]]
     z1 = beam.det_r[0:4, 2].tolist() + [beam.det_r[0, 2]]

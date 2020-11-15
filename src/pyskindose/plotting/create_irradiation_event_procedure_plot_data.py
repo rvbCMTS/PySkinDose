@@ -3,7 +3,7 @@ from typing import Dict, Optional, Union
 
 import numpy as np
 import pandas as pd
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 
 from ..beam_class import Beam
 from .create_geometry_plot_texts import create_geometry_plot_texts
@@ -33,10 +33,16 @@ from ..phantom_class import Phantom
 logger = logging.getLogger(__name__)
 
 
-def create_irradiation_event_procedure_plot_data(data_norm: pd.DataFrame, include_patient: bool,
-                                                 visible_status: bool, event: int, table: Phantom,
-                                                 pad: Phantom, patient: Optional[Phantom] = None
-                                                 ) -> Dict[str, Union[go.Scatter3d, go.Mesh3d]]:
+def create_irradiation_event_procedure_plot_data(
+    data_norm: pd.DataFrame,
+    include_patient: bool,
+    visible_status: bool,
+    event: int,
+    table: Phantom,
+    pad: Phantom,
+    patient: Optional[Phantom] = None
+    ) -> Dict[str, Union[go.Scatter3d, go.Mesh3d]]:
+    
     # Position geometry objects
     beam = Beam(data_norm, event=event, plot_setup=False)
     table.position(data_norm, event)

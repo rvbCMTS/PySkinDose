@@ -1,0 +1,34 @@
+@font-face {
+    font-family: "Computer Modern";
+    src: url("./cmunrm.ttf");
+}
+
+
+@font-face {
+    font-family: "Computer Modern";
+    src: url("./cmunbx.ttf");
+    font-weight: bold;
+  }
+
+@font-face {
+    font-family: "Computer Modern";
+    src: url("./cmunti.ttf");
+    font-style: italic;
+}
+
+
+body,
+h1, h2, h3,
+h4,
+h5,
+h6,
+thead,
+section,
+caption,
+span {
+    font-family: "Computer Modern";
+}
+
+*.wy-nav-content {
+    max-width: 80%;
+}

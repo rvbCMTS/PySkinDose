@@ -1,0 +1,33 @@
+{
+    "normalization_settings": [
+        {
+            "manufacturer": "Siemens",
+            "models": [
+                "AXIOM-Artis"
+            ],
+            "translation_offset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+
+            "translation_direction": {
+                "x": "+",
+                "y": "+",
+                "z": "+"
+            },
+            
+            "rotation_direction": {
+                "Ap1": "+",
+                "Ap2": "+",
+                "Ap3": "+",
+                "At1": "+",
+                "At2": "+",
+                "At3": "+"
+            },
+
+            "field_size_mode": "CFA",
+            "detector_side_length": 40
+        }
+    ]
+}

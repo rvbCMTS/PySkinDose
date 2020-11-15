@@ -1,14 +1,28 @@
-import copy
-import numpy as np
 import os
-import pandas as pd
-import plotly.graph_objs as go
-import plotly.offline as ply
-from stl import mesh
-from typing import Dict
-from typing import List, Optional
+import copy
 
-from .settings import PhantomDimensions
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+from stl import mesh
+from typing import Dict, List, Optional
+
+from .constants import (
+    DOSEMAP_COLORSCALE,
+    PLOT_ASPECTMODE_PLOT_DOSEMAP,
+    PLOT_FONT_FAMILY,
+    PLOT_FONT_SIZE,
+    PLOT_HOVERLABEL_FONT_FAMILY,
+    PLOT_HOVERLABEL_FONT_SIZE,
+)
+
+from .plotting.plot_settings import (
+    fetch_plot_colors,
+    fetch_plot_margin,
+    fetch_plot_size
+    )
+
+from .settings_pyskindose import PhantomDimensions
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
@@ -43,6 +57,9 @@ class Phantom:
         Empty array to store of reference position of the phantom cells after
         the phantom has been aligned in the geometry with the position_geometry
         function in geom_calc.py
+    table_length : float
+        length of patient support table. The is needed for all phantom object
+        to select correct rotation origin for At1, At2, and At3.
 
     Methods
     -------
@@ -96,6 +113,10 @@ class Phantom:
                              f"{'.'.join(VALID_PHANTOM_MODELS)}")
 
         self.r_ref: np.array
+
+        # Save table length for all phantom in order to choose correct rotation
+        # origin when applying At1, At2, and At3
+        self.table_length = phantom_dim.table_length
 
         # creates a plane phantom (2D grid)
         if phantom_model == "plane":
@@ -353,7 +374,7 @@ class Phantom:
         r_ref = copy.copy(self.r)
         self.r_ref = r_ref
 
-    def position(self, data_norm: pd.DataFrame, i: int) -> None:
+    def position(self, data_norm: pd.DataFrame, event: int) -> None:
         """Position the phantom for a event by adding RDSR table displacement.
 
         Positions the phantom from reference position to actual position
@@ -363,16 +384,48 @@ class Phantom:
         ----------
         data_norm : pd.DataFrame
             Table containing dicom RDSR information from each irradiation event
-            See parse_data.py for more information.
+            See rdsr_normalizer.py for more information.
+        event : int
+            Irradiation event index
 
         """
         self.r = copy.copy(self.r_ref)
 
-        self.r[:, 0] += data_norm.dLONG[i]
-        self.r[:, 1] += data_norm.dVERT[i]
-        self.r[:, 2] += data_norm.dLAT[i]
+        # position phantom centered about isocenter
+        self.r[:, 2] += self.table_length / 2
 
-    def plot_dosemap(self):
+        # Fetch At1, At2, and At3
+        rot = np.deg2rad(data_norm['At1'][event])
+        tilt = np.deg2rad(data_norm['At2'][event])
+        cradle = np.deg2rad(data_norm['At3'][event])
+
+        R1 = np.array([[+np.cos(rot),   0,  +np.sin(rot)],
+                      [0,              1,   0],
+                      [-np.sin(rot), 0, +np.cos(rot)]])
+
+        R2 = np.array([[+1, +0, +0],
+                       [+0, +np.cos(tilt), -np.sin(tilt)],
+                       [+0, +np.sin(tilt), +np.cos(tilt)]])
+
+        R3 = np.array([[+np.cos(cradle), -np.sin(cradle), 0],
+                       [+np.sin(cradle), +np.cos(cradle), +0],
+                       [+0, +0, +1]])
+
+        # Apply table rotation
+        self.r = np.matmul(np.matmul(R3, np.matmul(R2, R1)), (self.r).T).T
+
+        # Replace phantom to stanting position
+        self.r[:, 2] -= self.table_length/2
+
+        # Apply phantom translation
+        t = np.array(
+            [data_norm.Tx[event], data_norm.Ty[event], data_norm.Tz[event]]
+            )
+
+        self.r = self.r + t
+
+    def plot_dosemap(
+            self, dark_mode: bool = True, notebook_mode: bool = False):
         """Plot a map of the absorbed skindose upon the patient phantom.
 
         This function creates and plots an offline plotly graph of the
@@ -380,41 +433,103 @@ class Phantom:
         absorbed skin dose value. Only available for phantom type: "plane",
         "cylinder" or "human"
 
+        Parameters
+        ----------
+        dark_mode : bool
+            set dark for for plot
+        notebook_mode : bool, default is true
+            optimize plot size and margin for notebooks.
+
         """
-        hover_text = [f"<b>coordinate:</b><br><b>LAT:</b> {np.around(self.r[ind, 2],2)} cm<br><b>LON:</b> {np.around(self.r[ind, 0])} cm<br><b>VER:</b> {np.around(self.r[ind, 1])} cm<br><b>skin dose: </b><br>{round(self.dose[ind],2)} mGy"
-            for ind in range(len(self.r))]
+        COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = \
+            fetch_plot_colors(dark_mode=dark_mode)
+
+        PLOT_HEIGHT, PLOT_WIDTH = fetch_plot_size(notebook_mode=notebook_mode)
+
+        PLOT_MARGINS = fetch_plot_margin(notebook_mode=notebook_mode)
+
+        lat_text = [f"<b>lat:</b> {np.around(self.r[ind, 2],2)} cm<br>"
+                    for ind in range(len(self.r))]
+
+        lon_text = [f"<b>lon:</b> {np.around(self.r[ind, 0],2)} cm<br>"
+                    for ind in range(len(self.r))]
+
+        ver_text = [f"<b>ver:</b> {np.around(self.r[ind, 1],2)} cm<br>"
+                    for ind in range(len(self.r))]
+
+        dose_text = [f"<b>skin dose:</b> {round(self.dose[ind],2)} mGy"
+                     for ind in range(len(self.r))]
+
+        hover_text = [lat_text[cell] + lon_text[cell] + ver_text[cell] +
+                      dose_text[cell] for cell in range(len(self.r))]
 
         # create mesh object for the phantom
         phantom_mesh = [
             go.Mesh3d(
                 x=self.r[:, 0], y=self.r[:, 1], z=self.r[:, 2],
                 i=self.ijk[:, 0], j=self.ijk[:, 1], k=self.ijk[:, 2],
-                intensity=self.dose, colorscale="Jet", showscale=True,
+                intensity=self.dose, colorscale=DOSEMAP_COLORSCALE,
+                showscale=True,
                 hoverinfo='text',
                 text=hover_text, name="Human",
-                colorbar=dict(tickfont=dict(color="white"),
+                colorbar=dict(tickfont=dict(color=COLOR_PLOT_TEXT),
                               title="Skin dose [mGy]",
-                              titlefont=dict(family="Franklin Gothic", color="white")))]
+                              titlefont=dict(
+                                  family=PLOT_FONT_FAMILY,
+                                  color=COLOR_PLOT_TEXT)))]
 
         # Layout settings
         layout = go.Layout(
-            font=dict(family='Franklin Gothic', color="white", size=18),
-            hoverlabel=dict(font=dict(family="Consolas, monospace", size=16)),
-            title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
-            titlefont=dict(family='Franklin Gothic', size=35,
-                           color='white'),
-            plot_bgcolor='#201f1e',
-            paper_bgcolor='#201f1e',
+            height=PLOT_HEIGHT,
+            width=PLOT_WIDTH,
+            margin=PLOT_MARGINS,
 
-            scene=dict(aspectmode="data",
-                       xaxis=dict(title='',
-                                  showgrid=False, showticklabels=False),
-                       yaxis=dict(title='',
-                                  showgrid=False, showticklabels=False),
-                       zaxis=dict(title='',
-                                  showgrid=False, showticklabels=False)))
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                color=COLOR_PLOT_TEXT,
+                size=PLOT_FONT_SIZE),
+
+            hoverlabel=dict(
+                font=dict(
+                    family=PLOT_HOVERLABEL_FONT_FAMILY,
+                    size=PLOT_HOVERLABEL_FONT_SIZE)),
+
+            title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
+
+            titlefont=dict(
+                family=PLOT_FONT_FAMILY,
+                size=PLOT_FONT_SIZE,
+                color=COLOR_PLOT_TEXT),
+
+            paper_bgcolor=COLOR_CANVAS,
+
+            scene=dict(
+                aspectmode=PLOT_ASPECTMODE_PLOT_DOSEMAP,
+
+                xaxis=dict(
+                    title='',
+                    backgroundcolor=COLOR_CANVAS,
+                    showgrid=False,
+                    zeroline=False,
+                    showticklabels=False),
+
+                yaxis=dict(
+                    title='',
+                    backgroundcolor=COLOR_CANVAS,
+                    showgrid=False,
+                    zeroline=False,
+                    showticklabels=False),
+
+                zaxis=dict(
+                    title='',
+                    backgroundcolor=COLOR_CANVAS,
+                    showgrid=False,
+                    zeroline=False,
+                    showticklabels=False)
+                    )
+            )
 
         # create figure
         fig = go.Figure(data=phantom_mesh, layout=layout)
         # Execure plot
-        ply.plot(fig, filename='dose_map.html')
+        fig.show()

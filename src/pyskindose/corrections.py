@@ -8,10 +8,11 @@ import scipy.interpolate
 
 from .db_connect import db_connect
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
-def calculate_k_isq(source: np.array, cells: np.array, dref: float) -> np.array:
+def calculate_k_isq(source: np.array, cells: np.array, dref: float
+                    ) -> np.array:
     """Calculate the IRP air kerma inverse-square law correction.
 
     This function corrects the X-ray fluence from the interventionl reference
@@ -166,7 +167,8 @@ def calculate_k_med(
 
     # Fetch HVL entries from table
     hvl_data = df.loc[
-        (df["field_side_length_cm"] == fsl) & (df["kvp_kV"] == kvp_round), "hvl_mmAl"
+        (df["field_side_length_cm"] == fsl) &
+        (df["kvp_kV"] == kvp_round), "hvl_mmAl"
     ]
 
     # Select closest tabulated HVL (second strongest dependence for k_med)
@@ -186,8 +188,8 @@ def calculate_k_med(
 
 
 def calculate_k_tab(
-    data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab_val: float = 0.8
-) -> List[float]:
+    data_norm: pd.DataFrame, estimate_k_tab: bool = False,
+        k_tab_val: float = 0.8) -> List[float]:
     """Fetch table correction factor from database.
 
     This function fetches measured table correction factor as a function of
@@ -222,12 +224,12 @@ def calculate_k_tab(
 
         # Set paramets for fetching table transmission correction factor.
         params = (
-            round(float(data_norm.kVp[event])),  # kVp, rounded to nearest integer
-            data_norm.filter_thickness_Cu[event],  # Filter thickness Cu
-            data_norm.filter_thickness_Al[event],  # Filter thicknes Al
-            data_norm.model[event],  # device model
-            data_norm.acquisition_plane[event],  # acquisition plane
-        ) 
+            round(float(data_norm.kVp[event])),
+            data_norm.filter_thickness_Cu[event],
+            data_norm.filter_thickness_Al[event],
+            data_norm.model[event],
+            data_norm.acquisition_plane[event],
+        )
 
         # Fetch k_tab
         c.execute(

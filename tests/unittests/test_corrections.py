@@ -1,7 +1,8 @@
 from pathlib import Path
+import sys
+
 import numpy as np
 import pandas as pd
-import sys
 
 from pyskindose.corrections import calculate_k_bs
 from pyskindose.corrections import calculate_k_med
@@ -12,8 +13,7 @@ P = Path(__file__).parent.parent.parent
 sys.path.insert(1, str(P.absolute()))
 
 
-def test_calculate_k_isq_unchanged_fluence():
-    """Tests if the X-ray fluence is left unscaled at d = d_IRP."""
+def test_calculate_unchanged_fluence_at_refernce_distance():
     expected = 1
     test = calculate_k_isq(source=np.array([0, 0, 0]),
                            cells=np.array([0, 100, 0]),
@@ -21,8 +21,7 @@ def test_calculate_k_isq_unchanged_fluence():
     assert expected == test
 
 
-def test_calculate_k_isq_increased_fluence():
-    """Tests if the fluence is correctly increased if d < d_IRP."""
+def test_calculate_increased_fluence_at_decreased_distance():
     expected = 4
     test = calculate_k_isq(source=np.array([0, 0, 0]),
                            cells=np.array([0, 50, 0]),
@@ -30,8 +29,7 @@ def test_calculate_k_isq_increased_fluence():
     assert expected == test
 
 
-def test_calculate_k_isq_decreased_fluence():
-    """Tests if the fluence is correctly increased if d > d_IRP."""
+def test_calculate_decreased_fluence_at_increased_distance():
     expected = 0.25
     test = calculate_k_isq(source=np.array([0, 0, 0]),
                            cells=np.array([0, 200, 0]),
@@ -39,12 +37,7 @@ def test_calculate_k_isq_decreased_fluence():
     assert expected == test
 
 
-def test_calculate_k_bs():
-    """Tests the backscatter correction.
-
-    Tests if the interpolated backscatter factor lies within 1% of the tabulated value,
-    for all tabulated field sizes at a specific kVp/HVL combination.
-    """
+def test_fetch_correct_backscatter_correction_from_database():
     expected = 5 * [True]
 
     # Tabulated backscatter factor for param in data_norm
@@ -67,9 +60,7 @@ def test_calculate_k_bs():
     assert expected == test
 
 
-def test_calculate_k_med():
-    """Tests the medium correction."""
-    # Expected k_med factors for kVp = 80 kV and HVL = 4.99 mmAl
+def test_fetch_correct_medium_correction_from_database():
     expected = [1.027, 1.026, 1.025, 1.025, 1.025]
 
     data = {'kVp': [80], 'HVL': [4.99]}
@@ -81,9 +72,8 @@ def test_calculate_k_med():
 
     assert test in expected
 
-def test_calculate_k_tab():
-    """Testa the table correction."""
-    # Tests if correct k_tab value is returned from database
+
+def test_fetch_correct_table_correction_from_database():
     expected = 0.7319
 
     [conn, c] = db_connect()
@@ -92,7 +82,7 @@ def test_calculate_k_tab():
     params = (80,  # kVp, rounded to nearest integer
               0.3,  # Filter thickness Cu
               0,  # Filter thicknes Al
-              'AXIOMArtis',  # device model
+              'AXIOM-Artis',  # device model
               'Single Plane',)  # acquisition plane
 
     # Fetch k_tab

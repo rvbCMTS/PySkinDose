@@ -1,13 +1,13 @@
 import logging
 from typing import Any, Dict, Optional, Tuple
-
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
+
 from pyskindose.calculate_dose.calculate_irradiation_event_result import (
     calculate_irradiation_event_result,
 )
-
-from pyskindose import constants as const
+from pyskindose import constants as c
 from pyskindose.corrections import calculate_k_bs, calculate_k_tab
 from pyskindose.geom_calc import (
     check_new_geometry,
@@ -15,9 +15,9 @@ from pyskindose.geom_calc import (
     position_geometry,
 )
 from pyskindose.phantom_class import Phantom
-from pyskindose.settings import PyskindoseSettings
+from pyskindose.settings_pyskindose import PyskindoseSettings
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def calculate_dose(
@@ -47,11 +47,12 @@ def calculate_dose(
         [description]
 
     """
-    if settings.mode != const.MODE_CALCULATE_DOSE:
-        # logger.debug("Mode not set to calculate dose. Returning without doing anything")
+    if settings.mode != c.MODE_CALCULATE_DOSE:
+        logger.debug(
+            "Mode not set to calculate dose. Returning without doing anything")
         return None, None
 
-    # logger.info("Start performing dose calculations")
+    logger.info("Start performing dose calculations")
     patient = Phantom(
         phantom_model=settings.phantom.model,
         phantom_dim=settings.phantom.dimension,
@@ -60,16 +61,13 @@ def calculate_dose(
 
     # position objects in starting position
     position_geometry(
-        patient=patient,
-        table=table,
-        pad=pad,
-        pad_thickness=settings.phantom.dimension.pad_thickness,
-        patient_offset=[
-            settings.phantom.patient_offset.d_lat,
-            settings.phantom.patient_offset.d_ver,
-            settings.phantom.patient_offset.d_lon,
-        ],
-    )
+            patient=patient, table=table, pad=pad,
+            pad_thickness=settings.phantom.dimension.pad_thickness,
+            patient_offset=[
+                settings.phantom.patient_offset.d_lon,
+                settings.phantom.patient_offset.d_ver,
+                settings.phantom.patient_offset.d_lat],
+            patient_orientation=settings.phantom.patient_orientation)
 
     normalized_data = fetch_and_append_hvl(data_norm=normalized_data)
 
@@ -89,13 +87,13 @@ def calculate_dose(
     total_number_of_events = len(normalized_data)
 
     output_template = {
-        const.OUTPUT_KEY_HITS: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_KERMA: [np.array] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_BACK_SCATTER: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_MEDIUM: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_CORRECTION_TABLE: [[]] * total_number_of_events,
-        const.OUTPUT_KEY_DOSE_MAP: np.zeros(len(patient.r)),
+        c.OUTPUT_KEY_HITS: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_KERMA: [np.array] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_BACK_SCATTER: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_MEDIUM: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_CORRECTION_TABLE: [[]] * total_number_of_events,
+        c.OUTPUT_KEY_DOSE_MAP: np.zeros(len(patient.r)),
     }
 
     output = calculate_irradiation_event_result(
@@ -110,6 +108,7 @@ def calculate_dose(
         pad=pad,
         back_scatter_interpolation=back_scatter_interpolation,
         output=output_template,
+        pbar=tqdm(total=total_number_of_events, desc='calculating dose')
     )
 
     return patient, output
