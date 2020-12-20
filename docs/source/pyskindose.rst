@@ -13,114 +13,106 @@ Subpackages
 Submodules
 ----------
 
-pyskindose.analyze\_data module
--------------------------------
+analyze\_data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.analyze_data
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.beam\_class module
------------------------------
+beam\_class
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.beam_class
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.constants module
----------------------------
+constants
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.constants
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.corrections module
------------------------------
+corrections
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.corrections
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.db\_connect module
------------------------------
+db\_connect
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.db_connect
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.dev\_data module
----------------------------
+dev\_data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.dev_data
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.geom\_calc module
-----------------------------
+geom\_calc
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.geom_calc
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.main module
-----------------------
+main
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.main
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.phantom\_class module
---------------------------------
+phantom\_class
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.phantom_class
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.rdsr\_normalizer module
-----------------------------------
+rdsr\_normalizer
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.rdsr_normalizer
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.rdsr\_parser module
-------------------------------
+rdsr\_parser
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.rdsr_parser
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.settings\_normalization module
------------------------------------------
+settings\_normalization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.settings_normalization
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyskindose.settings\_pyskindose module
---------------------------------------
+settings\_pyskindose
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: pyskindose.settings_pyskindose
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: pyskindose
    :members:
    :undoc-members:
    :show-inheritance:

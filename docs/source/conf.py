@@ -75,6 +75,7 @@ def setup(app):
     # app.add_stylesheet("ANOTHER.css")
     # app.add_stylesheet("AND_ANOTHER.css")
 
+add_module_names = False
 
 myst_figure_enable = True
 myst_html_img_enable = True

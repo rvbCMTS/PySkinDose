@@ -5,8 +5,10 @@ Welcome to PySkinDose's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   user/description.rst
    user/install.md
-   user/static_plots.md
+   user/get_started.rst
+   user/contribute.rst
 
    modules
 

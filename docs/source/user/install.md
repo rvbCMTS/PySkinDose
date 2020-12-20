@@ -1,5 +1,5 @@
 (install/installation)=
-# Installing PySkinDose
+# installation
 
 Installing PySkinDose provides access to two interfaces.
 
