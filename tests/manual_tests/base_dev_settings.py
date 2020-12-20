@@ -23,7 +23,7 @@ DEVELOPMENT_PARAMETERS = dict(
         c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE,
         # max number of event for inclusion of patient phantom in plot
         # procedure
-        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 200,
+        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 0,
         # Irrading event index for mode='plot_event'
         c.PLOT_EVENT_INDEX_KEY: 12},
     # Phantom settings:
