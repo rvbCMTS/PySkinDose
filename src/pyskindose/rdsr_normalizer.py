@@ -96,7 +96,6 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         direction is determined by the right-hand rule for curve orientation
         about the positive positioner y-axis.
 
-        .. image:: user/figures/beam/beam_ap3.svg
 
     DSL : float
         Detector Side Length (DSL) in cm.
