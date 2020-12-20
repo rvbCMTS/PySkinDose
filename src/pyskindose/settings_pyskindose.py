@@ -27,7 +27,7 @@ class PyskindoseSettings:
         presents the result in a skindose map.
 
         mode = "plot_setup" plots the geometry (patient, table, pad and beam
-        in starting position, i.e., before any RDSR data has been added.) This
+        in starting position, i.e., before awny RDSR data has been added.) This
         is useful for debugging and when manually fixating the patient phantom
         with the function "position_geometry".
 
@@ -48,7 +48,7 @@ class PyskindoseSettings:
     phantom : PhantomSettings
         Instance of class PhantomSettings containing all phantom related
         settings.
-    plot : Plotsettings.
+    plot : Plotsettings
         Instace of class Plottsettings containing all plot related settings
 
     """
