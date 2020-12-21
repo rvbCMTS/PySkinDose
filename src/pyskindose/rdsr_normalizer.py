@@ -128,14 +128,14 @@ def _normalize_machine_parameters(
     data_norm['model'] = data_parsed.ManufacturerModelName
 
     # Find indices of nans in DistanceSourcetoDetector
-    nan_indices = data_parsed.index[
-        data_parsed['DistanceSourcetoDetector_mm'].apply(np.isnan)]
-
-    # Replace those nans with the corresponding value in
-    # FinalDistanceSourcetoDetector
-    data_parsed.DistanceSourcetoDetector_mm = \
-        data_parsed.DistanceSourcetoDetector_mm.fillna(
-            data_parsed.FinalDistanceSourcetoDetector_mm[nan_indices])
+    if 'nan' in str(data_parsed['DistanceSourcetoDetector_mm']).lower():
+        nan_indices = data_parsed.index[
+            data_parsed['DistanceSourcetoDetector_mm'].apply(np.isnan)]
+        # Replace those nans with the corresponding value in
+        # FinalDistanceSourcetoDetector
+        data_parsed.DistanceSourcetoDetector_mm = \
+            data_parsed.DistanceSourcetoDetector_mm.fillna(
+                data_parsed.FinalDistanceSourcetoDetector_mm[nan_indices])
 
     data_norm['DSD'] = data_parsed.DistanceSourcetoDetector_mm / 10
     data_norm['DSI'] = data_parsed.DistanceSourcetoIsocenter_mm / 10
