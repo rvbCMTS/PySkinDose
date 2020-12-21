@@ -1,6 +1,8 @@
+import numpy as np
 import pandas as pd
 from pathlib import Path
 import json
+
 from .settings_normalization import NormalizationSettings
 from .geom_calc import calculate_field_size
 
@@ -124,6 +126,17 @@ def _normalize_machine_parameters(
         norm: NormalizationSettings) -> pd.DataFrame:
 
     data_norm['model'] = data_parsed.ManufacturerModelName
+
+    # Find indices of nans in DistanceSourcetoDetector
+    nan_indices = data_parsed.index[
+        data_parsed['DistanceSourcetoDetector_mm'].apply(np.isnan)]
+
+    # Replace those nans with the corresponding value in
+    # FinalDistanceSourcetoDetector
+    data_parsed.DistanceSourcetoDetector_mm = \
+        data_parsed.DistanceSourcetoDetector_mm.fillna(
+            data_parsed.FinalDistanceSourcetoDetector_mm[nan_indices])
+
     data_norm['DSD'] = data_parsed.DistanceSourcetoDetector_mm / 10
     data_norm['DSI'] = data_parsed.DistanceSourcetoIsocenter_mm / 10
     data_norm['DID'] = data_norm.DSD - data_norm.DSI
