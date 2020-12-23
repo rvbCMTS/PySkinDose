@@ -45,7 +45,17 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
         FS_lat = round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
         FS_long = FS_lat
 
-    return FS_lat, FS_long
+        return FS_lat, FS_long
+
+    if field_size_mode == 'ASD':
+
+        FS_long = (data_parsed.LeftShutter_mm + data_parsed.RightShutter_mm) / 10
+        FS_lat = (data_parsed.TopShutter_mm + data_parsed.BottomShutter_mm) / 10
+
+        scale = data_norm.DSD / 100
+
+        return scale * FS_lat, scale * FS_long
+
 
 
 def position_geometry(
