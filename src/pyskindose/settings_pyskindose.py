@@ -48,7 +48,7 @@ class PyskindoseSettings:
     phantom : PhantomSettings
         Instance of class PhantomSettings containing all phantom related
         settings.
-    plot : Plotsettings.
+    plot : Plotsettings
         Instace of class Plottsettings containing all plot related settings
 
     """
