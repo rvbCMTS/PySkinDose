@@ -50,33 +50,53 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         located at the zero coordinate of the z-axis. With patient lying in
         head-first supine position (default settings), Tz increases in the
         patients cranial direction.
+
+        .. image:: user/figures/table/table_translate.svg
+
     At1 : int
         Rotation angle of the patient support table about the isocenter
         y-axis. The center of rotation is located at the centerpoint
         of the table. Positive direction is determined by the right-hand rule
         for curve orientation about the positive isocenter y-axis.
+
+        .. image:: user/figures/table/table_at1.svg
+
     At2 : int
         Tilt angel of the patient support table about the isocenter x-axis.
         The center of the tilt is located at the center of the table, with
         positive direction determined by the right-hand rule for curve
         orientations  about the positiove isocenter x-axis.
+
+        .. image:: user/figures/table/table_at2.svg
+
     At3 : int
         Cradle angle of the patient support table about the isocenter
         z-axis. The center of rotation is located at the centerpoint
         of the table. Positive direction is determined by the right-hand rule
         for curve orientation about the positive isocenter z-axis.
+
+        .. image:: user/figures/table/table_at3.svg
+
     Ap1 : int
         Rotation angle of the X-ray source about the isocenter z-axis. Positive
         direction is determined by the right-hand rule for curve orientation
         about the positive isocenter z-axis.
+
+        .. image:: user/figures/beam/beam_ap1.svg
+
     Ap2 : int
         Rotation angle of the X-ray source about the isocenter x-axis. Positive
         direction is determined by the right-hand rule for curve orientation
         about the positive isocenter x-axis.
+
+        .. image:: user/figures/beam/beam_ap2.svg
+
     Ap3 : int
         Rpotation angle of the X-ray beam about the positioner y-axis. Positive
         direction is determined by the right-hand rule for curve orientation
         about the positive positioner y-axis.
+
+
     DSL : float
         Detector Side Length (DSL) in cm.
     FS_lat : float
