@@ -1,2 +1,2 @@
-what is PySkinDose?
+What is PySkinDose?
 ======================================

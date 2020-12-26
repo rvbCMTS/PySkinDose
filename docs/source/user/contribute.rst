@@ -1,2 +1,2 @@
-contributions and collaborations
+Contributions and Collaborations
 ======================================

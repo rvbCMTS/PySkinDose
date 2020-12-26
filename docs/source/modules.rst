@@ -1,4 +1,4 @@
-project documentation
+Project Documentation
 ==========
 
 .. toctree::
