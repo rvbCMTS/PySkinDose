@@ -119,7 +119,6 @@ def calculate_irradiation_event_result(
     )
 
     event += 1
-
     if event < total_events:
 
         pbar.update()
@@ -142,7 +141,7 @@ def calculate_irradiation_event_result(
             pbar=pbar
         )
 
-    else:
-        pbar.update()
+        if event == total_events-1:
+            pbar.update()
 
     return output
