@@ -99,6 +99,7 @@ MODE_PLOT_PROCEDURE = "plot_procedure"
 MODE_PLOT_SETUP = "plot_setup"
 MODE_PLOT_DOSEMAP = 'plot_dosemap'
 MODE_DARK_MODE = "dark_mode"
+MODE_INTERACTIVITY = 'interactivity'
 
 OUTPUT_KEY_CORRECTION_BACK_SCATTER = "k_bs"
 OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW = "k_isq"
@@ -168,6 +169,12 @@ PLOT_WIDTH = None
 
 PLOT_MARGIN_NOTEBOOK = dict(l=5, r=5, b=5, t=40)
 PLOT_MARGIN = dict(l=0, r=0, b=100, t=40)
+
+# plot camera angles for static dosemaps
+PLOT_EYE_BACK = dict(eye=dict(x=0, y=+2.5, z=0))
+PLOT_EYE_FRONT = dict(eye=dict(x=0, y=-2.5, z=0))
+PLOT_EYE_LEFT = dict(eye=dict(x=2.5, y=+1.5, z=0))
+PLOT_EYE_RIGHT = dict(eye=dict(x=-2.5, y=+1.5, z=0))
 
 
 OFFSET_LATERAL_KEY = 'd_lat'
