@@ -1,6 +1,6 @@
 import numpy as np
 import plotly.graph_objects as go
-
+from tqdm import tqdm
 
 from pyskindose import constants as c
 from pyskindose.phantom_class import Phantom
@@ -46,12 +46,6 @@ def create_dose_map_plot(
     dose_map : np.ndarray
         array with dose matrix, where each element is to be mapped to the 
         corresponding skin cell of the patient.
-    interactivity : bool
-        Toggle for interactive mode when plotting dosemaps. If True,
-        the dosemap will be plotted in a .html file with full interactivity.
-        If False, the dosemap will be saved as static images. Static mode is
-        provided to enable PySkinDose to run smooth on machines with limited
-        RAM.
 
     """
     # Fix error with plotly layout for 2D plane patient.
@@ -153,4 +147,23 @@ def create_dose_map_plot(
 
     # create figure
     fig = go.Figure(data=phantom_mesh, layout=layout)
-    fig.show()
+
+    if settings.plot.interactivity:
+        fig.show()
+
+    else:
+
+        if settings.plot.notebook_mode:
+            from tqdm import tqdm_notebook as pbar
+        else:
+            from tqdm import tqdm as pbar
+
+        eyes = [
+            PLOT_EYE_LEFT, PLOT_EYE_BACK, PLOT_EYE_FRONT, PLOT_EYE_RIGHT]
+
+        names = ['left', 'back', 'front', 'right']
+
+        for i in pbar(range(len(eyes)), desc=f'saving static dosemaps: '):
+            fig['layout']['scene']['camera'] = eyes[i]
+
+            fig.write_image(f"{names[i]}.png")
