@@ -1,26 +1,12 @@
 import os
 import copy
 
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from stl import mesh
 from typing import Dict, List, Optional
-
-from .constants import (
-    DOSEMAP_COLORSCALE,
-    PLOT_ASPECTMODE_PLOT_DOSEMAP,
-    PLOT_FONT_FAMILY,
-    PLOT_FONT_SIZE,
-    PLOT_HOVERLABEL_FONT_FAMILY,
-    PLOT_HOVERLABEL_FONT_SIZE,
-)
-
-from .plotting.plot_settings import (
-    fetch_plot_colors,
-    fetch_plot_margin,
-    fetch_plot_size
-    )
 
 from .settings_pyskindose import PhantomDimensions
 
@@ -74,10 +60,6 @@ class Phantom:
     position(data_norm)
         Positions the phantom from reference position to actual position
         according to the table displacement info in data_norm
-    plot_dosemap
-        Creates and plots a plotly mesh3D plot, where the intensity in each
-        phantom skin cell corresponds to the estimated skin dose.
-
     """
 
     def __init__(self,
@@ -423,113 +405,3 @@ class Phantom:
             )
 
         self.r = self.r + t
-
-    def plot_dosemap(
-            self, dark_mode: bool = True, notebook_mode: bool = False):
-        """Plot a map of the absorbed skindose upon the patient phantom.
-
-        This function creates and plots an offline plotly graph of the
-        skin dose distribution on the phantom. The colorscale is mapped to the
-        absorbed skin dose value. Only available for phantom type: "plane",
-        "cylinder" or "human"
-
-        Parameters
-        ----------
-        dark_mode : bool
-            set dark for for plot
-        notebook_mode : bool, default is true
-            optimize plot size and margin for notebooks.
-
-        """
-        COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = \
-            fetch_plot_colors(dark_mode=dark_mode)
-
-        PLOT_HEIGHT, PLOT_WIDTH = fetch_plot_size(notebook_mode=notebook_mode)
-
-        PLOT_MARGINS = fetch_plot_margin(notebook_mode=notebook_mode)
-
-        lat_text = [f"<b>lat:</b> {np.around(self.r[ind, 2],2)} cm<br>"
-                    for ind in range(len(self.r))]
-
-        lon_text = [f"<b>lon:</b> {np.around(self.r[ind, 0],2)} cm<br>"
-                    for ind in range(len(self.r))]
-
-        ver_text = [f"<b>ver:</b> {np.around(self.r[ind, 1],2)} cm<br>"
-                    for ind in range(len(self.r))]
-
-        dose_text = [f"<b>skin dose:</b> {round(self.dose[ind],2)} mGy"
-                     for ind in range(len(self.r))]
-
-        hover_text = [lat_text[cell] + lon_text[cell] + ver_text[cell] +
-                      dose_text[cell] for cell in range(len(self.r))]
-
-        # create mesh object for the phantom
-        phantom_mesh = [
-            go.Mesh3d(
-                x=self.r[:, 0], y=self.r[:, 1], z=self.r[:, 2],
-                i=self.ijk[:, 0], j=self.ijk[:, 1], k=self.ijk[:, 2],
-                intensity=self.dose, colorscale=DOSEMAP_COLORSCALE,
-                showscale=True,
-                hoverinfo='text',
-                text=hover_text, name="Human",
-                colorbar=dict(tickfont=dict(color=COLOR_PLOT_TEXT),
-                              title="Skin dose [mGy]",
-                              titlefont=dict(
-                                  family=PLOT_FONT_FAMILY,
-                                  color=COLOR_PLOT_TEXT)))]
-
-        # Layout settings
-        layout = go.Layout(
-            height=PLOT_HEIGHT,
-            width=PLOT_WIDTH,
-            margin=PLOT_MARGINS,
-
-            font=dict(
-                family=PLOT_FONT_FAMILY,
-                color=COLOR_PLOT_TEXT,
-                size=PLOT_FONT_SIZE),
-
-            hoverlabel=dict(
-                font=dict(
-                    family=PLOT_HOVERLABEL_FONT_FAMILY,
-                    size=PLOT_HOVERLABEL_FONT_SIZE)),
-
-            title="""<b>P</b>y<b>S</b>kin<b>D</b>ose [mode: dosemap]""",
-
-            titlefont=dict(
-                family=PLOT_FONT_FAMILY,
-                size=PLOT_FONT_SIZE,
-                color=COLOR_PLOT_TEXT),
-
-            paper_bgcolor=COLOR_CANVAS,
-
-            scene=dict(
-                aspectmode=PLOT_ASPECTMODE_PLOT_DOSEMAP,
-
-                xaxis=dict(
-                    title='',
-                    backgroundcolor=COLOR_CANVAS,
-                    showgrid=False,
-                    zeroline=False,
-                    showticklabels=False),
-
-                yaxis=dict(
-                    title='',
-                    backgroundcolor=COLOR_CANVAS,
-                    showgrid=False,
-                    zeroline=False,
-                    showticklabels=False),
-
-                zaxis=dict(
-                    title='',
-                    backgroundcolor=COLOR_CANVAS,
-                    showgrid=False,
-                    zeroline=False,
-                    showticklabels=False)
-                    )
-            )
-
-        # create figure
-        fig = go.Figure(data=phantom_mesh, layout=layout)
-        # Execure plot
-        fig.show()
