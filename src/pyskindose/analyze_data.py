@@ -57,8 +57,9 @@ def analyze_data(
         return output
 
     create_dose_map_plot(
-        patient=patient, settings=settings,
-        dose_map=output[c.OUTPUT_KEY_DOSE_MAP]
+        patient=patient,
+        settings=settings,
+        dose_map=output[c.OUTPUT_KEY_DOSE_MAP],
     )
 
     return output
