@@ -19,6 +19,8 @@ pyskindose = {editable = true,path = "."}
 sphinx = "*"
 myst-parser = "*"
 tqdm = "*"
+psutil = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
