@@ -80,6 +80,11 @@ class PyskindoseSettings:
 
     def print_parameters(self):
 
+        self.phantom.patient_offset.update_attrs_str()        
+        self.phantom.dimension.update_attrs_str()
+        self.phantom.update_attrs_str()
+        self.plot.update_attrs_str()
+
         main_attrs_str = create_attrs_str(attrs_parent=self, object_name='general', indent_level=0)
 
         return print(main_attrs_str)
@@ -134,6 +139,12 @@ class PhantomSettings:
             object_name='phantom',
             indent_level=0)
         return
+
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='phantom',
+            indent_level=0)
 
 
 class PhantomDimensions:
@@ -195,6 +206,12 @@ class PhantomDimensions:
             object_name='dimensions',
             indent_level=1)
 
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='dimension',
+            indent_level=1)
+
 
 class PatientOffset:
     """A class for setting patient - table offset.
@@ -237,9 +254,14 @@ class PatientOffset:
 
         self.attrs_str = create_attrs_str(
             attrs_parent=self,
-            object_name='offset',
+            object_name='patient offset',
             indent_level=1)
 
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='patient offset',
+            indent_level=1)
 
 class Plotsettings:
     """A class for setting plot settings.
@@ -287,6 +309,12 @@ class Plotsettings:
             object_name='plot',
             indent_level=0)
 
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='plot',
+            indent_level=0)
+
 
 def create_attrs_str(
         attrs_parent,
@@ -304,8 +332,9 @@ def create_attrs_str(
 
     for key, val in attrs_dict.items():
         if type(val) in [str, float, bool, int]:
-            attrs_str = attrs_str + \
-                indent_marker_objs + str(key) + ' : ' + str(val) + '\n'
+            if not key == 'attrs_str':
+                attrs_str = attrs_str + \
+                    indent_marker_objs + str(key) + ' : ' + str(val) + '\n'
         else:
             attrs_str = attrs_str + '\n' + getattr(attrs_parent, key).attrs_str
 
