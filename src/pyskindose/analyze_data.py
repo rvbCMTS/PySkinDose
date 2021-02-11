@@ -56,10 +56,11 @@ def analyze_data(
     if not plot_dose_map:
         return output
 
-    create_dose_map_plot(
-        patient=patient,
-        settings=settings,
-        dose_map=output[c.OUTPUT_KEY_DOSE_MAP],
-    )
+    if settings.mode == c.MODE_CALCULATE_DOSE:
+        create_dose_map_plot(
+            patient=patient,
+            settings=settings,
+            dose_map=output[c.OUTPUT_KEY_DOSE_MAP],
+        )
 
     return output
