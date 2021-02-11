@@ -141,7 +141,8 @@ def calculate_irradiation_event_result(
             pbar=pbar
         )
 
-        if event == total_events-1:
+        if event == total_events - 1:
             pbar.update()
+            pbar.refresh()
 
     return output
