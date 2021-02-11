@@ -11,10 +11,12 @@ DEVELOPMENT_PARAMETERS = dict(
     k_tab_val=0.8,
     # plot settings
     plot={
+        # toggle interactive/static dose map mode.
+        c.MODE_INTERACTIVITY: True,
         # dark mode for plots
         c.MODE_DARK_MODE: False,
         # notebook mode
-        c.MODE_NOTEBOOK_MODE: False,
+        c.MODE_NOTEBOOK_MODE: True,
         # choose if dosemap should be plotted after dose calculations.
         c.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
