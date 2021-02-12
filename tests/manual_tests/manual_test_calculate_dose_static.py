@@ -5,6 +5,7 @@ from pyskindose.settings_pyskindose import PyskindoseSettings
 
 settings = PyskindoseSettings(settings=DEVELOPMENT_PARAMETERS)
 settings.mode = constants.MODE_CALCULATE_DOSE
+settings.plot.interactivity = False
 settings.plot.plot_dosemap = True
 
 main(settings=settings)
