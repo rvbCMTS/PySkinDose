@@ -27,7 +27,10 @@ setup(
         'numpy-stl',
         'plotly==4.12',
         'scipy',
-        'tqdm'
+        'tqdm',
+        'psutil',
+        'pillow',
+
     ],
     include_package_data=True,
     zip_safe=False

@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
 pydocstyle = "*"
 black = "*"
 sphinx-rtd-theme = "*"
@@ -13,6 +12,7 @@ jupyterlab = "*"
 npm = "*"
 node = "*"
 pylama = "*"
+pytest = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}
@@ -21,6 +21,7 @@ myst-parser = "*"
 tqdm = "*"
 psutil = "*"
 pillow = "*"
+kaleido = "*"
 
 [requires]
 python_version = "3.7"
