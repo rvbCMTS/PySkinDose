@@ -18,10 +18,6 @@ pytest = "*"
 pyskindose = {editable = true,path = "."}
 sphinx = "*"
 myst-parser = "*"
-tqdm = "*"
-psutil = "*"
-pillow = "*"
-kaleido = "*"
 
 [requires]
 python_version = "3.7"
