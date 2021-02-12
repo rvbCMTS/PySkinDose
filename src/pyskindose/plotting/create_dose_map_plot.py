@@ -2,21 +2,26 @@ import numpy as np
 from PIL import Image
 import plotly.graph_objects as go
 
-from pyskindose import constants as c
 from pyskindose.phantom_class import Phantom
 from pyskindose.settings_pyskindose import PyskindoseSettings
 
 from ..constants import (
     DOSEMAP_COLORSCALE,
+    PHANTOM_MODEL_PLANE,
     PLOT_ASPECTMODE_PLOT_DOSEMAP,
+    PLOT_BASE_SIZE_STATIC,
     PLOT_EYE_BACK,
     PLOT_EYE_FRONT,
     PLOT_EYE_LEFT,
     PLOT_EYE_RIGHT,
+    PLOT_FILE_TYPE_STATIC,
     PLOT_FONT_FAMILY,
     PLOT_FONT_SIZE,
+    PLOT_GROUND_SHIFT_X_STATIC,
     PLOT_HOVERLABEL_FONT_FAMILY,
     PLOT_HOVERLABEL_FONT_SIZE,
+    PLOT_ORDER_STATIC,
+    PLOT_SHIFT_X_STATIC,
 )
 
 from .plot_settings import (
@@ -49,7 +54,7 @@ def create_dose_map_plot(
 
     """
     # Fix error with plotly layout for 2D plane patient.
-    if patient.phantom_model == c.PHANTOM_MODEL_PLANE:
+    if patient.phantom_model == PHANTOM_MODEL_PLANE:
         patient = Phantom(
             phantom_model=settings.phantom.model,
             phantom_dim=settings.phantom.dimension
@@ -161,9 +166,10 @@ def create_dose_map_plot(
             from tqdm import tqdm as pbar
 
         eyes = [
-            PLOT_EYE_LEFT, PLOT_EYE_BACK, PLOT_EYE_FRONT, PLOT_EYE_RIGHT]
+            PLOT_EYE_RIGHT, PLOT_EYE_BACK, PLOT_EYE_LEFT, PLOT_EYE_FRONT]
 
-        names = ['left', 'back', 'front', 'right']
+        names = PLOT_ORDER_STATIC
+        file_type_static = PLOT_FILE_TYPE_STATIC
 
         for i in pbar(range(len(eyes)), desc=f'saving static dosemaps: '):
             fig['layout']['scene']['camera'] = eyes[i]
@@ -174,12 +180,12 @@ def create_dose_map_plot(
             fig = go.Figure()
 
             # Constants
-            ground_shift_x = 50
+            ground_shift_x = PLOT_GROUND_SHIFT_X_STATIC
+            shift_x = PLOT_SHIFT_X_STATIC
+            base_size_static = PLOT_BASE_SIZE_STATIC
 
-            shift_x = [0*70, 1*70, 2*70, 3*70]
-
-            img_width = 297 + ground_shift_x / 4
-            img_height = 297 + ground_shift_x / 4
+            img_width = base_size_static + ground_shift_x / 4
+            img_height = base_size_static + ground_shift_x / 4
             nrows = 1
             ncols = 4
 
@@ -201,7 +207,7 @@ def create_dose_map_plot(
             placements = [placements[i] - shift_x[i]
                           for i in range(len(shift_x))]
 
-            images = ['right.png', 'back.png', 'left.png', 'front.png']
+            images = [name + file_type_static for name in names]
 
             for i in range(len(placements)):
 
@@ -245,6 +251,6 @@ def create_dose_map_plot(
 
         if not settings.plot.notebook_mode:
 
-            for image_file_name in [name + '.png' for name in names]:
+            for image_file_name in [name + file_type_static for name in names]:
                 im = Image.open(image_file_name)
                 im.show()
