@@ -12,7 +12,7 @@ from pyskindose.corrections import calculate_k_bs, calculate_k_tab
 from pyskindose.geom_calc import (
     check_new_geometry,
     fetch_and_append_hvl,
-    position_geometry,
+    position_patient_phantom_on_table,
 )
 from pyskindose.phantom_class import Phantom
 from pyskindose.settings_pyskindose import PyskindoseSettings
@@ -60,7 +60,7 @@ def calculate_dose(
     )
 
     # position objects in starting position
-    position_geometry(
+    position_patient_phantom_on_table(
             patient=patient, table=table, pad=pad,
             pad_thickness=settings.phantom.dimension.pad_thickness,
             patient_offset=[
