@@ -174,6 +174,7 @@ def create_dose_map_plot(
 
     if settings.plot.interactivity:
         fig.show()
+        return
 
     else:
 
@@ -266,8 +267,8 @@ def create_dose_map_plot(
 
             fig.show(config={'doubleClick': 'reset'})
 
-        if not settings.plot.notebook_mode:
+            return
 
-            for image_file_name in [name + file_type_static for name in names]:
-                im = Image.open(image_file_name)
-                im.show()
+        for image_file_name in [name + file_type_static for name in names]:
+            im = Image.open(image_file_name)
+            im.show()
