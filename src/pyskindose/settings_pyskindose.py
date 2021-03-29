@@ -78,14 +78,26 @@ class PyskindoseSettings:
         self.phantom = PhantomSettings(ptm_dim=tmp['phantom'])
         self.plot = Plotsettings(plt_dict=tmp['plot'])
 
-    def print_parameters(self):
+    def print_parameters(self, return_as_string: bool = False):
+        """Print entire parameter class to terminal.
 
-        self.phantom.patient_offset.update_attrs_str()        
+        Parameters
+        ----------
+        return_as_string : bool, optional
+            Return the print statement as a string, instead of printing it
+            to the terminal. The default is False.
+
+        """
+        self.phantom.patient_offset.update_attrs_str()
         self.phantom.dimension.update_attrs_str()
         self.phantom.update_attrs_str()
         self.plot.update_attrs_str()
 
-        main_attrs_str = create_attrs_str(attrs_parent=self, object_name='general', indent_level=0)
+        main_attrs_str = create_attrs_str(
+            attrs_parent=self, object_name='general', indent_level=0)
+
+        if return_as_string:
+            return main_attrs_str
 
         return print(main_attrs_str)
 
