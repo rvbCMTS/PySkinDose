@@ -176,99 +176,97 @@ def create_dose_map_plot(
         fig.show()
         return
 
+
+    if settings.plot.notebook_mode:
+        from tqdm import tqdm_notebook as pbar
     else:
+        from tqdm import tqdm as pbar
 
-        if settings.plot.notebook_mode:
-            from tqdm import tqdm_notebook as pbar
-        else:
-            from tqdm import tqdm as pbar
+    eyes = [
+        PLOT_EYE_RIGHT, PLOT_EYE_BACK, PLOT_EYE_LEFT, PLOT_EYE_FRONT]
 
-        eyes = [
-            PLOT_EYE_RIGHT, PLOT_EYE_BACK, PLOT_EYE_LEFT, PLOT_EYE_FRONT]
+    names = PLOT_ORDER_STATIC
+    file_type_static = PLOT_FILE_TYPE_STATIC
 
-        names = PLOT_ORDER_STATIC
-        file_type_static = PLOT_FILE_TYPE_STATIC
+    for i in pbar(range(len(eyes)), desc=f'saving static dosemaps: '):
+        fig['layout']['scene']['camera'] = eyes[i]
+        fig.write_image(f"{names[i]}.png")
 
-        for i in pbar(range(len(eyes)), desc=f'saving static dosemaps: '):
-            fig['layout']['scene']['camera'] = eyes[i]
-            fig.write_image(f"{names[i]}.png")
+    if settings.plot.notebook_mode:
 
-        if settings.plot.notebook_mode:
+        fig = go.Figure()
 
-            fig = go.Figure()
+        # Constants
+        ground_shift_x = PLOT_GROUND_SHIFT_X_STATIC
+        shift_x = PLOT_SHIFT_X_STATIC
+        base_size_static = PLOT_BASE_SIZE_STATIC
 
-            # Constants
-            ground_shift_x = PLOT_GROUND_SHIFT_X_STATIC
-            shift_x = PLOT_SHIFT_X_STATIC
-            base_size_static = PLOT_BASE_SIZE_STATIC
+        img_width = base_size_static + ground_shift_x / 4
+        img_height = base_size_static + ground_shift_x / 4
+        nrows = 1
+        ncols = 4
 
-            img_width = base_size_static + ground_shift_x / 4
-            img_height = base_size_static + ground_shift_x / 4
-            nrows = 1
-            ncols = 4
+        total_width = ncols * img_width - ground_shift_x
+        total_height = nrows * img_height
 
-            total_width = ncols * img_width - ground_shift_x
-            total_height = nrows * img_height
-
-            fig.add_trace(
-                go.Scatter(
-                    x=[0, total_width],
-                    y=[0,  img_height],
-                    mode="lines",
-                    visible=False
-                )
+        fig.add_trace(
+            go.Scatter(
+                x=[0, total_width],
+                y=[0,  img_height],
+                mode="lines",
+                visible=False
             )
+        )
 
-            placements = [0, 1, 2, 3]
-            placements = [img_width * place for place in placements]
-            placements = [place - ground_shift_x for place in placements]
-            placements = [placements[i] - shift_x[i]
-                          for i in range(len(shift_x))]
+        placements = [0, 1, 2, 3]
+        placements = [img_width * place for place in placements]
+        placements = [place - ground_shift_x for place in placements]
+        placements = [placements[i] - shift_x[i] for i in range(len(shift_x))]
 
-            images = [name + file_type_static for name in names]
+        images = [name + file_type_static for name in names]
 
-            for i in range(len(placements)):
+        for i in range(len(placements)):
 
-                source = Image.open(images[i])
+            source = Image.open(images[i])
 
-                # Add image
-                fig.add_layout_image(
-                    dict(
-                        x=placements[i],
-                        sizex=img_width,
-                        y=1*img_height,
-                        sizey=img_height,
-                        xref="x",
-                        yref="y",
-                        opacity=1,
-                        layer="above",
-                        sizing="stretch",
-                        source=source))
+            # Add image
+            fig.add_layout_image(
+                dict(
+                    x=placements[i],
+                    sizex=img_width,
+                    y=1*img_height,
+                    sizey=img_height,
+                    xref="x",
+                    yref="y",
+                    opacity=1,
+                    layer="above",
+                    sizing="stretch",
+                    source=source))
 
-            axes_visability = False
+        axes_visability = False
 
-            # Configure axes
-            fig.update_xaxes(
-                visible=axes_visability,
-                range=[0, total_width],
-            )
+        # Configure axes
+        fig.update_xaxes(
+            visible=axes_visability,
+            range=[0, total_width],
+        )
 
-            fig.update_yaxes(
-                visible=axes_visability,
-                range=[0, total_height],
-                scaleanchor="x"
-            )
+        fig.update_yaxes(
+            visible=axes_visability,
+            range=[0, total_height],
+            scaleanchor="x"
+        )
 
-            fig.update_layout(
-                width=total_width,
-                height=total_height,
-                margin={"l": 0, "r": 0, "t": 0, "b": 0},
-            )
+        fig.update_layout(
+            width=total_width,
+            height=total_height,
+            margin={"l": 0, "r": 0, "t": 0, "b": 0},
+        )
 
-            fig.show(config={'doubleClick': 'reset'})
+        fig.show(config={'doubleClick': 'reset'})
 
-            return
+        return
 
-        for image_file_name in [name + file_type_static for name in names]:
-            im = Image.open(image_file_name)
-            im.show()
+    for image_file_name in [name + file_type_static for name in names]:
+        im = Image.open(image_file_name)
+        im.show()
