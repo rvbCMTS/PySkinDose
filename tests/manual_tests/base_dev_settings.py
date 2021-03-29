@@ -18,7 +18,7 @@ DEVELOPMENT_PARAMETERS = dict(
         # notebook mode
         c.MODE_NOTEBOOK_MODE: False,
         # choose if dosemap should be plotted after dose calculations.
-        c.MODE_PLOT_DOSEMAP: True,
+        c.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
         c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE,
         # max number of event for inclusion of patient phantom in plot
