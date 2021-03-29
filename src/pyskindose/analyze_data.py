@@ -12,7 +12,6 @@ from pyskindose.settings_pyskindose import PyskindoseSettings
 def analyze_data(
     normalized_data: pd.DataFrame,
     settings: PyskindoseSettings,
-    plot_dose_map: Optional[bool] = False,
 ) -> Dict[str, Any]:
     """Analyze data och settings, and runs PySkinDose in desired mode.
 
@@ -22,8 +21,6 @@ def analyze_data(
         RDSR data, normalized for compliance with PySkinDose.
     settings : PyskindoseSettings
         Settings class for PySkinDose
-    plot_dose_map : Optional[bool], optional
-        Wheter or not to plot dose map, by default False
 
     Returns
     -------
@@ -53,14 +50,14 @@ def analyze_data(
         pad=pad
     )
 
-    if not plot_dose_map:
-        return output
+    # Fetch dose_map if calculate_dose has been executed
+    dose_map = output[c.OUTPUT_KEY_DOSE_MAP] if settings.mode \
+        == c.MODE_CALCULATE_DOSE else None
 
-    if settings.mode == c.MODE_CALCULATE_DOSE:
-        create_dose_map_plot(
-            patient=patient,
-            settings=settings,
-            dose_map=output[c.OUTPUT_KEY_DOSE_MAP],
-        )
+    create_dose_map_plot(
+        patient=patient,
+        settings=settings,
+        dose_map=dose_map
+    )
 
     return output

@@ -1,7 +1,9 @@
+import logging
 import numpy as np
 from PIL import Image
 import plotly.graph_objects as go
 
+from pyskindose import constants as c
 from pyskindose.phantom_class import Phantom
 from pyskindose.settings_pyskindose import PyskindoseSettings
 
@@ -30,6 +32,8 @@ from .plot_settings import (
     fetch_plot_size
     )
 
+logger = logging.getLogger(__name__)
+
 
 def create_dose_map_plot(
         patient: Phantom,
@@ -53,6 +57,19 @@ def create_dose_map_plot(
         corresponding skin cell of the patient.
 
     """
+    if not settings.plot.plot_dosemap:
+        logger.debug(
+            "Mode not set to plot dosemap. Returning without doing anything")
+        return
+
+    if dose_map is None:
+        logger.debug(
+            """Cannot plot dosemap since dose calculation has not been
+            conducted. Returning without doing anything."""
+        )
+        raise ValueError("""Dosemap is None. Mode must be set to calculate
+        dose in order to plot dosemap""")
+
     # Fix error with plotly layout for 2D plane patient.
     if patient.phantom_model == PHANTOM_MODEL_PLANE:
         patient = Phantom(
