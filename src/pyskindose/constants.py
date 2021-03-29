@@ -152,9 +152,17 @@ PLOT_ORDER_STATIC = ['right', 'back', 'left', 'front']
 PLOT_PROCEDURE_AXIS_RANGE_X = [-300, 300]
 PLOT_PROCEDURE_AXIS_RANGE_Y = [-300, 300]
 PLOT_PROCEDURE_AXIS_RANGE_Z = [-300, 300]
+
+# shift size of the entire image to the left to remove whitespace in plot
 PLOT_GROUND_SHIFT_X_STATIC = 50
+
+# shift size of each of the four subplots to hide all but 1 colorscale
 PLOT_SHIFT_X_STATIC = [0*70, 1*70, 2*70, 3*70]
+
+# size of each static subplot
 PLOT_BASE_SIZE_STATIC = 297
+
+
 PLOT_SOURCE_SIZE = 8
 PLOT_FILE_TYPE_STATIC = '.png'
 
