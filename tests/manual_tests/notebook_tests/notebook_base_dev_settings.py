@@ -4,7 +4,7 @@ DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
-    rdsr_filename='s1.dcm',
+    rdsr_filename='S1.dcm',
     # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
     # Numeric value of estimated table correction
