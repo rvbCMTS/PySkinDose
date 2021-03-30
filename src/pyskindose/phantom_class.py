@@ -113,10 +113,10 @@ class Phantom:
             # Linearly spaced points along the longitudinal direction
             x = np.linspace(-phantom_dim.plane_width / 2,
                             +phantom_dim.plane_width / 2,
-                            res_width * phantom_dim.plane_width + 1)
+                            int(res_width * phantom_dim.plane_width + 1))
             # Linearly spaced points along the lateral direction
             y = np.linspace(0, phantom_dim.plane_length,
-                            res_length * phantom_dim.plane_length)
+                            int(res_length * phantom_dim.plane_length))
 
             # Create phantom in form of rectangular grid
             x_plane, y_plane = np.meshgrid(x, y)
