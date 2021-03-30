@@ -55,13 +55,13 @@ DEVELOPMENT_PARAMETERS = dict(
             # Resolution of cylinder.
             c.DIMENSION_CYLINDER_RESOLUTION: c.RESOLUTION_SPARSE,
             # Support table length
-            c.DIMENSION_TABLE_LENGTH: 281.5,
+            c.DIMENSION_TABLE_LENGTH: 282,
             # Support table width
             c.DIMENSION_TABLE_WIDTH: 45,
             # Support table thickness
             c.DIMENSION_TABLE_THICKNESS: 5,
             # Support pad length
-            c.DIMENSION_PAD_LENGTH: 281.5,
+            c.DIMENSION_PAD_LENGTH: 282,
             # Support pad width
             c.DIMENSION_PAD_WIDTH: 45,
             # Support pad thickness
