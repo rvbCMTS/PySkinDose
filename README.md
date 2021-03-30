@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/rvbCMTS/PySkinDose/branch/master/graph/badge.svg?token=2O32UO12V6)](https://codecov.io/gh/rvbCMTS/PySkinDose)
+
 # pyskindose
 
 author: Max Hellström
