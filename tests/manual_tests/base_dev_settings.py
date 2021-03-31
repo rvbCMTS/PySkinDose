@@ -5,7 +5,6 @@ DEVELOPMENT_PARAMETERS = dict(
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
     rdsr_filename='s1.dcm',
-    # Irrading event index for mode='plot_event'
     estimate_k_tab=False,
     # Numeric value of estimated table correction
     k_tab_val=0.8,
