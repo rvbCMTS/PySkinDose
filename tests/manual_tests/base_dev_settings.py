@@ -4,14 +4,15 @@ DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
-    rdsr_filename='s1.dcm',
+    rdsr_filename='S1.dcm',
+    # Irrading event index for mode='plot_event'
+    plot_event_index=12,
+    # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
     # Numeric value of estimated table correction
     k_tab_val=0.8,
     # plot settings
     plot={
-        # toggle interactive/static dose map mode.
-        c.MODE_INTERACTIVITY: True,
         # dark mode for plots
         c.MODE_DARK_MODE: True,
         # notebook mode
