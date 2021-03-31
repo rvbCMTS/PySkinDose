@@ -7,7 +7,6 @@ import pyskindose.constants as c
 test_path = Path(__file__).parent.parent
 sys.path.insert(1, str(test_path.absolute()))
 
-# There must be a better way to do this?
 phantom_path = Path(__file__).parent.parent.parent / \
     'src' / 'pyskindose' / 'phantom_data'
 
