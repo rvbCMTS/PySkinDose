@@ -253,21 +253,13 @@ class Phantom:
                      [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
                       0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
 
+            # Lateral position of the vertices
             y_tab = [index * phantom_dim.table_thickness for index in
                      [0, 0, 0, 0, 0, 0, 0, 0, +1, +1, +1, +1, +1, +1, +1, +1]]
 
             # Vertical position of the vertices
             z_tab = [index * phantom_dim.table_length for index in
                      [0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1]]
-
-            # Lateral position of the vertices. Replace the list z-list with
-            #z_tab = [index * phantom_dim.table_length for index in
-            #         [-0.1, -0.1, 0, 0, -0.1, -0.1, -1, -1,
-            #             -0.1, -0.1, 0, 0, -0.1, -0.1, -1, -1]]
-            # in order to clearly visualize the head-end of the table. Note
-            # that this extra segment is not included in table correction
-            # calculations (k_tab).
-
 
             # Create index vectors for plotly mesh3d plotting
             i_tab = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
@@ -297,14 +289,6 @@ class Phantom:
             # Vertical position of the vertices
             z_pad = [index * phantom_dim.pad_length for index in
                      [0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1]]
-
-            # Lateral position of the vertices. Replace the list z list with
-            # z_pad = [index * phantom_dim.table_length for index in
-            #          [-0.1, -0.1, 0, 0, -0.1, -0.1, -1, -1,
-            #           -0.1, -0.1, 0, 0, -0.1, -0.1, -1, -1]]
-            # in order to clearly visualize the head-end of the table. Note
-            # that this extra segment is not included in table correction
-            # calculations (k_tab).
 
             # Create index vectors for plotly mesh3d plotting
             i_pad = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
