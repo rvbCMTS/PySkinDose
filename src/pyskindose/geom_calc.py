@@ -55,7 +55,7 @@ def position_patient_phantom_on_table(
         patient_offset: List[int],
         patient_orientation: c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE
                     ) -> None:
-    """Manual positioning of the phantom upon the patient support table.
+    """Places the patient phantom upon the patient support table.
 
     In this function, the patient phantom is positioned to the starting
     position for the procedure. This is done by rotating and translating the
