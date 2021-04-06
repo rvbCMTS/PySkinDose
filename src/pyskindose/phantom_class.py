@@ -9,6 +9,8 @@ from stl import mesh
 from typing import Dict, List, Optional
 
 from .settings_pyskindose import PhantomDimensions
+from pyskindose.plotting.create_ploty_ijk_indices import \
+    _create_plotly_ijk_indices_for_cuboid_objects
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
@@ -232,26 +234,20 @@ class Phantom:
         elif phantom_model == "table":
             # Longitudinal position of the the vertices
             x_tab = [index * phantom_dim.table_width for index in
-                     [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
-                      0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
-
-            # Lateral position of the vertices
-            y_tab = [index * phantom_dim.table_thickness for index in
-                     [0, 0, 0, 0, 0, 0, 0, 0, +1, +1, +1, +1, +1, +1, +1, +1]]
+                     [+0.5, +0.5, -0.5, -0.5,
+                      +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
+            y_tab = [index * phantom_dim.table_thickness for index in
+                     [0, 0, 0, 0, +1, +1, +1, +1]]
+
+            # Lateral position of the vertices
             z_tab = [index * phantom_dim.table_length for index in
-                     [0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1]]
+                     [0, -1, -1, 0, 0, -1, -1, 0]]
 
             # Create index vectors for plotly mesh3d plotting
-            i_tab = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
-                     1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
-
-            j_tab = [5, 6, 2, 3, 13, 14, 10, 11, 7, 15, 1, 9,
-                     2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15]
-
-            k_tab = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
-                     9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
+            i_tab, j_tab, k_tab = \
+                _create_plotly_ijk_indices_for_cuboid_objects()
 
             self.r = np.column_stack((x_tab, y_tab, z_tab))
             self.ijk = np.column_stack((i_tab, j_tab, k_tab))
@@ -261,26 +257,20 @@ class Phantom:
 
             # Longitudinal position of the the vertices
             x_pad = [index * phantom_dim.pad_width for index in
-                     [0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5,
-                      0.5, 0.25, 0.25, -0.25, -0.25, -0.5, -0.5, 0.5]]
-
-            # Lateral position of the the vertices
-            y_pad = [index * phantom_dim.pad_thickness for index in
-                     [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1]]
+                     [+0.5, +0.5, -0.5, -0.5,
+                      +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
+            y_pad = [index * phantom_dim.pad_thickness for index in
+                     [0, 0, 0, 0, -1, -1, -1, -1]]
+
+            # Lateral position of the the vertices
             z_pad = [index * phantom_dim.pad_length for index in
-                     [0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1]]
+                     [0, -1, -1, 0, 0, -1, -1, 0]]
 
             # Create index vectors for plotly mesh3d plotting
-            i_pad = [0, 0, 1, 1, 8, 8, 9, 9, 0, 7, 0, 1,
-                     1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7]
-
-            j_pad = [5, 6, 2, 3, 13, 14, 10, 11, 7, 15, 1, 9,
-                     2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15]
-
-            k_pad = [6, 7, 3, 4, 14, 15, 11, 12, 8, 8, 8, 8,
-                     9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14]
+            i_pad, j_pad, k_pad = \
+                _create_plotly_ijk_indices_for_cuboid_objects()
 
             self.r = np.column_stack((x_pad, y_pad, z_pad))
             self.ijk = np.column_stack((i_pad, j_pad, k_pad))
