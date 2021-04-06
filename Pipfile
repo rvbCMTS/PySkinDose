@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
 pydocstyle = "*"
 black = "*"
 sphinx-rtd-theme = "*"
@@ -13,12 +12,12 @@ jupyterlab = "*"
 npm = "*"
 node = "*"
 pylama = "*"
+pytest = "*"
 
 [packages]
 pyskindose = {editable = true,path = "."}
 sphinx = "*"
 myst-parser = "*"
-tqdm = "*"
 
 [requires]
 python_version = "3.7"

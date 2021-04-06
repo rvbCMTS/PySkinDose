@@ -48,8 +48,7 @@ def main(
 
     _ = analyze_data(
         normalized_data=data_norm,
-        settings=settings,
-        plot_dose_map=settings.plot.plot_dosemap)
+        settings=settings)
 
 
 def _parse_settings_to_settings_class(settings: Optional[str] = None):

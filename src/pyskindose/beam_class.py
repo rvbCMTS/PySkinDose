@@ -14,6 +14,7 @@ class Beam:
         pyramid shaped X-ray beam, where the apex represents the X-ray focus
         (row 1) and the vertices where the beam intercepts the X-ray detector
         (row 2-5)
+
     ijk : np.array
         A matrix containing vertex indices. This is required in order to
         plot the beam using plotly Mesh3D. For more info, see "i", "j", and "k"

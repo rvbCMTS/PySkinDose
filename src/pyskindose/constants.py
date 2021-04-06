@@ -99,6 +99,7 @@ MODE_PLOT_PROCEDURE = "plot_procedure"
 MODE_PLOT_SETUP = "plot_setup"
 MODE_PLOT_DOSEMAP = 'plot_dosemap'
 MODE_DARK_MODE = "dark_mode"
+MODE_INTERACTIVITY = 'interactivity'
 
 OUTPUT_KEY_CORRECTION_BACK_SCATTER = "k_bs"
 OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW = "k_isq"
@@ -146,12 +147,24 @@ PLOT_ASPECTMODE_SETUP_AND_EVENT = 'data'
 PLOT_ASPECTMODE_PLOT_DOSEMAP = 'data'
 
 PLOT_ASPECTMODE_PLOT_PROCEDURE = 'cube'
+PLOT_ORDER_STATIC = ['right', 'back', 'left', 'front']
 
 PLOT_PROCEDURE_AXIS_RANGE_X = [-300, 300]
 PLOT_PROCEDURE_AXIS_RANGE_Y = [-300, 300]
 PLOT_PROCEDURE_AXIS_RANGE_Z = [-300, 300]
 
+# shift size of the entire image to the left to remove whitespace in plot
+PLOT_GROUND_SHIFT_X_STATIC = 50
+
+# shift size of each of the four subplots to hide all but 1 colorscale
+PLOT_SHIFT_X_STATIC = [0*70, 1*70, 2*70, 3*70]
+
+# size of each static subplot
+PLOT_BASE_SIZE_STATIC = 297
+
+
 PLOT_SOURCE_SIZE = 8
+PLOT_FILE_TYPE_STATIC = '.png'
 
 PLOT_LIGHTNING_DIFFUSE = 0.5
 PLOT_LIGHTNING_AMBIENT = 0.5
@@ -168,6 +181,12 @@ PLOT_WIDTH = None
 
 PLOT_MARGIN_NOTEBOOK = dict(l=5, r=5, b=5, t=40)
 PLOT_MARGIN = dict(l=0, r=0, b=100, t=40)
+
+# plot camera angles for static dosemaps
+PLOT_EYE_BACK = dict(eye=dict(x=0, y=+2.5, z=0))
+PLOT_EYE_FRONT = dict(eye=dict(x=0, y=-2.5, z=0))
+PLOT_EYE_LEFT = dict(eye=dict(x=2.5, y=+1.5, z=0))
+PLOT_EYE_RIGHT = dict(eye=dict(x=-2.5, y=+1.5, z=0))
 
 
 OFFSET_LATERAL_KEY = 'd_lat'
