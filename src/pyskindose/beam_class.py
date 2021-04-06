@@ -184,7 +184,7 @@ class Beam:
         """Calculate which patient entrance skin cells are hit by the beam.
 
         A description of this algoritm is presented in the wiki, please visit
-        https://dev.azure.com/Sjukhusfysiker/PySkinDose/_wiki
+        https://pyskindose.readthedocs.io/en/latest/
 
         Parameters
         ----------
