@@ -29,7 +29,7 @@ setup(
         'scipy',
         'tqdm',
         'psutil',
-        'pillow',
+        'pillow >= 8.1.1',
         'kaleido',
     ],
     include_package_data=True,
