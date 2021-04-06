@@ -35,7 +35,6 @@ def create_wireframes(beam: Beam, table: Phantom, pad: Phantom,
         Set the visibility of each of the wireframe traces
 
     """
-    # The following section creates a wireframe plot for the X-ray beam
     wf_beam = _create_beam_wireframe(
             beam=beam, line_width=line_width, visible=visible)
 
@@ -59,21 +58,23 @@ def create_wireframes(beam: Beam, table: Phantom, pad: Phantom,
 
 def _create_beam_wireframe(
         beam: Beam, line_width: int, visible: bool) -> go.Scatter3d:
+    # This funciton creates a wireframe plot for the X-ray beam
 
-    temp_x = [beam.r[0, 0], beam.r[1, 0], beam.r[0, 0], beam.r[2, 0],
-              beam.r[0, 0], beam.r[3, 0], beam.r[0, 0], beam.r[4, 0],
-              beam.r[1, 0], beam.r[2, 0], beam.r[3, 0], beam.r[4, 0],
-              beam.r[1, 0]]
+    x = beam.r[:, 0].tolist()
+    y = beam.r[:, 1].tolist()
+    z = beam.r[:, 2].tolist()
 
-    temp_y = [beam.r[0, 1], beam.r[1, 1], beam.r[0, 1], beam.r[2, 1],
-              beam.r[0, 1], beam.r[3, 1], beam.r[0, 1], beam.r[4, 1],
-              beam.r[1, 1], beam.r[2, 1], beam.r[3, 1], beam.r[4, 1],
-              beam.r[1, 1]]
+    temp_x = []
+    temp_y = []
+    temp_z = []
 
-    temp_z = [beam.r[0, 2], beam.r[1, 2], beam.r[0, 2], beam.r[2, 2],
-              beam.r[0, 2], beam.r[3, 2], beam.r[0, 2], beam.r[4, 2],
-              beam.r[1, 2], beam.r[2, 2], beam.r[3, 2], beam.r[4, 2],
-              beam.r[1, 2]]
+    # plot trace order (trace out path of wireframe by index of each point)
+    trace_order = [0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 1, 4, 0]
+    # connect trace
+    for trace in trace_order:
+        temp_x.append(x[trace])
+        temp_y.append(y[trace])
+        temp_z.append(z[trace])
 
     return _create_wireframe_scatter3d(x=temp_x, y=temp_y, z=temp_z,
                                        line_width=line_width, visible=visible,
@@ -86,34 +87,23 @@ def _create_phantom_object_wireframe(
         line_width: int,
         visible: bool
         ) -> go.Scatter3d:
+    # This funciton creates a wireframe plot for the X-ray table or pad
 
-    # The following section creates a wireframe plot for the support table
-    x1 = obj.r[0:8, 0].tolist() + [obj.r[0, 0]]
-    y1 = obj.r[0:8, 1].tolist() + [obj.r[0, 1]]
-    z1 = obj.r[0:8, 2].tolist() + [obj.r[0, 2]]
+    x = obj.r[:, 0].tolist()
+    y = obj.r[:, 1].tolist()
+    z = obj.r[:, 2].tolist()
 
-    x2 = obj.r[8:16, 0].tolist() + [obj.r[8, 0]]
-    y2 = obj.r[8:16, 1].tolist() + [obj.r[8, 1]]
-    z2 = obj.r[8:16, 2].tolist() + [obj.r[8, 2]]
+    temp_x = []
+    temp_y = []
+    temp_z = []
 
-    x3 = [obj.r[8, 0], obj.r[9, 0], obj.r[10, 0], obj.r[2, 0],
-          obj.r[3, 0], obj.r[11, 0], obj.r[12, 0], obj.r[13, 0],
-          obj.r[5, 0], obj.r[6, 0], obj.r[14, 0], obj.r[15, 0],
-          obj.r[7, 0]]
-
-    y3 = [obj.r[8, 1], obj.r[9, 1], obj.r[10, 1], obj.r[2, 1],
-          obj.r[3, 1], obj.r[11, 1], obj.r[12, 1], obj.r[13, 1],
-          obj.r[5, 1], obj.r[6, 1], obj.r[14, 1], obj.r[15, 1],
-          obj.r[7, 1]]
-
-    z3 = [obj.r[8, 2], obj.r[9, 2], obj.r[10, 2], obj.r[2, 2],
-          obj.r[3, 2], obj.r[11, 2], obj.r[12, 2], obj.r[13, 2],
-          obj.r[5, 2], obj.r[6, 2], obj.r[14, 2], obj.r[15, 2],
-          obj.r[7, 2]]
-
-    temp_x = x1 + x2 + x3
-    temp_y = y1 + y2 + y3
-    temp_z = z1 + z2 + z3
+    # plot trace order (trace out path of wireframe by index of each point)
+    trace_order = [0, 4, 5, 1, 0, 3, 7, 4, 7, 6, 5, 1, 2, 3, 2, 6]
+    # connect trace
+    for trace in trace_order:
+        temp_x.append(x[trace])
+        temp_y.append(y[trace])
+        temp_z.append(z[trace])
 
     return _create_wireframe_scatter3d(x=temp_x, y=temp_y, z=temp_z,
                                        line_width=line_width, visible=visible,
@@ -122,30 +112,24 @@ def _create_phantom_object_wireframe(
 
 def _create_detector_wire_frame(
         beam: Beam, line_width: int, visible: bool) -> go.Scatter3d:
+    # This funciton creates a wireframe plot for the X-ray detector
 
-    x1 = beam.det_r[0:4, 0].tolist() + [beam.det_r[0, 0]]
-    y1 = beam.det_r[0:4, 1].tolist() + [beam.det_r[0, 1]]
-    z1 = beam.det_r[0:4, 2].tolist() + [beam.det_r[0, 2]]
+    x = beam.det_r[:, 0].tolist()
+    y = beam.det_r[:, 1].tolist()
+    z = beam.det_r[:, 2].tolist()
 
-    x2 = beam.det_r[4:8, 0].tolist() + [beam.det_r[4, 0]]
-    y2 = beam.det_r[4:8, 1].tolist() + [beam.det_r[4, 1]]
-    z2 = beam.det_r[4:8, 2].tolist() + [beam.det_r[4, 2]]
+    temp_x = []
+    temp_y = []
+    temp_z = []
 
-    x3 = [beam.det_r[4, 0], beam.det_r[5, 0], beam.det_r[1, 0],
-          beam.det_r[2, 0], beam.det_r[6, 0], beam.det_r[7, 0],
-          beam.det_r[3, 0]]
-
-    y3 = [beam.det_r[4, 1], beam.det_r[5, 1], beam.det_r[1, 1],
-          beam.det_r[2, 1], beam.det_r[6, 1], beam.det_r[7, 1],
-          beam.det_r[3, 1]]
-
-    z3 = [beam.det_r[4, 2], beam.det_r[5, 2], beam.det_r[1, 2],
-          beam.det_r[2, 2], beam.det_r[6, 2], beam.det_r[7, 2],
-          beam.det_r[3, 2]]
-
-    temp_x = x1 + x2 + x3
-    temp_y = y1 + y2 + y3
-    temp_z = z1 + z2 + z3
+    # plot trace order (trace out path of wireframe by index of each point)
+    trace_order = [
+        0, 0 + 4, 0, 1, 1 + 4, 1, 2, 2 + 4, 2, 3, 3 + 4, 3, 0, 4, 5, 6, 7, 4]
+    # connect trace
+    for trace in trace_order:
+        temp_x.append(x[trace])
+        temp_y.append(y[trace])
+        temp_z.append(z[trace])
 
     return _create_wireframe_scatter3d(x=temp_x, y=temp_y, z=temp_z,
                                        line_width=line_width, visible=visible,

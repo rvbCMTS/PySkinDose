@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pyskindose import constants as c, position_geometry
+from pyskindose import constants as c, position_patient_phantom_on_table
 from pyskindose.phantom_class import Phantom
 from pyskindose.settings_pyskindose import PyskindoseSettings
 from pyskindose.plotting.plot_geometry import plot_geometry
@@ -40,7 +40,7 @@ def create_geometry_plot(normalized_data: pd.DataFrame, table: Phantom, pad: Pha
         human_mesh=settings.phantom.human_mesh)
 
     # position objects in starting position
-    position_geometry(
+    position_patient_phantom_on_table(
         patient=patient, table=table, pad=pad,
         pad_thickness=settings.phantom.dimension.pad_thickness,
         patient_offset=[
