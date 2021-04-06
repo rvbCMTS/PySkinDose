@@ -9,6 +9,7 @@ from .phantom_class import Phantom
 
 logger = logging.getLogger(__name__)
 
+
 def calculate_field_size(field_size_mode, data_parsed, data_norm):
     """Calculate X-ray field size at image recepter plane.
 
@@ -406,13 +407,13 @@ def check_table_hits(source: np.array, table: Phantom, beam,
     # Create triangles:
 
     # Define edges of table (see illustration in project documentation)
-    a = table.r[6, :]
-    a1 = table.r[7, :]
-    a2 = table.r[5, :]
+    a = table.r[0 + 4, :]
+    a1 = table.r[3 + 4, :]
+    a2 = table.r[1 + 4, :]
 
-    b = table.r[0, :]
-    b1 = table.r[5, :]
-    b2 = table.r[7, :]
+    b = table.r[2 + 4, :]
+    b1 = table.r[1 + 4, :]
+    b2 = table.r[3 + 4, :]
 
     # triangle spanning the "top right" part of the support table
     # (viewed from above)
