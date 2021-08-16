@@ -71,7 +71,7 @@ html_static_path = ['_static']
 
 
 def setup(app):
-    app.add_stylesheet("my-styles.css")
+    app.add_css_file("my-styles.css")
 
 
 add_module_names = False
