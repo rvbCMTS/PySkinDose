@@ -108,16 +108,6 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                     else:
                         data_parsed_dict[tag] = xray_event_content.TextValue
 
-                elif KEY_RDSR_DATE_TIME in xray_event_content:
-                    if tag in data_parsed_dict.keys():
-                        data_parsed_dict[tag] = (
-                            [data_parsed_dict[tag],
-                             dt.strptime(str(round(float(
-                                 xray_event_content.DateTime))),
-                                         '%Y%m%d%H%M%S')])
-                    else:
-                        data_parsed_dict[tag] = dt.strptime(str(round(float(
-                            xray_event_content.DateTime))), '%Y%m%d%H%M%S')
 
                 elif KEY_RDSR_UID in xray_event_content:
                     if tag in data_parsed_dict.keys():
@@ -148,24 +138,6 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                                 data_parsed_dict[tag] = (
                                     xray_event_subcontent.
                                     ConceptCodeSequence[0].CodeMeaning)
-
-                        elif KEY_RDSR_DATE_TIME in xray_event_subcontent:
-
-                            if tag in data_parsed_dict.keys():
-                                data_parsed_dict[tag] = (
-                                    [data_parsed_dict[tag],
-                                     dt.strptime(
-                                         str(
-                                             round(float(xray_event_subcontent.
-                                                         DateTime))),
-                                         '%Y%m%d%H%M%S')])
-                            else:
-                                data_parsed_dict[tag] = (
-                                    dt.strptime(
-                                        str(round(float(
-                                            xray_event_subcontent.
-                                            DateTime))),
-                                        '%Y%m%d%H%M%S'))
 
                         elif KEY_RDSR_TEXT_VALUE in xray_event_subcontent:
 

@@ -1,20 +1,27 @@
-# PySkinDose
+Welcome to PySkinDose's documentation!
+======================================
 
-Welcome!
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
-PySkinDose is an __open-source framework for RDSR-based skin-dose mapping with fluoroscopic procedures__.
+   user/description.rst
+   user/install.md
+   user/get_started.rst
+   user/contribute.rst
 
-```{toctree}
----
-maxdepth: 2
-caption: Contents
----
-user/install.md
-user/static_plots.md
-user/interactive_plots.rst
-```
+   pyskindose
 
-# License
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+
+License
+=======
 
 **MIT License**
 

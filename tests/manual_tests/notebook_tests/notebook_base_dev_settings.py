@@ -4,24 +4,26 @@ DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
-    rdsr_filename='s1.dcm',
+    rdsr_filename='S1.dcm',
     # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
     # Numeric value of estimated table correction
     k_tab_val=0.8,
     # plot settings
     plot={
+        # toggle interactive/static dose map mode.
+        c.MODE_INTERACTIVITY: True,
         # dark mode for plots
         c.MODE_DARK_MODE: False,
         # notebook mode
-        c.MODE_NOTEBOOK_MODE: False,
+        c.MODE_NOTEBOOK_MODE: True,
         # choose if dosemap should be plotted after dose calculations.
         c.MODE_PLOT_DOSEMAP: False,
         # colorscale for dosemaps
         c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE,
         # max number of event for inclusion of patient phantom in plot
         # procedure
-        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 200,
+        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 0,
         # Irrading event index for mode='plot_event'
         c.PLOT_EVENT_INDEX_KEY: 12},
     # Phantom settings:
@@ -53,13 +55,13 @@ DEVELOPMENT_PARAMETERS = dict(
             # Resolution of cylinder.
             c.DIMENSION_CYLINDER_RESOLUTION: c.RESOLUTION_SPARSE,
             # Support table length
-            c.DIMENSION_TABLE_LENGTH: 281.5,
+            c.DIMENSION_TABLE_LENGTH: 282,
             # Support table width
             c.DIMENSION_TABLE_WIDTH: 45,
             # Support table thickness
             c.DIMENSION_TABLE_THICKNESS: 5,
             # Support pad length
-            c.DIMENSION_PAD_LENGTH: 281.5,
+            c.DIMENSION_PAD_LENGTH: 282,
             # Support pad width
             c.DIMENSION_PAD_WIDTH: 45,
             # Support pad thickness

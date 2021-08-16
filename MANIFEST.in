@@ -2,3 +2,4 @@ include src/pyskindose/settings_example.json
 include src/pyskindose/table_data/*.csv
 include src/pyskindose/phantom_data/*.stl
 include src/pyskindose/example_data/RDSR/*.dcm
+include src/pyskindose/normalization_settings.json

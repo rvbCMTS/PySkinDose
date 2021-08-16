@@ -4,7 +4,7 @@ DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
-    rdsr_filename='s1.dcm',
+    rdsr_filename='S1.dcm',
     # Irrading event index for mode='plot_event'
     plot_event_index=12,
     # Set True to estimate table correction, or False to use measured k_tab
@@ -23,7 +23,7 @@ DEVELOPMENT_PARAMETERS = dict(
         c.DOSEMAP_COLORSCALE_KEY: c.DOSEMAP_COLORSCALE,
         # max number of event for inclusion of patient phantom in plot
         # procedure
-        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 200,
+        c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 0,
         # Irrading event index for mode='plot_event'
         c.PLOT_EVENT_INDEX_KEY: 12},
     # Phantom settings:
