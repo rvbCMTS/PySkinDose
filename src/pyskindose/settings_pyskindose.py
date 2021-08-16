@@ -29,7 +29,7 @@ class PyskindoseSettings:
         mode = "plot_setup" plots the geometry (patient, table, pad and beam
         in starting position, i.e., before any RDSR data has been added.) This
         is useful for debugging and when manually fixating the patient phantom
-        with the function "position_geometry".
+        with the function "position_patient_phantom_on_table".
 
         mode = "plot_event" plots the geometry for a specific irradiation event
         with index = event.
@@ -71,11 +71,35 @@ class PyskindoseSettings:
             tmp = settings
 
         self.mode = tmp[KEY_PARAM_MODE]
+        self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
-        self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
+
         self.phantom = PhantomSettings(ptm_dim=tmp['phantom'])
         self.plot = Plotsettings(plt_dict=tmp['plot'])
+
+    def print_parameters(self, return_as_string: bool = False):
+        """Print entire parameter class to terminal.
+
+        Parameters
+        ----------
+        return_as_string : bool, optional
+            Return the print statement as a string, instead of printing it
+            to the terminal. The default is False.
+
+        """
+        self.phantom.patient_offset.update_attrs_str()
+        self.phantom.dimension.update_attrs_str()
+        self.phantom.update_attrs_str()
+        self.plot.update_attrs_str()
+
+        main_attrs_str = create_attrs_str(
+            attrs_parent=self, object_name='general', indent_level=0)
+
+        if return_as_string:
+            return main_attrs_str
+
+        return print(main_attrs_str)
 
 
 class PhantomSettings:
@@ -118,9 +142,21 @@ class PhantomSettings:
 
         self.model = ptm_dim[KEY_PARAM_PHANTOM_MODEL]
         self.human_mesh = ptm_dim[KEY_PARAM_HUMAN_MESH]
-        self.patient_offset = PatientOffset(offset=ptm_dim["patient_offset"])
         self.patient_orientation = ptm_dim["patient_orientation"]
+        self.patient_offset = PatientOffset(offset=ptm_dim["patient_offset"])
         self.dimension = PhantomDimensions(ptm_dim=ptm_dim['dimension'])
+
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='phantom',
+            indent_level=0)
+        return
+
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='phantom',
+            indent_level=0)
 
 
 class PhantomDimensions:
@@ -177,6 +213,17 @@ class PhantomDimensions:
         for dimension in ptm_dim.keys():
             setattr(self, dimension, ptm_dim[dimension])
 
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='dimensions',
+            indent_level=1)
+
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='dimension',
+            indent_level=1)
+
 
 class PatientOffset:
     """A class for setting patient - table offset.
@@ -217,12 +264,28 @@ class PatientOffset:
         self.d_ver = offset[OFFSET_VERTICAL_KEY]
         self.d_lon = offset[OFFSET_LONGITUDINAL_KEY]
 
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='patient offset',
+            indent_level=1)
+
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='patient offset',
+            indent_level=1)
 
 class Plotsettings:
     """A class for setting plot settings.
 
     Attributes
     ----------
+    interactivity : bool
+        Toggle for interactive mode when plotting dosemaps. If True,
+        the dosemap will be plotted in a .html file with full interactivity.
+        If False, the dosemap will be saved as static images. Static mode is
+        provided to enable PySkinDose to run smooth on machines with limited
+        RAM.
     dark_mode : bool
         dark mode boolean
     notebook_mode : bool
@@ -252,3 +315,39 @@ class Plotsettings:
         """
         for key in plt_dict.keys():
             setattr(self, key, plt_dict[key])
+
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='plot',
+            indent_level=0)
+
+    def update_attrs_str(self):
+        self.attrs_str = create_attrs_str(
+            attrs_parent=self,
+            object_name='plot',
+            indent_level=0)
+
+
+def create_attrs_str(
+        attrs_parent,
+        object_name,
+        indent_level,
+        indent_size=4,
+        indent_sign=' '):
+
+    attrs_dict = vars(attrs_parent)
+
+    indent_marker_title = (indent_level) * indent_size * indent_sign
+    indent_marker_objs = indent_marker_title + indent_size * indent_sign
+
+    attrs_str = indent_marker_title + object_name + '\n'
+
+    for key, val in attrs_dict.items():
+        if type(val) in [str, float, bool, int]:
+            if not key == 'attrs_str':
+                attrs_str = attrs_str + \
+                    indent_marker_objs + str(key) + ' : ' + str(val) + '\n'
+        else:
+            attrs_str = attrs_str + '\n' + getattr(attrs_parent, key).attrs_str
+
+    return attrs_str

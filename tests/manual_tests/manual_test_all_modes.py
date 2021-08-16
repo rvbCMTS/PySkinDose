@@ -1,11 +1,13 @@
 import manual_test_plot_setup
 import manual_test_plot_event
+import manual_test_calculate_dose_static
+import manual_test_calculate_dose_interactive
 import manual_test_plot_procedure
-import manual_test_calculate_dose
 
 manual_test_plot_setup
 manual_test_plot_event
 manual_test_plot_procedure
-manual_test_calculate_dose
+manual_test_calculate_dose_static
+manual_test_calculate_dose_interactive
 
 print('all modes executed')
