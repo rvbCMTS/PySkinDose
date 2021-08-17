@@ -1,0 +1,11 @@
+pydocstyle
+sphinx-rtd-theme
+ipywidgets>=7.5
+jupyterlab
+npm
+node
+pylama
+pytest
+sphinx
+myst-parser
+-e .

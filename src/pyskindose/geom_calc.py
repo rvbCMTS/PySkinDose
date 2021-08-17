@@ -58,7 +58,7 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
 
 
 
-def position_geometry(
+def position_patient_phantom_on_table(
         patient: Phantom,
         table: Phantom,
         pad: Phantom,
@@ -66,14 +66,11 @@ def position_geometry(
         patient_offset: List[int],
         patient_orientation: c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE
                     ) -> None:
-    """Manual positioning of the phantoms before procedure starts.
+    """Places the patient phantom upon the patient support table.
 
-    In this function, the patient phantom, support table, and pad are
-    positioned to the starting position for the procedure. This is done by
-    rotating and translating the patient, table and pad phantoms so that
-    the correct starting position is achieved. Currently, the patient is
-    assumed to lie in supine position. The effect of this positioning can be
-    displayed by running mode == "plot_setup" in main.py.
+    In this function, the patient phantom is positioned to the starting
+    position for the procedure. This is done by rotating and translating the
+    patient so that the correct starting position is achieved.
 
     Parameters
     ----------
@@ -94,31 +91,24 @@ def position_geometry(
         c.PATIENT_ORIENTATION_FEET_FIRST_SUPINE.
 
     """
-    # rotate 90 deg about LON axis to get head end in positive LAT direction,
-    # i.e. in head first supine position.
-    table.rotate(angles=[90, 0, 0])
-    pad.rotate(angles=[90, 0, 0])
-    patient.rotate(angles=[90, 0, 0])
 
     # if feet-first, rotate patient 180 degrees about y-axis
     if patient_orientation == c.PATIENT_ORIENTATION_FEET_FIRST_SUPINE:
+
+        offset_to_rotation_center = abs(patient.r[:, 2].min()) / 2
+
+        patient.translate(dr=[0, 0, + offset_to_rotation_center])
         patient.rotate(angles=[0, 180, 0])
+        patient.translate(dr=[0, 0, - offset_to_rotation_center])
 
-    # translate to get origin centered along the head end of the table
-    table.translate(dr=[0, 0, -max(table.r[:, 2])])
-    pad.translate(dr=[0, 0, -max(pad.r[:, 2])])
-    patient.translate(dr=[0, 0, -max(patient.r[:, 2])])
-
-    # place phantom directly on top of the pad
-    patient.translate(dr=[0, -(max(patient.r[:, 1] + pad_thickness)), 0])
-
-    # offset patient 15 cm from head end
+    # place the phantom on top of the support pad
+    patient.translate(dr=[0, -pad_thickness, 0])
+    # add user specified patient offset
     patient.translate(dr=patient_offset)
 
     # Save reference table position:
-    table.save_position()
-    pad.save_position()
-    patient.save_position()
+    for phantom in [table, pad, patient]:
+        phantom.save_position()
 
 
 def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
@@ -427,13 +417,13 @@ def check_table_hits(source: np.array, table: Phantom, beam,
     # Create triangles:
 
     # Define edges of table (see illustration in project documentation)
-    a = table.r[6, :]
-    a1 = table.r[7, :]
-    a2 = table.r[5, :]
+    a = table.r[0 + 4, :]
+    a1 = table.r[3 + 4, :]
+    a2 = table.r[1 + 4, :]
 
-    b = table.r[0, :]
-    b1 = table.r[5, :]
-    b2 = table.r[7, :]
+    b = table.r[2 + 4, :]
+    b1 = table.r[1 + 4, :]
+    b2 = table.r[3 + 4, :]
 
     # triangle spanning the "top right" part of the support table
     # (viewed from above)

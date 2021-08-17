@@ -29,7 +29,7 @@ class PyskindoseSettings:
         mode = "plot_setup" plots the geometry (patient, table, pad and beam
         in starting position, i.e., before any RDSR data has been added.) This
         is useful for debugging and when manually fixating the patient phantom
-        with the function "position_geometry".
+        with the function "position_patient_phantom_on_table".
 
         mode = "plot_event" plots the geometry for a specific irradiation event
         with index = event.

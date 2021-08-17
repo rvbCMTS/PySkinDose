@@ -90,7 +90,6 @@ MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY = \
     'max_events_for_patient_inclusion'
 
 MESH_NAME_PAD = "Support pad"
-# Plotly cannot handle opacity less than 1 at the moment
 MESH_OPACITY_BEAM = 0.4
 
 MODE_CALCULATE_DOSE = "calculate_dose"

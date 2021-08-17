@@ -94,9 +94,9 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         .. image:: user/figures/beam/beam_ap2.svg
 
     Ap3 : int
-        Rpotation angle of the X-ray beam about the positioner y-axis. Positive
-        direction is determined by the right-hand rule for curve orientation
-        about the positive positioner y-axis.
+        Rotation angle of the X-ray detector about the isocenter y-axis.
+        Positive direction is determined by the right-hand rule for curve
+        orientation about the positive isocenter y-axis.
 
 
     DSL : float

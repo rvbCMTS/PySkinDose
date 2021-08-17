@@ -65,41 +65,70 @@ class Beam:
             # Fetch rotation angles of the X-ray tube
 
             # Positioner isocenter primary angle (Ap1)
+            # i.e. rotation of the X-ray beam and detector about the z
+            # axis (LAT)
             ap1 = np.deg2rad(data_norm.Ap1[event])
             # Positioner isocenter secondary angle (Ap2)
+            # i.e. rotation of the X-ray beam and detector about the x axis
+            # (LON)
             ap2 = np.deg2rad(data_norm.Ap2[event])
             # Positioner isocenter detector rotation angle (Ap3)
+            # i.e. rotation of the X-ray detector about the y axis (VERT)
             ap3 = np.deg2rad(data_norm.Ap3[event])
 
-        R1 = np.array([[+np.cos(ap1), np.sin(ap1), +0],
-                      [-np.sin(ap1), +np.cos(ap1), +0],
-                      [+0, +0, +1]])
 
-        R2 = np.array([[+1, +0, +0],
-                       [+0, +np.cos(ap2), +np.sin(ap2)],
-                       [+0, -np.sin(ap2), +np.cos(ap2)]])
+        # calculate rotation about x axis
+        angle = ap2
+        Rx = np.array(
+            [
+                [+1, +0, +0],
+                [+0, +np.cos(angle), -np.sin(angle)],
+                [+0, +np.sin(angle), +np.cos(angle)]
+            ]
+                    )
 
-        R3 = np.array([[+np.cos(ap3), +0, -np.sin(ap3)],
-                       [+0, +1, +0],
-                       [+np.sin(ap3), +0, +np.cos(ap3)]])
+        # calculate rotation about y axis
+        angle = ap3
+        Ry = np.array(
+            [
+                [+np.cos(angle), +0, +np.sin(angle)],
+                [+0, +1, +0],
+                [-np.sin(angle), +0, +np.cos(angle)]
+            ]
+                    )
 
-        # Locate X-ray source
-        source = np.array([0, data_norm.DSI[event], 0])
+        # calculate rotation about z axis
+        angle = ap1
+        Rz = np.array(
+            [
+                [+np.cos(angle), -np.sin(angle), +0],
+                [+np.sin(angle), +np.cos(angle), +0],
+                [+0, +0, +1]
+            ]
+                    )
 
-        # Create beam-detector interception point for a beam of side length 1
-        r = np.array([[+0.5, -1.0, +0.5],
-                      [+0.5, -1.0, -0.5],
-                      [-0.5, -1.0, -0.5],
-                      [-0.5, -1.0, +0.5]])
+        # calculate source-isocenter displacement at ap1 = ap2 = 0
+        delta_r = np.array([0, data_norm.DSI[event], 0])
 
-        r[:, 0] *= data_norm.FS_long[event]  # Longitudinal collimation
-        r[:, 1] *= data_norm.DID[event]  # Set source-detector distance
-        r[:, 2] *= data_norm.FS_lat[event]  # Lateral collimation
+        # Create unit-beam in the positioner coordinate system
+        r = np.array(
+            [
+                [0, 0, 0],  # r0 (i.e. X-ray source)
+                [+0.5, -1.0, +0.5],  # r+
+                [+0.5, -1.0, -0.5],  # r+-
+                [-0.5, -1.0, -0.5],  # r-
+                [-0.5, -1.0, +0.5]   # r-+
+            ]
+        )
+        r[1:, 1] *= data_norm.DSD[event]
+        r[1:, 0] *= data_norm.FS_long[event]  # Append longitudinal collimation
+        r[1:, 2] *= data_norm.FS_lat[event]  # Append lateral collimation
 
-        r = np.vstack([source, r])
 
-        # Rotate beam about ap1, ap2 and ap3
-        r = np.matmul(np.matmul(R2, R1).T, np.matmul(R3.T, r.T)).T
+        # Transform the beam from the positioner coordinate system to the
+        # isocenter coordinate system. Note! The transpose operations are
+        # needed to broadcast over all vectors in r
+        r = np.matmul(Rz, np.matmul(Rx, (r + delta_r).T)).T
 
         self.r = r
 
@@ -138,8 +167,11 @@ class Beam:
         # Place detector at actual distance
         det_r[:, 1] *= data_norm.DID[event]
 
-        # Rotate detector about ap1, ap2 and ap3
-        det_r = np.matmul(np.matmul(R2, R1).T, det_r.T).T
+        # Transform the detector from the positioner coordinate system to
+        # the isocenter coordinate system. Note! The transpose operations
+        # are needed to broadcast over all vector in r_det
+        det_r = np.matmul(Rz, np.matmul(Ry, np.matmul(Rx, det_r.T))).T
+
         self.det_r = det_r
 
         # Manually construct vertex index vector for the X-ray detector
@@ -152,7 +184,7 @@ class Beam:
         """Calculate which patient entrance skin cells are hit by the beam.
 
         A description of this algoritm is presented in the wiki, please visit
-        https://dev.azure.com/Sjukhusfysiker/PySkinDose/_wiki
+        https://pyskindose.readthedocs.io/en/latest/
 
         Parameters
         ----------
