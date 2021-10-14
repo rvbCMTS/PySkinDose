@@ -275,6 +275,7 @@ class PatientOffset:
             object_name='patient offset',
             indent_level=1)
 
+
 class Plotsettings:
     """A class for setting plot settings.
 
@@ -351,3 +352,16 @@ def create_attrs_str(
             attrs_str = attrs_str + '\n' + getattr(attrs_parent, key).attrs_str
 
     return attrs_str
+
+
+def initialize_settings(settings: Union[str, dict, PyskindoseSettings]) -> PyskindoseSettings:
+    valid_input_settings = settings is not None and isinstance(settings, (str, dict, PyskindoseSettings))
+
+    if not valid_input_settings:
+        raise ValueError("Settings must be given as a str or dict")
+
+
+    if isinstance(settings, PyskindoseSettings):
+        return settings
+
+    return PyskindoseSettings(settings=settings)
