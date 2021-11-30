@@ -360,7 +360,6 @@ def initialize_settings(settings: Union[str, dict, PyskindoseSettings]) -> Pyski
     if not valid_input_settings:
         raise ValueError("Settings must be given as a str or dict")
 
-
     if isinstance(settings, PyskindoseSettings):
         return settings
 
