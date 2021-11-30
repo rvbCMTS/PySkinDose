@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Union
 import pandas as pd
 
 from pyskindose import constants as c
@@ -17,21 +17,20 @@ def analyze_data(
 ) -> Dict[str, Any]:
     """Analyze data och settings, and runs PySkinDose in desired mode.
 
-        Parameters
-        ----------
-        normalized_data : pd.DataFrame
-            RDSR data, normalized for compliance with PySkinDose.
-        settings : Union[str, dict, PyskindoseSettings]
-            Settings class for PySkinDose
+    Parameters
+    ----------
+    normalized_data : pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
+    settings : Union[str, dict, PyskindoseSettings]
+        Settings class for PySkinDose
 
-        Returns
-        -------
-        Dict[str, Any]
-            output dictionary containing calculation specifics such as dose
-            map, correction factors, etc..
+    Returns
+    -------
+    Dict[str, Any]
+        output dictionary containing calculation specifics such as dose
+        map, correction factors, etc..
 
-        """
-
+    """
     settings = initialize_settings(settings)
 
     # create table, pad and patient phantoms.
@@ -66,4 +65,3 @@ def analyze_data(
     )
 
     return output
-    
