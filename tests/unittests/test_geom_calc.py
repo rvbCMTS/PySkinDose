@@ -3,13 +3,15 @@ import numpy as np
 import sys
 
 from pyskindose.geom_calc import Triangle
+from pyskindose.geom_calc import convert_from_mm_to_cm, convert_from_m_to_cm
 
 P = Path(__file__).parent.parent.parent
 sys.path.insert(1, str(P.absolute()))
 
+
 def test_triangle_check_intersection():
     """Test of intersection algoritm.
-    
+
     Test if the intersection algoritm returns the expected output for different cell
     segment combinations.
     """
@@ -60,4 +62,24 @@ def test_triangle_check_intersection():
 
     assert expected == test
 
-test_triangle_check_intersection()
+
+def test_convert_measurements_from_mm_to_cm():
+    """Test that the mm to cm convertion scales correctly."""
+    measurement_in_mm = 1000
+    same_measurement_in_cm = 100
+
+    expected = same_measurement_in_cm
+    test = convert_from_mm_to_cm(measurement_in_mm)
+
+    assert expected == test
+
+
+def test_convert_measurements_from_m_to_cm():
+    """Test that the m to cm convertion scales correctly."""
+    measurement_in_m = 2
+    same_measurement_in_cm = 200
+
+    expected = same_measurement_in_cm
+    test = convert_from_m_to_cm(measurement_in_m)
+
+    assert expected == test

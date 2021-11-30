@@ -27,35 +27,57 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
         IF field_size_mode = 'ASD', the function calculates the field size
         by distance scaling the actual shutter distance to the detector plane
 
-    data_parsed : [type]
-        [description]
-    data_norm : [type]
-        [description]
+    data_parsed : pd.DataFrame
+        Parsed RDSR data from all irradiation events in the RDSR input file,
+        i.e. output of function rdsr_parser
+    data_norm : pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
 
     Returns
     -------
-    [type]
-        [description]
+    FS_lat, FS_long : float
+        Field size in lat- and long direction in cm at the detector plane.
 
     """
     # if collimated field are mode, set FS_lat = FS_long =
     # sqrt(collimate field area). NOTE: This should only be used when actual
     # shutter distances are unavailable.
-    if field_size_mode == 'CFA':
-        FS_lat = round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
-        FS_long = FS_lat
+    if field_size_mode == c.FIELD_SIZE_MODE_COLLIMATED_FIELD_AREA:
+
+        # Field size in lat direction in metres
+        FS_lat_m = np.sqrt(data_parsed.CollimatedFieldArea_m2)
+        # Field size in long direction in metres
+        FS_long_m = FS_lat_m
+
+        # convert to cm
+        FS_lat = round(convert_from_m_to_cm(FS_lat_m), 3)
+        FS_long = round(convert_from_m_to_cm(FS_long_m), 3)
 
         return FS_lat, FS_long
 
-    if field_size_mode == 'ASD':
+    if field_size_mode == c.FIELD_SIZE_MODE_ACTUAL_SHUTTER_DISTANCE:
 
-        FS_long = (data_parsed.LeftShutter_mm + data_parsed.RightShutter_mm) / 10
-        FS_lat = (data_parsed.TopShutter_mm + data_parsed.BottomShutter_mm) / 10
+        # distance (from source) at which shutter distances are presented in
+        # dicom tags
+        d_shutter_in_dcm_cm = 100
 
-        scale = data_norm.DSD / 100
+        # field size in long direction at d = d_shutter_in_dcm_cm
+        FS_long_at_d_shutter = (
+            convert_from_mm_to_cm(
+                data_parsed.LeftShutter_mm + data_parsed.RightShutter_mm)
+        )
+        # field size in lat direction at d = d_shutter_in_dcm_cm
+        FS_lat_at_d_shutter = (
+            convert_from_mm_to_cm(
+                data_parsed.TopShutter_mm + data_parsed.BottomShutter_mm)
+        )
+        # scale factor to get field size at detector plane
+        scale = data_norm.DSD / d_shutter_in_dcm_cm
 
-        return scale * FS_lat, scale * FS_long
+        FS_lat = scale * FS_lat_at_d_shutter
+        FS_long = scale * FS_long_at_d_shutter
 
+        return FS_lat, FS_long
 
 
 def position_patient_phantom_on_table(
@@ -91,7 +113,6 @@ def position_patient_phantom_on_table(
         c.PATIENT_ORIENTATION_FEET_FIRST_SUPINE.
 
     """
-
     # if feet-first, rotate patient 180 degrees about y-axis
     if patient_orientation == c.PATIENT_ORIENTATION_FEET_FIRST_SUPINE:
 
@@ -459,3 +480,41 @@ def check_table_hits(source: np.array, table: Phantom, beam,
     hits[hit_b_l] = True
 
     return hits.tolist()
+
+
+def convert_from_mm_to_cm(val_in_mm: float) -> float:
+    """Convert a length from centimeters to millimeters.
+
+    Parameters
+    ----------
+    val_in_cm : float
+        A length in cm
+
+    Returns
+    -------
+    float
+        The same length in cm
+
+    """
+    val_in_cm = val_in_mm / 10.0
+
+    return val_in_cm
+
+
+def convert_from_m_to_cm(val_in_m: float) -> float:
+    """Convert a length from centimeters to millimeters.
+
+    Parameters
+    ----------
+    val_in_m : float
+        A length in m
+
+    Returns
+    -------
+    float
+        The same length in cm
+
+    """
+    val_in_cm = val_in_m * 100.0
+
+    return val_in_cm
