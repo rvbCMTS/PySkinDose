@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 import pandas as pd
 
 from pyskindose import constants as c
@@ -6,32 +6,34 @@ from pyskindose.calculate_dose.calculate_dose import calculate_dose
 from pyskindose.phantom_class import Phantom
 from pyskindose.plotting.create_dose_map_plot import create_dose_map_plot
 from pyskindose.plotting.create_geometry_plot import create_geometry_plot
-from pyskindose.settings_pyskindose import PyskindoseSettings
+from pyskindose.settings_pyskindose import (
+    PyskindoseSettings,
+    initialize_settings)
 
 
 def analyze_data(
     normalized_data: pd.DataFrame,
-    settings: PyskindoseSettings,
-    plot_dose_map: Optional[bool] = False,
+    settings: Union[str, dict, PyskindoseSettings],
 ) -> Dict[str, Any]:
     """Analyze data och settings, and runs PySkinDose in desired mode.
 
-    Parameters
-    ----------
-    normalized_data : pd.DataFrame
-        RDSR data, normalized for compliance with PySkinDose.
-    settings : PyskindoseSettings
-        Settings class for PySkinDose
-    plot_dose_map : Optional[bool], optional
-        Wheter or not to plot dose map, by default False
+        Parameters
+        ----------
+        normalized_data : pd.DataFrame
+            RDSR data, normalized for compliance with PySkinDose.
+        settings : Union[str, dict, PyskindoseSettings]
+            Settings class for PySkinDose
 
-    Returns
-    -------
-    Dict[str, Any]
-        output dictionary containing calculation specifics such as dose map,
-        correction factors, etc..
+        Returns
+        -------
+        Dict[str, Any]
+            output dictionary containing calculation specifics such as dose
+            map, correction factors, etc..
 
-    """
+        """
+
+    settings = initialize_settings(settings)
+
     # create table, pad and patient phantoms.
     table = Phantom(
         phantom_model=c.PHANTOM_MODEL_TABLE,
@@ -53,12 +55,15 @@ def analyze_data(
         pad=pad
     )
 
-    if not plot_dose_map:
-        return output
+    # Fetch dose_map if calculate_dose has been executed
+    dose_map = output[c.OUTPUT_KEY_DOSE_MAP] if settings.mode \
+        == c.MODE_CALCULATE_DOSE else None
 
     create_dose_map_plot(
-        patient=patient, settings=settings,
-        dose_map=output[c.OUTPUT_KEY_DOSE_MAP]
+        patient=patient,
+        settings=settings,
+        dose_map=dose_map
     )
 
     return output
+    

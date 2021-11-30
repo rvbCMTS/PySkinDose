@@ -10,7 +10,7 @@ from pyskindose.analyze_data import analyze_data
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
 from pyskindose.rdsr_parser import rdsr_parser
 from pyskindose.rdsr_normalizer import rdsr_normalizer
-from pyskindose.settings_pyskindose import PyskindoseSettings
+from pyskindose.settings_pyskindose import PyskindoseSettings, initialize_settings
 
 logger = logging.getLogger(__name__)
 
@@ -48,18 +48,14 @@ def main(
 
     _ = analyze_data(
         normalized_data=data_norm,
-        settings=settings,
-        plot_dose_map=settings.plot.plot_dosemap)
+        settings=settings)
 
 
 def _parse_settings_to_settings_class(settings: Optional[str] = None):
-
-    if settings is not None:
-
-        if isinstance(settings, PyskindoseSettings):
-            return settings
-
-        return PyskindoseSettings(settings)
+    try:
+        return initialize_settings(settings)
+    except ValueError:
+        logger.debug("Tried initializing settings without any settings")
 
     settings_path = os.path.join(os.path.dirname(__file__), "settings.json")
 

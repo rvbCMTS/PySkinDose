@@ -1,3 +1,4 @@
+from typing import Optional, Union
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -7,7 +8,10 @@ from .settings_normalization import NormalizationSettings
 from .geom_calc import calculate_field_size
 
 
-def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
+def rdsr_normalizer(
+    data_parsed: pd.DataFrame,
+    normalization_settings: Optional[Union[str, dict]] = None
+    ) -> pd.DataFrame:
     """ Normalize RDSR data for PySkinDose compliance
 
     Parameters
@@ -94,9 +98,9 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
         .. image:: user/figures/beam/beam_ap2.svg
 
     Ap3 : int
-        Rpotation angle of the X-ray beam about the positioner y-axis. Positive
-        direction is determined by the right-hand rule for curve orientation
-        about the positive positioner y-axis.
+        Rotation angle of the X-ray detector about the isocenter y-axis.
+        Positive direction is determined by the right-hand rule for curve
+        orientation about the positive isocenter y-axis.
 
 
     DSL : float
@@ -116,17 +120,12 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
     filter_thickness_Al : float
         Copper X-ray filter thickness in mm.
     """
-
     data_norm = pd.DataFrame()
-    normalization_settings_path = \
-        Path(__file__).parent / "normalization_settings.json"
 
-    with normalization_settings_path.open("r") as json_file:
-        normalization_settings = json.load(json_file)
-
-    norm = NormalizationSettings(
-        normalization_settings=normalization_settings,
-        data_parsed=data_parsed)
+    norm = _load_normalization_settings(
+        data_parsed=data_parsed,
+        norm_settings=normalization_settings
+    )
 
     data_norm = _normalize_machine_parameters(
         data_parsed=data_parsed, data_norm=data_norm, norm=norm)
@@ -138,6 +137,28 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
             data_parsed=data_parsed, data_norm=data_norm, norm=norm)
 
     return data_norm
+
+
+def _load_normalization_settings(
+        data_parsed: pd.DataFrame,
+        norm_settings: Optional[Union[str, dict]] = None
+        ) -> NormalizationSettings:
+
+    if norm_settings is None:
+
+        normalization_settings_path = \
+            Path(__file__).parent / "normalization_settings.json"
+
+        with normalization_settings_path.open("r") as json_file:
+            norm_settings = json.load(json_file)
+
+    if isinstance(norm_settings, str):
+        norm_settings = json.load(json_file)
+
+    return NormalizationSettings(
+        normalization_settings=norm_settings,
+        data_parsed=data_parsed
+    )
 
 
 def _normalize_machine_parameters(

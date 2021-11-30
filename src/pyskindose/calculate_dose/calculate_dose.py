@@ -1,6 +1,5 @@
 import logging
 from typing import Any, Dict, Optional, Tuple
-from tqdm import tqdm
 import numpy as np
 import pandas as pd
 
@@ -12,7 +11,7 @@ from pyskindose.corrections import calculate_k_bs, calculate_k_tab
 from pyskindose.geom_calc import (
     check_new_geometry,
     fetch_and_append_hvl,
-    position_geometry,
+    position_patient_phantom_on_table,
 )
 from pyskindose.phantom_class import Phantom
 from pyskindose.settings_pyskindose import PyskindoseSettings
@@ -60,7 +59,7 @@ def calculate_dose(
     )
 
     # position objects in starting position
-    position_geometry(
+    position_patient_phantom_on_table(
             patient=patient, table=table, pad=pad,
             pad_thickness=settings.phantom.dimension.pad_thickness,
             patient_offset=[
@@ -86,6 +85,11 @@ def calculate_dose(
 
     total_number_of_events = len(normalized_data)
 
+    if settings.plot.notebook_mode:
+        from tqdm import tqdm_notebook as pbar
+    else:
+        from tqdm import tqdm as pbar
+
     output_template = {
         c.OUTPUT_KEY_HITS: [[]] * total_number_of_events,
         c.OUTPUT_KEY_KERMA: [np.array] * total_number_of_events,
@@ -108,7 +112,9 @@ def calculate_dose(
         pad=pad,
         back_scatter_interpolation=back_scatter_interpolation,
         output=output_template,
-        pbar=tqdm(total=total_number_of_events, desc='calculating dose')
+        pbar=pbar(
+            total=total_number_of_events, leave=False,
+            desc='calculating skindose')
     )
 
     return patient, output
