@@ -139,7 +139,6 @@ class PhantomSettings:
             the mathematical phantoms. See attributes of PhantomDimensions.
 
         """
-
         self.model = ptm_dim[KEY_PARAM_PHANTOM_MODEL]
         self.human_mesh = ptm_dim[KEY_PARAM_HUMAN_MESH]
         self.patient_orientation = ptm_dim["patient_orientation"]
@@ -258,7 +257,6 @@ class PatientOffset:
             offset in cm from the table isocenter in the lateral, vertical and
             longitudinal direction.
 
-
         """
         self.d_lat = offset[OFFSET_LATERAL_KEY]
         self.d_ver = offset[OFFSET_VERTICAL_KEY]
@@ -354,8 +352,12 @@ def create_attrs_str(
     return attrs_str
 
 
-def initialize_settings(settings: Union[str, dict, PyskindoseSettings]) -> PyskindoseSettings:
-    valid_input_settings = settings is not None and isinstance(settings, (str, dict, PyskindoseSettings))
+def initialize_settings(
+        settings: Union[str, dict, PyskindoseSettings]
+        ) -> PyskindoseSettings:
+    valid_input_settings = \
+        settings is not None and isinstance(
+            settings, (str, dict, PyskindoseSettings))
 
     if not valid_input_settings:
         raise ValueError("Settings must be given as a str or dict")
