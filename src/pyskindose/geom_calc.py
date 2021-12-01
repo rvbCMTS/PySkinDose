@@ -24,7 +24,7 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
         collimated field area. NOTE, this should only be used when actual
         shutter distances are unavailabe.
 
-        IF field_size_mode = 'ASD', the function calculates the field size
+        If field_size_mode = 'ASD', the function calculates the field size
         by distance scaling the actual shutter distance to the detector plane
 
     data_parsed : pd.DataFrame

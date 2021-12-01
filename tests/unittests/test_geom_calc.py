@@ -12,8 +12,8 @@ sys.path.insert(1, str(P.absolute()))
 def test_triangle_check_intersection():
     """Test of intersection algoritm.
 
-    Test if the intersection algoritm returns the expected output for different cell
-    segment combinations.
+    Test if the intersection algoritm returns the expected output for different
+    cell segment combinations.
     """
     expected = [True, True, True, True, False, False, [True, False]]
 

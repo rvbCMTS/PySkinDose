@@ -9,10 +9,10 @@ from .geom_calc import calculate_field_size
 
 
 def rdsr_normalizer(
-    data_parsed: pd.DataFrame,
-    normalization_settings: Optional[Union[str, dict]] = None
-    ) -> pd.DataFrame:
-    """ Normalize RDSR data for PySkinDose compliance
+        data_parsed: pd.DataFrame,
+        normalization_settings: Optional[Union[str, dict]] = None
+        ) -> pd.DataFrame:
+    """Normalize RDSR data for PySkinDose compliance.
 
     Parameters
     ----------

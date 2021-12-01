@@ -26,7 +26,6 @@ COLOR_WIRE_FRAME_TABLE = '#3f3f3f'
 
 DATA_DS_IRP = "DSIRP"
 
-
 KEY_PARAM_MODE = 'mode'
 KEY_PARAM_RDSR_FILENAME = 'rdsr_filename'
 KEY_PARAM_ESTIMATE_K_TAB = 'estimate_k_tab'
