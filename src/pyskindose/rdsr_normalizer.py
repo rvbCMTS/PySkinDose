@@ -1,12 +1,18 @@
+from typing import Optional, Union
+import numpy as np
 import pandas as pd
 from pathlib import Path
 import json
+
 from .settings_normalization import NormalizationSettings
 from .geom_calc import calculate_field_size
 
 
-def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
-    """ Normalize RDSR data for PySkinDose compliance
+def rdsr_normalizer(
+        data_parsed: pd.DataFrame,
+        normalization_settings: Optional[Union[str, dict]] = None
+        ) -> pd.DataFrame:
+    """Normalize RDSR data for PySkinDose compliance.
 
     Parameters
     ----------
@@ -114,17 +120,12 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
     filter_thickness_Al : float
         Copper X-ray filter thickness in mm.
     """
-
     data_norm = pd.DataFrame()
-    normalization_settings_path = \
-        Path(__file__).parent / "normalization_settings.json"
 
-    with normalization_settings_path.open("r") as json_file:
-        normalization_settings = json.load(json_file)
-
-    norm = NormalizationSettings(
-        normalization_settings=normalization_settings,
-        data_parsed=data_parsed)
+    norm = _load_normalization_settings(
+        data_parsed=data_parsed,
+        norm_settings=normalization_settings
+    )
 
     data_norm = _normalize_machine_parameters(
         data_parsed=data_parsed, data_norm=data_norm, norm=norm)
@@ -138,12 +139,45 @@ def rdsr_normalizer(data_parsed: pd.DataFrame) -> pd.DataFrame:
     return data_norm
 
 
+def _load_normalization_settings(
+        data_parsed: pd.DataFrame,
+        norm_settings: Optional[Union[str, dict]] = None
+        ) -> NormalizationSettings:
+
+    if norm_settings is None:
+
+        normalization_settings_path = \
+            Path(__file__).parent / "normalization_settings.json"
+
+        with normalization_settings_path.open("r") as json_file:
+            norm_settings = json.load(json_file)
+
+    if isinstance(norm_settings, str):
+        norm_settings = json.load(json_file)
+
+    return NormalizationSettings(
+        normalization_settings=norm_settings,
+        data_parsed=data_parsed
+    )
+
+
 def _normalize_machine_parameters(
         data_parsed: pd.DataFrame,
         data_norm: pd.DataFrame,
         norm: NormalizationSettings) -> pd.DataFrame:
 
     data_norm['model'] = data_parsed.ManufacturerModelName
+
+    # Find indices of nans in DistanceSourcetoDetector
+    if 'nan' in str(data_parsed['DistanceSourcetoDetector_mm']).lower():
+        nan_indices = data_parsed.index[
+            data_parsed['DistanceSourcetoDetector_mm'].apply(np.isnan)]
+        # Replace those nans with the corresponding value in
+        # FinalDistanceSourcetoDetector
+        data_parsed.DistanceSourcetoDetector_mm = \
+            data_parsed.DistanceSourcetoDetector_mm.fillna(
+                data_parsed.FinalDistanceSourcetoDetector_mm[nan_indices])
+
     data_norm['DSD'] = data_parsed.DistanceSourcetoDetector_mm / 10
     data_norm['DSI'] = data_parsed.DistanceSourcetoIsocenter_mm / 10
     data_norm['DID'] = data_norm.DSD - data_norm.DSI
