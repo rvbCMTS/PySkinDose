@@ -5,6 +5,7 @@ logs/
 .vscode/
 *.html
 *.png
+!docs/**/*.png
 __pycache__/
 **/__pycache__/
 .ipynb_checkpoints
