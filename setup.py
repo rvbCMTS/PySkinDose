@@ -8,8 +8,7 @@ setup(
     name="pyskindose",
     version="19.6.0",
     description=(
-        "Tools and script for calculating peak skin dose and create dose maps for fluoroscopic exams from RDSR"
-        " data"
+        "Tools and script for calculating peak skin dose and create dose maps for fluoroscopic exams from RDSR" " data"
     ),
     long_description=README,
     long_description_content_type="text/markdown",

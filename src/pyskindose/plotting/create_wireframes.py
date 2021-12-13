@@ -12,9 +12,7 @@ from ..constants import (
 from ..phantom_class import Phantom
 
 
-def create_wireframes(
-    beam: Beam, table: Phantom, pad: Phantom, line_width: int = 4, visible: bool = True
-):
+def create_wireframes(beam: Beam, table: Phantom, pad: Phantom, line_width: int = 4, visible: bool = True):
     """Create wireframe versions of the mesh3d objects in plot_geometry.
 
     The purpose of this function is to enhance the plot_geometry plot by adding
@@ -44,9 +42,7 @@ def create_wireframes(
         obj=pad, color=COLOR_WIRE_FRAME_PAD, line_width=line_width, visible=visible
     )
 
-    wf_detector = _create_detector_wire_frame(
-        beam=beam, line_width=line_width, visible=visible
-    )
+    wf_detector = _create_detector_wire_frame(beam=beam, line_width=line_width, visible=visible)
 
     return wf_beam, wf_table, wf_pad, wf_detector
 
@@ -80,9 +76,7 @@ def _create_beam_wireframe(beam: Beam, line_width: int, visible: bool) -> go.Sca
     )
 
 
-def _create_phantom_object_wireframe(
-    obj: Phantom, color: str, line_width: int, visible: bool
-) -> go.Scatter3d:
+def _create_phantom_object_wireframe(obj: Phantom, color: str, line_width: int, visible: bool) -> go.Scatter3d:
     # This funciton creates a wireframe plot for the X-ray table or pad
 
     x = obj.r[:, 0].tolist()
@@ -111,9 +105,7 @@ def _create_phantom_object_wireframe(
     )
 
 
-def _create_detector_wire_frame(
-    beam: Beam, line_width: int, visible: bool
-) -> go.Scatter3d:
+def _create_detector_wire_frame(beam: Beam, line_width: int, visible: bool) -> go.Scatter3d:
     # This funciton creates a wireframe plot for the X-ray detector
 
     x = beam.det_r[:, 0].tolist()

@@ -119,8 +119,6 @@ def create_irradiation_event_procedure_plot_data(
         output[IRRADIATION_EVENT_PROCEDURE_KEY_WIRE_FRAME_TABLE],
         output[IRRADIATION_EVENT_PROCEDURE_KEY_WIRE_FRAME_PAD],
         output[IRRADIATION_EVENT_PROCEDURE_KEY_WIRE_FRAME_DETECTORS],
-    ] = create_wireframes(
-        beam=beam, table=table, pad=pad, line_width=4, visible=visible_status
-    )
+    ] = create_wireframes(beam=beam, table=table, pad=pad, line_width=4, visible=visible_status)
 
     return output

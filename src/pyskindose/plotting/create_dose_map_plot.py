@@ -28,9 +28,7 @@ from .plot_settings import fetch_plot_colors, fetch_plot_margin, fetch_plot_size
 logger = logging.getLogger(__name__)
 
 
-def create_dose_map_plot(
-    patient: Phantom, settings: PyskindoseSettings, dose_map: np.ndarray
-) -> None:
+def create_dose_map_plot(patient: Phantom, settings: PyskindoseSettings, dose_map: np.ndarray) -> None:
     """Plot a map of the absorbed skindose upon the patient phantom.
 
     This function creates and plots an offline plotly graph of the skin dose
@@ -64,45 +62,26 @@ def create_dose_map_plot(
 
     # Fix error with plotly layout for 2D plane patient.
     if patient.phantom_model == PHANTOM_MODEL_PLANE:
-        patient = Phantom(
-            phantom_model=settings.phantom.model, phantom_dim=settings.phantom.dimension
-        )
+        patient = Phantom(phantom_model=settings.phantom.model, phantom_dim=settings.phantom.dimension)
 
     # append dosemap to patient
     patient.dose = dose_map
 
-    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
-        dark_mode=settings.plot.dark_mode
-    )
+    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(dark_mode=settings.plot.dark_mode)
 
     PLOT_HEIGHT, PLOT_WIDTH = fetch_plot_size(notebook_mode=settings.plot.notebook_mode)
 
     PLOT_MARGINS = fetch_plot_margin(notebook_mode=settings.plot.notebook_mode)
 
-    lat_text = [
-        (f"<b>lat:</b> {np.around(patient.r[ind, 2],2)} cm<br>")
-        for ind in range(len(patient.r))
-    ]
+    lat_text = [(f"<b>lat:</b> {np.around(patient.r[ind, 2],2)} cm<br>") for ind in range(len(patient.r))]
 
-    lon_text = [
-        f"<b>lon:</b> {np.around(patient.r[ind, 0],2)} cm<br>"
-        for ind in range(len(patient.r))
-    ]
+    lon_text = [f"<b>lon:</b> {np.around(patient.r[ind, 0],2)} cm<br>" for ind in range(len(patient.r))]
 
-    ver_text = [
-        f"<b>ver:</b> {np.around(patient.r[ind, 1],2)} cm<br>"
-        for ind in range(len(patient.r))
-    ]
+    ver_text = [f"<b>ver:</b> {np.around(patient.r[ind, 1],2)} cm<br>" for ind in range(len(patient.r))]
 
-    dose_text = [
-        f"<b>skin dose:</b> {round(patient.dose[ind],2)} mGy"
-        for ind in range(len(patient.r))
-    ]
+    dose_text = [f"<b>skin dose:</b> {round(patient.dose[ind],2)} mGy" for ind in range(len(patient.r))]
 
-    hover_text = [
-        lat_text[cell] + lon_text[cell] + ver_text[cell] + dose_text[cell]
-        for cell in range(len(patient.r))
-    ]
+    hover_text = [lat_text[cell] + lon_text[cell] + ver_text[cell] + dose_text[cell] for cell in range(len(patient.r))]
 
     # create mesh object for the phantom
     phantom_mesh = [

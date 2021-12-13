@@ -59,9 +59,7 @@ def create_setup_and_event_plot(
 
     logger.debug("Creating meshes for plot")
 
-    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
-        dark_mode=dark_mode
-    )
+    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(dark_mode=dark_mode)
 
     PLOT_WIDTH, PLOT_HEIGHT = fetch_plot_size(notebook_mode=notebook_mode)
 
@@ -84,21 +82,13 @@ def create_setup_and_event_plot(
         text=source_text,
     )
 
-    table_mesh = create_mesh_3d_general(
-        obj=table, color=COLOR_TABLE, mesh_text=table_text
-    )
+    table_mesh = create_mesh_3d_general(obj=table, color=COLOR_TABLE, mesh_text=table_text)
 
-    detector_mesh = create_mesh_3d_general(
-        obj=beam, color=COLOR_DETECTOR, mesh_text=detectors_text, detector_mesh=True
-    )
+    detector_mesh = create_mesh_3d_general(obj=beam, color=COLOR_DETECTOR, mesh_text=detectors_text, detector_mesh=True)
 
-    pad_mesh = create_mesh_3d_general(
-        obj=pad, color=COLOR_PAD, mesh_text=pad_text, mesh_name=MESH_NAME_PAD
-    )
+    pad_mesh = create_mesh_3d_general(obj=pad, color=COLOR_PAD, mesh_text=pad_text, mesh_name=MESH_NAME_PAD)
 
-    beam_mesh = create_mesh_3d_general(
-        obj=beam, color=COLOR_BEAM, opacity=MESH_OPACITY_BEAM, mesh_text=beam_text
-    )
+    beam_mesh = create_mesh_3d_general(obj=beam, color=COLOR_BEAM, opacity=MESH_OPACITY_BEAM, mesh_text=beam_text)
 
     logger.debug("Create wireframes")
     wf_beam, wf_table, wf_pad, wf_detector = create_wireframes(

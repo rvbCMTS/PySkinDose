@@ -6,9 +6,7 @@ import plotly.graph_objects as go
 logger = logging.getLogger(__name__)
 
 
-def create_plot_and_save_to_file(
-    mode: str, data: List[Union[go.Mesh3d, go.Scatter3d]], layout: go.Layout
-):
+def create_plot_and_save_to_file(mode: str, data: List[Union[go.Mesh3d, go.Scatter3d]], layout: go.Layout):
     """
 
     :param mode:

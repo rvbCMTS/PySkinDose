@@ -12,25 +12,19 @@ sys.path.insert(1, str(P.absolute()))
 
 def test_calculate_unchanged_fluence_at_refernce_distance():
     expected = 1
-    test = calculate_k_isq(
-        source=np.array([0, 0, 0]), cells=np.array([0, 100, 0]), dref=100
-    )
+    test = calculate_k_isq(source=np.array([0, 0, 0]), cells=np.array([0, 100, 0]), dref=100)
     assert expected == test
 
 
 def test_calculate_increased_fluence_at_decreased_distance():
     expected = 4
-    test = calculate_k_isq(
-        source=np.array([0, 0, 0]), cells=np.array([0, 50, 0]), dref=100
-    )
+    test = calculate_k_isq(source=np.array([0, 0, 0]), cells=np.array([0, 50, 0]), dref=100)
     assert expected == test
 
 
 def test_calculate_decreased_fluence_at_increased_distance():
     expected = 0.25
-    test = calculate_k_isq(
-        source=np.array([0, 0, 0]), cells=np.array([0, 200, 0]), dref=100
-    )
+    test = calculate_k_isq(source=np.array([0, 0, 0]), cells=np.array([0, 200, 0]), dref=100)
     assert expected == test
 
 
@@ -40,9 +34,7 @@ def test_fetch_correct_backscatter_correction_from_database():
     # Tabulated backscatter factor for param in data_norm
     tabulated_k_bs = [1.3, 1.458, 1.589, 1.617, 1.639]
 
-    data_norm = pd.DataFrame(
-        {"kVp": 5 * [80], "HVL": 5 * [7.88], "FSL": [5, 10, 20, 25, 35]}
-    )
+    data_norm = pd.DataFrame({"kVp": 5 * [80], "HVL": 5 * [7.88], "FSL": [5, 10, 20, 25, 35]})
 
     # create interpolation object
     bs_interp = calculate_k_bs(data_norm)
@@ -50,10 +42,7 @@ def test_fetch_correct_backscatter_correction_from_database():
     # interpolate at tabulated filed sizes
     k_bs = bs_interp[0](data_norm.FSL)
 
-    diff = [
-        100 * (abs(k_bs[i] - tabulated_k_bs[i])) / tabulated_k_bs[i]
-        for i in range(len(tabulated_k_bs))
-    ]
+    diff = [100 * (abs(k_bs[i] - tabulated_k_bs[i])) / tabulated_k_bs[i] for i in range(len(tabulated_k_bs))]
 
     test = [percent_difference <= 1 for percent_difference in diff]
 

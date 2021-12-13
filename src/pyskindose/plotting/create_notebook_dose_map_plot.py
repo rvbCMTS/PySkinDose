@@ -29,9 +29,7 @@ def create_notebook_dose_map_plot(names, file_type_static):
     total_width = ncols * img_width - ground_shift_x
     total_height = nrows * img_height
 
-    fig.add_trace(
-        go.Scatter(x=[0, total_width], y=[0, img_height], mode="lines", visible=False)
-    )
+    fig.add_trace(go.Scatter(x=[0, total_width], y=[0, img_height], mode="lines", visible=False))
 
     placements = [0, 1, 2, 3]
     placements = [img_width * place for place in placements]

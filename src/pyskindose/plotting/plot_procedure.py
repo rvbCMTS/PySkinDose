@@ -107,9 +107,7 @@ def plot_procedure(
         for ind in range(len(data_norm))
     ]
 
-    data = [
-        event.get(plot_object) for plot_object in meshes[0].keys() for event in meshes
-    ]
+    data = [event.get(plot_object) for plot_object in meshes[0].keys() for event in meshes]
 
     layout = _create_procedure_layout(
         title=title,
@@ -140,9 +138,7 @@ def _create_sliders(
     notebook_mode: bool = False,
 ) -> List[Dict[str, Any]]:
 
-    COLOR_PLOT_TEXT, COLOR_SLIDER_TICK, COLOR_SLIDER_BORDER = fetch_slider_colors(
-        dark_mode=dark_mode
-    )
+    COLOR_PLOT_TEXT, COLOR_SLIDER_TICK, COLOR_SLIDER_BORDER = fetch_slider_colors(dark_mode=dark_mode)
 
     PLOT_SLIDER_PADDING = fetch_slider_padding(notebook_mode=notebook_mode)
 
@@ -174,14 +170,9 @@ def _create_procedure_layout(
     title: str, total_events: int, dark_mode: bool = True, notebook_mode: bool = False
 ) -> go.Layout:
 
-    steps = [
-        _create_event_slider_step(total_events=total_events, event=ind)
-        for ind in range(total_events)
-    ]
+    steps = [_create_event_slider_step(total_events=total_events, event=ind) for ind in range(total_events)]
 
-    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(
-        dark_mode=dark_mode
-    )
+    COLOR_CANVAS, COLOR_PLOT_TEXT, COLOR_GRID, COLOR_ZERO_LINE = fetch_plot_colors(dark_mode=dark_mode)
 
     PLOT_HEIGHT, PLOT_WIDTH = fetch_plot_size(notebook_mode=notebook_mode)
 
@@ -198,11 +189,7 @@ def _create_procedure_layout(
             notebook_mode=notebook_mode,
         ),
         font=dict(family=PLOT_FONT_FAMILY, size=PLOT_FONT_SIZE, color=COLOR_PLOT_TEXT),
-        hoverlabel=dict(
-            font=dict(
-                family=PLOT_HOVERLABEL_FONT_FAMILY, size=PLOT_SLIDER_FONT_SIZE_GENERAL
-            )
-        ),
+        hoverlabel=dict(font=dict(family=PLOT_HOVERLABEL_FONT_FAMILY, size=PLOT_SLIDER_FONT_SIZE_GENERAL)),
         showlegend=False,
         dragmode=PLOT_DRAGMODE,
         title=title,

@@ -115,9 +115,7 @@ def calculate_dose(
         pad=pad,
         back_scatter_interpolation=back_scatter_interpolation,
         output=output_template,
-        pbar=pbar(
-            total=total_number_of_events, leave=False, desc="calculating skindose"
-        ),
+        pbar=pbar(total=total_number_of_events, leave=False, desc="calculating skindose"),
     )
 
     return patient, output

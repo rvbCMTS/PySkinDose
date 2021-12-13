@@ -40,10 +40,7 @@ def create_geometry_plot(
         settings.phantom.dimension.cylinder_resolution = c.RESOLUTION_SPARSE
 
     # override dense .stl phantoms in plot_procedure .html plotting
-    if (
-        settings.mode == c.MODE_PLOT_PROCEDURE
-        and settings.phantom.model == c.PHANTOM_MODEL_HUMAN
-    ):
+    if settings.mode == c.MODE_PLOT_PROCEDURE and settings.phantom.model == c.PHANTOM_MODEL_HUMAN:
         settings.phantom.human_mesh += c.PHANTOM_HUMAN_MESH_SPARSE_MODEL_ENDING
 
     patient = Phantom(
@@ -75,6 +72,5 @@ def create_geometry_plot(
         event=settings.plot.plot_event_index,
         dark_mode=settings.plot.dark_mode,
         notebook_mode=settings.plot.notebook_mode,
-        include_patient=len(normalized_data)
-        <= settings.plot.max_events_for_patient_inclusion,
+        include_patient=len(normalized_data) <= settings.plot.max_events_for_patient_inclusion,
     )

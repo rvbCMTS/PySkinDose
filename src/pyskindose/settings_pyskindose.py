@@ -10,7 +10,7 @@ from pyskindose.constants import (
     KEY_PARAM_HUMAN_MESH,
     OFFSET_LATERAL_KEY,
     OFFSET_VERTICAL_KEY,
-    OFFSET_LONGITUDINAL_KEY
+    OFFSET_LONGITUDINAL_KEY,
 )
 
 
@@ -75,8 +75,8 @@ class PyskindoseSettings:
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
 
-        self.phantom = PhantomSettings(ptm_dim=tmp['phantom'])
-        self.plot = Plotsettings(plt_dict=tmp['plot'])
+        self.phantom = PhantomSettings(ptm_dim=tmp["phantom"])
+        self.plot = Plotsettings(plt_dict=tmp["plot"])
 
     def print_parameters(self, return_as_string: bool = False):
         """Print entire parameter class to terminal.
@@ -93,8 +93,7 @@ class PyskindoseSettings:
         self.phantom.update_attrs_str()
         self.plot.update_attrs_str()
 
-        main_attrs_str = create_attrs_str(
-            attrs_parent=self, object_name='general', indent_level=0)
+        main_attrs_str = create_attrs_str(attrs_parent=self, object_name="general", indent_level=0)
 
         if return_as_string:
             return main_attrs_str
@@ -143,19 +142,13 @@ class PhantomSettings:
         self.human_mesh = ptm_dim[KEY_PARAM_HUMAN_MESH]
         self.patient_orientation = ptm_dim["patient_orientation"]
         self.patient_offset = PatientOffset(offset=ptm_dim["patient_offset"])
-        self.dimension = PhantomDimensions(ptm_dim=ptm_dim['dimension'])
+        self.dimension = PhantomDimensions(ptm_dim=ptm_dim["dimension"])
 
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='phantom',
-            indent_level=0)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="phantom", indent_level=0)
         return
 
     def update_attrs_str(self):
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='phantom',
-            indent_level=0)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="phantom", indent_level=0)
 
 
 class PhantomDimensions:
@@ -212,16 +205,10 @@ class PhantomDimensions:
         for dimension in ptm_dim.keys():
             setattr(self, dimension, ptm_dim[dimension])
 
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='dimensions',
-            indent_level=1)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="dimensions", indent_level=1)
 
     def update_attrs_str(self):
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='dimension',
-            indent_level=1)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="dimension", indent_level=1)
 
 
 class PatientOffset:
@@ -262,16 +249,10 @@ class PatientOffset:
         self.d_ver = offset[OFFSET_VERTICAL_KEY]
         self.d_lon = offset[OFFSET_LONGITUDINAL_KEY]
 
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='patient offset',
-            indent_level=1)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="patient offset", indent_level=1)
 
     def update_attrs_str(self):
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='patient offset',
-            indent_level=1)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="patient offset", indent_level=1)
 
 
 class Plotsettings:
@@ -315,49 +296,33 @@ class Plotsettings:
         for key in plt_dict.keys():
             setattr(self, key, plt_dict[key])
 
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='plot',
-            indent_level=0)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="plot", indent_level=0)
 
     def update_attrs_str(self):
-        self.attrs_str = create_attrs_str(
-            attrs_parent=self,
-            object_name='plot',
-            indent_level=0)
+        self.attrs_str = create_attrs_str(attrs_parent=self, object_name="plot", indent_level=0)
 
 
-def create_attrs_str(
-        attrs_parent,
-        object_name,
-        indent_level,
-        indent_size=4,
-        indent_sign=' '):
+def create_attrs_str(attrs_parent, object_name, indent_level, indent_size=4, indent_sign=" "):
 
     attrs_dict = vars(attrs_parent)
 
     indent_marker_title = (indent_level) * indent_size * indent_sign
     indent_marker_objs = indent_marker_title + indent_size * indent_sign
 
-    attrs_str = indent_marker_title + object_name + '\n'
+    attrs_str = indent_marker_title + object_name + "\n"
 
     for key, val in attrs_dict.items():
         if type(val) in [str, float, bool, int]:
-            if not key == 'attrs_str':
-                attrs_str = attrs_str + \
-                    indent_marker_objs + str(key) + ' : ' + str(val) + '\n'
+            if not key == "attrs_str":
+                attrs_str = attrs_str + indent_marker_objs + str(key) + " : " + str(val) + "\n"
         else:
-            attrs_str = attrs_str + '\n' + getattr(attrs_parent, key).attrs_str
+            attrs_str = attrs_str + "\n" + getattr(attrs_parent, key).attrs_str
 
     return attrs_str
 
 
-def initialize_settings(
-        settings: Union[str, dict, PyskindoseSettings]
-        ) -> PyskindoseSettings:
-    valid_input_settings = \
-        settings is not None and isinstance(
-            settings, (str, dict, PyskindoseSettings))
+def initialize_settings(settings: Union[str, dict, PyskindoseSettings]) -> PyskindoseSettings:
+    valid_input_settings = settings is not None and isinstance(settings, (str, dict, PyskindoseSettings))
 
     if not valid_input_settings:
         raise ValueError("Settings must be given as a str or dict")

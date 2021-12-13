@@ -38,9 +38,7 @@ def perform_calculations_for_new_geometries(
 
     if sum(hits):
         logger.debug("Checking which hit skin cells need table correction")
-        table_hits = check_table_hits(
-            source=beam.r[0, :], table=table, beam=beam, cells=patient.r[hits]
-        )
+        table_hits = check_table_hits(source=beam.r[0, :], table=table, beam=beam, cells=patient.r[hits])
 
         logger.debug("Calculating X-Ray field area at the location of each skin cell")
         field_area = scale_field_area(

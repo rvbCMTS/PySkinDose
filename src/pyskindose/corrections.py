@@ -3,21 +3,20 @@ from typing import List
 
 import numpy as np
 import pandas as pd
-from scipy.interpolate import CubicSpline
 import scipy.interpolate
+from scipy.interpolate import CubicSpline
 
 from .db_connect import db_connect
 
 logger = logging.getLogger(__name__)
 
 
-def calculate_k_isq(source: np.array, cells: np.array, dref: float
-                    ) -> np.array:
+def calculate_k_isq(source: np.array, cells: np.array, dref: float) -> np.array:
     """Calculate the IRP air kerma inverse-square law correction.
 
-    This function corrects the X-ray fluence from the interventionl reference
-    point (IRP), to the actual source to skin distance, so that the IRP air
-    kerma is converted to air kerma at the patient skin surface.
+    This function corrects the X-ray fluence from the interventionl reference point
+    (IRP), to the actual source to skin distance, so that the IRP air kerma is converted
+    to air kerma at the patient skin surface.
 
     Parameters
     ----------
@@ -26,8 +25,8 @@ def calculate_k_isq(source: np.array, cells: np.array, dref: float
     cells : np.array
         location of all the cells that are hit by the beam
     dref : float
-        reference distance source to IRP, i.e. the distance at which the IRP
-        air kerma is stated.
+        reference distance source to IRP, i.e. the distance at which the IRP air kerma
+        is stated.
 
     Returns
     -------
@@ -44,11 +43,11 @@ def calculate_k_isq(source: np.array, cells: np.array, dref: float
 def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
     """Calculate backscatter correction.
 
-    This function calculates the backscatter correction factor
-    for all events, at field sizes [5, 10, 20, 25, 35] cm^2.
-    The function uses the non-linear interpolation method presented by
-    Benmakhlouf et al. in the article "Influence of phantom thickness and
-    material on the backscatter factors for diagnostic x-ray beam dosimetry",
+    This function calculates the backscatter correction factor for all events, at field
+    sizes [5, 10, 20, 25, 35] cm^2. The function uses the non-linear interpolation
+    method presented by
+    Benmakhlouf et al. in the article "Influence of phantom thickness and material on
+    the backscatter factors for diagnostic x-ray beam dosimetry",
     [doi:10.1088/0031-9155/58/2/247]
 
     Parameters
@@ -88,40 +87,32 @@ def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
     # This is eq. (8) in doi:10.1088/0031-9155/58/2/247.
     bs_corr = [
         (c[0, :] + c[1, :] * kvp[event] + c[2, :] * np.square(kvp[event]))
-        + (c[3, :] + c[4, :] * kvp[event] + c[5, :] * np.square(kvp[event]))
-        * hvl[event]
-        + (c[6, :] + c[7, :] * kvp[event] + c[8, :] * np.square(kvp[event]))
-        * np.square(hvl[event])
+        + (c[3, :] + c[4, :] * kvp[event] + c[5, :] * np.square(kvp[event])) * hvl[event]
+        + (c[6, :] + c[7, :] * kvp[event] + c[8, :] * np.square(kvp[event])) * np.square(hvl[event])
         for event in range(len(kvp))
     ]
 
     # Create interpolation object for bs_corr
-    bs_interp = [
-        scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event])
-        for event in range(len(kvp))
-    ]
+    bs_interp = [scipy.interpolate.CubicSpline(fsl_tab, bs_corr[event]) for event in range(len(kvp))]
 
     return bs_interp
 
 
-def calculate_k_med(
-    data_norm: pd.DataFrame, field_area: List[float], event: int
-) -> float:
+def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int) -> float:
     """Calculate medium correction.
 
-    This function calculates and appends the medium correction factor
-    for all skin cells that are hit by the X-ray beam in an event. The
-    correction factors are from the article "Backscatter factors and mass
-    energy-absorption coefficient ratios for surface dose determination in
-    diagnostic radiology".
+    This function calculates and appends the medium correction factor for all skin cells
+    that are hit by the X-ray beam in an event. The correction factors are from the
+    article "Backscatter factors and mass energy-absorption coefficient ratios for
+    surface dose determination in diagnostic radiology".
 
     Parameters
     ----------
     data_norm : pd.DataFrame
         RDSR data, normalized for compliance with PySkinDose.
     field_area : List[float]
-        X-ray field area in (cm^2) for each phantom skin cell that are hit by
-        X-ray the beam.
+        X-ray field area in (cm^2) for each phantom skin cell that are hit by the X-ray
+        beam.
     event : int
         Irradiation event index.
 
@@ -166,10 +157,7 @@ def calculate_k_med(
     kvp_round = min(kvp_data, key=lambda x: abs(x - kvp))
 
     # Fetch HVL entries from table
-    hvl_data = df.loc[
-        (df["field_side_length_cm"] == fsl) &
-        (df["kvp_kV"] == kvp_round), "hvl_mmAl"
-    ]
+    hvl_data = df.loc[(df["field_side_length_cm"] == fsl) & (df["kvp_kV"] == kvp_round), "hvl_mmAl"]
 
     # Select closest tabulated HVL (second strongest dependence for k_med)
     hvl_round = min(hvl_data, key=lambda x: abs(x - hvl))
@@ -177,9 +165,7 @@ def calculate_k_med(
     # Fetch corresponding k_med
     k_med = float(
         df.loc[
-            (df["hvl_mmAl"] == hvl_round)
-            & (df["kvp_kV"] == kvp_round)
-            & (df["field_side_length_cm"] == fsl),
+            (df["hvl_mmAl"] == hvl_round) & (df["kvp_kV"] == kvp_round) & (df["field_side_length_cm"] == fsl),
             "mu_en_quotient",
         ]
     )
@@ -187,9 +173,7 @@ def calculate_k_med(
     return k_med
 
 
-def calculate_k_tab(
-    data_norm: pd.DataFrame, estimate_k_tab: bool = False,
-        k_tab_val: float = 0.8) -> List[float]:
+def calculate_k_tab(data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab_val: float = 0.8) -> List[float]:
     """Fetch table correction factor from database.
 
     This function fetches measured table correction factor as a function of

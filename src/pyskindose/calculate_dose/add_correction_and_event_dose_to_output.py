@@ -68,18 +68,13 @@ def add_corrections_and_event_dose_to_output(
     k_bs = back_scatter_interpolation[event](np.sqrt(field_area))
 
     logger.debug("Calculating reference point medium correction (air -> water)")
-    k_med = calculate_k_med(
-        data_norm=normalized_data, field_area=field_area, event=event
-    )
+    k_med = calculate_k_med(data_norm=normalized_data, field_area=field_area, event=event)
 
     output[c.OUTPUT_KEY_CORRECTION_BACK_SCATTER][event] = k_bs
     output[c.OUTPUT_KEY_CORRECTION_MEDIUM][event] = k_med
     output[c.OUTPUT_KEY_CORRECTION_TABLE][event] = k_tab[event]
 
-    logger.debug(
-        "Calculating event skin dose by applying each correction"
-        "factor to the reference point air kerma"
-    )
+    logger.debug("Calculating event skin dose by applying each correction" "factor to the reference point air kerma")
 
     event_dose[hits] += normalized_data.K_IRP[event]
     event_dose[hits] *= output[c.OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW][event]
