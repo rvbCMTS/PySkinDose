@@ -1,5 +1,5 @@
 **/build/
-venv/
+[Vv]env/
 logs/
 .idea/
 .vscode/
