@@ -20,11 +20,10 @@ param = PyskindoseSettings(DEVELOPMENT_PARAMETERS)
 
 
 def test_mathematical_phantom_positioning_in_z_direction():
-    # the patient phantom origin is located at the top of its head. Therefore,
-    # all points on the phantom should have negative z value when loaded.
+    # the patient phantom origin is located at the top of its head. Therefore, all
+    # points on the phantom should have negative z value when loaded.
 
-    # expect 0 skin cell have positiv z-directions, for all mathematical
-    # phantoms
+    # expect 0 skin cell have positiv z-directions, for all mathematical phantoms
     expected = [0, 0]
 
     test = []
@@ -43,8 +42,8 @@ def test_mathematical_phantom_positioning_in_z_direction():
 
 
 def test_stl_phantom_positioning_in_z_direction():
-    # the patient phantom origin is located at the top its head. Therefore,
-    # all points on the phantom should have negative z value when loaded.
+    # the patient phantom origin is located at the top its head. Therefore, all points
+    # on the phantom should have negative z value when loaded.
     nr_phantoms = 0
 
     # calculate numer of stl phantoms

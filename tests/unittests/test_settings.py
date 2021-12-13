@@ -12,8 +12,8 @@ settings = PyskindoseSettings(settings=DEVELOPMENT_PARAMETERS)
 
 def test_print_parameters_with_updated_settings():
 
-    # Expect that the print statement will change if parameters in the settings
-    # are changed
+    # Expect that the print statement will change if parameters in the settings are
+    # changed
     expected = False
 
     # print parameters
