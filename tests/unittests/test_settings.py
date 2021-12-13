@@ -1,11 +1,11 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 P = Path(__file__).parent.parent
 sys.path.insert(1, str(P.absolute()))
 
-from pyskindose.settings_pyskindose import PyskindoseSettings
 from manual_tests.base_dev_settings import DEVELOPMENT_PARAMETERS
+from pyskindose.settings_pyskindose import PyskindoseSettings
 
 settings = PyskindoseSettings(settings=DEVELOPMENT_PARAMETERS)
 
@@ -19,7 +19,7 @@ def test_print_parameters_with_updated_settings():
     # print parameters
     print_string = settings.print_parameters(return_as_string=True)
     # update something
-    settings.mode = 'some_other_mode'
+    settings.mode = "some_other_mode"
     # print parameters again
     print_string_updated = settings.print_parameters(return_as_string=True)
 
