@@ -4,7 +4,7 @@ DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
-    rdsr_filename='S1.dcm',
+    rdsr_filename="S1.dcm",
     # Irrading event index for mode='plot_event'
     plot_event_index=12,
     # Set True to estimate table correction, or False to use measured k_tab
@@ -25,7 +25,8 @@ DEVELOPMENT_PARAMETERS = dict(
         # procedure
         c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 0,
         # Irrading event index for mode='plot_event'
-        c.PLOT_EVENT_INDEX_KEY: 12},
+        c.PLOT_EVENT_INDEX_KEY: 12,
+    },
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'
@@ -36,7 +37,8 @@ DEVELOPMENT_PARAMETERS = dict(
         patient_offset={
             c.OFFSET_LONGITUDINAL_KEY: 0,
             c.OFFSET_VERTICAL_KEY: 0,
-            c.OFFSET_LATERAL_KEY: -35},
+            c.OFFSET_LATERAL_KEY: -35,
+        },
         # Dimensions of matematical phantoms (except model='human')
         patient_orientation=c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE,
         dimension={
@@ -53,7 +55,7 @@ DEVELOPMENT_PARAMETERS = dict(
             # Second radii of cylinder phantom
             c.DIMENSION_CYLINDER_RADII_B: 10,
             # Resolution of cylinder.
-            c.DIMENSION_CYLINDER_RESOLUTION: c.RESOLUTION_SPARSE,
+            c.DIMENSION_CYLINDER_RESOLUTION: c.RESOLUTION_DENSE,
             # Support table length
             c.DIMENSION_TABLE_LENGTH: 281.5,
             # Support table width
@@ -66,4 +68,6 @@ DEVELOPMENT_PARAMETERS = dict(
             c.DIMENSION_PAD_WIDTH: 45,
             # Support pad thickness
             c.DIMENSION_PAD_THICKNESS: 4,
-            }))
+        },
+    ),
+)
