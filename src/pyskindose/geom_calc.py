@@ -470,12 +470,12 @@ def check_table_hits(source: np.array, table: Phantom, beam, cells: np.array) ->
 
 
 def convert_from_mm_to_cm(val_in_mm: float) -> float:
-    """Convert a length from centimeters to millimeters.
+    """Convert a length from millimeters to centimeters.
 
     Parameters
     ----------
-    val_in_cm : float
-        A length in cm
+    val_in_mm : float
+        A length in mm
 
     Returns
     -------
