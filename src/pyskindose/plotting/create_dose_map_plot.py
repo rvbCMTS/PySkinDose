@@ -17,17 +17,13 @@ from pyskindose.settings_pyskindose import PyskindoseSettings
 from ..constants import (
     DOSEMAP_COLORSCALE,
     PHANTOM_MODEL_PLANE,
-    PLOT_ASPECTMODE_PLOT_DOSEMAP,
     PLOT_EYE_BACK,
     PLOT_EYE_FRONT,
     PLOT_EYE_LEFT,
     PLOT_EYE_RIGHT,
     PLOT_FILE_TYPE_STATIC,
     PLOT_FONT_FAMILY,
-    PLOT_FONT_SIZE,
-    PLOT_HOVERLABEL_FONT_FAMILY,
-    PLOT_HOVERLABEL_FONT_SIZE,
-    PLOT_ORDER_STATIC
+    PLOT_ORDER_STATIC,
 )
 
 from .plot_settings import (
