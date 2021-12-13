@@ -3,6 +3,7 @@ from typing import List
 
 import numpy as np
 import pandas as pd
+
 from pyskindose import Beam, Phantom
 from pyskindose import constants as c
 from pyskindose import scale_field_area

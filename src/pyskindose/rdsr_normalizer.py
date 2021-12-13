@@ -1,11 +1,12 @@
+import json
+from pathlib import Path
 from typing import Optional, Union
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
-import json
 
-from .settings_normalization import NormalizationSettings
 from .geom_calc import calculate_field_size
+from .settings_normalization import NormalizationSettings
 
 
 def rdsr_normalizer(

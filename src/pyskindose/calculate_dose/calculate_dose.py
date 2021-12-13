@@ -3,6 +3,7 @@ from typing import Any, Dict, Optional, Tuple
 
 import numpy as np
 import pandas as pd
+
 from pyskindose import constants as c
 from pyskindose.calculate_dose.calculate_irradiation_event_result import (
     calculate_irradiation_event_result,

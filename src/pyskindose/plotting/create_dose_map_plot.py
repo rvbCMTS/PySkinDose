@@ -3,6 +3,7 @@ import logging
 import numpy as np
 import plotly.graph_objects as go
 from PIL import Image
+
 from pyskindose.phantom_class import Phantom
 from pyskindose.plotting.create_layout_for_dose_map_plots import (
     create_layout_for_dose_map_plots,

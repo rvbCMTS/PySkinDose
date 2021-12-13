@@ -3,10 +3,11 @@ from typing import Any, Dict, List
 
 import numpy as np
 import pandas as pd
+from scipy.interpolate import CubicSpline
+
 from pyskindose import Phantom
 from pyskindose import constants as c
 from pyskindose.corrections import calculate_k_med
-from scipy.interpolate import CubicSpline
 
 logger = logging.getLogger(__name__)
 

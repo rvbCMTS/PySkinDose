@@ -3,6 +3,9 @@ from typing import Any, Dict, List
 
 import numpy as np
 import pandas as pd
+from scipy.interpolate import CubicSpline
+from tqdm import tqdm
+
 from pyskindose import Phantom
 from pyskindose import constants as c
 from pyskindose.calculate_dose.add_correction_and_event_dose_to_output import (
@@ -11,8 +14,6 @@ from pyskindose.calculate_dose.add_correction_and_event_dose_to_output import (
 from pyskindose.calculate_dose.perform_calculations_for_new_geometries import (
     perform_calculations_for_new_geometries,
 )
-from scipy.interpolate import CubicSpline
-from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 

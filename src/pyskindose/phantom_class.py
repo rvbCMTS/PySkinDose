@@ -1,15 +1,18 @@
-import os
 import copy
+import os
+from typing import Dict, List, Optional
 
-from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from stl import mesh
-from typing import Dict, List, Optional
+from tqdm import tqdm
+
+from pyskindose.plotting.create_ploty_ijk_indices import (
+    _create_plotly_ijk_indices_for_cuboid_objects,
+)
 
 from .settings_pyskindose import PhantomDimensions
-from pyskindose.plotting.create_ploty_ijk_indices import _create_plotly_ijk_indices_for_cuboid_objects
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
