@@ -8,4 +8,7 @@ pylama
 pytest
 sphinx
 myst-parser
+black
+isort
+pydocstyle
 -e .
