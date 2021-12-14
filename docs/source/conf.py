@@ -10,20 +10,23 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+from pathlib import Path
 import os
 import sys
-sys.path.insert(0, os.path.abspath('src/pyskindose'))
 
+# sys.path.insert(0, os.path.abspath('src/pyskindose'))
+project_root = Path(__file__).parent.parent.parent / "src" / "pyskindose"
+sys.path.insert(0, str(project_root.absolute()))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'PySkinDose'
-copyright = '2020, Max Hellström'
-author = 'Max Hellström'
+project = "PySkinDose"
+copyright = "2020, Max Hellström"
+author = "Max Hellström"
 
 # The full version, including alpha/beta/rc tags
-release = '19.6.0'
+release = "19.6.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -34,22 +37,21 @@ release = '19.6.0'
 extensions = [
     "sphinx.ext.mathjax",
     "myst_parser",
-    'sphinx_rtd_theme',
+    "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
 ]
 
+default_dark_mode = True
 
 # Avoid STIX-font fallback
-mathjax_config = {
-        "HTML-CSS": {'availableFonts': ["TeX"]}
-}
+mathjax_config = {"HTML-CSS": {"availableFonts": ["TeX"]}}
 
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
-# List of patterns, relative to source directory, that match files and
+# List of patterns, relative to source directory, that match files andcon
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
@@ -60,14 +62,13 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
 
-html_theme_options = {
-}
+html_theme_options = {}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 
 def setup(app):
