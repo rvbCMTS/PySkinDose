@@ -27,18 +27,11 @@ class Beam:
     N : np.array
         4*3 array, where each row contains a normal vector to one of the four
         faces of the beam.
-
-    Methods
-    -------
-    check_hit(patient)
-        Calculates which of the patient phantom's entrance skin cells are hit
-        by the X-ray beam. For 3D phantoms, skin cells on the beams exit path
-        are neglected.
-
     """
 
-    def __init__(self, data_norm: pd.DataFrame, event: int = 0,
-                 plot_setup: bool = False) -> None:
+    def __init__(
+        self, data_norm: pd.DataFrame, event: int = 0, plot_setup: bool = False
+    ) -> None:
         """Initialize the beam and detector for a specific irradiation event.
 
         Parameters
@@ -76,16 +69,15 @@ class Beam:
             # i.e. rotation of the X-ray detector about the y axis (VERT)
             ap3 = np.deg2rad(data_norm.Ap3[event])
 
-
         # calculate rotation about x axis
         angle = ap2
         Rx = np.array(
             [
                 [+1, +0, +0],
                 [+0, +np.cos(angle), -np.sin(angle)],
-                [+0, +np.sin(angle), +np.cos(angle)]
+                [+0, +np.sin(angle), +np.cos(angle)],
             ]
-                    )
+        )
 
         # calculate rotation about y axis
         angle = ap3
@@ -93,9 +85,9 @@ class Beam:
             [
                 [+np.cos(angle), +0, +np.sin(angle)],
                 [+0, +1, +0],
-                [-np.sin(angle), +0, +np.cos(angle)]
+                [-np.sin(angle), +0, +np.cos(angle)],
             ]
-                    )
+        )
 
         # calculate rotation about z axis
         angle = ap1
@@ -103,9 +95,9 @@ class Beam:
             [
                 [+np.cos(angle), -np.sin(angle), +0],
                 [+np.sin(angle), +np.cos(angle), +0],
-                [+0, +0, +1]
+                [+0, +0, +1],
             ]
-                    )
+        )
 
         # calculate source-isocenter displacement at ap1 = ap2 = 0
         delta_r = np.array([0, data_norm.DSI[event], 0])
@@ -117,13 +109,12 @@ class Beam:
                 [+0.5, -1.0, +0.5],  # r+
                 [+0.5, -1.0, -0.5],  # r+-
                 [-0.5, -1.0, -0.5],  # r-
-                [-0.5, -1.0, +0.5]   # r-+
+                [-0.5, -1.0, +0.5],  # r-+
             ]
         )
         r[1:, 1] *= data_norm.DSD[event]
         r[1:, 0] *= data_norm.FS_long[event]  # Append longitudinal collimation
         r[1:, 2] *= data_norm.FS_lat[event]  # Append lateral collimation
-
 
         # Transform the beam from the positioner coordinate system to the
         # isocenter coordinate system. Note! The transpose operations are
@@ -133,32 +124,41 @@ class Beam:
         self.r = r
 
         # Manually create vertex index vector for the X-ray beam
-        self.ijk = np.column_stack((
-            [0, 0, 0, 0, 1, 1],
-            [1, 1, 3, 3, 2, 3],
-            [2, 4, 2, 4, 3, 4]))
+        self.ijk = np.column_stack(
+            ([0, 0, 0, 0, 1, 1], [1, 1, 3, 3, 2, 3], [2, 4, 2, 4, 3, 4])
+        )
 
         # Create unit vectors from X-ray source to beam verticies
-        v = ((self.r[1:] - self.r[0, :]).T /
-             np.linalg.norm(self.r[1:] - self.r[0, :], axis=1)).T
+        v = (
+            (self.r[1:] - self.r[0, :]).T
+            / np.linalg.norm(self.r[1:] - self.r[0, :], axis=1)
+        ).T
 
         # Create the four normal vectors to the faces of the beam.
-        self.N = np.vstack([np.cross(v[0, :], v[1, :]),
-                            np.cross(v[1, :], v[2, :]),
-                            np.cross(v[2, :], v[3, :]),
-                            np.cross(v[3, :], v[0, :])])
+        self.N = np.vstack(
+            [
+                np.cross(v[0, :], v[1, :]),
+                np.cross(v[1, :], v[2, :]),
+                np.cross(v[2, :], v[3, :]),
+                np.cross(v[3, :], v[0, :]),
+            ]
+        )
 
         # Create detector corners for with side length 1
         # The first four rows represent the X-ray detector surface, the last
         # four are there to give the detector some depth for 3D visualization.
-        det_r = np.array([[+0.5, -1.0, +0.5],
-                          [+0.5, -1.0, -0.5],
-                          [-0.5, -1.0, -0.5],
-                          [-0.5, -1.0, +0.5],
-                          [+0.5, -1.2, +0.5],
-                          [+0.5, -1.2, -0.5],
-                          [-0.5, -1.2, -0.5],
-                          [-0.5, -1.2, +0.5]])
+        det_r = np.array(
+            [
+                [+0.5, -1.0, +0.5],
+                [+0.5, -1.0, -0.5],
+                [-0.5, -1.0, -0.5],
+                [-0.5, -1.0, +0.5],
+                [+0.5, -1.2, +0.5],
+                [+0.5, -1.2, -0.5],
+                [-0.5, -1.2, -0.5],
+                [-0.5, -1.2, +0.5],
+            ]
+        )
 
         # Add detector dimensions
         detector_width = data_norm.DSL[0]
@@ -175,10 +175,13 @@ class Beam:
         self.det_r = det_r
 
         # Manually construct vertex index vector for the X-ray detector
-        self.det_ijk = np.column_stack((
-            [0, 0, 4, 4, 0, 1, 0, 3, 3, 7, 1, 1],
-            [1, 2, 5, 6, 1, 5, 3, 7, 2, 2, 2, 6],
-            [2, 3, 6, 7, 4, 4, 4, 4, 7, 6, 6, 5]))
+        self.det_ijk = np.column_stack(
+            (
+                [0, 0, 4, 4, 0, 1, 0, 3, 3, 7, 1, 1],
+                [1, 2, 5, 6, 1, 5, 3, 7, 2, 2, 2, 6],
+                [2, 3, 6, 7, 4, 4, 4, 4, 7, 6, 6, 5],
+            )
+        )
 
     def check_hit(self, patient: Phantom) -> List[bool]:
         """Calculate which patient entrance skin cells are hit by the beam.
@@ -209,8 +212,7 @@ class Beam:
             temp1 = v[hits]
             temp2 = patient.n[hits]
 
-            bool_entrance = [np.dot(temp1[i], temp2[i]) <= 0
-                             for i in range(len(temp1))]
+            bool_entrance = [np.dot(temp1[i], temp2[i]) <= 0 for i in range(len(temp1))]
 
             hits[np.where(hits)] = bool_entrance
 
