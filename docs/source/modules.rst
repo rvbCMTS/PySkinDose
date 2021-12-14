@@ -1,4 +1,4 @@
-Project Documentation
+pyskindose
 ==========
 
 .. toctree::
