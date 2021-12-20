@@ -36,8 +36,5 @@ exclude = '''
     | tools
     | pytest_cache
   )/
-  | manage.py
-  | odontQA/asgi.py
-  | odontQA/wsgi.py
 )
 '''
