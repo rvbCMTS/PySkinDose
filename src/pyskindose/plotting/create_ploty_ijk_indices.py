@@ -1,4 +1,3 @@
-
 def _create_plotly_ijk_indices_for_cuboid_objects():
 
     # create list for storing indices order
@@ -23,8 +22,6 @@ def _create_plotly_ijk_indices_for_cuboid_objects():
     i_tab.append(2 + 4)
     j_tab.append(3 + 4)
     k_tab.append(0 + 4)
-
-
 
     # append triangles to fill cuboid right side
     i_tab.append(0)
@@ -52,7 +49,6 @@ def _create_plotly_ijk_indices_for_cuboid_objects():
     i_tab.append(3)
     j_tab.append(7)
     k_tab.append(4)
-
 
     # append triangles to fill cuboid feet side
     i_tab.append(1)

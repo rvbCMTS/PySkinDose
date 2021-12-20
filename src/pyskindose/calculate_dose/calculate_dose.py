@@ -1,12 +1,13 @@
 import logging
 from typing import Any, Dict, Optional, Tuple
+
 import numpy as np
 import pandas as pd
 
+from pyskindose import constants as c
 from pyskindose.calculate_dose.calculate_irradiation_event_result import (
     calculate_irradiation_event_result,
 )
-from pyskindose import constants as c
 from pyskindose.corrections import calculate_k_bs, calculate_k_tab
 from pyskindose.geom_calc import (
     check_new_geometry,
@@ -47,8 +48,7 @@ def calculate_dose(
 
     """
     if settings.mode != c.MODE_CALCULATE_DOSE:
-        logger.debug(
-            "Mode not set to calculate dose. Returning without doing anything")
+        logger.debug("Mode not set to calculate dose. Returning without doing anything")
         return None, None
 
     logger.info("Start performing dose calculations")
@@ -60,13 +60,17 @@ def calculate_dose(
 
     # position objects in starting position
     position_patient_phantom_on_table(
-            patient=patient, table=table, pad=pad,
-            pad_thickness=settings.phantom.dimension.pad_thickness,
-            patient_offset=[
-                settings.phantom.patient_offset.d_lon,
-                settings.phantom.patient_offset.d_ver,
-                settings.phantom.patient_offset.d_lat],
-            patient_orientation=settings.phantom.patient_orientation)
+        patient=patient,
+        table=table,
+        pad=pad,
+        pad_thickness=settings.phantom.dimension.pad_thickness,
+        patient_offset=[
+            settings.phantom.patient_offset.d_lon,
+            settings.phantom.patient_offset.d_ver,
+            settings.phantom.patient_offset.d_lat,
+        ],
+        patient_orientation=settings.phantom.patient_orientation,
+    )
 
     normalized_data = fetch_and_append_hvl(data_norm=normalized_data)
 
@@ -112,9 +116,7 @@ def calculate_dose(
         pad=pad,
         back_scatter_interpolation=back_scatter_interpolation,
         output=output_template,
-        pbar=pbar(
-            total=total_number_of_events, leave=False,
-            desc='calculating skindose')
+        pbar=pbar(total=total_number_of_events, leave=False, desc="calculating skindose"),
     )
 
     return patient, output

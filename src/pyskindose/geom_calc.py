@@ -1,9 +1,11 @@
 import logging
-from typing import List, Any
+from typing import Any, List
+
 import numpy as np
 import pandas as pd
 
 import pyskindose.constants as c
+
 from .db_connect import db_connect
 from .phantom_class import Phantom
 
@@ -62,15 +64,9 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
         d_shutter_in_dcm_cm = 100
 
         # field size in long direction at d = d_shutter_in_dcm_cm
-        FS_long_at_d_shutter = (
-            convert_from_mm_to_cm(
-                data_parsed.LeftShutter_mm + data_parsed.RightShutter_mm)
-        )
+        FS_long_at_d_shutter = convert_from_mm_to_cm(data_parsed.LeftShutter_mm + data_parsed.RightShutter_mm)
         # field size in lat direction at d = d_shutter_in_dcm_cm
-        FS_lat_at_d_shutter = (
-            convert_from_mm_to_cm(
-                data_parsed.TopShutter_mm + data_parsed.BottomShutter_mm)
-        )
+        FS_lat_at_d_shutter = convert_from_mm_to_cm(data_parsed.TopShutter_mm + data_parsed.BottomShutter_mm)
         # scale factor to get field size at detector plane
         scale = data_norm.DSD / d_shutter_in_dcm_cm
 
@@ -81,13 +77,13 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
 
 
 def position_patient_phantom_on_table(
-        patient: Phantom,
-        table: Phantom,
-        pad: Phantom,
-        pad_thickness: Any,
-        patient_offset: List[int],
-        patient_orientation: c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE
-                    ) -> None:
+    patient: Phantom,
+    table: Phantom,
+    pad: Phantom,
+    pad_thickness: Any,
+    patient_offset: List[int],
+    patient_orientation: c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE,
+) -> None:
     """Places the patient phantom upon the patient support table.
 
     In this function, the patient phantom is positioned to the starting
@@ -118,9 +114,9 @@ def position_patient_phantom_on_table(
 
         offset_to_rotation_center = abs(patient.r[:, 2].min()) / 2
 
-        patient.translate(dr=[0, 0, + offset_to_rotation_center])
+        patient.translate(dr=[0, 0, +offset_to_rotation_center])
         patient.rotate(angles=[0, 180, 0])
-        patient.translate(dr=[0, 0, - offset_to_rotation_center])
+        patient.translate(dr=[0, 0, -offset_to_rotation_center])
 
     # place the phantom on top of the support pad
     patient.translate(dr=[0, -pad_thickness, 0])
@@ -168,8 +164,9 @@ def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
     return vec
 
 
-def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom,
-                     hits: List[bool], source: np.array) -> List[float]:
+def scale_field_area(
+    data_norm: pd.DataFrame, event: int, patient: Phantom, hits: List[bool], source: np.array
+) -> List[float]:
     """Scale X-ray field area from image detector, to phantom skin cells.
 
     This function scales the X-ray field size from the point where it is stated
@@ -216,8 +213,7 @@ def scale_field_area(data_norm: pd.DataFrame, event: int, patient: Phantom,
 
     # Calculate field area at distance source to skin cell for all cells
     # that are hit by the beam.
-    field_area = [round(field_area_ref * np.square(scale), 1)
-                  for scale in scale_factor]
+    field_area = [round(field_area_ref * np.square(scale), 1) for scale in scale_factor]
 
     return field_area
 
@@ -244,12 +240,17 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame) -> pd.DataFrame:
     # Fetch entire HVL table
     hvl_data = pd.read_sql_query("SELECT * FROM HVL_simulated", conn)
 
-    hvl = [float(hvl_data.loc[
-        (hvl_data['DeviceModel'] == data_norm.model[event]) &
-        (hvl_data['kVp_kV'] == round(data_norm.kVp[event])) &
-        (hvl_data['AddedFiltration_mmCu'] ==
-         data_norm.filter_thickness_Cu[event]), "HVL_mmAl"])
-           for event in range(len(data_norm))]
+    hvl = [
+        float(
+            hvl_data.loc[
+                (hvl_data["DeviceModel"] == data_norm.model[event])
+                & (hvl_data["kVp_kV"] == round(data_norm.kVp[event]))
+                & (hvl_data["AddedFiltration_mmCu"] == data_norm.filter_thickness_Cu[event]),
+                "HVL_mmAl",
+            ]
+        )
+        for event in range(len(data_norm))
+    ]
 
     # Append HVL data to data_norm
     data_norm["HVL"] = hvl
@@ -280,22 +281,17 @@ def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
         geometry since the preceding irradiation event.
 
     """
-    logger.info(
-        "Checking which irradiation events contain changes in geometry"
-        "compared to previous event")
+    logger.info("Checking which irradiation events contain changes in geometry" "compared to previous event")
 
     logger.debug("Listing all RDSR geometry parameters")
-    geom_params = data_norm[['Tx', 'Ty', 'Tz', 'FS_lat', 'FS_long',
-                             'Ap1', 'Ap2', 'Ap3', 'At1', 'At2', 'At3']]
+    geom_params = data_norm[["Tx", "Ty", "Tz", "FS_lat", "FS_long", "Ap1", "Ap2", "Ap3", "At1", "At2", "At3"]]
 
-    logger.debug(
-        "Checking which irradiation events that does not have same"
-        "parameters as previous")
-    changed_geometry = [not geom_params.iloc[event].equals(
-        geom_params.iloc[event - 1]) for event in range(1, len(geom_params))]
+    logger.debug("Checking which irradiation events that does not have same" "parameters as previous")
+    changed_geometry = [
+        not geom_params.iloc[event].equals(geom_params.iloc[event - 1]) for event in range(1, len(geom_params))
+    ]
 
-    logger.debug("Insert True to the first event to indicate that it has a"
-                 "new geometry")
+    logger.debug("Insert True to the first event to indicate that it has a" "new geometry")
 
     changed_geometry.insert(0, True)
 
@@ -339,10 +335,9 @@ class Triangle:
         self.p1 = vector(self.p, p1)
         self.p2 = vector(self.p, p2)
         n = np.cross(self.p1, self.p2)
-        self.n = n/np.sqrt(n.dot(n))
+        self.n = n / np.sqrt(n.dot(n))
 
-    def check_intersection(self, start: np.array,
-                           stop: np.array) -> List[bool]:
+    def check_intersection(self, start: np.array, stop: np.array) -> List[bool]:
         """Check if a 3D segment intercepts with the triangle.
 
         Check if a 3D segment intercepts with the triangle. For our purpose,
@@ -372,8 +367,7 @@ class Triangle:
         w = self.p - start
 
         # List of unit vectors from start, to each of the coordinates in stop.
-        v = ((stop - start).T /
-             np.linalg.norm(stop - start, axis=stop.ndim-1)).T
+        v = ((stop - start).T / np.linalg.norm(stop - start, axis=stop.ndim - 1)).T
 
         # Distances from start to the plane of the triangle, in the direction
         # along the vector v.
@@ -384,28 +378,21 @@ class Triangle:
         # Vector from central vertex p to i
         p_i = i - self.p
 
-        d = np.square(
-            np.dot(self.p1, self.p2)) - np.dot(self.p1, self.p1) * \
-            np.dot(self.p2, self.p2)
+        d = np.square(np.dot(self.p1, self.p2)) - np.dot(self.p1, self.p1) * np.dot(self.p2, self.p2)
 
-        d1 = (np.dot(self.p1, self.p2) * np.dot(p_i, self.p2) -
-              np.dot(self.p2, self.p2) * np.dot(p_i, self.p1)) / d
+        d1 = (np.dot(self.p1, self.p2) * np.dot(p_i, self.p2) - np.dot(self.p2, self.p2) * np.dot(p_i, self.p1)) / d
 
-        d2 = (np.dot(self.p1, self.p2) * np.dot(p_i, self.p1) -
-              np.dot(self.p1, self.p1) * np.dot(p_i, self.p2)) / d
+        d2 = (np.dot(self.p1, self.p2) * np.dot(p_i, self.p1) - np.dot(self.p1, self.p1) * np.dot(p_i, self.p2)) / d
 
         # Now we have p_i = d1/d * p1 + d2/d * p2, thus,
         # if 0 <= d1/d <= 1, and 0 <= d2/d <= 1, and d1 + d2 <= 1, the beam
         # intercepts the triangle.
-        hits = np.array([d1 >= 0, d1 <= 1,
-                         d2 >= 0, d2 <= 1,
-                         d1 + d2 <= 1]).all(axis=0)
+        hits = np.array([d1 >= 0, d1 <= 1, d2 >= 0, d2 <= 1, d1 + d2 <= 1]).all(axis=0)
 
         return hits.tolist()
 
 
-def check_table_hits(source: np.array, table: Phantom, beam,
-                     cells: np.array) -> List[bool]:
+def check_table_hits(source: np.array, table: Phantom, beam, cells: np.array) -> List[bool]:
     """Check which skin cells are blocket by the patient support table.
 
     This fuctions creates two triangles covering the entire surface of the
@@ -483,12 +470,12 @@ def check_table_hits(source: np.array, table: Phantom, beam,
 
 
 def convert_from_mm_to_cm(val_in_mm: float) -> float:
-    """Convert a length from centimeters to millimeters.
+    """Convert a length from millimeters to centimeters.
 
     Parameters
     ----------
-    val_in_cm : float
-        A length in cm
+    val_in_mm : float
+        A length in mm
 
     Returns
     -------

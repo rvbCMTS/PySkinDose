@@ -1,16 +1,18 @@
-import os
 import copy
+import os
+from typing import Dict, List, Optional
 
-from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from stl import mesh
-from typing import Dict, List, Optional
+from tqdm import tqdm
+
+from pyskindose.plotting.create_ploty_ijk_indices import (
+    _create_plotly_ijk_indices_for_cuboid_objects,
+)
 
 from .settings_pyskindose import PhantomDimensions
-from pyskindose.plotting.create_ploty_ijk_indices import \
-    _create_plotly_ijk_indices_for_cuboid_objects
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
@@ -64,9 +66,7 @@ class Phantom:
         according to the table displacement info in data_norm
     """
 
-    def __init__(self,
-                 phantom_model: str, phantom_dim: PhantomDimensions,
-                 human_mesh: Optional[str] = None):
+    def __init__(self, phantom_model: str, phantom_dim: PhantomDimensions, human_mesh: Optional[str] = None):
         """Create the phantom of choice.
 
         Parameters
@@ -93,8 +93,7 @@ class Phantom:
         self.phantom_model = phantom_model.lower()
         # Raise error if invalid phantom model selected
         if self.phantom_model not in VALID_PHANTOM_MODELS:
-            raise ValueError(f"Unknown phantom model selected. Valid type:"
-                             f"{'.'.join(VALID_PHANTOM_MODELS)}")
+            raise ValueError(f"Unknown phantom model selected. Valid type:" f"{'.'.join(VALID_PHANTOM_MODELS)}")
 
         self.r_ref: np.array
 
@@ -106,19 +105,18 @@ class Phantom:
         if phantom_model == "plane":
 
             # Use a dense grid if specified by user
-            if phantom_dim.plane_resolution.lower() == 'dense':
+            if phantom_dim.plane_resolution.lower() == "dense":
                 res_length = res_width = 2.0
 
-            elif phantom_dim.plane_resolution.lower() == 'sparse':
+            elif phantom_dim.plane_resolution.lower() == "sparse":
                 res_length = res_width = 1.0
 
             # Linearly spaced points along the longitudinal direction
-            x = np.linspace(-phantom_dim.plane_width / 2,
-                            +phantom_dim.plane_width / 2,
-                            int(res_width * phantom_dim.plane_width + 1))
+            x = np.linspace(
+                -phantom_dim.plane_width / 2, +phantom_dim.plane_width / 2, int(res_width * phantom_dim.plane_width + 1)
+            )
             # Linearly spaced points along the lateral direction
-            z = np.linspace(0, -phantom_dim.plane_length,
-                            int(res_length * phantom_dim.plane_length))
+            z = np.linspace(0, -phantom_dim.plane_length, int(res_length * phantom_dim.plane_length))
 
             # Create phantom in form of rectangular grid
             x_plane, z_plane = np.meshgrid(x, z)
@@ -136,9 +134,7 @@ class Phantom:
                     k1 = k1 + [j * len(x) + i + len(x)]
                     i2 = i2 + [j * len(x) + i + len(x) + 1]
 
-            self.r = np.column_stack((x_plane.ravel(),
-                                      np.zeros(len(x_plane.ravel())),
-                                      z_plane.ravel()))
+            self.r = np.column_stack((x_plane.ravel(), np.zeros(len(x_plane.ravel())), z_plane.ravel()))
 
             self.ijk = np.column_stack((i1 + i2, j1 + k1, k1 + j1))
             self.dose = np.zeros(len(self.r))
@@ -147,11 +143,11 @@ class Phantom:
         elif phantom_model == "cylinder":
 
             # Use a dense grid if specified by user
-            if phantom_dim.cylinder_resolution.lower() == 'dense':
+            if phantom_dim.cylinder_resolution.lower() == "dense":
                 res_length = 4
                 res_width = 0.05
 
-            elif phantom_dim.cylinder_resolution.lower() == 'sparse':
+            elif phantom_dim.cylinder_resolution.lower() == "sparse":
                 res_length = 1.0
                 res_width = 0.1
 
@@ -162,13 +158,11 @@ class Phantom:
             y = (phantom_dim.cylinder_radii_b * np.sin(t)).tolist()
 
             # calculate normal vectors of a cylinder (pointing outwards)
-            nx = np.cos(t) / (
-                np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+            nx = np.cos(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
 
             nz = np.zeros(len(t))
 
-            ny = 2 * np.sin(t) / (
-                np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
+            ny = 2 * np.sin(t) / (np.sqrt(np.square(np.cos(t) + 4 * np.square(np.sin(t)))))
 
             nx = nx.tolist()
             ny = ny.tolist()
@@ -181,8 +175,7 @@ class Phantom:
 
             # Extend the ellipse to span the entire length of the phantom,
             # thus creating an elliptic cylinder
-            for index in range(
-                    0, int(res_length) * (phantom_dim.cylinder_length + 2), 1):
+            for index in range(0, int(res_length) * (phantom_dim.cylinder_length + 2), 1):
 
                 output["x"] = output["x"] + x
                 output["z"] = output["z"] + [-1 / res_length * index] * len(x)
@@ -197,8 +190,8 @@ class Phantom:
             k2 = list(range(len(t) - 1, len(output["x"]) - 1))
             j2 = list(range(len(t), len(output["x"])))
 
-            for i in range(len(output['y'])):
-                output['y'][i] -= phantom_dim.cylinder_radii_b
+            for i in range(len(output["y"])):
+                output["y"][i] -= phantom_dim.cylinder_radii_b
 
             self.r = np.column_stack((output["x"], output["y"], output["z"]))
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
@@ -209,12 +202,10 @@ class Phantom:
         elif phantom_model == "human":
 
             if human_mesh is None:
-                raise ValueError('Human model needs to be specified for'
-                                 'phantom_model = "human"')
+                raise ValueError("Human model needs to be specified for" 'phantom_model = "human"')
 
             # load selected phantom model from binary .stl file
-            phantom_path = os.path.join(os.path.dirname(__file__),
-                                        'phantom_data', f"{human_mesh}.stl")
+            phantom_path = os.path.join(os.path.dirname(__file__), "phantom_data", f"{human_mesh}.stl")
             phantom_mesh = mesh.Mesh.from_file(phantom_path)
 
             r = phantom_mesh.vectors
@@ -224,30 +215,24 @@ class Phantom:
             self.n = np.asarray([x for pair in zip(n, n, n) for x in pair])
 
             # Create index vectors for plotly mesh3d plotting
-            self.ijk = np.column_stack((
-                np.arange(0, len(self.r) - 3, 3),
-                np.arange(1, len(self.r) - 2, 3),
-                np.arange(2, len(self.r) - 1, 3)))
+            self.ijk = np.column_stack(
+                (np.arange(0, len(self.r) - 3, 3), np.arange(1, len(self.r) - 2, 3), np.arange(2, len(self.r) - 1, 3))
+            )
             self.dose = np.zeros(len(self.r))
 
         # Creates the vertices of the patient support table
         elif phantom_model == "table":
             # Longitudinal position of the the vertices
-            x_tab = [index * phantom_dim.table_width for index in
-                     [+0.5, +0.5, -0.5, -0.5,
-                      +0.5, +0.5, -0.5, -0.5]]
+            x_tab = [index * phantom_dim.table_width for index in [+0.5, +0.5, -0.5, -0.5, +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
-            y_tab = [index * phantom_dim.table_thickness for index in
-                     [0, 0, 0, 0, +1, +1, +1, +1]]
+            y_tab = [index * phantom_dim.table_thickness for index in [0, 0, 0, 0, +1, +1, +1, +1]]
 
             # Lateral position of the vertices
-            z_tab = [index * phantom_dim.table_length for index in
-                     [0, -1, -1, 0, 0, -1, -1, 0]]
+            z_tab = [index * phantom_dim.table_length for index in [0, -1, -1, 0, 0, -1, -1, 0]]
 
             # Create index vectors for plotly mesh3d plotting
-            i_tab, j_tab, k_tab = \
-                _create_plotly_ijk_indices_for_cuboid_objects()
+            i_tab, j_tab, k_tab = _create_plotly_ijk_indices_for_cuboid_objects()
 
             self.r = np.column_stack((x_tab, y_tab, z_tab))
             self.ijk = np.column_stack((i_tab, j_tab, k_tab))
@@ -256,21 +241,16 @@ class Phantom:
         elif phantom_model == "pad":
 
             # Longitudinal position of the the vertices
-            x_pad = [index * phantom_dim.pad_width for index in
-                     [+0.5, +0.5, -0.5, -0.5,
-                      +0.5, +0.5, -0.5, -0.5]]
+            x_pad = [index * phantom_dim.pad_width for index in [+0.5, +0.5, -0.5, -0.5, +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
-            y_pad = [index * phantom_dim.pad_thickness for index in
-                     [0, 0, 0, 0, -1, -1, -1, -1]]
+            y_pad = [index * phantom_dim.pad_thickness for index in [0, 0, 0, 0, -1, -1, -1, -1]]
 
             # Lateral position of the the vertices
-            z_pad = [index * phantom_dim.pad_length for index in
-                     [0, -1, -1, 0, 0, -1, -1, 0]]
+            z_pad = [index * phantom_dim.pad_length for index in [0, -1, -1, 0, 0, -1, -1, 0]]
 
             # Create index vectors for plotly mesh3d plotting
-            i_pad, j_pad, k_pad = \
-                _create_plotly_ijk_indices_for_cuboid_objects()
+            i_pad, j_pad, k_pad = _create_plotly_ijk_indices_for_cuboid_objects()
 
             self.r = np.column_stack((x_pad, y_pad, z_pad))
             self.ijk = np.column_stack((i_pad, j_pad, k_pad))
@@ -295,15 +275,9 @@ class Phantom:
         z_rot = angles[2]
 
         # Define rotation matricies about the x, y and z axis
-        Rx = np.array([[+1, +0, +0],
-                       [+0, +np.cos(x_rot), -np.sin(x_rot)],
-                       [+0, +np.sin(x_rot), +np.cos(x_rot)]])
-        Ry = np.array([[+np.cos(y_rot), +0, +np.sin(y_rot)],
-                       [+0, +1, +0],
-                       [-np.sin(y_rot), +0, +np.cos(y_rot)]])
-        Rz = np.array([[+np.cos(z_rot), -np.sin(z_rot), +0],
-                       [+np.sin(z_rot), +np.cos(z_rot), +0],
-                       [+0, +0, +1]])
+        Rx = np.array([[+1, +0, +0], [+0, +np.cos(x_rot), -np.sin(x_rot)], [+0, +np.sin(x_rot), +np.cos(x_rot)]])
+        Ry = np.array([[+np.cos(y_rot), +0, +np.sin(y_rot)], [+0, +1, +0], [-np.sin(y_rot), +0, +np.cos(y_rot)]])
+        Rz = np.array([[+np.cos(z_rot), -np.sin(z_rot), +0], [+np.sin(z_rot), +np.cos(z_rot), +0], [+0, +0, +1]])
 
         # Rotate position vectors to the phantom cells
 
@@ -360,57 +334,37 @@ class Phantom:
         # Table Horizontal Rotation Angle (At1)
         # i.e. rotation of the table about the positive y axis (VERT),
         # with rotation axis in the center of the table.
-        at1 = np.deg2rad(data_norm['At1'][event])
+        at1 = np.deg2rad(data_norm["At1"][event])
         # Table Head Tilt Angle (At2)
         # i.e. rotation of the table about the positive x axis (LON)
         # with rotation axis in the center of the table.
-        at2 = np.deg2rad(data_norm['At2'][event])
+        at2 = np.deg2rad(data_norm["At2"][event])
         # Table Cradle Tilt Angle (At3)
         # i.e. rotation of the table about the z axis (LAT)
-        at3 = np.deg2rad(data_norm['At3'][event])
+        at3 = np.deg2rad(data_norm["At3"][event])
 
         # displace phantom to table rotation center
         self.r[:, 2] += self.table_length / 2
 
         # calculate rotation about x axis
         angle = at2
-        Rx = np.array(
-            [
-                [+1, +0, +0],
-                [+0, +np.cos(angle), -np.sin(angle)],
-                [+0, +np.sin(angle), +np.cos(angle)]
-            ]
-                    )
+        Rx = np.array([[+1, +0, +0], [+0, +np.cos(angle), -np.sin(angle)], [+0, +np.sin(angle), +np.cos(angle)]])
 
         # calculate rotation about y axis
         angle = at1
-        Ry = np.array(
-            [
-                [+np.cos(angle), +0, +np.sin(angle)],
-                [+0, +1, +0],
-                [-np.sin(angle), +0, +np.cos(angle)]
-            ]
-                    )
+        Ry = np.array([[+np.cos(angle), +0, +np.sin(angle)], [+0, +1, +0], [-np.sin(angle), +0, +np.cos(angle)]])
 
         # calculate rotation about z axis
         angle = at3
-        Rz = np.array(
-            [
-                [+np.cos(angle), -np.sin(angle), +0],
-                [+np.sin(angle), +np.cos(angle), +0],
-                [+0, +0, +1]
-            ]
-                    )
+        Rz = np.array([[+np.cos(angle), -np.sin(angle), +0], [+np.sin(angle), +np.cos(angle), +0], [+0, +0, +1]])
 
         # Apply table rotation
         self.r = np.matmul(Rz, np.matmul(Ry, np.matmul(Rx, self.r.T))).T
 
         # Replace phantom back to starting position
-        self.r[:, 2] -= self.table_length/2
+        self.r[:, 2] -= self.table_length / 2
 
         # Apply phantom translation
-        t = np.array(
-            [data_norm.Tx[event], data_norm.Ty[event], data_norm.Tz[event]]
-            )
+        t = np.array([data_norm.Tx[event], data_norm.Ty[event], data_norm.Tz[event]])
 
         self.r = self.r + t

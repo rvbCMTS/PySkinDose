@@ -1,14 +1,13 @@
 import logging
-from PIL import Image
-import plotly.graph_objects as go
 
+import plotly.graph_objects as go
+from PIL import Image
 
 from ..constants import (
     PLOT_BASE_SIZE_STATIC,
     PLOT_GROUND_SHIFT_X_STATIC,
     PLOT_SHIFT_X_STATIC,
 )
-
 
 logger = logging.getLogger(__name__)
 
@@ -30,14 +29,7 @@ def create_notebook_dose_map_plot(names, file_type_static):
     total_width = ncols * img_width - ground_shift_x
     total_height = nrows * img_height
 
-    fig.add_trace(
-        go.Scatter(
-            x=[0, total_width],
-            y=[0,  img_height],
-            mode="lines",
-            visible=False
-        )
-    )
+    fig.add_trace(go.Scatter(x=[0, total_width], y=[0, img_height], mode="lines", visible=False))
 
     placements = [0, 1, 2, 3]
     placements = [img_width * place for place in placements]
@@ -55,14 +47,16 @@ def create_notebook_dose_map_plot(names, file_type_static):
             dict(
                 x=placements[i],
                 sizex=img_width,
-                y=1*img_height,
+                y=1 * img_height,
                 sizey=img_height,
                 xref="x",
                 yref="y",
                 opacity=1,
                 layer="above",
                 sizing="stretch",
-                source=source))
+                source=source,
+            )
+        )
 
     axes_visability = False
 
@@ -72,11 +66,7 @@ def create_notebook_dose_map_plot(names, file_type_static):
         range=[0, total_width],
     )
 
-    fig.update_yaxes(
-        visible=axes_visability,
-        range=[0, total_height],
-        scaleanchor="x"
-    )
+    fig.update_yaxes(visible=axes_visability, range=[0, total_height], scaleanchor="x")
 
     fig.update_layout(
         width=total_width,
@@ -84,6 +74,6 @@ def create_notebook_dose_map_plot(names, file_type_static):
         margin={"l": 0, "r": 0, "t": 0, "b": 0},
     )
 
-    fig.show(config={'doubleClick': 'reset'})
+    fig.show(config={"doubleClick": "reset"})
 
     return

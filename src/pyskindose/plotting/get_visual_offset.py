@@ -8,14 +8,14 @@ from ..phantom_class import Phantom
 def _get_visual_offset(patient: Union[Phantom, Beam]) -> float:
     """Set visual offset of phantom objects.
 
-    Determines the visual offset needed for visualizing the phantom
-    correctly in the plot.
+    Determines the visual offset needed for visualizing the phantom correctly in the
+    plot.
 
     Parameters
     ----------
     patient : Phantom
-        Patient phantom from instance of class Phantom. Can be of
-        phantom_model "plane", "cylinder" or "human"
+        Patient phantom from instance of class Phantom. Can be of phantom_model "plane",
+        "cylinder" or "human"
 
     """
     if not isinstance(patient, Phantom):

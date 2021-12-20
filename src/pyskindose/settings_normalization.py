@@ -1,10 +1,10 @@
 from pyskindose.constants import (
+    KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH,
     KEY_NORMALIZATION_FIELD_SIZE_MODE,
+    KEY_NORMALIZATION_MANUFACTURER,
+    KEY_NORMALIZATION_MODELS,
     KEY_RDSR_MANUFACTURER,
     KEY_RDSR_MANUFACTURER_MODEL_NAME,
-    KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH,
-    KEY_NORMALIZATION_MANUFACTURER,
-    KEY_NORMALIZATION_MODELS
 )
 
 
@@ -34,25 +34,22 @@ class NormalizationSettings:
         model = data_parsed[KEY_RDSR_MANUFACTURER_MODEL_NAME][0]
 
         # Select correct normalization settings
-        for setting in normalization_settings['normalization_settings']:
+        for setting in normalization_settings["normalization_settings"]:
 
-            if not (manufacturer.lower() ==
-                    setting[KEY_NORMALIZATION_MANUFACTURER.lower()].lower()
-                    and model in setting[KEY_NORMALIZATION_MODELS]):
+            if not (
+                manufacturer.lower() == setting[KEY_NORMALIZATION_MANUFACTURER.lower()].lower()
+                and model in setting[KEY_NORMALIZATION_MODELS]
+            ):
                 continue
 
-            self.trans_offset = _TranslationOffset(
-                offset=setting['translation_offset'])
+            self.trans_offset = _TranslationOffset(offset=setting["translation_offset"])
 
-            self.trans_dir = _TranslationDirection(
-                directions=setting['translation_direction'])
+            self.trans_dir = _TranslationDirection(directions=setting["translation_direction"])
 
-            self.rot_dir = _RotationDirection(
-                directions=setting['rotation_direction'])
+            self.rot_dir = _RotationDirection(directions=setting["rotation_direction"])
 
             self.field_size_mode = setting[KEY_NORMALIZATION_FIELD_SIZE_MODE]
-            self.detector_side_length =  \
-                setting[KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH]
+            self.detector_side_length = setting[KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH]
 
             return
 
@@ -86,17 +83,15 @@ class _RotationDirection:
 
         for dimension in directions:
 
-            if directions[dimension] == '+':
+            if directions[dimension] == "+":
                 setattr(self, dimension, pos_dir)
                 continue
 
-            elif directions[dimension] == '-':
+            elif directions[dimension] == "-":
                 setattr(self, dimension, neg_dir)
 
             else:
-                raise ValueError(
-                    f'direction {directions[dimension]} not understood. choose'
-                    'either  + or -')
+                raise ValueError(f"direction {directions[dimension]} not understood. choose" "either  + or -")
 
         return
 
@@ -128,17 +123,15 @@ class _TranslationDirection:
 
         for dimension in directions:
 
-            if directions[dimension] == '+':
+            if directions[dimension] == "+":
                 setattr(self, dimension, pos_dir)
                 continue
 
-            elif directions[dimension] == '-':
+            elif directions[dimension] == "-":
                 setattr(self, dimension, neg_dir)
 
             else:
-                raise ValueError(
-                    f'direction {directions[dimension]} not understood. choose'
-                    'either  + or -')
+                raise ValueError(f"direction {directions[dimension]} not understood. choose" "either  + or -")
 
         return
 
