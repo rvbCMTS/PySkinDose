@@ -10,13 +10,11 @@
                 "y": 0.0,
                 "z": 0.0
             },
-
             "translation_direction": {
                 "x": "+",
                 "y": "+",
                 "z": "+"
             },
-            
             "rotation_direction": {
                 "Ap1": "+",
                 "Ap2": "+",
@@ -25,9 +23,11 @@
                 "At2": "+",
                 "At3": "+"
             },
-
             "field_size_mode": "CFA",
-            "detector_side_length": 40
+            "detector_side_length": 40,
+            "filter_materials": [
+                "Cu"
+            ]
         },
         {
             "manufacturer": "Philips",
@@ -39,13 +39,11 @@
                 "y": 105.5,
                 "z": -173.35
             },
-
             "translation_direction": {
                 "x": "+",
                 "y": "-",
                 "z": "+"
             },
-            
             "rotation_direction": {
                 "Ap1": "+",
                 "Ap2": "-",
@@ -54,9 +52,12 @@
                 "At2": "+",
                 "At3": "+"
             },
-
             "field_size_mode": "ASD",
-            "detector_side_length": 40
+            "detector_side_length": 40,
+            "filter_materials": [
+                "Cu",
+                "Al"
+            ]
         }
     ]
 }
