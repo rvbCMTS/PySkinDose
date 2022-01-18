@@ -217,10 +217,33 @@ def _normalize_beam_parameters(
     data_norm["kVp"] = data_parsed.KVP_kV
     data_norm["K_IRP"] = data_parsed.DoseRP_Gy * 1000
 
-    data_norm["filter_thickness_Cu"] = data_parsed.XRayFilterThicknessMaximum_mm
+    # get index of filter materials in norm settings
+    if "Cu" in norm.filter_materials:
+        index_Cu = norm.filter_materials.index("Cu")
+    if "Al" in norm.filter_materials:
+        index_Al = norm.filter_materials.index("Al")
 
-    data_norm.filter_thickness_Cu = data_norm.filter_thickness_Cu.fillna(0.0)
+    # initially set filter thickness to zero
+    filter_thickness_Al = [0.0] * len(data_parsed)
+    filter_thickness_Cu = [0.0] * len(data_parsed)
 
-    data_norm["filter_thickness_Al"] = [0.0] * len(data_parsed.XRayFilterThicknessMaximum_mm)
+    for event in range(len(data_parsed)):
+        # fetch filter thickness from event
+        filter_thicknesses = data_parsed.XRayFilterThicknessMaximum_mm[event]
+
+        # convert to tuple
+        if not isinstance(filter_thicknesses, tuple):
+            filter_thicknesses = (filter_thicknesses,)
+
+        # if filter thickness for Al and Cu
+        if "index_Al" in locals():
+            filter_thickness_Al[event] = filter_thicknesses[index_Al]
+
+        if "index_Cu" in locals():
+            filter_thickness_Cu[event] = filter_thicknesses[index_Cu]
+
+    data_norm["filter_thickness_Al"] = filter_thickness_Al
+    data_norm["filter_thickness_Cu"] = filter_thickness_Cu
 
     return data_norm
+
