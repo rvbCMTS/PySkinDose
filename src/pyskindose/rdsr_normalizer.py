@@ -125,9 +125,9 @@ def rdsr_normalizer(
     K_IRP : float
         IRP air kerma at the Interventional Reference Point (IRP).
     filter_thickness_Cu : float
-        Aluminum X-ray filter thickness in mm.
-    filter_thickness_Al : float
         Copper X-ray filter thickness in mm.
+    filter_thickness_Al : float
+        Aluminum X-ray filter thickness in mm.
     """
     data_norm = pd.DataFrame()
 
@@ -217,7 +217,9 @@ def _normalize_beam_parameters(
     data_norm["DSL"] = norm.detector_side_length
 
     FS_lat, FS_long = calculate_field_size(
-        field_size_mode=norm.field_size_mode, data_parsed=data_parsed, data_norm=data_norm,
+        field_size_mode=norm.field_size_mode,
+        data_parsed=data_parsed,
+        data_norm=data_norm,
     )
 
     data_norm["FS_lat"] = FS_lat
@@ -247,7 +249,10 @@ def _normalize_beam_parameters(
 
         # fetch filter min and max thicknesses
         event_filter_minmax = np.array(
-            [data_parsed[KEY_RDSR_FILTER_MIN][event_index], data_parsed[KEY_RDSR_FILTER_MAX][event_index],]
+            [
+                data_parsed[KEY_RDSR_FILTER_MIN][event_index],
+                data_parsed[KEY_RDSR_FILTER_MAX][event_index],
+            ]
         )
 
         # calculate filter mean thicknesses
