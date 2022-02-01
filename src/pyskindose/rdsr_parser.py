@@ -179,6 +179,8 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                     data_parsed_dict[tag] = None
 
             # Append dictionary to DataFrame
-            data_parsed = data_parsed.append(data_parsed_dict, ignore_index=True)
+            data_parsed = pd.concat(
+                [data_parsed, pd.DataFrame({k: [v] for k, v in data_parsed_dict.items()})], ignore_index=True
+            )
 
     return data_parsed
