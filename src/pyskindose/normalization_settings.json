@@ -53,11 +53,7 @@
                 "At3": "+"
             },
             "field_size_mode": "ASD",
-            "detector_side_length": 40,
-            "filter_materials": [
-                "Cu",
-                "Al"
-            ]
+            "detector_side_length": 40
         }
     ]
 }
