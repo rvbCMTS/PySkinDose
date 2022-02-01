@@ -24,10 +24,7 @@
                 "At3": "+"
             },
             "field_size_mode": "CFA",
-            "detector_side_length": 40,
-            "filter_materials": [
-                "Cu"
-            ]
+            "detector_side_length": 40
         },
         {
             "manufacturer": "Philips",
