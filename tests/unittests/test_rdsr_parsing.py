@@ -1,11 +1,12 @@
-import pydicom
 import os
 import sys
+from pathlib import Path
 
 import numpy as np
-from pathlib import Path
-from pyskindose.rdsr_parser import rdsr_parser
+import pydicom
+
 from pyskindose.rdsr_normalizer import rdsr_normalizer
+from pyskindose.rdsr_parser import rdsr_parser
 
 phantom_path = Path(__file__).parent.parent.parent / "src" / "pyskindose" / "example_data" / "RDSR"
 
