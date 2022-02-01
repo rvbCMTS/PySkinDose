@@ -8,4 +8,6 @@ pylama
 pytest
 sphinx
 myst-parser
+isort
+black
 -e .
