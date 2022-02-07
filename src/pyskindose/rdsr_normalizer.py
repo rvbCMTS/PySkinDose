@@ -13,6 +13,14 @@ from .constants import (
     KEY_RDSR_FILTER_MATERIAL_COPPER,
     KEY_RDSR_FILTER_MAX,
     KEY_RDSR_FILTER_MIN,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER,
+    KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_IRP,
+    KEY_NORMALIZATION_MODEL_NAME,
+    KEY_NORMALIZATION_ACQUISITION_TYPE,
+    KEY_NORMALIZATION_ACQUISITION_PLANE,
+    KEY_RDSR_DISTANCE_SOURCE_DETECTOR,
 )
 from .geom_calc import calculate_field_size
 from .settings_normalization import NormalizationSettings
@@ -163,23 +171,23 @@ def _normalize_machine_parameters(
     data_parsed: pd.DataFrame, data_norm: pd.DataFrame, norm: NormalizationSettings
 ) -> pd.DataFrame:
 
-    data_norm["model"] = data_parsed.ManufacturerModelName
+    data_norm[KEY_NORMALIZATION_MODEL_NAME] = data_parsed.ManufacturerModelName
 
     # Find indices of nans in DistanceSourcetoDetector
-    if "nan" in str(data_parsed["DistanceSourcetoDetector_mm"]).lower():
-        nan_indices = data_parsed.index[data_parsed["DistanceSourcetoDetector_mm"].apply(np.isnan)]
+    if "nan" in str(data_parsed[KEY_RDSR_DISTANCE_SOURCE_DETECTOR]).lower():
+        nan_indices = data_parsed.index[data_parsed[KEY_RDSR_DISTANCE_SOURCE_DETECTOR].apply(np.isnan)]
         # Replace those nans with the corresponding value in
         # FinalDistanceSourcetoDetector
         data_parsed.DistanceSourcetoDetector_mm = data_parsed.DistanceSourcetoDetector_mm.fillna(
             data_parsed.FinalDistanceSourcetoDetector_mm[nan_indices]
         )
 
-    data_norm["DSD"] = data_parsed.DistanceSourcetoDetector_mm / 10
-    data_norm["DSI"] = data_parsed.DistanceSourcetoIsocenter_mm / 10
-    data_norm["DID"] = data_norm.DSD - data_norm.DSI
-    data_norm["DSIRP"] = data_norm.DSI - 15
-    data_norm["acquisition_type"] = data_parsed.IrradiationEventType
-    data_norm["acquisition_plane"] = data_parsed.AcquisitionPlane
+    data_norm[KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR] = data_parsed.DistanceSourcetoDetector_mm / 10
+    data_norm[KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER] = data_parsed.DistanceSourcetoIsocenter_mm / 10
+    data_norm[KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR] = data_norm.DSD - data_norm.DSI
+    data_norm[KEY_NORMALIZATION_DISTANCE_SOURCE_IRP] = data_norm.DSI - 15
+    data_norm[KEY_NORMALIZATION_ACQUISITION_TYPE] = data_parsed.IrradiationEventType
+    data_norm[KEY_NORMALIZATION_ACQUISITION_PLANE] = data_parsed.AcquisitionPlane
 
     return data_norm
 
