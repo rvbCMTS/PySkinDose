@@ -141,13 +141,13 @@ def rdsr_normalizer(
 
     norm = _load_normalization_settings(data_parsed=data_parsed, norm_settings=normalization_settings)
 
-    data_norm = _normalize_machine_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
-
-    data_norm = _normalize_table_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
-
-    data_norm = _normalize_xray_filter_materials(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
-
-    data_norm = _normalize_beam_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
+    for append_normalization in [
+        _normalize_machine_parameters,
+        _normalize_table_parameters,
+        _normalize_xray_filter_materials,
+        _normalize_beam_parameters,
+    ]:
+        data_norm = append_normalization(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
 
     return data_norm
 
