@@ -14,7 +14,7 @@ phantom_path = Path(__file__).parent.parent.parent / "src" / "pyskindose" / "exa
 def test_nr_irradiation_events_parsing_in_rdsr_parser():
 
     # load SR file with known number of irradiation events
-    RDSR_file = pydicom.read_file(phantom_path / "s1.dcm")
+    RDSR_file = pydicom.dcmread(phantom_path / "s1.dcm")
 
     expected = 24
 
@@ -31,8 +31,8 @@ def test_xray_filter_material_parsing():
     expected = [1.0, 0.4, 0.0, 0.6]
     test = []
 
-    RDSR_philips = pydicom.read_file(phantom_path / "philips_allura_clarity_u104.dcm")
-    RDSR_siemens = pydicom.read_file(phantom_path / "siemens_axiom_artis.dcm")
+    RDSR_philips = pydicom.dcmread(phantom_path / "philips_allura_clarity_u104.dcm")
+    RDSR_siemens = pydicom.dcmread(phantom_path / "siemens_axiom_artis.dcm")
 
     data_parsed_philips = rdsr_parser(data_raw=RDSR_philips)
     data_parsed_siemens = rdsr_parser(data_raw=RDSR_siemens)
@@ -52,7 +52,7 @@ def test_xray_filter_material_parsing():
 
 def test_xray_filter_mean_value_calculation():
 
-    RDSR_file = pydicom.read_file(phantom_path / "philips_allura_clarity_u104.dcm")
+    RDSR_file = pydicom.dcmread(phantom_path / "philips_allura_clarity_u104.dcm")
 
     data_parsed = rdsr_parser(data_raw=RDSR_file)
     data_norm = rdsr_normalizer(data_parsed=data_parsed)
