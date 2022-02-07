@@ -24,19 +24,17 @@ def test_mathematical_phantom_positioning_in_z_direction():
     # expect 0 skin cell have positiv z-directions, for all mathematical phantoms
     expected = [0, 0]
 
-    test = []
+    actual = []
 
     for phantom_model in [c.PHANTOM_MODEL_PLANE, c.PHANTOM_MODEL_CYLINDER]:
 
         patient_phantom = Phantom(
-            phantom_model=phantom_model,
-            phantom_dim=param.phantom.dimension,
-            human_mesh=c.PHANTOM_MESH_ADULT_MALE,
+            phantom_model=phantom_model, phantom_dim=param.phantom.dimension, human_mesh=c.PHANTOM_MESH_ADULT_MALE,
         )
 
-        test.append(sum(patient_phantom.r[:, 2] > 0))
+        actual.append(sum(patient_phantom.r[:, 2] > 0))
 
-    assert expected == test
+    assert actual == expected
 
 
 def test_stl_phantom_positioning_in_z_direction():
@@ -51,7 +49,7 @@ def test_stl_phantom_positioning_in_z_direction():
 
     # expect that none of the phantoms have any skin cell in +z dir
     expected = nr_phantoms * [0]
-    test = []
+    actual = []
 
     # for each ...
     for phantom in os.listdir(phantom_path):
@@ -62,11 +60,9 @@ def test_stl_phantom_positioning_in_z_direction():
 
             # create human phantom, with each mesh
             test_phantom = Phantom(
-                phantom_model=c.PHANTOM_MODEL_HUMAN,
-                phantom_dim=param.phantom.dimension,
-                human_mesh=phantom_name,
+                phantom_model=c.PHANTOM_MODEL_HUMAN, phantom_dim=param.phantom.dimension, human_mesh=phantom_name,
             )
             # calculate number of skin cells in +z dir
-            test.append(sum(test_phantom.r[:, 2] > 0))
+            actual.append(sum(test_phantom.r[:, 2] > 0))
 
-    assert expected == test
+    assert actual == expected

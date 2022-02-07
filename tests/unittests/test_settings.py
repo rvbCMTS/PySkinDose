@@ -24,6 +24,6 @@ def test_print_parameters_with_updated_settings():
     print_string_updated = settings.print_parameters(return_as_string=True)
 
     # test if the printing has been updated
-    test = print_string == print_string_updated
+    actual = print_string == print_string_updated
 
-    assert expected == test
+    assert actual == expected

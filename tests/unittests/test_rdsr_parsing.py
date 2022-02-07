@@ -21,15 +21,15 @@ def test_nr_irradiation_events_parsing_in_rdsr_parser():
     # parse raw rdsr file
     data_parsed = rdsr_parser(data_raw=RDSR_file)
 
-    test = len(data_parsed)
+    actual = len(data_parsed)
 
-    assert expected == test
+    assert actual == expected
 
 
 def test_parsing_of_multiple_xray_filter_materials():
     # knowns filter thicknesses
     expected = [1.0, 0.4, 0.0, 0.6]
-    test = []
+    actual = []
 
     RDSR_philips = pydicom.dcmread(phantom_path / "philips_allura_clarity_u104.dcm")
     RDSR_siemens = pydicom.dcmread(phantom_path / "siemens_axiom_artis.dcm")
@@ -40,12 +40,12 @@ def test_parsing_of_multiple_xray_filter_materials():
     data_norm_philips = rdsr_normalizer(data_parsed=data_parsed_philips)
     data_norm_siemens = rdsr_normalizer(data_parsed=data_parsed_siemens)
 
-    test.append(data_norm_philips["filter_thickness_Al"][0])
-    test.append(data_norm_philips["filter_thickness_Cu"][0])
-    test.append(data_norm_siemens["filter_thickness_Al"][0])
-    test.append(data_norm_siemens["filter_thickness_Cu"][0])
+    actual.append(data_norm_philips["filter_thickness_Al"][0])
+    actual.append(data_norm_philips["filter_thickness_Cu"][0])
+    actual.append(data_norm_siemens["filter_thickness_Al"][0])
+    actual.append(data_norm_siemens["filter_thickness_Cu"][0])
 
-    assert expected == test
+    assert actual == expected
 
 
 def test_xray_filter_mean_value_calculation():
@@ -55,20 +55,20 @@ def test_xray_filter_mean_value_calculation():
     data_parsed = rdsr_parser(data_raw=RDSR_file)
     data_norm = rdsr_normalizer(data_parsed=data_parsed)
 
-    test_event = 0
+    actual_event = 0
 
     # manually calculate mean filter thickness
-    min_thickness = data_parsed["XRayFilterThicknessMinimum_mm"][test_event]
-    max_thickness = data_parsed["XRayFilterThicknessMaximum_mm"][test_event]
+    expected_min_thickness = data_parsed["XRayFilterThicknessMinimum_mm"][actual_event]
+    expected_max_thickness = data_parsed["XRayFilterThicknessMaximum_mm"][actual_event]
 
-    expected_mean_Al_thickness = np.mean([float(min_thickness[1]), float(max_thickness[1])])
-    expected_mean_Cu_thickness = np.mean([float(min_thickness[0]), float(max_thickness[0])])
+    expected_mean_Al_thickness = np.mean([float(expected_min_thickness[1]), float(expected_max_thickness[1])])
+    expected_mean_Cu_thickness = np.mean([float(expected_min_thickness[0]), float(expected_max_thickness[0])])
 
     # compare to the rdsr normalizer
-    test_mean_Al_thickness = data_norm["filter_thickness_Al"][test_event]
-    test_mean_Cu_thickness = data_norm["filter_thickness_Cu"][test_event]
+    actual_mean_Al_thickness = data_norm["filter_thickness_Al"][actual_event]
+    actual_mean_Cu_thickness = data_norm["filter_thickness_Cu"][actual_event]
 
     expected = [expected_mean_Al_thickness, expected_mean_Cu_thickness]
-    test = [test_mean_Al_thickness, test_mean_Cu_thickness]
+    actual = [actual_mean_Al_thickness, actual_mean_Cu_thickness]
 
-    assert expected == test
+    assert actual == expected
