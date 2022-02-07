@@ -26,7 +26,7 @@ def test_nr_irradiation_events_parsing_in_rdsr_parser():
     assert expected == test
 
 
-def test_xray_filter_material_parsing():
+def test_parsing_of_multiple_xray_filter_materials():
     # knowns filter thicknesses
     expected = [1.0, 0.4, 0.0, 0.6]
     test = []
@@ -44,8 +44,6 @@ def test_xray_filter_material_parsing():
     test.append(data_norm_philips["filter_thickness_Cu"][0])
     test.append(data_norm_siemens["filter_thickness_Al"][0])
     test.append(data_norm_siemens["filter_thickness_Cu"][0])
-
-    a = 1
 
     assert expected == test
 
