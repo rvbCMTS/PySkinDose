@@ -145,6 +145,8 @@ def rdsr_normalizer(
 
     data_norm = _normalize_table_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
 
+    data_norm = _normalize_xray_filter_materials(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
+
     data_norm = _normalize_beam_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
 
     return data_norm
@@ -211,6 +213,56 @@ def _normalize_table_parameters(
     return data_norm
 
 
+def _normalize_xray_filter_materials(
+    data_parsed: pd.DataFrame, data_norm: pd.DataFrame, norm: NormalizationSettings
+) -> pd.DataFrame:
+    # parse filter material and thickness
+
+    # Load filter min and max, and fill all NANs with zeros
+    for key in [KEY_RDSR_FILTER_MIN, KEY_RDSR_FILTER_MAX]:
+        data_parsed[key] = data_parsed[key].fillna(0.0)
+
+    # Add columns for filter materials in data_norm, and initialize to zero
+    for key in [
+        KEY_NORMALIZATION_FILTER_SIZE_COPPER,
+        KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
+    ]:
+        data_norm[key] = 0.0
+
+    # for each irradiation event
+    for event_index in range(len(data_parsed)):
+
+        # fetch filter materials from data_parsed
+        event_filter_materials = data_parsed[KEY_RDSR_FILTER_MATERIAL][event_index]
+
+        # fetch filter min and max thicknesses
+        event_filter_minmax = np.array(
+            [data_parsed[KEY_RDSR_FILTER_MIN][event_index], data_parsed[KEY_RDSR_FILTER_MAX][event_index],]
+        )
+
+        # calculate filter mean thicknesses
+        event_filter_means = np.mean(event_filter_minmax, axis=0)
+
+        # Make list of event_filter_means (required if only 1 filter material (e.g. Axiom Artis))
+        if isinstance(event_filter_materials, str):
+            event_filter_means = [event_filter_means]
+
+        # if copper filter in use
+        if KEY_RDSR_FILTER_MATERIAL_COPPER in event_filter_materials:
+            # append copper filtration to normalized data
+            data_norm.loc[event_index, KEY_NORMALIZATION_FILTER_SIZE_COPPER] = event_filter_means[
+                event_filter_materials.index(KEY_RDSR_FILTER_MATERIAL_COPPER)
+            ]
+        # if aluminum filter in use
+        if KEY_RDSR_FILTER_MATERIAL_ALUMINUM in event_filter_materials:
+            # append aluminum filtration to normalized data
+            data_norm.loc[event_index, KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM] = event_filter_means[
+                event_filter_materials.index(KEY_RDSR_FILTER_MATERIAL_ALUMINUM)
+            ]
+
+    return data_norm
+
+
 def _normalize_beam_parameters(
     data_parsed: pd.DataFrame, data_norm: pd.DataFrame, norm: NormalizationSettings
 ) -> pd.DataFrame:
@@ -225,9 +277,7 @@ def _normalize_beam_parameters(
     data_norm["DSL"] = norm.detector_side_length
 
     FS_lat, FS_long = calculate_field_size(
-        field_size_mode=norm.field_size_mode,
-        data_parsed=data_parsed,
-        data_norm=data_norm,
+        field_size_mode=norm.field_size_mode, data_parsed=data_parsed, data_norm=data_norm,
     )
 
     data_norm["FS_lat"] = FS_lat
@@ -235,51 +285,5 @@ def _normalize_beam_parameters(
 
     data_norm["kVp"] = data_parsed.KVP_kV
     data_norm["K_IRP"] = data_parsed.DoseRP_Gy * 1000
-
-    # Ad filter thincknesses...
-
-    # first, replace all nans with zeros in data parsed
-    for key in [KEY_RDSR_FILTER_MIN, KEY_RDSR_FILTER_MAX]:
-        data_parsed[key] = data_parsed[key].fillna(0.0)
-
-    # Add columns for filter materials, and initialize to zero
-    for key in [
-        KEY_NORMALIZATION_FILTER_SIZE_COPPER,
-        KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
-    ]:
-        data_norm[key] = 0.0
-
-    # for each irradiation event
-    for event_index in range(len(data_parsed)):
-
-        # fetch filter materials
-        event_filter_materials = data_parsed[KEY_RDSR_FILTER_MATERIAL][event_index]
-
-        # fetch filter min and max thicknesses
-        event_filter_minmax = np.array(
-            [
-                data_parsed[KEY_RDSR_FILTER_MIN][event_index],
-                data_parsed[KEY_RDSR_FILTER_MAX][event_index],
-            ]
-        )
-
-        # calculate filter mean thicknesses
-        event_filter_means = np.mean(event_filter_minmax, axis=0)
-
-        if isinstance(event_filter_materials, str):
-            event_filter_means = [event_filter_means]
-
-        # if copper filter in use at event
-        if KEY_RDSR_FILTER_MATERIAL_COPPER in event_filter_materials:
-            # append copper filtration to normalized data
-            data_norm.loc[event_index, KEY_NORMALIZATION_FILTER_SIZE_COPPER] = event_filter_means[
-                event_filter_materials.index(KEY_RDSR_FILTER_MATERIAL_COPPER)
-            ]
-        # if aluminum filter in use at event
-        if KEY_RDSR_FILTER_MATERIAL_ALUMINUM in event_filter_materials:
-            # append aluminum filtration to normalized data
-            data_norm.loc[event_index, KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM] = event_filter_means[
-                event_filter_materials.index(KEY_RDSR_FILTER_MATERIAL_ALUMINUM)
-            ]
 
     return data_norm
