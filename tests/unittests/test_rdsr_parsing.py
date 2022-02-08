@@ -11,7 +11,7 @@ from pyskindose.rdsr_parser import rdsr_parser
 phantom_path = Path(__file__).parent.parent.parent / "src" / "pyskindose" / "example_data" / "RDSR"
 
 
-def test_nr_irradiation_events_parsing_in_rdsr_parser():
+def test_that_all_rdst_events_are_extracted_during_parsing():
 
     # load SR file with known number of irradiation events
     RDSR_file = pydicom.dcmread(phantom_path / "s1.dcm")
@@ -26,7 +26,8 @@ def test_nr_irradiation_events_parsing_in_rdsr_parser():
     assert actual == expected
 
 
-def test_parsing_of_multiple_xray_filter_materials():
+def test_that_multple_xray_filter_materials_are_extracted_during_normalization_if_present():
+
     # knowns filter thicknesses
     expected = [1.0, 0.4, 0.0, 0.6]
     actual = []
@@ -48,7 +49,7 @@ def test_parsing_of_multiple_xray_filter_materials():
     assert actual == expected
 
 
-def test_xray_filter_mean_value_calculation():
+def test_xray_filter_mean_thickness_calculated_for_each_filter_material_separately():
 
     RDSR_file = pydicom.dcmread(phantom_path / "philips_allura_clarity_u104.dcm")
 
