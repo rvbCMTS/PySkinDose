@@ -50,7 +50,6 @@ class NormalizationSettings:
 
             self.field_size_mode = setting[KEY_NORMALIZATION_FIELD_SIZE_MODE]
             self.detector_side_length = setting[KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH]
-
             return
 
         raise NotImplementedError

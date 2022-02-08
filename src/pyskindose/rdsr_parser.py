@@ -34,9 +34,8 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
         Parsed RDSR data from all irradiation events in the RDSR input file
 
     """
-    # Declare pandas DataFrame for storage of parsed RDSR data
-    data_parsed = pd.DataFrame(columns=[])
-
+    # create list to store rdsr content from each irradiation event
+    prodcedure_dicts = []
     # For each content in RDSR file
     for rdsr_content in data_raw.ContentSequence:
 
@@ -178,7 +177,9 @@ def rdsr_parser(data_raw: pydicom.FileDataset) -> pd.DataFrame:
                 else:
                     data_parsed_dict[tag] = None
 
-            # Append dictionary to DataFrame
-            data_parsed = data_parsed.append(data_parsed_dict, ignore_index=True)
+            # Store event info
+            prodcedure_dicts.append(data_parsed_dict)
+
+    data_parsed = pd.DataFrame(prodcedure_dicts)
 
     return data_parsed

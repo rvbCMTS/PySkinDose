@@ -245,7 +245,9 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame) -> pd.DataFrame:
             hvl_data.loc[
                 (hvl_data["DeviceModel"] == data_norm.model[event])
                 & (hvl_data["kVp_kV"] == round(data_norm.kVp[event]))
-                & (hvl_data["AddedFiltration_mmCu"] == data_norm.filter_thickness_Cu[event]),
+                & (hvl_data["AcquisitionPlane"] == data_norm.acquisition_plane[event])
+                & (hvl_data["AddedFiltration_mmCu"] == data_norm.filter_thickness_Cu[event])
+                & (hvl_data["AddedFiltration_mmAl"] == round(data_norm.filter_thickness_Al[event])),
                 "HVL_mmAl",
             ]
         )

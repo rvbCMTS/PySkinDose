@@ -74,7 +74,7 @@ def _read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSettin
         return pd.read_json(rdsr_filepath)
 
     # else load RDSR data with pydicom
-    data_raw = pydicom.read_file(rdsr_filepath)
+    data_raw = pydicom.dcmread(rdsr_filepath)
 
     # parse RDSR data from raw .dicom file
     data_parsed = rdsr_parser(data_raw)

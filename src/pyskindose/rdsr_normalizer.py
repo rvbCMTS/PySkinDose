@@ -5,6 +5,23 @@ from typing import Optional, Union
 import numpy as np
 import pandas as pd
 
+from .constants import (
+    KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
+    KEY_NORMALIZATION_FILTER_SIZE_COPPER,
+    KEY_RDSR_FILTER_MATERIAL,
+    KEY_RDSR_FILTER_MATERIAL_ALUMINUM,
+    KEY_RDSR_FILTER_MATERIAL_COPPER,
+    KEY_RDSR_FILTER_MAX,
+    KEY_RDSR_FILTER_MIN,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER,
+    KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_IRP,
+    KEY_NORMALIZATION_MODEL_NAME,
+    KEY_NORMALIZATION_ACQUISITION_TYPE,
+    KEY_NORMALIZATION_ACQUISITION_PLANE,
+    KEY_RDSR_DISTANCE_SOURCE_DETECTOR,
+)
 from .geom_calc import calculate_field_size
 from .settings_normalization import NormalizationSettings
 
@@ -116,19 +133,21 @@ def rdsr_normalizer(
     K_IRP : float
         IRP air kerma at the Interventional Reference Point (IRP).
     filter_thickness_Cu : float
-        Aluminum X-ray filter thickness in mm.
-    filter_thickness_Al : float
         Copper X-ray filter thickness in mm.
+    filter_thickness_Al : float
+        Aluminum X-ray filter thickness in mm.
     """
     data_norm = pd.DataFrame()
 
     norm = _load_normalization_settings(data_parsed=data_parsed, norm_settings=normalization_settings)
 
-    data_norm = _normalize_machine_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
-
-    data_norm = _normalize_table_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
-
-    data_norm = _normalize_beam_parameters(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
+    for append_normalization in [
+        _normalize_machine_parameters,
+        _normalize_table_parameters,
+        _normalize_xray_filter_materials,
+        _normalize_beam_parameters,
+    ]:
+        data_norm = append_normalization(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
 
     return data_norm
 
@@ -154,23 +173,23 @@ def _normalize_machine_parameters(
     data_parsed: pd.DataFrame, data_norm: pd.DataFrame, norm: NormalizationSettings
 ) -> pd.DataFrame:
 
-    data_norm["model"] = data_parsed.ManufacturerModelName
+    data_norm[KEY_NORMALIZATION_MODEL_NAME] = data_parsed.ManufacturerModelName
 
     # Find indices of nans in DistanceSourcetoDetector
-    if "nan" in str(data_parsed["DistanceSourcetoDetector_mm"]).lower():
-        nan_indices = data_parsed.index[data_parsed["DistanceSourcetoDetector_mm"].apply(np.isnan)]
+    if "nan" in str(data_parsed[KEY_RDSR_DISTANCE_SOURCE_DETECTOR]).lower():
+        nan_indices = data_parsed.index[data_parsed[KEY_RDSR_DISTANCE_SOURCE_DETECTOR].apply(np.isnan)]
         # Replace those nans with the corresponding value in
         # FinalDistanceSourcetoDetector
         data_parsed.DistanceSourcetoDetector_mm = data_parsed.DistanceSourcetoDetector_mm.fillna(
             data_parsed.FinalDistanceSourcetoDetector_mm[nan_indices]
         )
 
-    data_norm["DSD"] = data_parsed.DistanceSourcetoDetector_mm / 10
-    data_norm["DSI"] = data_parsed.DistanceSourcetoIsocenter_mm / 10
-    data_norm["DID"] = data_norm.DSD - data_norm.DSI
-    data_norm["DSIRP"] = data_norm.DSI - 15
-    data_norm["acquisition_type"] = data_parsed.IrradiationEventType
-    data_norm["acquisition_plane"] = data_parsed.AcquisitionPlane
+    data_norm[KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR] = data_parsed.DistanceSourcetoDetector_mm / 10
+    data_norm[KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER] = data_parsed.DistanceSourcetoIsocenter_mm / 10
+    data_norm[KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR] = data_norm.DSD - data_norm.DSI
+    data_norm[KEY_NORMALIZATION_DISTANCE_SOURCE_IRP] = data_norm.DSI - 15
+    data_norm[KEY_NORMALIZATION_ACQUISITION_TYPE] = data_parsed.IrradiationEventType
+    data_norm[KEY_NORMALIZATION_ACQUISITION_PLANE] = data_parsed.AcquisitionPlane
 
     return data_norm
 
@@ -194,6 +213,56 @@ def _normalize_table_parameters(
     return data_norm
 
 
+def _normalize_xray_filter_materials(
+    data_parsed: pd.DataFrame, data_norm: pd.DataFrame, norm: NormalizationSettings
+) -> pd.DataFrame:
+    # parse filter material and thickness
+
+    # Load filter min and max, and fill all NANs with zeros
+    for key in [KEY_RDSR_FILTER_MIN, KEY_RDSR_FILTER_MAX]:
+        data_parsed[key] = data_parsed[key].fillna(0.0)
+
+    # Add columns for filter materials in data_norm, and initialize to zero
+    for key in [
+        KEY_NORMALIZATION_FILTER_SIZE_COPPER,
+        KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
+    ]:
+        data_norm[key] = 0.0
+
+    # for each irradiation event
+    for event_index in range(len(data_parsed)):
+
+        # fetch filter materials from data_parsed
+        event_filter_materials = data_parsed[KEY_RDSR_FILTER_MATERIAL][event_index]
+
+        # fetch filter min and max thicknesses
+        event_filter_minmax = np.array(
+            [data_parsed[KEY_RDSR_FILTER_MIN][event_index], data_parsed[KEY_RDSR_FILTER_MAX][event_index],]
+        )
+
+        # calculate filter mean thicknesses
+        event_filter_means = np.mean(event_filter_minmax, axis=0)
+
+        # Make list of event_filter_means (required if only 1 filter material (e.g. Axiom Artis))
+        if isinstance(event_filter_materials, str):
+            event_filter_means = [event_filter_means]
+
+        # if copper filter in use
+        if KEY_RDSR_FILTER_MATERIAL_COPPER in event_filter_materials:
+            # append copper filtration to normalized data
+            data_norm.loc[event_index, KEY_NORMALIZATION_FILTER_SIZE_COPPER] = event_filter_means[
+                event_filter_materials.index(KEY_RDSR_FILTER_MATERIAL_COPPER)
+            ]
+        # if aluminum filter in use
+        if KEY_RDSR_FILTER_MATERIAL_ALUMINUM in event_filter_materials:
+            # append aluminum filtration to normalized data
+            data_norm.loc[event_index, KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM] = event_filter_means[
+                event_filter_materials.index(KEY_RDSR_FILTER_MATERIAL_ALUMINUM)
+            ]
+
+    return data_norm
+
+
 def _normalize_beam_parameters(
     data_parsed: pd.DataFrame, data_norm: pd.DataFrame, norm: NormalizationSettings
 ) -> pd.DataFrame:
@@ -208,7 +277,7 @@ def _normalize_beam_parameters(
     data_norm["DSL"] = norm.detector_side_length
 
     FS_lat, FS_long = calculate_field_size(
-        field_size_mode=norm.field_size_mode, data_parsed=data_parsed, data_norm=data_norm
+        field_size_mode=norm.field_size_mode, data_parsed=data_parsed, data_norm=data_norm,
     )
 
     data_norm["FS_lat"] = FS_lat
@@ -216,11 +285,5 @@ def _normalize_beam_parameters(
 
     data_norm["kVp"] = data_parsed.KVP_kV
     data_norm["K_IRP"] = data_parsed.DoseRP_Gy * 1000
-
-    data_norm["filter_thickness_Cu"] = data_parsed.XRayFilterThicknessMaximum_mm
-
-    data_norm.filter_thickness_Cu = data_norm.filter_thickness_Cu.fillna(0.0)
-
-    data_norm["filter_thickness_Al"] = [0.0] * len(data_parsed.XRayFilterThicknessMaximum_mm)
 
     return data_norm

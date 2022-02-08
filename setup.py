@@ -6,7 +6,7 @@ README = (Path(__file__).parent / "README.md").read_text()
 
 setup(
     name="pyskindose",
-    version="19.6.0",
+    version="22.2.1",
     description=(
         "Tools and script for calculating peak skin dose and create dose maps for fluoroscopic exams from RDSR" " data"
     ),
@@ -25,7 +25,7 @@ setup(
     install_requires=[
         "pandas",
         "numpy",
-        "pydicom>=1.0",
+        "pydicom>=2.0",
         "numpy-stl",
         "plotly>=4.13.3",
         "scipy",
