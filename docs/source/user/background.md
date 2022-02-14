@@ -11,10 +11,10 @@ A directly available metric for _quality assurance_ (QA) of patient dose is the 
 This exposure value is referenced to a specific location, the _patient entrance reference point_ 
 (PERP). This reference point is located along the central X-ray beam, commonly but not always at a 
 distance of 15 cm from the isocenter in the direction of the X-ray tube. The cumulative air kerma 
-is available on most interventional C-arm X-ray equipment since 2006, when it became mandated by the 
+has been available on most interventional C-arm X-ray equipment since 2006 when it became mandated by the 
 FDA. However, the cumulative air kerma also has known limitations e.g., patient skin positioning in 
 relation to the PERP, beam attenuation of the patient table and pad, influence of scattered radiation 
-etc. The currently most useful metric to indicate a risk of erythema, epilation or greater skin injury 
+etc. The currently (year 2022) most useful metric to indicate a risk of erythema, epilation or greater skin injury 
 that also include actionable information is the _peak skin dose_ (PSD), which gives the largest dose to 
 a region of skin.
 
@@ -22,7 +22,7 @@ Compared to other X-ray modalities, the greatest challenge in estimating patient
 found for C-arm fluoroscopy equipment, particularly for FGI procedures. This is due to complex 
 geometries, accuracy in representing patient position and dealing with uncertainty in metrics. There 
 are many different solutions that can be used for estimating skin dose, including commercial, 
-non-commercial and open-source. Many of these solutions are great tools but does not offer the user 
+non-commercial and open-source. Many of these solutions are great tools but do not offer the user 
 a chance to analyze the effect of all the variables, add functionality and improve uncertainties with 
 in-house measurements. **P**y**S**kin**D**ose aims to be an open-source tool for estimation of PSD 
-with full transparency and used adoption functionality.
+with full transparency and user adoption functionality.

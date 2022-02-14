@@ -1,7 +1,7 @@
 # Contributions and Collaborations
 
-PySkinDose is open-source and available for download from the project repository. Contributions and
-collaborations for further development of PySkinDose is greatly appreciated. Listed below is a couple
+PySkinDose is open-source and available for download from the project repository and PyPI. Contributions and
+collaborations for further development of PySkinDose is greatly appreciated. Listed below are a couple
 of examples:
 
 - New functions for more accurate patient skin dose estimation
@@ -11,4 +11,3 @@ of examples:
 - Recommendations of new literature about patient skin dose estimation
 - Alteration of computational phantoms
 - Reviews of user friendliness
-- Etc.
