@@ -12,7 +12,7 @@ This exposure value is referenced to a specific location, the _patient entrance 
 (PERP). This reference point is located along the central X-ray beam, commonly but not always at a 
 distance of 15 cm from the isocenter in the direction of the X-ray tube. The cumulative air kerma 
 has been available on most interventional C-arm X-ray equipment since 2006 when it became mandated by the 
-FDA. However, the cumulative air kerma also has known limitations e.g., patient skin positioning in 
+FDA. However, the cumulative air kerma also has known limitations, e.g. patient skin positioning in 
 relation to the PERP, beam attenuation of the patient table and pad, influence of scattered radiation 
 etc. The currently (year 2022) most useful metric to indicate a risk of erythema, epilation or greater skin injury 
 that also include actionable information is the _peak skin dose_ (PSD), which gives the largest dose to 
