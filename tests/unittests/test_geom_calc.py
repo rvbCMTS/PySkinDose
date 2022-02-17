@@ -83,4 +83,3 @@ def test_convert_measurements_from_m_to_cm():
     actual = convert_from_m_to_cm(measurement_in_m)
 
     assert actual == expected
-

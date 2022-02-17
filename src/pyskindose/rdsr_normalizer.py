@@ -7,21 +7,21 @@ import numpy as np
 import pandas as pd
 
 from .constants import (
+    KEY_NORMALIZATION_ACQUISITION_PLANE,
+    KEY_NORMALIZATION_ACQUISITION_TYPE,
+    KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_IRP,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER,
     KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
     KEY_NORMALIZATION_FILTER_SIZE_COPPER,
+    KEY_NORMALIZATION_MODEL_NAME,
+    KEY_RDSR_DISTANCE_SOURCE_DETECTOR,
     KEY_RDSR_FILTER_MATERIAL,
     KEY_RDSR_FILTER_MATERIAL_ALUMINUM,
     KEY_RDSR_FILTER_MATERIAL_COPPER,
     KEY_RDSR_FILTER_MAX,
     KEY_RDSR_FILTER_MIN,
-    KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR,
-    KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER,
-    KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR,
-    KEY_NORMALIZATION_DISTANCE_SOURCE_IRP,
-    KEY_NORMALIZATION_MODEL_NAME,
-    KEY_NORMALIZATION_ACQUISITION_TYPE,
-    KEY_NORMALIZATION_ACQUISITION_PLANE,
-    KEY_RDSR_DISTANCE_SOURCE_DETECTOR,
 )
 from .geom_calc import calculate_field_size
 from .settings_normalization import NormalizationSettings
@@ -238,10 +238,12 @@ def _normalize_xray_filter_materials(
         event_filter_materials = data_parsed[KEY_RDSR_FILTER_MATERIAL][event_index]
 
         # fetch filter min and max thicknesses
-        event_filter_minmax = np.array([
-            data_parsed[KEY_RDSR_FILTER_MIN][event_index],
-            data_parsed[KEY_RDSR_FILTER_MAX][event_index],
-        ])
+        event_filter_minmax = np.array(
+            [
+                data_parsed[KEY_RDSR_FILTER_MIN][event_index],
+                data_parsed[KEY_RDSR_FILTER_MAX][event_index],
+            ]
+        )
 
         # calculate filter mean thicknesses
         event_filter_means = np.mean(event_filter_minmax, axis=0)
@@ -283,7 +285,9 @@ def _normalize_beam_parameters(
     data_norm["DSL"] = norm.detector_side_length
 
     FS_lat, FS_long = calculate_field_size(
-        field_size_mode=norm.field_size_mode, data_parsed=data_parsed, data_norm=data_norm,
+        field_size_mode=norm.field_size_mode,
+        data_parsed=data_parsed,
+        data_norm=data_norm,
     )
 
     data_norm["FS_lat"] = FS_lat

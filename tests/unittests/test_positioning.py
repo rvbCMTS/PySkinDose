@@ -29,7 +29,9 @@ def test_mathematical_phantom_positioning_in_z_direction():
     for phantom_model in [c.PHANTOM_MODEL_PLANE, c.PHANTOM_MODEL_CYLINDER]:
 
         patient_phantom = Phantom(
-            phantom_model=phantom_model, phantom_dim=param.phantom.dimension, human_mesh=c.PHANTOM_MESH_ADULT_MALE,
+            phantom_model=phantom_model,
+            phantom_dim=param.phantom.dimension,
+            human_mesh=c.PHANTOM_MESH_ADULT_MALE,
         )
 
         actual.append(sum(patient_phantom.r[:, 2] > 0))
@@ -60,7 +62,9 @@ def test_stl_phantom_positioning_in_z_direction():
 
             # create human phantom, with each mesh
             test_phantom = Phantom(
-                phantom_model=c.PHANTOM_MODEL_HUMAN, phantom_dim=param.phantom.dimension, human_mesh=phantom_name,
+                phantom_model=c.PHANTOM_MODEL_HUMAN,
+                phantom_dim=param.phantom.dimension,
+                human_mesh=phantom_name,
             )
             # calculate number of skin cells in +z dir
             actual.append(sum(test_phantom.r[:, 2] > 0))
