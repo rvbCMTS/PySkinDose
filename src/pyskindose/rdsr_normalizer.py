@@ -1,4 +1,5 @@
 import json
+import logging
 from pathlib import Path
 from typing import Optional, Union
 
@@ -24,6 +25,8 @@ from .constants import (
 )
 from .geom_calc import calculate_field_size
 from .settings_normalization import NormalizationSettings
+
+logger = logging.getLogger("pyskindose")
 
 
 def rdsr_normalizer(
@@ -231,21 +234,24 @@ def _normalize_xray_filter_materials(
 
     # for each irradiation event
     for event_index in range(len(data_parsed)):
-
         # fetch filter materials from data_parsed
         event_filter_materials = data_parsed[KEY_RDSR_FILTER_MATERIAL][event_index]
 
         # fetch filter min and max thicknesses
-        event_filter_minmax = np.array(
-            [data_parsed[KEY_RDSR_FILTER_MIN][event_index], data_parsed[KEY_RDSR_FILTER_MAX][event_index],]
-        )
+        event_filter_minmax = np.array([
+            data_parsed[KEY_RDSR_FILTER_MIN][event_index],
+            data_parsed[KEY_RDSR_FILTER_MAX][event_index],
+        ])
 
         # calculate filter mean thicknesses
         event_filter_means = np.mean(event_filter_minmax, axis=0)
 
-        # Make list of event_filter_means (required if only 1 filter material (e.g. Axiom Artis))
         if isinstance(event_filter_materials, str):
             event_filter_means = [event_filter_means]
+
+        if not isinstance(event_filter_means, list) and np.isnan(event_filter_materials):
+            logger.debug("Skipping mean value filter thickness calculation for event with no filter")
+            continue
 
         # if copper filter in use
         if KEY_RDSR_FILTER_MATERIAL_COPPER in event_filter_materials:
