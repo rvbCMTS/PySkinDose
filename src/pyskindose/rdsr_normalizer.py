@@ -251,7 +251,7 @@ def _normalize_xray_filter_materials(
         if isinstance(event_filter_materials, str):
             event_filter_means = [event_filter_means]
 
-        if not isinstance(event_filter_means, list) and np.isnan(event_filter_materials):
+        if not isinstance(event_filter_means, (list, np.ndarray)) and np.isnan(event_filter_materials):
             logger.debug("Skipping mean value filter thickness calculation for event with no filter")
             continue
 
