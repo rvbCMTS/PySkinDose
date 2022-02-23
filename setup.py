@@ -6,7 +6,7 @@ README = (Path(__file__).parent / "README.md").read_text()
 
 setup(
     name="pyskindose",
-    version="22.2.1",
+    version="22.2.2",
     description=(
         "Tools and script for calculating peak skin dose and create dose maps for fluoroscopic exams from RDSR" " data"
     ),
