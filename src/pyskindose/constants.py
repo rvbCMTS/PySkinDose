@@ -75,6 +75,7 @@ KEY_RDSR_FILTER_MATERIAL_ALUMINUM = "Aluminum or Aluminum compound"
 KEY_RDSR_FILTER_MIN = "XRayFilterThicknessMinimum_mm"
 KEY_RDSR_FILTER_MAX = "XRayFilterThicknessMaximum_mm"
 KEY_RDSR_FILTER_MATERIAL = "XRayFilterMaterial"
+KEY_RDSR_FILTER_TYPE = "XRayFilterType"
 KEY_RDSR_DISTANCE_SOURCE_DETECTOR = "DistanceSourcetoDetector_mm"
 
 KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH = "detector_side_length"

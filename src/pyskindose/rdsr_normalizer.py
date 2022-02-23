@@ -1,4 +1,5 @@
 import json
+import logging
 from pathlib import Path
 from typing import Optional, Union
 
@@ -6,24 +7,26 @@ import numpy as np
 import pandas as pd
 
 from .constants import (
+    KEY_NORMALIZATION_ACQUISITION_PLANE,
+    KEY_NORMALIZATION_ACQUISITION_TYPE,
+    KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_IRP,
+    KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER,
     KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
     KEY_NORMALIZATION_FILTER_SIZE_COPPER,
+    KEY_NORMALIZATION_MODEL_NAME,
+    KEY_RDSR_DISTANCE_SOURCE_DETECTOR,
     KEY_RDSR_FILTER_MATERIAL,
     KEY_RDSR_FILTER_MATERIAL_ALUMINUM,
     KEY_RDSR_FILTER_MATERIAL_COPPER,
     KEY_RDSR_FILTER_MAX,
     KEY_RDSR_FILTER_MIN,
-    KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR,
-    KEY_NORMALIZATION_DISTANCE_SOURCE_ISOCENTER,
-    KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR,
-    KEY_NORMALIZATION_DISTANCE_SOURCE_IRP,
-    KEY_NORMALIZATION_MODEL_NAME,
-    KEY_NORMALIZATION_ACQUISITION_TYPE,
-    KEY_NORMALIZATION_ACQUISITION_PLANE,
-    KEY_RDSR_DISTANCE_SOURCE_DETECTOR,
 )
 from .geom_calc import calculate_field_size
 from .settings_normalization import NormalizationSettings
+
+logger = logging.getLogger("pyskindose")
 
 
 def rdsr_normalizer(
@@ -231,21 +234,26 @@ def _normalize_xray_filter_materials(
 
     # for each irradiation event
     for event_index in range(len(data_parsed)):
-
         # fetch filter materials from data_parsed
         event_filter_materials = data_parsed[KEY_RDSR_FILTER_MATERIAL][event_index]
 
         # fetch filter min and max thicknesses
         event_filter_minmax = np.array(
-            [data_parsed[KEY_RDSR_FILTER_MIN][event_index], data_parsed[KEY_RDSR_FILTER_MAX][event_index],]
+            [
+                data_parsed[KEY_RDSR_FILTER_MIN][event_index],
+                data_parsed[KEY_RDSR_FILTER_MAX][event_index],
+            ]
         )
 
         # calculate filter mean thicknesses
         event_filter_means = np.mean(event_filter_minmax, axis=0)
 
-        # Make list of event_filter_means (required if only 1 filter material (e.g. Axiom Artis))
         if isinstance(event_filter_materials, str):
             event_filter_means = [event_filter_means]
+
+        if not isinstance(event_filter_means, (list, np.ndarray)) and np.isnan(event_filter_materials):
+            logger.debug("Skipping mean value filter thickness calculation for event with no filter")
+            continue
 
         # if copper filter in use
         if KEY_RDSR_FILTER_MATERIAL_COPPER in event_filter_materials:
@@ -277,7 +285,9 @@ def _normalize_beam_parameters(
     data_norm["DSL"] = norm.detector_side_length
 
     FS_lat, FS_long = calculate_field_size(
-        field_size_mode=norm.field_size_mode, data_parsed=data_parsed, data_norm=data_norm,
+        field_size_mode=norm.field_size_mode,
+        data_parsed=data_parsed,
+        data_norm=data_norm,
     )
 
     data_norm["FS_lat"] = FS_lat
