@@ -10,7 +10,7 @@ from pyskindose.plotting.create_ploty_ijk_indices import (
     _create_plotly_ijk_indices_for_cuboid_objects,
 )
 
-from .settings_pyskindose import PhantomDimensions
+from pyskindose.settings.phantom_dimensions import PhantomDimensions
 
 # valid phantom types
 VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]

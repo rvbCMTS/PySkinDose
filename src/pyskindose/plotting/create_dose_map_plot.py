@@ -11,7 +11,7 @@ from pyskindose.plotting.create_layout_for_dose_map_plots import (
 from pyskindose.plotting.create_notebook_dose_map_plot import (
     create_notebook_dose_map_plot,
 )
-from pyskindose.settings_pyskindose import PyskindoseSettings
+from pyskindose.settings import PyskindoseSettings
 
 from ..constants import (
     DOSEMAP_COLORSCALE,

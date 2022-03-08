@@ -10,7 +10,7 @@ from pyskindose.analyze_data import analyze_data
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
 from pyskindose.rdsr_normalizer import rdsr_normalizer
 from pyskindose.rdsr_parser import rdsr_parser
-from pyskindose.settings_pyskindose import PyskindoseSettings, initialize_settings
+from pyskindose.settings import PyskindoseSettings, initialize_settings
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +80,7 @@ def _read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSettin
     data_parsed = rdsr_parser(data_raw)
 
     # normalized rdsr for compliance with PySkinDose
-    normalized_data = rdsr_normalizer(data_parsed)
+    normalized_data = rdsr_normalizer(data_parsed, settings=settings)
 
     return normalized_data
 

@@ -1,7 +1,4 @@
-import json
 import logging
-from pathlib import Path
-from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -24,13 +21,14 @@ from .constants import (
     KEY_RDSR_FILTER_MIN,
 )
 from .geom_calc import calculate_field_size
-from .settings_normalization import NormalizationSettings
+from pyskindose.settings.settings_normalization import NormalizationSettings
+from .settings import PyskindoseSettings
 
 logger = logging.getLogger("pyskindose")
 
 
 def rdsr_normalizer(
-    data_parsed: pd.DataFrame, normalization_settings: Optional[Union[str, dict]] = None
+    data_parsed: pd.DataFrame, settings: PyskindoseSettings
 ) -> pd.DataFrame:
     """Normalize RDSR data for PySkinDose compliance.
 
@@ -148,7 +146,8 @@ def rdsr_normalizer(
     """
     data_norm = pd.DataFrame()
 
-    norm = _load_normalization_settings(data_parsed=data_parsed, norm_settings=normalization_settings)
+    settings.normalization_settings.update_used_settings(data_parsed=data_parsed)
+    norm = settings.normalization_settings
 
     for append_normalization in [
         _normalize_machine_parameters,
@@ -159,23 +158,6 @@ def rdsr_normalizer(
         data_norm = append_normalization(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
 
     return data_norm
-
-
-def _load_normalization_settings(
-    data_parsed: pd.DataFrame, norm_settings: Optional[Union[str, dict]] = None
-) -> NormalizationSettings:
-
-    if norm_settings is None:
-
-        normalization_settings_path = Path(__file__).parent / "normalization_settings.json"
-
-        with normalization_settings_path.open("r") as json_file:
-            norm_settings = json.load(json_file)
-
-    if isinstance(norm_settings, str):
-        norm_settings = json.load(json_file)
-
-    return NormalizationSettings(normalization_settings=norm_settings, data_parsed=data_parsed)
 
 
 def _normalize_machine_parameters(
