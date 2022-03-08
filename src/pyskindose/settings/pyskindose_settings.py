@@ -10,7 +10,7 @@ from pyskindose.constants import (
 )
 from .phantom_settings import PhantomSettings
 from .plot_settings import Plotsettings
-from .settings_normalization import NormalizationSettings
+from .normalization_settings import NormalizationSettings
 from ..helpers.create_attributes_string import create_attributes_string
 
 
@@ -53,7 +53,11 @@ class PyskindoseSettings:
 
     """
 
-    def __init__(self, settings: Union[str, dict], normalization_settings: Optional[Union[Path, str, dict, NormalizationSettings]] = None):
+    def __init__(
+        self,
+        settings: Union[str, dict],
+        normalization_settings: Optional[Union[Path, str, dict, NormalizationSettings]] = None,
+    ):
         """Initialize settings class.
 
         Parameters
@@ -77,17 +81,12 @@ class PyskindoseSettings:
         self.phantom = PhantomSettings(ptm_dim=tmp["phantom"])
         self.plot = Plotsettings(plt_dict=tmp["plot"])
 
-        if normalization_settings is None:
-            normalization_settings_path = Path(__file__).parent.parent / "normalization_settings.json"
+        self.normalization_settings = self._initialize_normalization_settings(normalization_settings)
 
-
-        self.normalization_settings = (
-            normalization_settings
-            if isinstance(normalization_settings, NormalizationSettings)
-            else NormalizationSettings(normalization_settings=normalization_settings)
-        )
-
-    def _initialize_normalization_settings(normalization_settings: Optional[Union[Path, str, dict, NormalizationSettings]]) -> NormalizationSettings:
+    @staticmethod
+    def _initialize_normalization_settings(
+        normalization_settings: Optional[Union[Path, str, dict, NormalizationSettings]]
+    ) -> NormalizationSettings:
         if normalization_settings is None:
             normalization_settings = Path(__file__).parent.parent / "normalization_settings.json"
 

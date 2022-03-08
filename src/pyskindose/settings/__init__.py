@@ -1,1 +1,1 @@
-from .settings_pyskindose import PyskindoseSettings, initialize_settings
+from .pyskindose_settings import PyskindoseSettings, initialize_settings

@@ -26,6 +26,9 @@ class TranslationOffset:
             translation offset (in that direction), specified as a float in cm.
 
         """
+        if offset is None:
+            offset = dict()
+
         self.x: float = offset.get("x")
         self.y: float = offset.get("y")
         self.z: float = offset.get("z")

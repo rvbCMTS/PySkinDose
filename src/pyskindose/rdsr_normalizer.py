@@ -21,15 +21,13 @@ from .constants import (
     KEY_RDSR_FILTER_MIN,
 )
 from .geom_calc import calculate_field_size
-from pyskindose.settings.settings_normalization import NormalizationSettings
+from pyskindose.settings.normalization_settings import NormalizationSettings
 from .settings import PyskindoseSettings
 
 logger = logging.getLogger("pyskindose")
 
 
-def rdsr_normalizer(
-    data_parsed: pd.DataFrame, settings: PyskindoseSettings
-) -> pd.DataFrame:
+def rdsr_normalizer(data_parsed: pd.DataFrame, settings: PyskindoseSettings) -> pd.DataFrame:
     """Normalize RDSR data for PySkinDose compliance.
 
     Parameters
@@ -147,7 +145,6 @@ def rdsr_normalizer(
     data_norm = pd.DataFrame()
 
     settings.normalization_settings.update_used_settings(data_parsed=data_parsed)
-    norm = settings.normalization_settings
 
     for append_normalization in [
         _normalize_machine_parameters,
@@ -155,7 +152,9 @@ def rdsr_normalizer(
         _normalize_xray_filter_materials,
         _normalize_beam_parameters,
     ]:
-        data_norm = append_normalization(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
+        data_norm = append_normalization(
+            data_parsed=data_parsed, data_norm=data_norm, norm=settings.normalization_settings
+        )
 
     return data_norm
 

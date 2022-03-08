@@ -13,6 +13,7 @@ DEVELOPMENT_PARAMETERS = dict(
     k_tab_val=0.8,
     # plot settings
     plot={
+        "interactivity": True,
         # dark mode for plots
         c.MODE_DARK_MODE: True,
         # notebook mode
