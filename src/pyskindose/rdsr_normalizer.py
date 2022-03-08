@@ -43,79 +43,85 @@ def rdsr_normalizer(
     Returns
     -------
     data_norm : pd.DataFrame
-        Dataframe with the following columns:
-    model : str
-        device model, e.g. 'AXIOM-artis
-    DSD : float
-        Distance Source to detector (DSD) in cm.
-    DSI : float
-        Distance Source to Isocenter (DSI) in cm.
-    DID : float
-        Distance Isocenter to Detector (DID) in cm.
-    DSIRP : float
-        Distance Source to intercentional reference point (DSIRP) in cm.
-    acquisition_type : str
-        Type of irradiation event, i.e. 'fluoroscopy, or stationary
-        acquisition.
-    acquisition_plane : str
-        plane used for image acquisition. Either 'single plane', 'plane a', or
-        plane b.
-    Tx : float
-        Table offset in x-direction (longitudinal direction) from the machine
-        isocenter. At Tx = 0, the patient support table is centered about the
-        isocenter x-axis. With patient lying in head-first supine position
-        (default settings), Tx increases in patient left lateral direction.
-    Ty : float
-        Table offset in y-direction (vertical direction) from the machine
-        isocenter. At Ty = 0, the patient support table is centered about the
-        isocenter y-axis. Ty is increasing downwards, i.e. along the force
-        of gravity.
-    Tz : float
-        Table offset in z-direction (lateral direction) from the machine
-        isocenter. At Tz = 0, the head end of the patient support tables are
-        located at the zero coordinate of the z-axis. With patient lying in
-        head-first supine position (default settings), Tz increases in the
-        patients cranial direction.
+        DataFrame with the following columns
+            - model (str)
+                device model, e.g. 'AXIOM-artis
+            - DSD (float)
+                Distance Source to detector (DSD) in cm.
+            - DSI (float)
+                Distance Source to Isocenter (DSI) in cm.
+            - DID (float)
+                Distance Isocenter to Detector (DID) in cm.
+            - DSIRP (float)
+                Distance Source to intercentional reference point (DSIRP) in
+                cm.
+            - acquisition_type (str)
+                Type of irradiation event, i.e. 'fluoroscopy, or stationary
+                acquisition.
+            - acquisition_plane (str)
+                plane used for image acquisition. Either 'single plane',
+                'plane a', or 'plane b'.
+            - Tx (float)
+                Table offset in x-direction (longitudinal direction) from the
+                machine isocenter. At Tx = 0, the patient support table is
+                centered about the isocenter x-axis. With patient lying in
+                head-first supine position (default settings), Tx increases in
+                patient left lateral direction.
+            - Ty (float)
+                Table offset in y-direction (vertical direction) from the
+                machine isocenter. At Ty = 0, the patient support table is
+                entered about the isocenter y-axis. Ty is increasing downwards,
+                i.e. along the force of gravity.
+            - Tz (float)
+                Table offset in z-direction (lateral direction) from the
+                machine isocenter. At Tz = 0, the head end of the patient
+                support tables are located at the zero coordinate of the
+                z-axis. With patient lying in head-first supine position
+                (default settings), Tz increases in the patients cranial
+                direction.
 
-        .. image:: user/figures/table/table_translate.svg
+                .. image:: user/figures/table/table_translate.svg
 
-    At1 : int
-        Rotation angle of the patient support table about the isocenter
-        y-axis. The center of rotation is located at the centerpoint
-        of the table. Positive direction is determined by the right-hand rule
-        for curve orientation about the positive isocenter y-axis.
+            - At1 (int)
+                Rotation angle of the patient support table about the isocenter
+                y-axis. The center of rotation is located at the centerpoint
+                of the table. Positive direction is determined by
+                the right-hand rule for curve orientation about the positive
+                isocenter y-axis.
 
-        .. image:: user/figures/table/table_at1.svg
+                .. image:: user/figures/table/table_at1.svg
 
-    At2 : int
-        Tilt angel of the patient support table about the isocenter x-axis.
-        The center of the tilt is located at the center of the table, with
-        positive direction determined by the right-hand rule for curve
-        orientations  about the positiove isocenter x-axis.
+            -At2 (int)
+                Tilt angel of the patient support table about the isocenter
+                x-axis. The center of the tilt is located at the center of the
+                table, with positive direction determined by the right-hand
+                rule for curve orientations  about the positiove isocenter
+                x-axis.
 
-        .. image:: user/figures/table/table_at2.svg
+                .. image:: user/figures/table/table_at2.svg
 
-    At3 : int
-        Cradle angle of the patient support table about the isocenter
-        z-axis. The center of rotation is located at the centerpoint
-        of the table. Positive direction is determined by the right-hand rule
-        for curve orientation about the positive isocenter z-axis.
+            - At3 (int)
+                Cradle angle of the patient support table about the isocenter
+                z-axis. The center of rotation is located at the centerpoint
+                of the table. Positive direction is determined by the
+                right-hand rule for curve orientation about the positive
+                isocenter z-axis.
 
-        .. image:: user/figures/table/table_at3.svg
+                .. image:: user/figures/table/table_at3.svg
 
-    Ap1 : int
-        Rotation angle of the X-ray source about the isocenter z-axis. Positive
-        direction is determined by the right-hand rule for curve orientation
-        about the positive isocenter z-axis.
+            - Ap1 (int)
+                Rotation angle of the X-ray source about the isocenter z-axis.
+                Positive direction is determined by the right-hand rule for
+                curve orientation about the positive isocenter z-axis.
 
-        .. image:: user/figures/beam/beam_ap1.svg
+                .. image:: user/figures/beam/beam_ap1.svg
 
-    Ap2 : int
-        Rotation angle of the X-ray source about the isocenter x-axis. Positive
-        direction is determined by the right-hand rule for curve orientation
-        about the positive isocenter x-axis.
+            - Ap2 (int)
+                Rotation angle of the X-ray source about the isocenter x-axis.
+                Positive direction is determined by the right-hand rule for
+                curve orientation about the positive isocenter x-axis.
 
-        .. image:: user/figures/beam/beam_ap2.svg
+                .. image:: user/figures/beam/beam_ap2.svg
 
     Ap3 : int
         Rotation angle of the X-ray detector about the isocenter y-axis.

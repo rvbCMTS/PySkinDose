@@ -6,14 +6,18 @@
 
 # -- Path setup --------------------------------------------------------------
 
+import os
+import sys
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath("src/pyskindose"))
+# sys.path.insert(0, os.path.abspath('src/pyskindose'))
+project_root = Path(__file__).parent.parent.parent / "src" / "pyskindose"
+sys.path.insert(0, str(project_root.absolute()))
 
 
 # -- Project information -----------------------------------------------------
@@ -39,6 +43,7 @@ extensions = [
     "sphinx.ext.napoleon",
 ]
 
+default_dark_mode = True
 
 # Avoid STIX-font fallback
 mathjax_config = {"HTML-CSS": {"availableFonts": ["TeX"]}}
@@ -68,7 +73,7 @@ html_static_path = ["_static"]
 
 
 def setup(app):
-    app.add_stylesheet("my-styles.css")
+    app.add_css_file("my-styles.css")
 
 
 add_module_names = False

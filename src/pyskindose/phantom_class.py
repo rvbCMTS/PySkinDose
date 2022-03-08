@@ -4,9 +4,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 from stl import mesh
-from tqdm import tqdm
 
 from pyskindose.plotting.create_ploty_ijk_indices import (
     _create_plotly_ijk_indices_for_cuboid_objects,
@@ -51,19 +49,7 @@ class Phantom:
         length of patient support table. The is needed for all phantom object
         to select correct rotation origin for At1, At2, and At3.
 
-    Methods
-    -------
-    rotate(rotation)
-        Rotating the phantom about any of the x, y, or z axis
-    translate(dr)
-        Translates the phantom along the x, y or z direction
-    save_position
-        Saves the reference position after the phantom has been properly
-        positioned in the irradiation geometry. This method is called in the
-        position_patient_phantom_on_table function
-    position(data_norm)
-        Positions the phantom from reference position to actual position
-        according to the table displacement info in data_norm
+
     """
 
     def __init__(self, phantom_model: str, phantom_dim: PhantomDimensions, human_mesh: Optional[str] = None):

@@ -29,14 +29,6 @@ class Beam:
     N : np.array
         4*3 array, where each row contains a normal vector to one of the four
         faces of the beam.
-
-    Methods
-    -------
-    check_hit(patient)
-        Calculates which of the patient phantom's entrance skin cells are hit
-        by the X-ray beam. For 3D phantoms, skin cells on the beams exit path
-        are neglected.
-
     """
 
     def __init__(self, data_norm: pd.DataFrame, event: int = 0, plot_setup: bool = False) -> None:
