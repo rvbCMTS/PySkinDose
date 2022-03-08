@@ -318,17 +318,6 @@ class Triangle:
     n: np.array
         normal vector to the triangle, pointing upwards (negative y direction).
 
-    Methods
-    -------
-        check_intersection
-            check if a 3D segment intercepts with the triangle. For our
-            purpose, the 3D segment represents an X-ray beam from the X-ray
-            source to the phantom skin cell. If the beam intercepts, table- and
-            pad fluence correction should be conducted when calculating skin
-            dose for that particular cell. Please visit project documentation
-            (https://dev.azure.com/Sjukhusfysiker/PySkinDose/_wiki/) for a
-            clearer description and illustration for this method.
-
     """
 
     def __init__(self, p: np.array, p1: np.array, p2: np.array):

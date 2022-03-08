@@ -11,7 +11,7 @@ Welcome to PySkinDose's documentation!
    user/get_started.rst
    user/contribute.md
 
-   pyskindose
+   modules
 
 Indices and tables
 ==================

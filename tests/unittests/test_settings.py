@@ -12,10 +12,6 @@ settings = PyskindoseSettings(settings=DEVELOPMENT_PARAMETERS)
 
 def test_that_print_parameters_function_updates_output_after_settings_change():
 
-    # Expect that the print statement will change if parameters in the settings are
-    # changed
-    expected = False
-
     print_string = settings.print_parameters(return_as_string=True)
 
     settings.mode = "some_other_mode"
