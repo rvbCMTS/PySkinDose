@@ -1,9 +1,11 @@
 import logging
-from typing import List, Any
+from typing import Any, List
+
 import numpy as np
 import pandas as pd
 
 import pyskindose.constants as c
+
 from .db_connect import db_connect
 from .phantom_class import Phantom
 
@@ -24,28 +26,54 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
         collimated field area. NOTE, this should only be used when actual
         shutter distances are unavailabe.
 
-        IF field_size_mode = 'ASD', the function calculates the field size
+        If field_size_mode = 'ASD', the function calculates the field size
         by distance scaling the actual shutter distance to the detector plane
 
-    data_parsed : [type]
-        [description]
-    data_norm : [type]
-        [description]
+    data_parsed : pd.DataFrame
+        Parsed RDSR data from all irradiation events in the RDSR input file,
+        i.e. output of function rdsr_parser
+    data_norm : pd.DataFrame
+        RDSR data, normalized for compliance with PySkinDose.
 
     Returns
     -------
-    [type]
-        [description]
+    FS_lat, FS_long : float
+        Field size in lat- and long direction in cm at the detector plane.
 
     """
     # if collimated field are mode, set FS_lat = FS_long =
     # sqrt(collimate field area). NOTE: This should only be used when actual
     # shutter distances are unavailable.
-    if field_size_mode == "CFA":
-        FS_lat = round(100 * np.sqrt(data_parsed.CollimatedFieldArea_m2), 3)
-        FS_long = FS_lat
+    if field_size_mode == c.FIELD_SIZE_MODE_COLLIMATED_FIELD_AREA:
 
-    return FS_lat, FS_long
+        # Field size in lat direction in metres
+        FS_lat_m = np.sqrt(data_parsed.CollimatedFieldArea_m2)
+        # Field size in long direction in metres
+        FS_long_m = FS_lat_m
+
+        # convert to cm
+        FS_lat = round(convert_from_m_to_cm(FS_lat_m), 3)
+        FS_long = round(convert_from_m_to_cm(FS_long_m), 3)
+
+        return FS_lat, FS_long
+
+    if field_size_mode == c.FIELD_SIZE_MODE_ACTUAL_SHUTTER_DISTANCE:
+
+        # distance (from source) at which shutter distances are presented in
+        # dicom tags
+        d_shutter_in_dcm_cm = 100
+
+        # field size in long direction at d = d_shutter_in_dcm_cm
+        FS_long_at_d_shutter = convert_from_mm_to_cm(data_parsed.LeftShutter_mm + data_parsed.RightShutter_mm)
+        # field size in lat direction at d = d_shutter_in_dcm_cm
+        FS_lat_at_d_shutter = convert_from_mm_to_cm(data_parsed.TopShutter_mm + data_parsed.BottomShutter_mm)
+        # scale factor to get field size at detector plane
+        scale = data_norm.DSD / d_shutter_in_dcm_cm
+
+        FS_lat = scale * FS_lat_at_d_shutter
+        FS_long = scale * FS_long_at_d_shutter
+
+        return FS_lat, FS_long
 
 
 def position_patient_phantom_on_table(
@@ -137,11 +165,7 @@ def vector(start: np.array, stop: np.array, normalization=False) -> np.array:
 
 
 def scale_field_area(
-    data_norm: pd.DataFrame,
-    event: int,
-    patient: Phantom,
-    hits: List[bool],
-    source: np.array,
+    data_norm: pd.DataFrame, event: int, patient: Phantom, hits: List[bool], source: np.array
 ) -> List[float]:
     """Scale X-ray field area from image detector, to phantom skin cells.
 
@@ -221,10 +245,9 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame) -> pd.DataFrame:
             hvl_data.loc[
                 (hvl_data["DeviceModel"] == data_norm.model[event])
                 & (hvl_data["kVp_kV"] == round(data_norm.kVp[event]))
-                & (
-                    hvl_data["AddedFiltration_mmCu"]
-                    == data_norm.filter_thickness_Cu[event]
-                ),
+                & (hvl_data["AcquisitionPlane"] == data_norm.acquisition_plane[event])
+                & (hvl_data["AddedFiltration_mmCu"] == data_norm.filter_thickness_Cu[event])
+                & (hvl_data["AddedFiltration_mmAl"] == round(data_norm.filter_thickness_Al[event])),
                 "HVL_mmAl",
             ]
         )
@@ -260,40 +283,17 @@ def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
         geometry since the preceding irradiation event.
 
     """
-    logger.info(
-        "Checking which irradiation events contain changes in geometry"
-        "compared to previous event"
-    )
+    logger.info("Checking which irradiation events contain changes in geometry" "compared to previous event")
 
     logger.debug("Listing all RDSR geometry parameters")
-    geom_params = data_norm[
-        [
-            "Tx",
-            "Ty",
-            "Tz",
-            "FS_lat",
-            "FS_long",
-            "Ap1",
-            "Ap2",
-            "Ap3",
-            "At1",
-            "At2",
-            "At3",
-        ]
-    ]
+    geom_params = data_norm[["Tx", "Ty", "Tz", "FS_lat", "FS_long", "Ap1", "Ap2", "Ap3", "At1", "At2", "At3"]]
 
-    logger.debug(
-        "Checking which irradiation events that does not have same"
-        "parameters as previous"
-    )
+    logger.debug("Checking which irradiation events that does not have same" "parameters as previous")
     changed_geometry = [
-        not geom_params.iloc[event].equals(geom_params.iloc[event - 1])
-        for event in range(1, len(geom_params))
+        not geom_params.iloc[event].equals(geom_params.iloc[event - 1]) for event in range(1, len(geom_params))
     ]
 
-    logger.debug(
-        "Insert True to the first event to indicate that it has a" "new geometry"
-    )
+    logger.debug("Insert True to the first event to indicate that it has a" "new geometry")
 
     changed_geometry.insert(0, True)
 
@@ -369,19 +369,11 @@ class Triangle:
         # Vector from central vertex p to i
         p_i = i - self.p
 
-        d = np.square(np.dot(self.p1, self.p2)) - np.dot(self.p1, self.p1) * np.dot(
-            self.p2, self.p2
-        )
+        d = np.square(np.dot(self.p1, self.p2)) - np.dot(self.p1, self.p1) * np.dot(self.p2, self.p2)
 
-        d1 = (
-            np.dot(self.p1, self.p2) * np.dot(p_i, self.p2)
-            - np.dot(self.p2, self.p2) * np.dot(p_i, self.p1)
-        ) / d
+        d1 = (np.dot(self.p1, self.p2) * np.dot(p_i, self.p2) - np.dot(self.p2, self.p2) * np.dot(p_i, self.p1)) / d
 
-        d2 = (
-            np.dot(self.p1, self.p2) * np.dot(p_i, self.p1)
-            - np.dot(self.p1, self.p1) * np.dot(p_i, self.p2)
-        ) / d
+        d2 = (np.dot(self.p1, self.p2) * np.dot(p_i, self.p1) - np.dot(self.p1, self.p1) * np.dot(p_i, self.p2)) / d
 
         # Now we have p_i = d1/d * p1 + d2/d * p2, thus,
         # if 0 <= d1/d <= 1, and 0 <= d2/d <= 1, and d1 + d2 <= 1, the beam
@@ -391,9 +383,7 @@ class Triangle:
         return hits.tolist()
 
 
-def check_table_hits(
-    source: np.array, table: Phantom, beam, cells: np.array
-) -> List[bool]:
+def check_table_hits(source: np.array, table: Phantom, beam, cells: np.array) -> List[bool]:
     """Check which skin cells are blocket by the patient support table.
 
     This fuctions creates two triangles covering the entire surface of the
@@ -468,3 +458,41 @@ def check_table_hits(
     hits[hit_b_l] = True
 
     return hits.tolist()
+
+
+def convert_from_mm_to_cm(val_in_mm: float) -> float:
+    """Convert a length from millimeters to centimeters.
+
+    Parameters
+    ----------
+    val_in_mm : float
+        A length in mm
+
+    Returns
+    -------
+    float
+        The same length in cm
+
+    """
+    val_in_cm = val_in_mm / 10.0
+
+    return val_in_cm
+
+
+def convert_from_m_to_cm(val_in_m: float) -> float:
+    """Convert a length from centimeters to millimeters.
+
+    Parameters
+    ----------
+    val_in_m : float
+        A length in m
+
+    Returns
+    -------
+    float
+        The same length in cm
+
+    """
+    val_in_cm = val_in_m * 100.0
+
+    return val_in_cm

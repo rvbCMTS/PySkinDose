@@ -1,0 +1,40 @@
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+wrap_length = 79
+known_first_party = ["pyskindose"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+src_paths = ["src", "tests"]
+skip_glob = ["**/__init__.py", "**/migrations", ".venv", ".venv39", ".github", ".pytest_cache"]
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.vscode
+    | \.idea
+    | \.github
+    | \.venv
+    | \.venv39
+    | venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | tools
+    | pytest_cache
+  )/
+)
+'''

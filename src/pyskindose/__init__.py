@@ -4,3 +4,4 @@ from .rdsr_parser import rdsr_parser
 from .rdsr_normalizer import rdsr_normalizer
 from .phantom_class import Phantom
 from pyskindose.plotting import plot_geometry
+from .analyze_data import analyze_data

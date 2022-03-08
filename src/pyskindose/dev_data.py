@@ -1,11 +1,10 @@
 from . import constants as c
 
-
 DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
-    rdsr_filename='S1.dcm',
+    rdsr_filename="S1.dcm",
     # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
     # Numeric value of estimated table correction
@@ -24,7 +23,8 @@ DEVELOPMENT_PARAMETERS = dict(
         # procedure
         c.MAX_EVENT_FOR_PATIENT_INCLUSION_IN_PROCEDURE_KEY: 0,
         # Irrading event index for mode='plot_event'
-        c.PLOT_EVENT_INDEX_KEY: 12},
+        c.PLOT_EVENT_INDEX_KEY: 12,
+    },
     # Phantom settings:
     phantom=dict(
         # Phantom model, valid selections: 'plane', 'cylinder', or 'human'
@@ -32,10 +32,7 @@ DEVELOPMENT_PARAMETERS = dict(
         # Human phantom .stl filename, without .stl ending.
         human_mesh=c.PHANTOM_MESH_ADULT_MALE,
         # Patient offset from table isocenter (centered at head end side).
-        patient_offset={
-            c.OFFSET_LONGITUDINAL_KEY: 0,
-            c.OFFSET_VERTICAL_KEY: 0,
-            c.OFFSET_LATERAL_KEY: -35},
+        patient_offset={c.OFFSET_LONGITUDINAL_KEY: 0, c.OFFSET_VERTICAL_KEY: 0, c.OFFSET_LATERAL_KEY: -35},
         patient_orientation=c.PATIENT_ORIENTATION_HEAD_FIRST_SUPINE,
         dimension={
             # Length of plane phantom
@@ -61,5 +58,7 @@ DEVELOPMENT_PARAMETERS = dict(
             # Support pad length
             c.DIMENSION_PAD_LENGTH: 281.5,
             c.DIMENSION_PAD_WIDTH: 45,  # Support pad width
-            c.DIMENSION_PAD_THICKNESS: 4}),  # Support pad thickness
-        )
+            c.DIMENSION_PAD_THICKNESS: 4,
+        },
+    ),  # Support pad thickness
+)

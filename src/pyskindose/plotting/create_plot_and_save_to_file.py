@@ -1,5 +1,6 @@
 import logging
 from typing import List, Union
+
 import plotly.graph_objects as go
 
 logger = logging.getLogger(__name__)

@@ -1,6 +1,8 @@
+from typing import List
+
 import numpy as np
 import pandas as pd
-from typing import List
+
 from .phantom_class import Phantom
 
 
@@ -29,9 +31,7 @@ class Beam:
         faces of the beam.
     """
 
-    def __init__(
-        self, data_norm: pd.DataFrame, event: int = 0, plot_setup: bool = False
-    ) -> None:
+    def __init__(self, data_norm: pd.DataFrame, event: int = 0, plot_setup: bool = False) -> None:
         """Initialize the beam and detector for a specific irradiation event.
 
         Parameters
@@ -124,15 +124,10 @@ class Beam:
         self.r = r
 
         # Manually create vertex index vector for the X-ray beam
-        self.ijk = np.column_stack(
-            ([0, 0, 0, 0, 1, 1], [1, 1, 3, 3, 2, 3], [2, 4, 2, 4, 3, 4])
-        )
+        self.ijk = np.column_stack(([0, 0, 0, 0, 1, 1], [1, 1, 3, 3, 2, 3], [2, 4, 2, 4, 3, 4]))
 
         # Create unit vectors from X-ray source to beam verticies
-        v = (
-            (self.r[1:] - self.r[0, :]).T
-            / np.linalg.norm(self.r[1:] - self.r[0, :], axis=1)
-        ).T
+        v = ((self.r[1:] - self.r[0, :]).T / np.linalg.norm(self.r[1:] - self.r[0, :], axis=1)).T
 
         # Create the four normal vectors to the faces of the beam.
         self.N = np.vstack(

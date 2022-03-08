@@ -1,16 +1,16 @@
 from ..constants import (
     COLOR_CANVAS_DARK,
     COLOR_CANVAS_LIGHT,
-    COLOR_GRID_LIGHT,
     COLOR_GRID_DARK,
-    COLOR_PLOT_TEXT_LIGHT,
+    COLOR_GRID_LIGHT,
     COLOR_PLOT_TEXT_DARK,
+    COLOR_PLOT_TEXT_LIGHT,
     COLOR_SLIDER_BORDER_DARK,
     COLOR_SLIDER_BORDER_LIGHT,
     COLOR_SLIDER_TICK_DARK,
     COLOR_SLIDER_TICK_LIGHT,
-    COLOR_ZERO_LINE_LIGHT,
     COLOR_ZERO_LINE_DARK,
+    COLOR_ZERO_LINE_LIGHT,
     PLOT_HEIGHT,
     PLOT_HEIGHT_NOTEBOOK,
     PLOT_MARGIN,
@@ -32,11 +32,19 @@ def fetch_plot_colors(dark_mode: bool):
 
     """
     if dark_mode:
-        return COLOR_CANVAS_DARK, COLOR_PLOT_TEXT_DARK, COLOR_GRID_DARK, \
-            COLOR_ZERO_LINE_DARK
+        return (
+            COLOR_CANVAS_DARK,
+            COLOR_PLOT_TEXT_DARK,
+            COLOR_GRID_DARK,
+            COLOR_ZERO_LINE_DARK,
+        )
 
-    return COLOR_CANVAS_LIGHT, COLOR_PLOT_TEXT_LIGHT, COLOR_GRID_LIGHT, \
-        COLOR_ZERO_LINE_LIGHT
+    return (
+        COLOR_CANVAS_LIGHT,
+        COLOR_PLOT_TEXT_LIGHT,
+        COLOR_GRID_LIGHT,
+        COLOR_ZERO_LINE_LIGHT,
+    )
 
 
 def fetch_slider_colors(dark_mode: bool):
@@ -49,11 +57,13 @@ def fetch_slider_colors(dark_mode: bool):
 
     """
     if dark_mode:
-        return COLOR_PLOT_TEXT_DARK, COLOR_SLIDER_TICK_DARK, \
+        return (
+            COLOR_PLOT_TEXT_DARK,
+            COLOR_SLIDER_TICK_DARK,
             COLOR_SLIDER_BORDER_DARK,
+        )
 
-    return COLOR_PLOT_TEXT_LIGHT, COLOR_SLIDER_TICK_LIGHT, \
-        COLOR_SLIDER_BORDER_LIGHT
+    return COLOR_PLOT_TEXT_LIGHT, COLOR_SLIDER_TICK_LIGHT, COLOR_SLIDER_BORDER_LIGHT
 
 
 def fetch_plot_size(notebook_mode: bool):

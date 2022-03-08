@@ -455,915 +455,915 @@ kVp_kV,InherentFiltration_mmAl,AddedFiltration_mmCu,AddedFiltration_mmAl,AddedFi
 125,4.1,0.3,0,770,AXIOM-Artis,Single Plane,8,9.33,0.885,Inherent filtration measured in lab 106 - 2018-03-28
 125,4.1,0.6,0,770,AXIOM-Artis,Single Plane,8,10.7,0.929,Inherent filtration measured in lab 106 - 2018-03-28
 125,4.1,0.9,0,770,AXIOM-Artis,Single Plane,8,11.5,0.948,Inherent filtration measured in lab 106 - 2018-03-28
-50,4.4,0,0,795,AlluraClarity,Plane A,11,2.37,0.812,Inherent filtration measured in lab U104 - 2018-04-12
-50,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.29,0.882,Inherent filtration measured in lab U104 - 2018-04-12
-50,4.4,0.4,1,795,AlluraClarity,Plane A,11,4.4,0.943,Inherent filtration measured in lab U104 - 2018-04-12
-50,4.4,0.9,1,795,AlluraClarity,Plane A,11,5.22,0.974,Inherent filtration measured in lab U104 - 2018-04-12
-51,4.4,0,0,795,AlluraClarity,Plane A,11,2.418,,Inherent filtration measured in lab U104 - 2018-04-12
-51,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.366,,Inherent filtration measured in lab U104 - 2018-04-12
-51,4.4,0.4,1,795,AlluraClarity,Plane A,11,4.514,,Inherent filtration measured in lab U104 - 2018-04-12
-51,4.4,0.9,1,795,AlluraClarity,Plane A,11,5.364,,Inherent filtration measured in lab U104 - 2018-04-12
-52,4.4,0,0,795,AlluraClarity,Plane A,11,2.466,,Inherent filtration measured in lab U104 - 2018-04-12
-52,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.442,,Inherent filtration measured in lab U104 - 2018-04-12
-52,4.4,0.4,1,795,AlluraClarity,Plane A,11,4.628,,Inherent filtration measured in lab U104 - 2018-04-12
-52,4.4,0.9,1,795,AlluraClarity,Plane A,11,5.508,,Inherent filtration measured in lab U104 - 2018-04-12
-53,4.4,0,0,795,AlluraClarity,Plane A,11,2.514,,Inherent filtration measured in lab U104 - 2018-04-12
-53,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.518,,Inherent filtration measured in lab U104 - 2018-04-12
-53,4.4,0.4,1,795,AlluraClarity,Plane A,11,4.742,,Inherent filtration measured in lab U104 - 2018-04-12
-53,4.4,0.9,1,795,AlluraClarity,Plane A,11,5.652,,Inherent filtration measured in lab U104 - 2018-04-12
-54,4.4,0,0,795,AlluraClarity,Plane A,11,2.562,,Inherent filtration measured in lab U104 - 2018-04-12
-54,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.594,,Inherent filtration measured in lab U104 - 2018-04-12
-54,4.4,0.4,1,795,AlluraClarity,Plane A,11,4.856,,Inherent filtration measured in lab U104 - 2018-04-12
-54,4.4,0.9,1,795,AlluraClarity,Plane A,11,5.796,,Inherent filtration measured in lab U104 - 2018-04-12
-55,4.4,0,0,795,AlluraClarity,Plane A,11,2.61,0.794,Inherent filtration measured in lab U104 - 2018-04-12
-55,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.67,0.867,Inherent filtration measured in lab U104 - 2018-04-12
-55,4.4,0.4,1,795,AlluraClarity,Plane A,11,4.97,0.934,Inherent filtration measured in lab U104 - 2018-04-12
-55,4.4,0.9,1,795,AlluraClarity,Plane A,11,5.94,0.969,Inherent filtration measured in lab U104 - 2018-04-12
-56,4.4,0,0,795,AlluraClarity,Plane A,11,2.656,,Inherent filtration measured in lab U104 - 2018-04-12
-56,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.74,,Inherent filtration measured in lab U104 - 2018-04-12
-56,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.074,,Inherent filtration measured in lab U104 - 2018-04-12
-56,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.072,,Inherent filtration measured in lab U104 - 2018-04-12
-57,4.4,0,0,795,AlluraClarity,Plane A,11,2.702,,Inherent filtration measured in lab U104 - 2018-04-12
-57,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.81,,Inherent filtration measured in lab U104 - 2018-04-12
-57,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.178,,Inherent filtration measured in lab U104 - 2018-04-12
-57,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.204,,Inherent filtration measured in lab U104 - 2018-04-12
-58,4.4,0,0,795,AlluraClarity,Plane A,11,2.748,,Inherent filtration measured in lab U104 - 2018-04-12
-58,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.88,,Inherent filtration measured in lab U104 - 2018-04-12
-58,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.282,,Inherent filtration measured in lab U104 - 2018-04-12
-58,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.336,,Inherent filtration measured in lab U104 - 2018-04-12
-59,4.4,0,0,795,AlluraClarity,Plane A,11,2.794,,Inherent filtration measured in lab U104 - 2018-04-12
-59,4.4,0.1,1,795,AlluraClarity,Plane A,11,3.95,,Inherent filtration measured in lab U104 - 2018-04-12
-59,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.386,,Inherent filtration measured in lab U104 - 2018-04-12
-59,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.468,,Inherent filtration measured in lab U104 - 2018-04-12
-60,4.4,0,0,795,AlluraClarity,Plane A,11,2.84,0.779,Inherent filtration measured in lab U104 - 2018-04-12
-60,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.02,0.855,Inherent filtration measured in lab U104 - 2018-04-12
-60,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.49,0.927,Inherent filtration measured in lab U104 - 2018-04-12
-60,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.6,0.965,Inherent filtration measured in lab U104 - 2018-04-12
-61,4.4,0,0,795,AlluraClarity,Plane A,11,2.884,,Inherent filtration measured in lab U104 - 2018-04-12
-61,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.086,,Inherent filtration measured in lab U104 - 2018-04-12
-61,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.588,,Inherent filtration measured in lab U104 - 2018-04-12
-61,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.724,,Inherent filtration measured in lab U104 - 2018-04-12
-62,4.4,0,0,795,AlluraClarity,Plane A,11,2.928,,Inherent filtration measured in lab U104 - 2018-04-12
-62,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.152,,Inherent filtration measured in lab U104 - 2018-04-12
-62,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.686,,Inherent filtration measured in lab U104 - 2018-04-12
-62,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.848,,Inherent filtration measured in lab U104 - 2018-04-12
-63,4.4,0,0,795,AlluraClarity,Plane A,11,2.972,,Inherent filtration measured in lab U104 - 2018-04-12
-63,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.218,,Inherent filtration measured in lab U104 - 2018-04-12
-63,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.784,,Inherent filtration measured in lab U104 - 2018-04-12
-63,4.4,0.9,1,795,AlluraClarity,Plane A,11,6.972,,Inherent filtration measured in lab U104 - 2018-04-12
-64,4.4,0,0,795,AlluraClarity,Plane A,11,3.016,,Inherent filtration measured in lab U104 - 2018-04-12
-64,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.284,,Inherent filtration measured in lab U104 - 2018-04-12
-64,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.882,,Inherent filtration measured in lab U104 - 2018-04-12
-64,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.096,,Inherent filtration measured in lab U104 - 2018-04-12
-65,4.4,0,0,795,AlluraClarity,Plane A,11,3.06,0.765,Inherent filtration measured in lab U104 - 2018-04-12
-65,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.35,0.845,Inherent filtration measured in lab U104 - 2018-04-12
-65,4.4,0.4,1,795,AlluraClarity,Plane A,11,5.98,0.92,Inherent filtration measured in lab U104 - 2018-04-12
-65,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.22,0.961,Inherent filtration measured in lab U104 - 2018-04-12
-66,4.4,0,0,795,AlluraClarity,Plane A,11,3.102,,Inherent filtration measured in lab U104 - 2018-04-12
-66,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.414,,Inherent filtration measured in lab U104 - 2018-04-12
-66,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.072,,Inherent filtration measured in lab U104 - 2018-04-12
-66,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.334,,Inherent filtration measured in lab U104 - 2018-04-12
-67,4.4,0,0,795,AlluraClarity,Plane A,11,3.144,,Inherent filtration measured in lab U104 - 2018-04-12
-67,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.478,,Inherent filtration measured in lab U104 - 2018-04-12
-67,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.164,,Inherent filtration measured in lab U104 - 2018-04-12
-67,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.448,,Inherent filtration measured in lab U104 - 2018-04-12
-68,4.4,0,0,795,AlluraClarity,Plane A,11,3.186,,Inherent filtration measured in lab U104 - 2018-04-12
-68,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.542,,Inherent filtration measured in lab U104 - 2018-04-12
-68,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.256,,Inherent filtration measured in lab U104 - 2018-04-12
-68,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.562,,Inherent filtration measured in lab U104 - 2018-04-12
-69,4.4,0,0,795,AlluraClarity,Plane A,11,3.228,,Inherent filtration measured in lab U104 - 2018-04-12
-69,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.606,,Inherent filtration measured in lab U104 - 2018-04-12
-69,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.348,,Inherent filtration measured in lab U104 - 2018-04-12
-69,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.676,,Inherent filtration measured in lab U104 - 2018-04-12
-70,4.4,0,0,795,AlluraClarity,Plane A,11,3.27,0.754,Inherent filtration measured in lab U104 - 2018-04-12
-70,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.67,0.836,Inherent filtration measured in lab U104 - 2018-04-12
-70,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.44,0.915,Inherent filtration measured in lab U104 - 2018-04-12
-70,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.79,0.958,Inherent filtration measured in lab U104 - 2018-04-12
-71,4.4,0,0,795,AlluraClarity,Plane A,11,3.316,,Inherent filtration measured in lab U104 - 2018-04-12
-71,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.738,,Inherent filtration measured in lab U104 - 2018-04-12
-71,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.532,,Inherent filtration measured in lab U104 - 2018-04-12
-71,4.4,0.9,1,795,AlluraClarity,Plane A,11,7.898,,Inherent filtration measured in lab U104 - 2018-04-12
-72,4.4,0,0,795,AlluraClarity,Plane A,11,3.362,,Inherent filtration measured in lab U104 - 2018-04-12
-72,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.806,,Inherent filtration measured in lab U104 - 2018-04-12
-72,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.624,,Inherent filtration measured in lab U104 - 2018-04-12
-72,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.006,,Inherent filtration measured in lab U104 - 2018-04-12
-73,4.4,0,0,795,AlluraClarity,Plane A,11,3.408,,Inherent filtration measured in lab U104 - 2018-04-12
-73,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.874,,Inherent filtration measured in lab U104 - 2018-04-12
-73,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.716,,Inherent filtration measured in lab U104 - 2018-04-12
-73,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.114,,Inherent filtration measured in lab U104 - 2018-04-12
-74,4.4,0,0,795,AlluraClarity,Plane A,11,3.454,,Inherent filtration measured in lab U104 - 2018-04-12
-74,4.4,0.1,1,795,AlluraClarity,Plane A,11,4.942,,Inherent filtration measured in lab U104 - 2018-04-12
-74,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.808,,Inherent filtration measured in lab U104 - 2018-04-12
-74,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.222,,Inherent filtration measured in lab U104 - 2018-04-12
-75,4.4,0,0,795,AlluraClarity,Plane A,11,3.5,0.742,Inherent filtration measured in lab U104 - 2018-04-12
-75,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.01,0.827,Inherent filtration measured in lab U104 - 2018-04-12
-75,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.9,0.911,Inherent filtration measured in lab U104 - 2018-04-12
-75,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.33,0.957,Inherent filtration measured in lab U104 - 2018-04-12
-76,4.4,0,0,795,AlluraClarity,Plane A,11,3.546,,Inherent filtration measured in lab U104 - 2018-04-12
-76,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.076,,Inherent filtration measured in lab U104 - 2018-04-12
-76,4.4,0.4,1,795,AlluraClarity,Plane A,11,6.986,,Inherent filtration measured in lab U104 - 2018-04-12
-76,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.426,,Inherent filtration measured in lab U104 - 2018-04-12
-77,4.4,0,0,795,AlluraClarity,Plane A,11,3.592,,Inherent filtration measured in lab U104 - 2018-04-12
-77,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.142,,Inherent filtration measured in lab U104 - 2018-04-12
-77,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.072,,Inherent filtration measured in lab U104 - 2018-04-12
-77,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.522,,Inherent filtration measured in lab U104 - 2018-04-12
-78,4.4,0,0,795,AlluraClarity,Plane A,11,3.638,,Inherent filtration measured in lab U104 - 2018-04-12
-78,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.208,,Inherent filtration measured in lab U104 - 2018-04-12
-78,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.158,,Inherent filtration measured in lab U104 - 2018-04-12
-78,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.618,,Inherent filtration measured in lab U104 - 2018-04-12
-79,4.4,0,0,795,AlluraClarity,Plane A,11,3.684,,Inherent filtration measured in lab U104 - 2018-04-12
-79,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.274,,Inherent filtration measured in lab U104 - 2018-04-12
-79,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.244,,Inherent filtration measured in lab U104 - 2018-04-12
-79,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.714,,Inherent filtration measured in lab U104 - 2018-04-12
-80,4.4,0,0,795,AlluraClarity,Plane A,11,3.73,0.732,Inherent filtration measured in lab U104 - 2018-04-12
-80,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.34,0.821,Inherent filtration measured in lab U104 - 2018-04-12
-80,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.33,0.909,Inherent filtration measured in lab U104 - 2018-04-12
-80,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.81,0.956,Inherent filtration measured in lab U104 - 2018-04-12
-81,4.4,0,0,795,AlluraClarity,Plane A,11,3.778,,Inherent filtration measured in lab U104 - 2018-04-12
-81,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.406,,Inherent filtration measured in lab U104 - 2018-04-12
-81,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.41,,Inherent filtration measured in lab U104 - 2018-04-12
-81,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.896,,Inherent filtration measured in lab U104 - 2018-04-12
-82,4.4,0,0,795,AlluraClarity,Plane A,11,3.826,,Inherent filtration measured in lab U104 - 2018-04-12
-82,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.472,,Inherent filtration measured in lab U104 - 2018-04-12
-82,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.49,,Inherent filtration measured in lab U104 - 2018-04-12
-82,4.4,0.9,1,795,AlluraClarity,Plane A,11,8.982,,Inherent filtration measured in lab U104 - 2018-04-12
-83,4.4,0,0,795,AlluraClarity,Plane A,11,3.874,,Inherent filtration measured in lab U104 - 2018-04-12
-83,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.538,,Inherent filtration measured in lab U104 - 2018-04-12
-83,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.57,,Inherent filtration measured in lab U104 - 2018-04-12
-83,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.068,,Inherent filtration measured in lab U104 - 2018-04-12
-84,4.4,0,0,795,AlluraClarity,Plane A,11,3.922,,Inherent filtration measured in lab U104 - 2018-04-12
-84,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.604,,Inherent filtration measured in lab U104 - 2018-04-12
-84,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.65,,Inherent filtration measured in lab U104 - 2018-04-12
-84,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.154,,Inherent filtration measured in lab U104 - 2018-04-12
-85,4.4,0,0,795,AlluraClarity,Plane A,11,3.97,0.724,Inherent filtration measured in lab U104 - 2018-04-12
-85,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.67,0.817,Inherent filtration measured in lab U104 - 2018-04-12
-85,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.73,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-85,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.24,0.955,Inherent filtration measured in lab U104 - 2018-04-12
-86,4.4,0,0,795,AlluraClarity,Plane A,11,4.016,,Inherent filtration measured in lab U104 - 2018-04-12
-86,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.73,,Inherent filtration measured in lab U104 - 2018-04-12
-86,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.802,,Inherent filtration measured in lab U104 - 2018-04-12
-86,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.314,,Inherent filtration measured in lab U104 - 2018-04-12
-87,4.4,0,0,795,AlluraClarity,Plane A,11,4.062,,Inherent filtration measured in lab U104 - 2018-04-12
-87,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.79,,Inherent filtration measured in lab U104 - 2018-04-12
-87,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.874,,Inherent filtration measured in lab U104 - 2018-04-12
-87,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.388,,Inherent filtration measured in lab U104 - 2018-04-12
-88,4.4,0,0,795,AlluraClarity,Plane A,11,4.108,,Inherent filtration measured in lab U104 - 2018-04-12
-88,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.85,,Inherent filtration measured in lab U104 - 2018-04-12
-88,4.4,0.4,1,795,AlluraClarity,Plane A,11,7.946,,Inherent filtration measured in lab U104 - 2018-04-12
-88,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.462,,Inherent filtration measured in lab U104 - 2018-04-12
-89,4.4,0,0,795,AlluraClarity,Plane A,11,4.154,,Inherent filtration measured in lab U104 - 2018-04-12
-89,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.91,,Inherent filtration measured in lab U104 - 2018-04-12
-89,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.018,,Inherent filtration measured in lab U104 - 2018-04-12
-89,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.536,,Inherent filtration measured in lab U104 - 2018-04-12
-90,4.4,0,0,795,AlluraClarity,Plane A,11,4.2,0.719,Inherent filtration measured in lab U104 - 2018-04-12
-90,4.4,0.1,1,795,AlluraClarity,Plane A,11,5.97,0.815,Inherent filtration measured in lab U104 - 2018-04-12
-90,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.09,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-90,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.61,0.955,Inherent filtration measured in lab U104 - 2018-04-12
-91,4.4,0,0,795,AlluraClarity,Plane A,11,4.248,,Inherent filtration measured in lab U104 - 2018-04-12
-91,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.032,,Inherent filtration measured in lab U104 - 2018-04-12
-91,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.158,,Inherent filtration measured in lab U104 - 2018-04-12
-91,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.68,,Inherent filtration measured in lab U104 - 2018-04-12
-92,4.4,0,0,795,AlluraClarity,Plane A,11,4.296,,Inherent filtration measured in lab U104 - 2018-04-12
-92,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.094,,Inherent filtration measured in lab U104 - 2018-04-12
-92,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.226,,Inherent filtration measured in lab U104 - 2018-04-12
-92,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.75,,Inherent filtration measured in lab U104 - 2018-04-12
-93,4.4,0,0,795,AlluraClarity,Plane A,11,4.344,,Inherent filtration measured in lab U104 - 2018-04-12
-93,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.156,,Inherent filtration measured in lab U104 - 2018-04-12
-93,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.294,,Inherent filtration measured in lab U104 - 2018-04-12
-93,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.82,,Inherent filtration measured in lab U104 - 2018-04-12
-94,4.4,0,0,795,AlluraClarity,Plane A,11,4.392,,Inherent filtration measured in lab U104 - 2018-04-12
-94,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.218,,Inherent filtration measured in lab U104 - 2018-04-12
-94,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.362,,Inherent filtration measured in lab U104 - 2018-04-12
-94,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.89,,Inherent filtration measured in lab U104 - 2018-04-12
-95,4.4,0,0,795,AlluraClarity,Plane A,11,4.44,0.714,Inherent filtration measured in lab U104 - 2018-04-12
-95,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.28,0.813,Inherent filtration measured in lab U104 - 2018-04-12
-95,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.43,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-95,4.4,0.9,1,795,AlluraClarity,Plane A,11,9.96,0.954,Inherent filtration measured in lab U104 - 2018-04-12
-96,4.4,0,0,795,AlluraClarity,Plane A,11,4.486,,Inherent filtration measured in lab U104 - 2018-04-12
-96,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.334,,Inherent filtration measured in lab U104 - 2018-04-12
-96,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.488,,Inherent filtration measured in lab U104 - 2018-04-12
-96,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.028,,Inherent filtration measured in lab U104 - 2018-04-12
-97,4.4,0,0,795,AlluraClarity,Plane A,11,4.532,,Inherent filtration measured in lab U104 - 2018-04-12
-97,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.388,,Inherent filtration measured in lab U104 - 2018-04-12
-97,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.546,,Inherent filtration measured in lab U104 - 2018-04-12
-97,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.096,,Inherent filtration measured in lab U104 - 2018-04-12
-98,4.4,0,0,795,AlluraClarity,Plane A,11,4.578,,Inherent filtration measured in lab U104 - 2018-04-12
-98,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.442,,Inherent filtration measured in lab U104 - 2018-04-12
-98,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.604,,Inherent filtration measured in lab U104 - 2018-04-12
-98,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.164,,Inherent filtration measured in lab U104 - 2018-04-12
-99,4.4,0,0,795,AlluraClarity,Plane A,11,4.624,,Inherent filtration measured in lab U104 - 2018-04-12
-99,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.496,,Inherent filtration measured in lab U104 - 2018-04-12
-99,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.662,,Inherent filtration measured in lab U104 - 2018-04-12
-99,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.232,,Inherent filtration measured in lab U104 - 2018-04-12
-100,4.4,0,0,795,AlluraClarity,Plane A,11,4.67,0.711,Inherent filtration measured in lab U104 - 2018-04-12
-100,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.55,0.813,Inherent filtration measured in lab U104 - 2018-04-12
-100,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.72,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-100,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.3,0.953,Inherent filtration measured in lab U104 - 2018-04-12
-101,4.4,0,0,795,AlluraClarity,Plane A,11,4.716,,Inherent filtration measured in lab U104 - 2018-04-12
-101,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.606,,Inherent filtration measured in lab U104 - 2018-04-12
-101,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.78,,Inherent filtration measured in lab U104 - 2018-04-12
-101,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.36,,Inherent filtration measured in lab U104 - 2018-04-12
-102,4.4,0,0,795,AlluraClarity,Plane A,11,4.762,,Inherent filtration measured in lab U104 - 2018-04-12
-102,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.662,,Inherent filtration measured in lab U104 - 2018-04-12
-102,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.84,,Inherent filtration measured in lab U104 - 2018-04-12
-102,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.42,,Inherent filtration measured in lab U104 - 2018-04-12
-103,4.4,0,0,795,AlluraClarity,Plane A,11,4.808,,Inherent filtration measured in lab U104 - 2018-04-12
-103,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.718,,Inherent filtration measured in lab U104 - 2018-04-12
-103,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.9,,Inherent filtration measured in lab U104 - 2018-04-12
-103,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.48,,Inherent filtration measured in lab U104 - 2018-04-12
-104,4.4,0,0,795,AlluraClarity,Plane A,11,4.854,,Inherent filtration measured in lab U104 - 2018-04-12
-104,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.774,,Inherent filtration measured in lab U104 - 2018-04-12
-104,4.4,0.4,1,795,AlluraClarity,Plane A,11,8.96,,Inherent filtration measured in lab U104 - 2018-04-12
-104,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.54,,Inherent filtration measured in lab U104 - 2018-04-12
-105,4.4,0,0,795,AlluraClarity,Plane A,11,4.9,0.709,Inherent filtration measured in lab U104 - 2018-04-12
-105,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.83,0.813,Inherent filtration measured in lab U104 - 2018-04-12
-105,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.02,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-105,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.6,0.953,Inherent filtration measured in lab U104 - 2018-04-12
-106,4.4,0,0,795,AlluraClarity,Plane A,11,4.944,,Inherent filtration measured in lab U104 - 2018-04-12
-106,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.88,,Inherent filtration measured in lab U104 - 2018-04-12
-106,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.07,,Inherent filtration measured in lab U104 - 2018-04-12
-106,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.64,,Inherent filtration measured in lab U104 - 2018-04-12
-107,4.4,0,0,795,AlluraClarity,Plane A,11,4.988,,Inherent filtration measured in lab U104 - 2018-04-12
-107,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.93,,Inherent filtration measured in lab U104 - 2018-04-12
-107,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.12,,Inherent filtration measured in lab U104 - 2018-04-12
-107,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.68,,Inherent filtration measured in lab U104 - 2018-04-12
-108,4.4,0,0,795,AlluraClarity,Plane A,11,5.032,,Inherent filtration measured in lab U104 - 2018-04-12
-108,4.4,0.1,1,795,AlluraClarity,Plane A,11,6.98,,Inherent filtration measured in lab U104 - 2018-04-12
-108,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.17,,Inherent filtration measured in lab U104 - 2018-04-12
-108,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.72,,Inherent filtration measured in lab U104 - 2018-04-12
-109,4.4,0,0,795,AlluraClarity,Plane A,11,5.076,,Inherent filtration measured in lab U104 - 2018-04-12
-109,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.03,,Inherent filtration measured in lab U104 - 2018-04-12
-109,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.22,,Inherent filtration measured in lab U104 - 2018-04-12
-109,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.76,,Inherent filtration measured in lab U104 - 2018-04-12
-110,4.4,0,0,795,AlluraClarity,Plane A,11,5.12,0.709,Inherent filtration measured in lab U104 - 2018-04-12
-110,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.08,0.814,Inherent filtration measured in lab U104 - 2018-04-12
-110,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.27,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-110,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.8,0.951,Inherent filtration measured in lab U104 - 2018-04-12
-111,4.4,0,0,795,AlluraClarity,Plane A,11,5.168,,Inherent filtration measured in lab U104 - 2018-04-12
-111,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.132,,Inherent filtration measured in lab U104 - 2018-04-12
-111,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.324,,Inherent filtration measured in lab U104 - 2018-04-12
-111,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.86,,Inherent filtration measured in lab U104 - 2018-04-12
-112,4.4,0,0,795,AlluraClarity,Plane A,11,5.216,,Inherent filtration measured in lab U104 - 2018-04-12
-112,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.184,,Inherent filtration measured in lab U104 - 2018-04-12
-112,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.378,,Inherent filtration measured in lab U104 - 2018-04-12
-112,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.92,,Inherent filtration measured in lab U104 - 2018-04-12
-113,4.4,0,0,795,AlluraClarity,Plane A,11,5.264,,Inherent filtration measured in lab U104 - 2018-04-12
-113,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.236,,Inherent filtration measured in lab U104 - 2018-04-12
-113,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.432,,Inherent filtration measured in lab U104 - 2018-04-12
-113,4.4,0.9,1,795,AlluraClarity,Plane A,11,10.98,,Inherent filtration measured in lab U104 - 2018-04-12
-114,4.4,0,0,795,AlluraClarity,Plane A,11,5.312,,Inherent filtration measured in lab U104 - 2018-04-12
-114,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.288,,Inherent filtration measured in lab U104 - 2018-04-12
-114,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.486,,Inherent filtration measured in lab U104 - 2018-04-12
-114,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.04,,Inherent filtration measured in lab U104 - 2018-04-12
-115,4.4,0,0,795,AlluraClarity,Plane A,11,5.36,0.709,Inherent filtration measured in lab U104 - 2018-04-12
-115,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.34,0.815,Inherent filtration measured in lab U104 - 2018-04-12
-115,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.54,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-115,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.1,0.951,Inherent filtration measured in lab U104 - 2018-04-12
-116,4.4,0,0,795,AlluraClarity,Plane A,11,5.402,,Inherent filtration measured in lab U104 - 2018-04-12
-116,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.386,,Inherent filtration measured in lab U104 - 2018-04-12
-116,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.584,,Inherent filtration measured in lab U104 - 2018-04-12
-116,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.14,,Inherent filtration measured in lab U104 - 2018-04-12
-117,4.4,0,0,795,AlluraClarity,Plane A,11,5.444,,Inherent filtration measured in lab U104 - 2018-04-12
-117,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.432,,Inherent filtration measured in lab U104 - 2018-04-12
-117,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.628,,Inherent filtration measured in lab U104 - 2018-04-12
-117,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.18,,Inherent filtration measured in lab U104 - 2018-04-12
-118,4.4,0,0,795,AlluraClarity,Plane A,11,5.486,,Inherent filtration measured in lab U104 - 2018-04-12
-118,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.478,,Inherent filtration measured in lab U104 - 2018-04-12
-118,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.672,,Inherent filtration measured in lab U104 - 2018-04-12
-118,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.22,,Inherent filtration measured in lab U104 - 2018-04-12
-119,4.4,0,0,795,AlluraClarity,Plane A,11,5.528,,Inherent filtration measured in lab U104 - 2018-04-12
-119,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.524,,Inherent filtration measured in lab U104 - 2018-04-12
-119,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.716,,Inherent filtration measured in lab U104 - 2018-04-12
-119,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.26,,Inherent filtration measured in lab U104 - 2018-04-12
-120,4.4,0,0,795,AlluraClarity,Plane A,11,5.57,0.71,Inherent filtration measured in lab U104 - 2018-04-12
-120,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.57,0.816,Inherent filtration measured in lab U104 - 2018-04-12
-120,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.76,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-120,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.3,0.949,Inherent filtration measured in lab U104 - 2018-04-12
-121,4.4,0,0,795,AlluraClarity,Plane A,11,5.616,,Inherent filtration measured in lab U104 - 2018-04-12
-121,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.618,,Inherent filtration measured in lab U104 - 2018-04-12
-121,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.808,,Inherent filtration measured in lab U104 - 2018-04-12
-121,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.36,,Inherent filtration measured in lab U104 - 2018-04-12
-122,4.4,0,0,795,AlluraClarity,Plane A,11,5.662,,Inherent filtration measured in lab U104 - 2018-04-12
-122,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.666,,Inherent filtration measured in lab U104 - 2018-04-12
-122,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.856,,Inherent filtration measured in lab U104 - 2018-04-12
-122,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.42,,Inherent filtration measured in lab U104 - 2018-04-12
-123,4.4,0,0,795,AlluraClarity,Plane A,11,5.708,,Inherent filtration measured in lab U104 - 2018-04-12
-123,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.714,,Inherent filtration measured in lab U104 - 2018-04-12
-123,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.904,,Inherent filtration measured in lab U104 - 2018-04-12
-123,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.48,,Inherent filtration measured in lab U104 - 2018-04-12
-124,4.4,0,0,795,AlluraClarity,Plane A,11,5.754,,Inherent filtration measured in lab U104 - 2018-04-12
-124,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.762,,Inherent filtration measured in lab U104 - 2018-04-12
-124,4.4,0.4,1,795,AlluraClarity,Plane A,11,9.952,,Inherent filtration measured in lab U104 - 2018-04-12
-124,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.54,,Inherent filtration measured in lab U104 - 2018-04-12
-125,4.4,0,0,795,AlluraClarity,Plane A,11,5.8,0.711,Inherent filtration measured in lab U104 - 2018-04-12
-125,4.4,0.1,1,795,AlluraClarity,Plane A,11,7.81,0.818,Inherent filtration measured in lab U104 - 2018-04-12
-125,4.4,0.4,1,795,AlluraClarity,Plane A,11,10,0.908,Inherent filtration measured in lab U104 - 2018-04-12
-125,4.4,0.9,1,795,AlluraClarity,Plane A,11,11.6,0.949,Inherent filtration measured in lab U104 - 2018-04-12
-50,3.1,0,0,750,AlluraClarity,Plane B,11,1.97,0.775,Inherent filtration measured in lab U104 - 2018-04-12
-50,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.07,0.866,Inherent filtration measured in lab U104 - 2018-04-12
-50,3.1,0.4,1,750,AlluraClarity,Plane B,11,4.31,0.939,Inherent filtration measured in lab U104 - 2018-04-12
-50,3.1,0.9,1,750,AlluraClarity,Plane B,11,5.18,0.973,Inherent filtration measured in lab U104 - 2018-04-12
-51,3.1,0,0,750,AlluraClarity,Plane B,11,2.008,,Inherent filtration measured in lab U104 - 2018-04-12
-51,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.14,,Inherent filtration measured in lab U104 - 2018-04-12
-51,3.1,0.4,1,750,AlluraClarity,Plane B,11,4.42,,Inherent filtration measured in lab U104 - 2018-04-12
-51,3.1,0.9,1,750,AlluraClarity,Plane B,11,5.322,,Inherent filtration measured in lab U104 - 2018-04-12
-52,3.1,0,0,750,AlluraClarity,Plane B,11,2.046,,Inherent filtration measured in lab U104 - 2018-04-12
-52,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.21,,Inherent filtration measured in lab U104 - 2018-04-12
-52,3.1,0.4,1,750,AlluraClarity,Plane B,11,4.53,,Inherent filtration measured in lab U104 - 2018-04-12
-52,3.1,0.9,1,750,AlluraClarity,Plane B,11,5.464,,Inherent filtration measured in lab U104 - 2018-04-12
-53,3.1,0,0,750,AlluraClarity,Plane B,11,2.084,,Inherent filtration measured in lab U104 - 2018-04-12
-53,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.28,,Inherent filtration measured in lab U104 - 2018-04-12
-53,3.1,0.4,1,750,AlluraClarity,Plane B,11,4.64,,Inherent filtration measured in lab U104 - 2018-04-12
-53,3.1,0.9,1,750,AlluraClarity,Plane B,11,5.606,,Inherent filtration measured in lab U104 - 2018-04-12
-54,3.1,0,0,750,AlluraClarity,Plane B,11,2.122,,Inherent filtration measured in lab U104 - 2018-04-12
-54,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.35,,Inherent filtration measured in lab U104 - 2018-04-12
-54,3.1,0.4,1,750,AlluraClarity,Plane B,11,4.75,,Inherent filtration measured in lab U104 - 2018-04-12
-54,3.1,0.9,1,750,AlluraClarity,Plane B,11,5.748,,Inherent filtration measured in lab U104 - 2018-04-12
-55,3.1,0,0,750,AlluraClarity,Plane B,11,2.16,0.757,Inherent filtration measured in lab U104 - 2018-04-12
-55,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.42,0.851,Inherent filtration measured in lab U104 - 2018-04-12
-55,3.1,0.4,1,750,AlluraClarity,Plane B,11,4.86,0.929,Inherent filtration measured in lab U104 - 2018-04-12
-55,3.1,0.9,1,750,AlluraClarity,Plane B,11,5.89,0.968,Inherent filtration measured in lab U104 - 2018-04-12
-56,3.1,0,0,750,AlluraClarity,Plane B,11,2.198,,Inherent filtration measured in lab U104 - 2018-04-12
-56,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.484,,Inherent filtration measured in lab U104 - 2018-04-12
-56,3.1,0.4,1,750,AlluraClarity,Plane B,11,4.96,,Inherent filtration measured in lab U104 - 2018-04-12
-56,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.022,,Inherent filtration measured in lab U104 - 2018-04-12
-57,3.1,0,0,750,AlluraClarity,Plane B,11,2.236,,Inherent filtration measured in lab U104 - 2018-04-12
-57,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.548,,Inherent filtration measured in lab U104 - 2018-04-12
-57,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.06,,Inherent filtration measured in lab U104 - 2018-04-12
-57,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.154,,Inherent filtration measured in lab U104 - 2018-04-12
-58,3.1,0,0,750,AlluraClarity,Plane B,11,2.274,,Inherent filtration measured in lab U104 - 2018-04-12
-58,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.612,,Inherent filtration measured in lab U104 - 2018-04-12
-58,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.16,,Inherent filtration measured in lab U104 - 2018-04-12
-58,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.286,,Inherent filtration measured in lab U104 - 2018-04-12
-59,3.1,0,0,750,AlluraClarity,Plane B,11,2.312,,Inherent filtration measured in lab U104 - 2018-04-12
-59,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.676,,Inherent filtration measured in lab U104 - 2018-04-12
-59,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.26,,Inherent filtration measured in lab U104 - 2018-04-12
-59,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.418,,Inherent filtration measured in lab U104 - 2018-04-12
-60,3.1,0,0,750,AlluraClarity,Plane B,11,2.35,0.74,Inherent filtration measured in lab U104 - 2018-04-12
-60,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.74,0.838,Inherent filtration measured in lab U104 - 2018-04-12
-60,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.36,0.922,Inherent filtration measured in lab U104 - 2018-04-12
-60,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.55,0.963,Inherent filtration measured in lab U104 - 2018-04-12
-61,3.1,0,0,750,AlluraClarity,Plane B,11,2.384,,Inherent filtration measured in lab U104 - 2018-04-12
-61,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.8,,Inherent filtration measured in lab U104 - 2018-04-12
-61,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.456,,Inherent filtration measured in lab U104 - 2018-04-12
-61,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.672,,Inherent filtration measured in lab U104 - 2018-04-12
-62,3.1,0,0,750,AlluraClarity,Plane B,11,2.418,,Inherent filtration measured in lab U104 - 2018-04-12
-62,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.86,,Inherent filtration measured in lab U104 - 2018-04-12
-62,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.552,,Inherent filtration measured in lab U104 - 2018-04-12
-62,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.794,,Inherent filtration measured in lab U104 - 2018-04-12
-63,3.1,0,0,750,AlluraClarity,Plane B,11,2.452,,Inherent filtration measured in lab U104 - 2018-04-12
-63,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.92,,Inherent filtration measured in lab U104 - 2018-04-12
-63,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.648,,Inherent filtration measured in lab U104 - 2018-04-12
-63,3.1,0.9,1,750,AlluraClarity,Plane B,11,6.916,,Inherent filtration measured in lab U104 - 2018-04-12
-64,3.1,0,0,750,AlluraClarity,Plane B,11,2.486,,Inherent filtration measured in lab U104 - 2018-04-12
-64,3.1,0.1,1,750,AlluraClarity,Plane B,11,3.98,,Inherent filtration measured in lab U104 - 2018-04-12
-64,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.744,,Inherent filtration measured in lab U104 - 2018-04-12
-64,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.038,,Inherent filtration measured in lab U104 - 2018-04-12
-65,3.1,0,0,750,AlluraClarity,Plane B,11,2.52,0.726,Inherent filtration measured in lab U104 - 2018-04-12
-65,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.04,0.827,Inherent filtration measured in lab U104 - 2018-04-12
-65,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.84,0.915,Inherent filtration measured in lab U104 - 2018-04-12
-65,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.16,0.96,Inherent filtration measured in lab U104 - 2018-04-12
-66,3.1,0,0,750,AlluraClarity,Plane B,11,2.556,,Inherent filtration measured in lab U104 - 2018-04-12
-66,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.1,,Inherent filtration measured in lab U104 - 2018-04-12
-66,3.1,0.4,1,750,AlluraClarity,Plane B,11,5.93,,Inherent filtration measured in lab U104 - 2018-04-12
-66,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.272,,Inherent filtration measured in lab U104 - 2018-04-12
-67,3.1,0,0,750,AlluraClarity,Plane B,11,2.592,,Inherent filtration measured in lab U104 - 2018-04-12
-67,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.16,,Inherent filtration measured in lab U104 - 2018-04-12
-67,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.02,,Inherent filtration measured in lab U104 - 2018-04-12
-67,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.384,,Inherent filtration measured in lab U104 - 2018-04-12
-68,3.1,0,0,750,AlluraClarity,Plane B,11,2.628,,Inherent filtration measured in lab U104 - 2018-04-12
-68,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.22,,Inherent filtration measured in lab U104 - 2018-04-12
-68,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.11,,Inherent filtration measured in lab U104 - 2018-04-12
-68,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.496,,Inherent filtration measured in lab U104 - 2018-04-12
-69,3.1,0,0,750,AlluraClarity,Plane B,11,2.664,,Inherent filtration measured in lab U104 - 2018-04-12
-69,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.28,,Inherent filtration measured in lab U104 - 2018-04-12
-69,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.2,,Inherent filtration measured in lab U104 - 2018-04-12
-69,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.608,,Inherent filtration measured in lab U104 - 2018-04-12
-70,3.1,0,0,750,AlluraClarity,Plane B,11,2.7,0.714,Inherent filtration measured in lab U104 - 2018-04-12
-70,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.34,0.817,Inherent filtration measured in lab U104 - 2018-04-12
-70,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.29,0.909,Inherent filtration measured in lab U104 - 2018-04-12
-70,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.72,0.957,Inherent filtration measured in lab U104 - 2018-04-12
-71,3.1,0,0,750,AlluraClarity,Plane B,11,2.736,,Inherent filtration measured in lab U104 - 2018-04-12
-71,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.402,,Inherent filtration measured in lab U104 - 2018-04-12
-71,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.38,,Inherent filtration measured in lab U104 - 2018-04-12
-71,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.83,,Inherent filtration measured in lab U104 - 2018-04-12
-72,3.1,0,0,750,AlluraClarity,Plane B,11,2.772,,Inherent filtration measured in lab U104 - 2018-04-12
-72,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.464,,Inherent filtration measured in lab U104 - 2018-04-12
-72,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.47,,Inherent filtration measured in lab U104 - 2018-04-12
-72,3.1,0.9,1,750,AlluraClarity,Plane B,11,7.94,,Inherent filtration measured in lab U104 - 2018-04-12
-73,3.1,0,0,750,AlluraClarity,Plane B,11,2.808,,Inherent filtration measured in lab U104 - 2018-04-12
-73,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.526,,Inherent filtration measured in lab U104 - 2018-04-12
-73,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.56,,Inherent filtration measured in lab U104 - 2018-04-12
-73,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.05,,Inherent filtration measured in lab U104 - 2018-04-12
-74,3.1,0,0,750,AlluraClarity,Plane B,11,2.844,,Inherent filtration measured in lab U104 - 2018-04-12
-74,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.588,,Inherent filtration measured in lab U104 - 2018-04-12
-74,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.65,,Inherent filtration measured in lab U104 - 2018-04-12
-74,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.16,,Inherent filtration measured in lab U104 - 2018-04-12
-75,3.1,0,0,750,AlluraClarity,Plane B,11,2.88,0.701,Inherent filtration measured in lab U104 - 2018-04-12
-75,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.65,0.808,Inherent filtration measured in lab U104 - 2018-04-12
-75,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.74,0.905,Inherent filtration measured in lab U104 - 2018-04-12
-75,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.27,0.955,Inherent filtration measured in lab U104 - 2018-04-12
-76,3.1,0,0,750,AlluraClarity,Plane B,11,2.918,,Inherent filtration measured in lab U104 - 2018-04-12
-76,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.712,,Inherent filtration measured in lab U104 - 2018-04-12
-76,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.826,,Inherent filtration measured in lab U104 - 2018-04-12
-76,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.364,,Inherent filtration measured in lab U104 - 2018-04-12
-77,3.1,0,0,750,AlluraClarity,Plane B,11,2.956,,Inherent filtration measured in lab U104 - 2018-04-12
-77,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.774,,Inherent filtration measured in lab U104 - 2018-04-12
-77,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.912,,Inherent filtration measured in lab U104 - 2018-04-12
-77,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.458,,Inherent filtration measured in lab U104 - 2018-04-12
-78,3.1,0,0,750,AlluraClarity,Plane B,11,2.994,,Inherent filtration measured in lab U104 - 2018-04-12
-78,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.836,,Inherent filtration measured in lab U104 - 2018-04-12
-78,3.1,0.4,1,750,AlluraClarity,Plane B,11,6.998,,Inherent filtration measured in lab U104 - 2018-04-12
-78,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.552,,Inherent filtration measured in lab U104 - 2018-04-12
-79,3.1,0,0,750,AlluraClarity,Plane B,11,3.032,,Inherent filtration measured in lab U104 - 2018-04-12
-79,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.898,,Inherent filtration measured in lab U104 - 2018-04-12
-79,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.084,,Inherent filtration measured in lab U104 - 2018-04-12
-79,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.646,,Inherent filtration measured in lab U104 - 2018-04-12
-80,3.1,0,0,750,AlluraClarity,Plane B,11,3.07,0.69,Inherent filtration measured in lab U104 - 2018-04-12
-80,3.1,0.1,1,750,AlluraClarity,Plane B,11,4.96,0.801,Inherent filtration measured in lab U104 - 2018-04-12
-80,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.17,0.903,Inherent filtration measured in lab U104 - 2018-04-12
-80,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.74,0.954,Inherent filtration measured in lab U104 - 2018-04-12
-81,3.1,0,0,750,AlluraClarity,Plane B,11,3.11,,Inherent filtration measured in lab U104 - 2018-04-12
-81,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.022,,Inherent filtration measured in lab U104 - 2018-04-12
-81,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.248,,Inherent filtration measured in lab U104 - 2018-04-12
-81,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.826,,Inherent filtration measured in lab U104 - 2018-04-12
-82,3.1,0,0,750,AlluraClarity,Plane B,11,3.15,,Inherent filtration measured in lab U104 - 2018-04-12
-82,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.084,,Inherent filtration measured in lab U104 - 2018-04-12
-82,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.326,,Inherent filtration measured in lab U104 - 2018-04-12
-82,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.912,,Inherent filtration measured in lab U104 - 2018-04-12
-83,3.1,0,0,750,AlluraClarity,Plane B,11,3.19,,Inherent filtration measured in lab U104 - 2018-04-12
-83,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.146,,Inherent filtration measured in lab U104 - 2018-04-12
-83,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.404,,Inherent filtration measured in lab U104 - 2018-04-12
-83,3.1,0.9,1,750,AlluraClarity,Plane B,11,8.998,,Inherent filtration measured in lab U104 - 2018-04-12
-84,3.1,0,0,750,AlluraClarity,Plane B,11,3.23,,Inherent filtration measured in lab U104 - 2018-04-12
-84,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.208,,Inherent filtration measured in lab U104 - 2018-04-12
-84,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.482,,Inherent filtration measured in lab U104 - 2018-04-12
-84,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.084,,Inherent filtration measured in lab U104 - 2018-04-12
-85,3.1,0,0,750,AlluraClarity,Plane B,11,3.27,0.68,Inherent filtration measured in lab U104 - 2018-04-12
-85,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.27,0.796,Inherent filtration measured in lab U104 - 2018-04-12
-85,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.56,0.901,Inherent filtration measured in lab U104 - 2018-04-12
-85,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.17,0.954,Inherent filtration measured in lab U104 - 2018-04-12
-86,3.1,0,0,750,AlluraClarity,Plane B,11,3.31,,Inherent filtration measured in lab U104 - 2018-04-12
-86,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.328,,Inherent filtration measured in lab U104 - 2018-04-12
-86,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.63,,Inherent filtration measured in lab U104 - 2018-04-12
-86,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.242,,Inherent filtration measured in lab U104 - 2018-04-12
-87,3.1,0,0,750,AlluraClarity,Plane B,11,3.35,,Inherent filtration measured in lab U104 - 2018-04-12
-87,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.386,,Inherent filtration measured in lab U104 - 2018-04-12
-87,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.7,,Inherent filtration measured in lab U104 - 2018-04-12
-87,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.314,,Inherent filtration measured in lab U104 - 2018-04-12
-88,3.1,0,0,750,AlluraClarity,Plane B,11,3.39,,Inherent filtration measured in lab U104 - 2018-04-12
-88,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.444,,Inherent filtration measured in lab U104 - 2018-04-12
-88,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.77,,Inherent filtration measured in lab U104 - 2018-04-12
-88,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.386,,Inherent filtration measured in lab U104 - 2018-04-12
-89,3.1,0,0,750,AlluraClarity,Plane B,11,3.43,,Inherent filtration measured in lab U104 - 2018-04-12
-89,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.502,,Inherent filtration measured in lab U104 - 2018-04-12
-89,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.84,,Inherent filtration measured in lab U104 - 2018-04-12
-89,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.458,,Inherent filtration measured in lab U104 - 2018-04-12
-90,3.1,0,0,750,AlluraClarity,Plane B,11,3.47,0.673,Inherent filtration measured in lab U104 - 2018-04-12
-90,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.56,0.793,Inherent filtration measured in lab U104 - 2018-04-12
-90,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.91,0.901,Inherent filtration measured in lab U104 - 2018-04-12
-90,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.53,0.953,Inherent filtration measured in lab U104 - 2018-04-12
-91,3.1,0,0,750,AlluraClarity,Plane B,11,3.51,,Inherent filtration measured in lab U104 - 2018-04-12
-91,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.618,,Inherent filtration measured in lab U104 - 2018-04-12
-91,3.1,0.4,1,750,AlluraClarity,Plane B,11,7.978,,Inherent filtration measured in lab U104 - 2018-04-12
-91,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.602,,Inherent filtration measured in lab U104 - 2018-04-12
-92,3.1,0,0,750,AlluraClarity,Plane B,11,3.55,,Inherent filtration measured in lab U104 - 2018-04-12
-92,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.676,,Inherent filtration measured in lab U104 - 2018-04-12
-92,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.046,,Inherent filtration measured in lab U104 - 2018-04-12
-92,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.674,,Inherent filtration measured in lab U104 - 2018-04-12
-93,3.1,0,0,750,AlluraClarity,Plane B,11,3.59,,Inherent filtration measured in lab U104 - 2018-04-12
-93,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.734,,Inherent filtration measured in lab U104 - 2018-04-12
-93,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.114,,Inherent filtration measured in lab U104 - 2018-04-12
-93,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.746,,Inherent filtration measured in lab U104 - 2018-04-12
-94,3.1,0,0,750,AlluraClarity,Plane B,11,3.63,,Inherent filtration measured in lab U104 - 2018-04-12
-94,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.792,,Inherent filtration measured in lab U104 - 2018-04-12
-94,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.182,,Inherent filtration measured in lab U104 - 2018-04-12
-94,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.818,,Inherent filtration measured in lab U104 - 2018-04-12
-95,3.1,0,0,750,AlluraClarity,Plane B,11,3.67,0.667,Inherent filtration measured in lab U104 - 2018-04-12
-95,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.85,0.791,Inherent filtration measured in lab U104 - 2018-04-12
-95,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.25,0.901,Inherent filtration measured in lab U104 - 2018-04-12
-95,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.89,0.952,Inherent filtration measured in lab U104 - 2018-04-12
-96,3.1,0,0,750,AlluraClarity,Plane B,11,3.71,,Inherent filtration measured in lab U104 - 2018-04-12
-96,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.904,,Inherent filtration measured in lab U104 - 2018-04-12
-96,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.31,,Inherent filtration measured in lab U104 - 2018-04-12
-96,3.1,0.9,1,750,AlluraClarity,Plane B,11,9.952,,Inherent filtration measured in lab U104 - 2018-04-12
-97,3.1,0,0,750,AlluraClarity,Plane B,11,3.75,,Inherent filtration measured in lab U104 - 2018-04-12
-97,3.1,0.1,1,750,AlluraClarity,Plane B,11,5.958,,Inherent filtration measured in lab U104 - 2018-04-12
-97,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.37,,Inherent filtration measured in lab U104 - 2018-04-12
-97,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.014,,Inherent filtration measured in lab U104 - 2018-04-12
-98,3.1,0,0,750,AlluraClarity,Plane B,11,3.79,,Inherent filtration measured in lab U104 - 2018-04-12
-98,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.012,,Inherent filtration measured in lab U104 - 2018-04-12
-98,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.43,,Inherent filtration measured in lab U104 - 2018-04-12
-98,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.076,,Inherent filtration measured in lab U104 - 2018-04-12
-99,3.1,0,0,750,AlluraClarity,Plane B,11,3.83,,Inherent filtration measured in lab U104 - 2018-04-12
-99,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.066,,Inherent filtration measured in lab U104 - 2018-04-12
-99,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.49,,Inherent filtration measured in lab U104 - 2018-04-12
-99,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.138,,Inherent filtration measured in lab U104 - 2018-04-12
-100,3.1,0,0,750,AlluraClarity,Plane B,11,3.87,0.663,Inherent filtration measured in lab U104 - 2018-04-12
-100,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.12,0.791,Inherent filtration measured in lab U104 - 2018-04-12
-100,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.55,0.901,Inherent filtration measured in lab U104 - 2018-04-12
-100,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.2,0.952,Inherent filtration measured in lab U104 - 2018-04-12
-101,3.1,0,0,750,AlluraClarity,Plane B,11,3.912,,Inherent filtration measured in lab U104 - 2018-04-12
-101,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.174,,Inherent filtration measured in lab U104 - 2018-04-12
-101,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.608,,Inherent filtration measured in lab U104 - 2018-04-12
-101,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.26,,Inherent filtration measured in lab U104 - 2018-04-12
-102,3.1,0,0,750,AlluraClarity,Plane B,11,3.954,,Inherent filtration measured in lab U104 - 2018-04-12
-102,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.228,,Inherent filtration measured in lab U104 - 2018-04-12
-102,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.666,,Inherent filtration measured in lab U104 - 2018-04-12
-102,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.32,,Inherent filtration measured in lab U104 - 2018-04-12
-103,3.1,0,0,750,AlluraClarity,Plane B,11,3.996,,Inherent filtration measured in lab U104 - 2018-04-12
-103,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.282,,Inherent filtration measured in lab U104 - 2018-04-12
-103,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.724,,Inherent filtration measured in lab U104 - 2018-04-12
-103,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.38,,Inherent filtration measured in lab U104 - 2018-04-12
-104,3.1,0,0,750,AlluraClarity,Plane B,11,4.038,,Inherent filtration measured in lab U104 - 2018-04-12
-104,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.336,,Inherent filtration measured in lab U104 - 2018-04-12
-104,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.782,,Inherent filtration measured in lab U104 - 2018-04-12
-104,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.44,,Inherent filtration measured in lab U104 - 2018-04-12
-105,3.1,0,0,750,AlluraClarity,Plane B,11,4.08,0.659,Inherent filtration measured in lab U104 - 2018-04-12
-105,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.39,0.791,Inherent filtration measured in lab U104 - 2018-04-12
-105,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.84,0.901,Inherent filtration measured in lab U104 - 2018-04-12
-105,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.5,0.951,Inherent filtration measured in lab U104 - 2018-04-12
-106,3.1,0,0,750,AlluraClarity,Plane B,11,4.12,,Inherent filtration measured in lab U104 - 2018-04-12
-106,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.438,,Inherent filtration measured in lab U104 - 2018-04-12
-106,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.892,,Inherent filtration measured in lab U104 - 2018-04-12
-106,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.56,,Inherent filtration measured in lab U104 - 2018-04-12
-107,3.1,0,0,750,AlluraClarity,Plane B,11,4.16,,Inherent filtration measured in lab U104 - 2018-04-12
-107,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.486,,Inherent filtration measured in lab U104 - 2018-04-12
-107,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.944,,Inherent filtration measured in lab U104 - 2018-04-12
-107,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.62,,Inherent filtration measured in lab U104 - 2018-04-12
-108,3.1,0,0,750,AlluraClarity,Plane B,11,4.2,,Inherent filtration measured in lab U104 - 2018-04-12
-108,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.534,,Inherent filtration measured in lab U104 - 2018-04-12
-108,3.1,0.4,1,750,AlluraClarity,Plane B,11,8.996,,Inherent filtration measured in lab U104 - 2018-04-12
-108,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.68,,Inherent filtration measured in lab U104 - 2018-04-12
-109,3.1,0,0,750,AlluraClarity,Plane B,11,4.24,,Inherent filtration measured in lab U104 - 2018-04-12
-109,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.582,,Inherent filtration measured in lab U104 - 2018-04-12
-109,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.048,,Inherent filtration measured in lab U104 - 2018-04-12
-109,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.74,,Inherent filtration measured in lab U104 - 2018-04-12
-110,3.1,0,0,750,AlluraClarity,Plane B,11,4.28,0.658,Inherent filtration measured in lab U104 - 2018-04-12
-110,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.63,0.792,Inherent filtration measured in lab U104 - 2018-04-12
-110,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.1,0.901,Inherent filtration measured in lab U104 - 2018-04-12
-110,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.8,0.95,Inherent filtration measured in lab U104 - 2018-04-12
-111,3.1,0,0,750,AlluraClarity,Plane B,11,4.322,,Inherent filtration measured in lab U104 - 2018-04-12
-111,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.682,,Inherent filtration measured in lab U104 - 2018-04-12
-111,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.152,,Inherent filtration measured in lab U104 - 2018-04-12
-111,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.84,,Inherent filtration measured in lab U104 - 2018-04-12
-112,3.1,0,0,750,AlluraClarity,Plane B,11,4.364,,Inherent filtration measured in lab U104 - 2018-04-12
-112,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.734,,Inherent filtration measured in lab U104 - 2018-04-12
-112,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.204,,Inherent filtration measured in lab U104 - 2018-04-12
-112,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.88,,Inherent filtration measured in lab U104 - 2018-04-12
-113,3.1,0,0,750,AlluraClarity,Plane B,11,4.406,,Inherent filtration measured in lab U104 - 2018-04-12
-113,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.786,,Inherent filtration measured in lab U104 - 2018-04-12
-113,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.256,,Inherent filtration measured in lab U104 - 2018-04-12
-113,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.92,,Inherent filtration measured in lab U104 - 2018-04-12
-114,3.1,0,0,750,AlluraClarity,Plane B,11,4.448,,Inherent filtration measured in lab U104 - 2018-04-12
-114,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.838,,Inherent filtration measured in lab U104 - 2018-04-12
-114,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.308,,Inherent filtration measured in lab U104 - 2018-04-12
-114,3.1,0.9,1,750,AlluraClarity,Plane B,11,10.96,,Inherent filtration measured in lab U104 - 2018-04-12
-115,3.1,0,0,750,AlluraClarity,Plane B,11,4.49,0.656,Inherent filtration measured in lab U104 - 2018-04-12
-115,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.89,0.792,Inherent filtration measured in lab U104 - 2018-04-12
-115,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.36,0.902,Inherent filtration measured in lab U104 - 2018-04-12
-115,3.1,0.9,1,750,AlluraClarity,Plane B,11,11,0.949,Inherent filtration measured in lab U104 - 2018-04-12
-116,3.1,0,0,750,AlluraClarity,Plane B,11,4.53,,Inherent filtration measured in lab U104 - 2018-04-12
-116,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.936,,Inherent filtration measured in lab U104 - 2018-04-12
-116,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.404,,Inherent filtration measured in lab U104 - 2018-04-12
-116,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.06,,Inherent filtration measured in lab U104 - 2018-04-12
-117,3.1,0,0,750,AlluraClarity,Plane B,11,4.57,,Inherent filtration measured in lab U104 - 2018-04-12
-117,3.1,0.1,1,750,AlluraClarity,Plane B,11,6.982,,Inherent filtration measured in lab U104 - 2018-04-12
-117,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.448,,Inherent filtration measured in lab U104 - 2018-04-12
-117,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.12,,Inherent filtration measured in lab U104 - 2018-04-12
-118,3.1,0,0,750,AlluraClarity,Plane B,11,4.61,,Inherent filtration measured in lab U104 - 2018-04-12
-118,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.028,,Inherent filtration measured in lab U104 - 2018-04-12
-118,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.492,,Inherent filtration measured in lab U104 - 2018-04-12
-118,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.18,,Inherent filtration measured in lab U104 - 2018-04-12
-119,3.1,0,0,750,AlluraClarity,Plane B,11,4.65,,Inherent filtration measured in lab U104 - 2018-04-12
-119,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.074,,Inherent filtration measured in lab U104 - 2018-04-12
-119,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.536,,Inherent filtration measured in lab U104 - 2018-04-12
-119,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.24,,Inherent filtration measured in lab U104 - 2018-04-12
-120,3.1,0,0,750,AlluraClarity,Plane B,11,4.69,0.657,Inherent filtration measured in lab U104 - 2018-04-12
-120,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.12,0.794,Inherent filtration measured in lab U104 - 2018-04-12
-120,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.58,0.902,Inherent filtration measured in lab U104 - 2018-04-12
-120,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.3,0.948,Inherent filtration measured in lab U104 - 2018-04-12
-121,3.1,0,0,750,AlluraClarity,Plane B,11,4.732,,Inherent filtration measured in lab U104 - 2018-04-12
-121,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.168,,Inherent filtration measured in lab U104 - 2018-04-12
-121,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.63,,Inherent filtration measured in lab U104 - 2018-04-12
-121,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.34,,Inherent filtration measured in lab U104 - 2018-04-12
-122,3.1,0,0,750,AlluraClarity,Plane B,11,4.774,,Inherent filtration measured in lab U104 - 2018-04-12
-122,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.216,,Inherent filtration measured in lab U104 - 2018-04-12
-122,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.68,,Inherent filtration measured in lab U104 - 2018-04-12
-122,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.38,,Inherent filtration measured in lab U104 - 2018-04-12
-123,3.1,0,0,750,AlluraClarity,Plane B,11,4.816,,Inherent filtration measured in lab U104 - 2018-04-12
-123,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.264,,Inherent filtration measured in lab U104 - 2018-04-12
-123,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.73,,Inherent filtration measured in lab U104 - 2018-04-12
-123,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.42,,Inherent filtration measured in lab U104 - 2018-04-12
-124,3.1,0,0,750,AlluraClarity,Plane B,11,4.858,,Inherent filtration measured in lab U104 - 2018-04-12
-124,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.312,,Inherent filtration measured in lab U104 - 2018-04-12
-124,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.78,,Inherent filtration measured in lab U104 - 2018-04-12
-124,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.46,,Inherent filtration measured in lab U104 - 2018-04-12
-125,3.1,0,0,750,AlluraClarity,Plane B,11,4.9,0.657,Inherent filtration measured in lab U104 - 2018-04-12
-125,3.1,0.1,1,750,AlluraClarity,Plane B,11,7.36,0.795,Inherent filtration measured in lab U104 - 2018-04-12
-125,3.1,0.4,1,750,AlluraClarity,Plane B,11,9.83,0.902,Inherent filtration measured in lab U104 - 2018-04-12
-125,3.1,0.9,1,750,AlluraClarity,Plane B,11,11.5,0.947,Inherent filtration measured in lab U104 - 2018-04-12
-50,3.6,0,0,615,AlluraClarity,Single Plane,11,2.13,0.791,Inherent filtration measured in lab 601 - 2018-04-12-18
-50,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.16,0.872,Inherent filtration measured in lab 601 - 2018-04-12-18
-50,3.6,0.4,1,615,AlluraClarity,Single Plane,11,4.34,0.94,Inherent filtration measured in lab 601 - 2018-04-12-18
-50,3.6,0.9,1,615,AlluraClarity,Single Plane,11,5.19,0.973,Inherent filtration measured in lab 601 - 2018-04-12-18
-51,3.6,0,0,615,AlluraClarity,Single Plane,11,2.172,,Inherent filtration measured in lab 601 - 2018-04-12-18
-51,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.23,,Inherent filtration measured in lab 601 - 2018-04-12-18
-51,3.6,0.4,1,615,AlluraClarity,Single Plane,11,4.452,,Inherent filtration measured in lab 601 - 2018-04-12-18
-51,3.6,0.9,1,615,AlluraClarity,Single Plane,11,5.334,,Inherent filtration measured in lab 601 - 2018-04-12-18
-52,3.6,0,0,615,AlluraClarity,Single Plane,11,2.214,,Inherent filtration measured in lab 601 - 2018-04-12-18
-52,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.3,,Inherent filtration measured in lab 601 - 2018-04-12-18
-52,3.6,0.4,1,615,AlluraClarity,Single Plane,11,4.564,,Inherent filtration measured in lab 601 - 2018-04-12-18
-52,3.6,0.9,1,615,AlluraClarity,Single Plane,11,5.478,,Inherent filtration measured in lab 601 - 2018-04-12-18
-53,3.6,0,0,615,AlluraClarity,Single Plane,11,2.256,,Inherent filtration measured in lab 601 - 2018-04-12-18
-53,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.37,,Inherent filtration measured in lab 601 - 2018-04-12-18
-53,3.6,0.4,1,615,AlluraClarity,Single Plane,11,4.676,,Inherent filtration measured in lab 601 - 2018-04-12-18
-53,3.6,0.9,1,615,AlluraClarity,Single Plane,11,5.622,,Inherent filtration measured in lab 601 - 2018-04-12-18
-54,3.6,0,0,615,AlluraClarity,Single Plane,11,2.298,,Inherent filtration measured in lab 601 - 2018-04-12-18
-54,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.44,,Inherent filtration measured in lab 601 - 2018-04-12-18
-54,3.6,0.4,1,615,AlluraClarity,Single Plane,11,4.788,,Inherent filtration measured in lab 601 - 2018-04-12-18
-54,3.6,0.9,1,615,AlluraClarity,Single Plane,11,5.766,,Inherent filtration measured in lab 601 - 2018-04-12-18
-55,3.6,0,0,615,AlluraClarity,Single Plane,11,2.34,0.772,Inherent filtration measured in lab 601 - 2018-04-12-18
-55,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.51,0.857,Inherent filtration measured in lab 601 - 2018-04-12-18
-55,3.6,0.4,1,615,AlluraClarity,Single Plane,11,4.9,0.931,Inherent filtration measured in lab 601 - 2018-04-12-18
-55,3.6,0.9,1,615,AlluraClarity,Single Plane,11,5.91,0.968,Inherent filtration measured in lab 601 - 2018-04-12-18
-56,3.6,0,0,615,AlluraClarity,Single Plane,11,2.38,,Inherent filtration measured in lab 601 - 2018-04-12-18
-56,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.578,,Inherent filtration measured in lab 601 - 2018-04-12-18
-56,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.002,,Inherent filtration measured in lab 601 - 2018-04-12-18
-56,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.042,,Inherent filtration measured in lab 601 - 2018-04-12-18
-57,3.6,0,0,615,AlluraClarity,Single Plane,11,2.42,,Inherent filtration measured in lab 601 - 2018-04-12-18
-57,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.646,,Inherent filtration measured in lab 601 - 2018-04-12-18
-57,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.104,,Inherent filtration measured in lab 601 - 2018-04-12-18
-57,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.174,,Inherent filtration measured in lab 601 - 2018-04-12-18
-58,3.6,0,0,615,AlluraClarity,Single Plane,11,2.46,,Inherent filtration measured in lab 601 - 2018-04-12-18
-58,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.714,,Inherent filtration measured in lab 601 - 2018-04-12-18
-58,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.206,,Inherent filtration measured in lab 601 - 2018-04-12-18
-58,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.306,,Inherent filtration measured in lab 601 - 2018-04-12-18
-59,3.6,0,0,615,AlluraClarity,Single Plane,11,2.5,,Inherent filtration measured in lab 601 - 2018-04-12-18
-59,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.782,,Inherent filtration measured in lab 601 - 2018-04-12-18
-59,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.308,,Inherent filtration measured in lab 601 - 2018-04-12-18
-59,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.438,,Inherent filtration measured in lab 601 - 2018-04-12-18
-60,3.6,0,0,615,AlluraClarity,Single Plane,11,2.54,0.756,Inherent filtration measured in lab 601 - 2018-04-12-18
-60,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.85,0.845,Inherent filtration measured in lab 601 - 2018-04-12-18
-60,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.41,0.924,Inherent filtration measured in lab 601 - 2018-04-12-18
-60,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.57,0.964,Inherent filtration measured in lab 601 - 2018-04-12-18
-61,3.6,0,0,615,AlluraClarity,Single Plane,11,2.58,,Inherent filtration measured in lab 601 - 2018-04-12-18
-61,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.914,,Inherent filtration measured in lab 601 - 2018-04-12-18
-61,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.506,,Inherent filtration measured in lab 601 - 2018-04-12-18
-61,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.694,,Inherent filtration measured in lab 601 - 2018-04-12-18
-62,3.6,0,0,615,AlluraClarity,Single Plane,11,2.62,,Inherent filtration measured in lab 601 - 2018-04-12-18
-62,3.6,0.1,1,615,AlluraClarity,Single Plane,11,3.978,,Inherent filtration measured in lab 601 - 2018-04-12-18
-62,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.602,,Inherent filtration measured in lab 601 - 2018-04-12-18
-62,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.818,,Inherent filtration measured in lab 601 - 2018-04-12-18
-63,3.6,0,0,615,AlluraClarity,Single Plane,11,2.66,,Inherent filtration measured in lab 601 - 2018-04-12-18
-63,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.042,,Inherent filtration measured in lab 601 - 2018-04-12-18
-63,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.698,,Inherent filtration measured in lab 601 - 2018-04-12-18
-63,3.6,0.9,1,615,AlluraClarity,Single Plane,11,6.942,,Inherent filtration measured in lab 601 - 2018-04-12-18
-64,3.6,0,0,615,AlluraClarity,Single Plane,11,2.7,,Inherent filtration measured in lab 601 - 2018-04-12-18
-64,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.106,,Inherent filtration measured in lab 601 - 2018-04-12-18
-64,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.794,,Inherent filtration measured in lab 601 - 2018-04-12-18
-64,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.066,,Inherent filtration measured in lab 601 - 2018-04-12-18
-65,3.6,0,0,615,AlluraClarity,Single Plane,11,2.74,0.742,Inherent filtration measured in lab 601 - 2018-04-12-18
-65,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.17,0.834,Inherent filtration measured in lab 601 - 2018-04-12-18
-65,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.89,0.917,Inherent filtration measured in lab 601 - 2018-04-12-18
-65,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.19,0.96,Inherent filtration measured in lab 601 - 2018-04-12-18
-66,3.6,0,0,615,AlluraClarity,Single Plane,11,2.778,,Inherent filtration measured in lab 601 - 2018-04-12-18
-66,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.23,,Inherent filtration measured in lab 601 - 2018-04-12-18
-66,3.6,0.4,1,615,AlluraClarity,Single Plane,11,5.98,,Inherent filtration measured in lab 601 - 2018-04-12-18
-66,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.302,,Inherent filtration measured in lab 601 - 2018-04-12-18
-67,3.6,0,0,615,AlluraClarity,Single Plane,11,2.816,,Inherent filtration measured in lab 601 - 2018-04-12-18
-67,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.29,,Inherent filtration measured in lab 601 - 2018-04-12-18
-67,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.07,,Inherent filtration measured in lab 601 - 2018-04-12-18
-67,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.414,,Inherent filtration measured in lab 601 - 2018-04-12-18
-68,3.6,0,0,615,AlluraClarity,Single Plane,11,2.854,,Inherent filtration measured in lab 601 - 2018-04-12-18
-68,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.35,,Inherent filtration measured in lab 601 - 2018-04-12-18
-68,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.16,,Inherent filtration measured in lab 601 - 2018-04-12-18
-68,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.526,,Inherent filtration measured in lab 601 - 2018-04-12-18
-69,3.6,0,0,615,AlluraClarity,Single Plane,11,2.892,,Inherent filtration measured in lab 601 - 2018-04-12-18
-69,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.41,,Inherent filtration measured in lab 601 - 2018-04-12-18
-69,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.25,,Inherent filtration measured in lab 601 - 2018-04-12-18
-69,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.638,,Inherent filtration measured in lab 601 - 2018-04-12-18
-70,3.6,0,0,615,AlluraClarity,Single Plane,11,2.93,0.73,Inherent filtration measured in lab 601 - 2018-04-12-18
-70,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.47,0.824,Inherent filtration measured in lab 601 - 2018-04-12-18
-70,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.34,0.912,Inherent filtration measured in lab 601 - 2018-04-12-18
-70,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.75,0.957,Inherent filtration measured in lab 601 - 2018-04-12-18
-71,3.6,0,0,615,AlluraClarity,Single Plane,11,2.97,,Inherent filtration measured in lab 601 - 2018-04-12-18
-71,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.534,,Inherent filtration measured in lab 601 - 2018-04-12-18
-71,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.432,,Inherent filtration measured in lab 601 - 2018-04-12-18
-71,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.858,,Inherent filtration measured in lab 601 - 2018-04-12-18
-72,3.6,0,0,615,AlluraClarity,Single Plane,11,3.01,,Inherent filtration measured in lab 601 - 2018-04-12-18
-72,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.598,,Inherent filtration measured in lab 601 - 2018-04-12-18
-72,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.524,,Inherent filtration measured in lab 601 - 2018-04-12-18
-72,3.6,0.9,1,615,AlluraClarity,Single Plane,11,7.966,,Inherent filtration measured in lab 601 - 2018-04-12-18
-73,3.6,0,0,615,AlluraClarity,Single Plane,11,3.05,,Inherent filtration measured in lab 601 - 2018-04-12-18
-73,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.662,,Inherent filtration measured in lab 601 - 2018-04-12-18
-73,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.616,,Inherent filtration measured in lab 601 - 2018-04-12-18
-73,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.074,,Inherent filtration measured in lab 601 - 2018-04-12-18
-74,3.6,0,0,615,AlluraClarity,Single Plane,11,3.09,,Inherent filtration measured in lab 601 - 2018-04-12-18
-74,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.726,,Inherent filtration measured in lab 601 - 2018-04-12-18
-74,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.708,,Inherent filtration measured in lab 601 - 2018-04-12-18
-74,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.182,,Inherent filtration measured in lab 601 - 2018-04-12-18
-75,3.6,0,0,615,AlluraClarity,Single Plane,11,3.13,0.718,Inherent filtration measured in lab 601 - 2018-04-12-18
-75,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.79,0.816,Inherent filtration measured in lab 601 - 2018-04-12-18
-75,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.8,0.907,Inherent filtration measured in lab 601 - 2018-04-12-18
-75,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.29,0.956,Inherent filtration measured in lab 601 - 2018-04-12-18
-76,3.6,0,0,615,AlluraClarity,Single Plane,11,3.17,,Inherent filtration measured in lab 601 - 2018-04-12-18
-76,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.854,,Inherent filtration measured in lab 601 - 2018-04-12-18
-76,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.886,,Inherent filtration measured in lab 601 - 2018-04-12-18
-76,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.384,,Inherent filtration measured in lab 601 - 2018-04-12-18
-77,3.6,0,0,615,AlluraClarity,Single Plane,11,3.21,,Inherent filtration measured in lab 601 - 2018-04-12-18
-77,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.918,,Inherent filtration measured in lab 601 - 2018-04-12-18
-77,3.6,0.4,1,615,AlluraClarity,Single Plane,11,6.972,,Inherent filtration measured in lab 601 - 2018-04-12-18
-77,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.478,,Inherent filtration measured in lab 601 - 2018-04-12-18
-78,3.6,0,0,615,AlluraClarity,Single Plane,11,3.25,,Inherent filtration measured in lab 601 - 2018-04-12-18
-78,3.6,0.1,1,615,AlluraClarity,Single Plane,11,4.982,,Inherent filtration measured in lab 601 - 2018-04-12-18
-78,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.058,,Inherent filtration measured in lab 601 - 2018-04-12-18
-78,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.572,,Inherent filtration measured in lab 601 - 2018-04-12-18
-79,3.6,0,0,615,AlluraClarity,Single Plane,11,3.29,,Inherent filtration measured in lab 601 - 2018-04-12-18
-79,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.046,,Inherent filtration measured in lab 601 - 2018-04-12-18
-79,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.144,,Inherent filtration measured in lab 601 - 2018-04-12-18
-79,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.666,,Inherent filtration measured in lab 601 - 2018-04-12-18
-80,3.6,0,0,615,AlluraClarity,Single Plane,11,3.33,0.707,Inherent filtration measured in lab 601 - 2018-04-12-18
-80,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.11,0.809,Inherent filtration measured in lab 601 - 2018-04-12-18
-80,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.23,0.905,Inherent filtration measured in lab 601 - 2018-04-12-18
-80,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.76,0.955,Inherent filtration measured in lab 601 - 2018-04-12-18
-81,3.6,0,0,615,AlluraClarity,Single Plane,11,3.374,,Inherent filtration measured in lab 601 - 2018-04-12-18
-81,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.172,,Inherent filtration measured in lab 601 - 2018-04-12-18
-81,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.31,,Inherent filtration measured in lab 601 - 2018-04-12-18
-81,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.846,,Inherent filtration measured in lab 601 - 2018-04-12-18
-82,3.6,0,0,615,AlluraClarity,Single Plane,11,3.418,,Inherent filtration measured in lab 601 - 2018-04-12-18
-82,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.234,,Inherent filtration measured in lab 601 - 2018-04-12-18
-82,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.39,,Inherent filtration measured in lab 601 - 2018-04-12-18
-82,3.6,0.9,1,615,AlluraClarity,Single Plane,11,8.932,,Inherent filtration measured in lab 601 - 2018-04-12-18
-83,3.6,0,0,615,AlluraClarity,Single Plane,11,3.462,,Inherent filtration measured in lab 601 - 2018-04-12-18
-83,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.296,,Inherent filtration measured in lab 601 - 2018-04-12-18
-83,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.47,,Inherent filtration measured in lab 601 - 2018-04-12-18
-83,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.018,,Inherent filtration measured in lab 601 - 2018-04-12-18
-84,3.6,0,0,615,AlluraClarity,Single Plane,11,3.506,,Inherent filtration measured in lab 601 - 2018-04-12-18
-84,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.358,,Inherent filtration measured in lab 601 - 2018-04-12-18
-84,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.55,,Inherent filtration measured in lab 601 - 2018-04-12-18
-84,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.104,,Inherent filtration measured in lab 601 - 2018-04-12-18
-85,3.6,0,0,615,AlluraClarity,Single Plane,11,3.55,0.698,Inherent filtration measured in lab 601 - 2018-04-12-18
-85,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.42,0.804,Inherent filtration measured in lab 601 - 2018-04-12-18
-85,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.63,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-85,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.19,0.954,Inherent filtration measured in lab 601 - 2018-04-12-18
-86,3.6,0,0,615,AlluraClarity,Single Plane,11,3.592,,Inherent filtration measured in lab 601 - 2018-04-12-18
-86,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.48,,Inherent filtration measured in lab 601 - 2018-04-12-18
-86,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.7,,Inherent filtration measured in lab 601 - 2018-04-12-18
-86,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.264,,Inherent filtration measured in lab 601 - 2018-04-12-18
-87,3.6,0,0,615,AlluraClarity,Single Plane,11,3.634,,Inherent filtration measured in lab 601 - 2018-04-12-18
-87,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.54,,Inherent filtration measured in lab 601 - 2018-04-12-18
-87,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.77,,Inherent filtration measured in lab 601 - 2018-04-12-18
-87,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.338,,Inherent filtration measured in lab 601 - 2018-04-12-18
-88,3.6,0,0,615,AlluraClarity,Single Plane,11,3.676,,Inherent filtration measured in lab 601 - 2018-04-12-18
-88,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.6,,Inherent filtration measured in lab 601 - 2018-04-12-18
-88,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.84,,Inherent filtration measured in lab 601 - 2018-04-12-18
-88,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.412,,Inherent filtration measured in lab 601 - 2018-04-12-18
-89,3.6,0,0,615,AlluraClarity,Single Plane,11,3.718,,Inherent filtration measured in lab 601 - 2018-04-12-18
-89,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.66,,Inherent filtration measured in lab 601 - 2018-04-12-18
-89,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.91,,Inherent filtration measured in lab 601 - 2018-04-12-18
-89,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.486,,Inherent filtration measured in lab 601 - 2018-04-12-18
-90,3.6,0,0,615,AlluraClarity,Single Plane,11,3.76,0.692,Inherent filtration measured in lab 601 - 2018-04-12-18
-90,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.72,0.802,Inherent filtration measured in lab 601 - 2018-04-12-18
-90,3.6,0.4,1,615,AlluraClarity,Single Plane,11,7.98,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-90,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.56,0.954,Inherent filtration measured in lab 601 - 2018-04-12-18
-91,3.6,0,0,615,AlluraClarity,Single Plane,11,3.804,,Inherent filtration measured in lab 601 - 2018-04-12-18
-91,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.78,,Inherent filtration measured in lab 601 - 2018-04-12-18
-91,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.048,,Inherent filtration measured in lab 601 - 2018-04-12-18
-91,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.63,,Inherent filtration measured in lab 601 - 2018-04-12-18
-92,3.6,0,0,615,AlluraClarity,Single Plane,11,3.848,,Inherent filtration measured in lab 601 - 2018-04-12-18
-92,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.84,,Inherent filtration measured in lab 601 - 2018-04-12-18
-92,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.116,,Inherent filtration measured in lab 601 - 2018-04-12-18
-92,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.7,,Inherent filtration measured in lab 601 - 2018-04-12-18
-93,3.6,0,0,615,AlluraClarity,Single Plane,11,3.892,,Inherent filtration measured in lab 601 - 2018-04-12-18
-93,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.9,,Inherent filtration measured in lab 601 - 2018-04-12-18
-93,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.184,,Inherent filtration measured in lab 601 - 2018-04-12-18
-93,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.77,,Inherent filtration measured in lab 601 - 2018-04-12-18
-94,3.6,0,0,615,AlluraClarity,Single Plane,11,3.936,,Inherent filtration measured in lab 601 - 2018-04-12-18
-94,3.6,0.1,1,615,AlluraClarity,Single Plane,11,5.96,,Inherent filtration measured in lab 601 - 2018-04-12-18
-94,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.252,,Inherent filtration measured in lab 601 - 2018-04-12-18
-94,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.84,,Inherent filtration measured in lab 601 - 2018-04-12-18
-95,3.6,0,0,615,AlluraClarity,Single Plane,11,3.98,0.686,Inherent filtration measured in lab 601 - 2018-04-12-18
-95,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.02,0.8,Inherent filtration measured in lab 601 - 2018-04-12-18
-95,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.32,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-95,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.91,0.953,Inherent filtration measured in lab 601 - 2018-04-12-18
-96,3.6,0,0,615,AlluraClarity,Single Plane,11,4.022,,Inherent filtration measured in lab 601 - 2018-04-12-18
-96,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.074,,Inherent filtration measured in lab 601 - 2018-04-12-18
-96,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.378,,Inherent filtration measured in lab 601 - 2018-04-12-18
-96,3.6,0.9,1,615,AlluraClarity,Single Plane,11,9.968,,Inherent filtration measured in lab 601 - 2018-04-12-18
-97,3.6,0,0,615,AlluraClarity,Single Plane,11,4.064,,Inherent filtration measured in lab 601 - 2018-04-12-18
-97,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.128,,Inherent filtration measured in lab 601 - 2018-04-12-18
-97,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.436,,Inherent filtration measured in lab 601 - 2018-04-12-18
-97,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.026,,Inherent filtration measured in lab 601 - 2018-04-12-18
-98,3.6,0,0,615,AlluraClarity,Single Plane,11,4.106,,Inherent filtration measured in lab 601 - 2018-04-12-18
-98,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.182,,Inherent filtration measured in lab 601 - 2018-04-12-18
-98,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.494,,Inherent filtration measured in lab 601 - 2018-04-12-18
-98,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.084,,Inherent filtration measured in lab 601 - 2018-04-12-18
-99,3.6,0,0,615,AlluraClarity,Single Plane,11,4.148,,Inherent filtration measured in lab 601 - 2018-04-12-18
-99,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.236,,Inherent filtration measured in lab 601 - 2018-04-12-18
-99,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.552,,Inherent filtration measured in lab 601 - 2018-04-12-18
-99,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.142,,Inherent filtration measured in lab 601 - 2018-04-12-18
-100,3.6,0,0,615,AlluraClarity,Single Plane,11,4.19,0.683,Inherent filtration measured in lab 601 - 2018-04-12-18
-100,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.29,0.8,Inherent filtration measured in lab 601 - 2018-04-12-18
-100,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.61,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-100,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.2,0.952,Inherent filtration measured in lab 601 - 2018-04-12-18
-101,3.6,0,0,615,AlluraClarity,Single Plane,11,4.234,,Inherent filtration measured in lab 601 - 2018-04-12-18
-101,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.344,,Inherent filtration measured in lab 601 - 2018-04-12-18
-101,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.67,,Inherent filtration measured in lab 601 - 2018-04-12-18
-101,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.26,,Inherent filtration measured in lab 601 - 2018-04-12-18
-102,3.6,0,0,615,AlluraClarity,Single Plane,11,4.278,,Inherent filtration measured in lab 601 - 2018-04-12-18
-102,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.398,,Inherent filtration measured in lab 601 - 2018-04-12-18
-102,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.73,,Inherent filtration measured in lab 601 - 2018-04-12-18
-102,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.32,,Inherent filtration measured in lab 601 - 2018-04-12-18
-103,3.6,0,0,615,AlluraClarity,Single Plane,11,4.322,,Inherent filtration measured in lab 601 - 2018-04-12-18
-103,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.452,,Inherent filtration measured in lab 601 - 2018-04-12-18
-103,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.79,,Inherent filtration measured in lab 601 - 2018-04-12-18
-103,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.38,,Inherent filtration measured in lab 601 - 2018-04-12-18
-104,3.6,0,0,615,AlluraClarity,Single Plane,11,4.366,,Inherent filtration measured in lab 601 - 2018-04-12-18
-104,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.506,,Inherent filtration measured in lab 601 - 2018-04-12-18
-104,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.85,,Inherent filtration measured in lab 601 - 2018-04-12-18
-104,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.44,,Inherent filtration measured in lab 601 - 2018-04-12-18
-105,3.6,0,0,615,AlluraClarity,Single Plane,11,4.41,0.68,Inherent filtration measured in lab 601 - 2018-04-12-18
-105,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.56,0.8,Inherent filtration measured in lab 601 - 2018-04-12-18
-105,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.91,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-105,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.5,0.951,Inherent filtration measured in lab 601 - 2018-04-12-18
-106,3.6,0,0,615,AlluraClarity,Single Plane,11,4.452,,Inherent filtration measured in lab 601 - 2018-04-12-18
-106,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.61,,Inherent filtration measured in lab 601 - 2018-04-12-18
-106,3.6,0.4,1,615,AlluraClarity,Single Plane,11,8.96,,Inherent filtration measured in lab 601 - 2018-04-12-18
-106,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.56,,Inherent filtration measured in lab 601 - 2018-04-12-18
-107,3.6,0,0,615,AlluraClarity,Single Plane,11,4.494,,Inherent filtration measured in lab 601 - 2018-04-12-18
-107,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.66,,Inherent filtration measured in lab 601 - 2018-04-12-18
-107,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.01,,Inherent filtration measured in lab 601 - 2018-04-12-18
-107,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.62,,Inherent filtration measured in lab 601 - 2018-04-12-18
-108,3.6,0,0,615,AlluraClarity,Single Plane,11,4.536,,Inherent filtration measured in lab 601 - 2018-04-12-18
-108,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.71,,Inherent filtration measured in lab 601 - 2018-04-12-18
-108,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.06,,Inherent filtration measured in lab 601 - 2018-04-12-18
-108,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.68,,Inherent filtration measured in lab 601 - 2018-04-12-18
-109,3.6,0,0,615,AlluraClarity,Single Plane,11,4.578,,Inherent filtration measured in lab 601 - 2018-04-12-18
-109,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.76,,Inherent filtration measured in lab 601 - 2018-04-12-18
-109,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.11,,Inherent filtration measured in lab 601 - 2018-04-12-18
-109,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.74,,Inherent filtration measured in lab 601 - 2018-04-12-18
-110,3.6,0,0,615,AlluraClarity,Single Plane,11,4.62,0.679,Inherent filtration measured in lab 601 - 2018-04-12-18
-110,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.81,0.801,Inherent filtration measured in lab 601 - 2018-04-12-18
-110,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.16,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-110,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.8,0.95,Inherent filtration measured in lab 601 - 2018-04-12-18
-111,3.6,0,0,615,AlluraClarity,Single Plane,11,4.664,,Inherent filtration measured in lab 601 - 2018-04-12-18
-111,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.862,,Inherent filtration measured in lab 601 - 2018-04-12-18
-111,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.214,,Inherent filtration measured in lab 601 - 2018-04-12-18
-111,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.86,,Inherent filtration measured in lab 601 - 2018-04-12-18
-112,3.6,0,0,615,AlluraClarity,Single Plane,11,4.708,,Inherent filtration measured in lab 601 - 2018-04-12-18
-112,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.914,,Inherent filtration measured in lab 601 - 2018-04-12-18
-112,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.268,,Inherent filtration measured in lab 601 - 2018-04-12-18
-112,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.92,,Inherent filtration measured in lab 601 - 2018-04-12-18
-113,3.6,0,0,615,AlluraClarity,Single Plane,11,4.752,,Inherent filtration measured in lab 601 - 2018-04-12-18
-113,3.6,0.1,1,615,AlluraClarity,Single Plane,11,6.966,,Inherent filtration measured in lab 601 - 2018-04-12-18
-113,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.322,,Inherent filtration measured in lab 601 - 2018-04-12-18
-113,3.6,0.9,1,615,AlluraClarity,Single Plane,11,10.98,,Inherent filtration measured in lab 601 - 2018-04-12-18
-114,3.6,0,0,615,AlluraClarity,Single Plane,11,4.796,,Inherent filtration measured in lab 601 - 2018-04-12-18
-114,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.018,,Inherent filtration measured in lab 601 - 2018-04-12-18
-114,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.376,,Inherent filtration measured in lab 601 - 2018-04-12-18
-114,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.04,,Inherent filtration measured in lab 601 - 2018-04-12-18
-115,3.6,0,0,615,AlluraClarity,Single Plane,11,4.84,0.678,Inherent filtration measured in lab 601 - 2018-04-12-18
-115,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.07,0.801,Inherent filtration measured in lab 601 - 2018-04-12-18
-115,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.43,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-115,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.1,0.95,Inherent filtration measured in lab 601 - 2018-04-12-18
-116,3.6,0,0,615,AlluraClarity,Single Plane,11,4.882,,Inherent filtration measured in lab 601 - 2018-04-12-18
-116,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.114,,Inherent filtration measured in lab 601 - 2018-04-12-18
-116,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.474,,Inherent filtration measured in lab 601 - 2018-04-12-18
-116,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.14,,Inherent filtration measured in lab 601 - 2018-04-12-18
-117,3.6,0,0,615,AlluraClarity,Single Plane,11,4.924,,Inherent filtration measured in lab 601 - 2018-04-12-18
-117,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.158,,Inherent filtration measured in lab 601 - 2018-04-12-18
-117,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.518,,Inherent filtration measured in lab 601 - 2018-04-12-18
-117,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.18,,Inherent filtration measured in lab 601 - 2018-04-12-18
-118,3.6,0,0,615,AlluraClarity,Single Plane,11,4.966,,Inherent filtration measured in lab 601 - 2018-04-12-18
-118,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.202,,Inherent filtration measured in lab 601 - 2018-04-12-18
-118,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.562,,Inherent filtration measured in lab 601 - 2018-04-12-18
-118,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.22,,Inherent filtration measured in lab 601 - 2018-04-12-18
-119,3.6,0,0,615,AlluraClarity,Single Plane,11,5.008,,Inherent filtration measured in lab 601 - 2018-04-12-18
-119,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.246,,Inherent filtration measured in lab 601 - 2018-04-12-18
-119,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.606,,Inherent filtration measured in lab 601 - 2018-04-12-18
-119,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.26,,Inherent filtration measured in lab 601 - 2018-04-12-18
-120,3.6,0,0,615,AlluraClarity,Single Plane,11,5.05,0.679,Inherent filtration measured in lab 601 - 2018-04-12-18
-120,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.29,0.803,Inherent filtration measured in lab 601 - 2018-04-12-18
-120,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.65,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-120,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.3,0.948,Inherent filtration measured in lab 601 - 2018-04-12-18
-121,3.6,0,0,615,AlluraClarity,Single Plane,11,5.094,,Inherent filtration measured in lab 601 - 2018-04-12-18
-121,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.34,,Inherent filtration measured in lab 601 - 2018-04-12-18
-121,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.698,,Inherent filtration measured in lab 601 - 2018-04-12-18
-121,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.34,,Inherent filtration measured in lab 601 - 2018-04-12-18
-122,3.6,0,0,615,AlluraClarity,Single Plane,11,5.138,,Inherent filtration measured in lab 601 - 2018-04-12-18
-122,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.39,,Inherent filtration measured in lab 601 - 2018-04-12-18
-122,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.746,,Inherent filtration measured in lab 601 - 2018-04-12-18
-122,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.38,,Inherent filtration measured in lab 601 - 2018-04-12-18
-123,3.6,0,0,615,AlluraClarity,Single Plane,11,5.182,,Inherent filtration measured in lab 601 - 2018-04-12-18
-123,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.44,,Inherent filtration measured in lab 601 - 2018-04-12-18
-123,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.794,,Inherent filtration measured in lab 601 - 2018-04-12-18
-123,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.42,,Inherent filtration measured in lab 601 - 2018-04-12-18
-124,3.6,0,0,615,AlluraClarity,Single Plane,11,5.226,,Inherent filtration measured in lab 601 - 2018-04-12-18
-124,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.49,,Inherent filtration measured in lab 601 - 2018-04-12-18
-124,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.842,,Inherent filtration measured in lab 601 - 2018-04-12-18
-124,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.46,,Inherent filtration measured in lab 601 - 2018-04-12-18
-125,3.6,0,0,615,AlluraClarity,Single Plane,11,5.27,0.679,Inherent filtration measured in lab 601 - 2018-04-12-18
-125,3.6,0.1,1,615,AlluraClarity,Single Plane,11,7.54,0.804,Inherent filtration measured in lab 601 - 2018-04-12-18
-125,3.6,0.4,1,615,AlluraClarity,Single Plane,11,9.89,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
-125,3.6,0.9,1,615,AlluraClarity,Single Plane,11,11.5,0.948,Inherent filtration measured in lab 601 - 2018-04-12-18
+50,4.4,0,0,795,Allura Clarity,Plane A,11,2.37,0.812,Inherent filtration measured in lab U104 - 2018-04-12
+50,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.29,0.882,Inherent filtration measured in lab U104 - 2018-04-12
+50,4.4,0.4,1,795,Allura Clarity,Plane A,11,4.4,0.943,Inherent filtration measured in lab U104 - 2018-04-12
+50,4.4,0.9,1,795,Allura Clarity,Plane A,11,5.22,0.974,Inherent filtration measured in lab U104 - 2018-04-12
+51,4.4,0,0,795,Allura Clarity,Plane A,11,2.418,,Inherent filtration measured in lab U104 - 2018-04-12
+51,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.366,,Inherent filtration measured in lab U104 - 2018-04-12
+51,4.4,0.4,1,795,Allura Clarity,Plane A,11,4.514,,Inherent filtration measured in lab U104 - 2018-04-12
+51,4.4,0.9,1,795,Allura Clarity,Plane A,11,5.364,,Inherent filtration measured in lab U104 - 2018-04-12
+52,4.4,0,0,795,Allura Clarity,Plane A,11,2.466,,Inherent filtration measured in lab U104 - 2018-04-12
+52,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.442,,Inherent filtration measured in lab U104 - 2018-04-12
+52,4.4,0.4,1,795,Allura Clarity,Plane A,11,4.628,,Inherent filtration measured in lab U104 - 2018-04-12
+52,4.4,0.9,1,795,Allura Clarity,Plane A,11,5.508,,Inherent filtration measured in lab U104 - 2018-04-12
+53,4.4,0,0,795,Allura Clarity,Plane A,11,2.514,,Inherent filtration measured in lab U104 - 2018-04-12
+53,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.518,,Inherent filtration measured in lab U104 - 2018-04-12
+53,4.4,0.4,1,795,Allura Clarity,Plane A,11,4.742,,Inherent filtration measured in lab U104 - 2018-04-12
+53,4.4,0.9,1,795,Allura Clarity,Plane A,11,5.652,,Inherent filtration measured in lab U104 - 2018-04-12
+54,4.4,0,0,795,Allura Clarity,Plane A,11,2.562,,Inherent filtration measured in lab U104 - 2018-04-12
+54,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.594,,Inherent filtration measured in lab U104 - 2018-04-12
+54,4.4,0.4,1,795,Allura Clarity,Plane A,11,4.856,,Inherent filtration measured in lab U104 - 2018-04-12
+54,4.4,0.9,1,795,Allura Clarity,Plane A,11,5.796,,Inherent filtration measured in lab U104 - 2018-04-12
+55,4.4,0,0,795,Allura Clarity,Plane A,11,2.61,0.794,Inherent filtration measured in lab U104 - 2018-04-12
+55,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.67,0.867,Inherent filtration measured in lab U104 - 2018-04-12
+55,4.4,0.4,1,795,Allura Clarity,Plane A,11,4.97,0.934,Inherent filtration measured in lab U104 - 2018-04-12
+55,4.4,0.9,1,795,Allura Clarity,Plane A,11,5.94,0.969,Inherent filtration measured in lab U104 - 2018-04-12
+56,4.4,0,0,795,Allura Clarity,Plane A,11,2.656,,Inherent filtration measured in lab U104 - 2018-04-12
+56,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.74,,Inherent filtration measured in lab U104 - 2018-04-12
+56,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.074,,Inherent filtration measured in lab U104 - 2018-04-12
+56,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.072,,Inherent filtration measured in lab U104 - 2018-04-12
+57,4.4,0,0,795,Allura Clarity,Plane A,11,2.702,,Inherent filtration measured in lab U104 - 2018-04-12
+57,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.81,,Inherent filtration measured in lab U104 - 2018-04-12
+57,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.178,,Inherent filtration measured in lab U104 - 2018-04-12
+57,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.204,,Inherent filtration measured in lab U104 - 2018-04-12
+58,4.4,0,0,795,Allura Clarity,Plane A,11,2.748,,Inherent filtration measured in lab U104 - 2018-04-12
+58,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.88,,Inherent filtration measured in lab U104 - 2018-04-12
+58,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.282,,Inherent filtration measured in lab U104 - 2018-04-12
+58,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.336,,Inherent filtration measured in lab U104 - 2018-04-12
+59,4.4,0,0,795,Allura Clarity,Plane A,11,2.794,,Inherent filtration measured in lab U104 - 2018-04-12
+59,4.4,0.1,1,795,Allura Clarity,Plane A,11,3.95,,Inherent filtration measured in lab U104 - 2018-04-12
+59,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.386,,Inherent filtration measured in lab U104 - 2018-04-12
+59,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.468,,Inherent filtration measured in lab U104 - 2018-04-12
+60,4.4,0,0,795,Allura Clarity,Plane A,11,2.84,0.779,Inherent filtration measured in lab U104 - 2018-04-12
+60,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.02,0.855,Inherent filtration measured in lab U104 - 2018-04-12
+60,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.49,0.927,Inherent filtration measured in lab U104 - 2018-04-12
+60,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.6,0.965,Inherent filtration measured in lab U104 - 2018-04-12
+61,4.4,0,0,795,Allura Clarity,Plane A,11,2.884,,Inherent filtration measured in lab U104 - 2018-04-12
+61,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.086,,Inherent filtration measured in lab U104 - 2018-04-12
+61,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.588,,Inherent filtration measured in lab U104 - 2018-04-12
+61,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.724,,Inherent filtration measured in lab U104 - 2018-04-12
+62,4.4,0,0,795,Allura Clarity,Plane A,11,2.928,,Inherent filtration measured in lab U104 - 2018-04-12
+62,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.152,,Inherent filtration measured in lab U104 - 2018-04-12
+62,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.686,,Inherent filtration measured in lab U104 - 2018-04-12
+62,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.848,,Inherent filtration measured in lab U104 - 2018-04-12
+63,4.4,0,0,795,Allura Clarity,Plane A,11,2.972,,Inherent filtration measured in lab U104 - 2018-04-12
+63,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.218,,Inherent filtration measured in lab U104 - 2018-04-12
+63,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.784,,Inherent filtration measured in lab U104 - 2018-04-12
+63,4.4,0.9,1,795,Allura Clarity,Plane A,11,6.972,,Inherent filtration measured in lab U104 - 2018-04-12
+64,4.4,0,0,795,Allura Clarity,Plane A,11,3.016,,Inherent filtration measured in lab U104 - 2018-04-12
+64,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.284,,Inherent filtration measured in lab U104 - 2018-04-12
+64,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.882,,Inherent filtration measured in lab U104 - 2018-04-12
+64,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.096,,Inherent filtration measured in lab U104 - 2018-04-12
+65,4.4,0,0,795,Allura Clarity,Plane A,11,3.06,0.765,Inherent filtration measured in lab U104 - 2018-04-12
+65,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.35,0.845,Inherent filtration measured in lab U104 - 2018-04-12
+65,4.4,0.4,1,795,Allura Clarity,Plane A,11,5.98,0.92,Inherent filtration measured in lab U104 - 2018-04-12
+65,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.22,0.961,Inherent filtration measured in lab U104 - 2018-04-12
+66,4.4,0,0,795,Allura Clarity,Plane A,11,3.102,,Inherent filtration measured in lab U104 - 2018-04-12
+66,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.414,,Inherent filtration measured in lab U104 - 2018-04-12
+66,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.072,,Inherent filtration measured in lab U104 - 2018-04-12
+66,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.334,,Inherent filtration measured in lab U104 - 2018-04-12
+67,4.4,0,0,795,Allura Clarity,Plane A,11,3.144,,Inherent filtration measured in lab U104 - 2018-04-12
+67,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.478,,Inherent filtration measured in lab U104 - 2018-04-12
+67,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.164,,Inherent filtration measured in lab U104 - 2018-04-12
+67,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.448,,Inherent filtration measured in lab U104 - 2018-04-12
+68,4.4,0,0,795,Allura Clarity,Plane A,11,3.186,,Inherent filtration measured in lab U104 - 2018-04-12
+68,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.542,,Inherent filtration measured in lab U104 - 2018-04-12
+68,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.256,,Inherent filtration measured in lab U104 - 2018-04-12
+68,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.562,,Inherent filtration measured in lab U104 - 2018-04-12
+69,4.4,0,0,795,Allura Clarity,Plane A,11,3.228,,Inherent filtration measured in lab U104 - 2018-04-12
+69,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.606,,Inherent filtration measured in lab U104 - 2018-04-12
+69,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.348,,Inherent filtration measured in lab U104 - 2018-04-12
+69,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.676,,Inherent filtration measured in lab U104 - 2018-04-12
+70,4.4,0,0,795,Allura Clarity,Plane A,11,3.27,0.754,Inherent filtration measured in lab U104 - 2018-04-12
+70,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.67,0.836,Inherent filtration measured in lab U104 - 2018-04-12
+70,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.44,0.915,Inherent filtration measured in lab U104 - 2018-04-12
+70,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.79,0.958,Inherent filtration measured in lab U104 - 2018-04-12
+71,4.4,0,0,795,Allura Clarity,Plane A,11,3.316,,Inherent filtration measured in lab U104 - 2018-04-12
+71,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.738,,Inherent filtration measured in lab U104 - 2018-04-12
+71,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.532,,Inherent filtration measured in lab U104 - 2018-04-12
+71,4.4,0.9,1,795,Allura Clarity,Plane A,11,7.898,,Inherent filtration measured in lab U104 - 2018-04-12
+72,4.4,0,0,795,Allura Clarity,Plane A,11,3.362,,Inherent filtration measured in lab U104 - 2018-04-12
+72,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.806,,Inherent filtration measured in lab U104 - 2018-04-12
+72,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.624,,Inherent filtration measured in lab U104 - 2018-04-12
+72,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.006,,Inherent filtration measured in lab U104 - 2018-04-12
+73,4.4,0,0,795,Allura Clarity,Plane A,11,3.408,,Inherent filtration measured in lab U104 - 2018-04-12
+73,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.874,,Inherent filtration measured in lab U104 - 2018-04-12
+73,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.716,,Inherent filtration measured in lab U104 - 2018-04-12
+73,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.114,,Inherent filtration measured in lab U104 - 2018-04-12
+74,4.4,0,0,795,Allura Clarity,Plane A,11,3.454,,Inherent filtration measured in lab U104 - 2018-04-12
+74,4.4,0.1,1,795,Allura Clarity,Plane A,11,4.942,,Inherent filtration measured in lab U104 - 2018-04-12
+74,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.808,,Inherent filtration measured in lab U104 - 2018-04-12
+74,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.222,,Inherent filtration measured in lab U104 - 2018-04-12
+75,4.4,0,0,795,Allura Clarity,Plane A,11,3.5,0.742,Inherent filtration measured in lab U104 - 2018-04-12
+75,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.01,0.827,Inherent filtration measured in lab U104 - 2018-04-12
+75,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.9,0.911,Inherent filtration measured in lab U104 - 2018-04-12
+75,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.33,0.957,Inherent filtration measured in lab U104 - 2018-04-12
+76,4.4,0,0,795,Allura Clarity,Plane A,11,3.546,,Inherent filtration measured in lab U104 - 2018-04-12
+76,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.076,,Inherent filtration measured in lab U104 - 2018-04-12
+76,4.4,0.4,1,795,Allura Clarity,Plane A,11,6.986,,Inherent filtration measured in lab U104 - 2018-04-12
+76,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.426,,Inherent filtration measured in lab U104 - 2018-04-12
+77,4.4,0,0,795,Allura Clarity,Plane A,11,3.592,,Inherent filtration measured in lab U104 - 2018-04-12
+77,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.142,,Inherent filtration measured in lab U104 - 2018-04-12
+77,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.072,,Inherent filtration measured in lab U104 - 2018-04-12
+77,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.522,,Inherent filtration measured in lab U104 - 2018-04-12
+78,4.4,0,0,795,Allura Clarity,Plane A,11,3.638,,Inherent filtration measured in lab U104 - 2018-04-12
+78,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.208,,Inherent filtration measured in lab U104 - 2018-04-12
+78,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.158,,Inherent filtration measured in lab U104 - 2018-04-12
+78,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.618,,Inherent filtration measured in lab U104 - 2018-04-12
+79,4.4,0,0,795,Allura Clarity,Plane A,11,3.684,,Inherent filtration measured in lab U104 - 2018-04-12
+79,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.274,,Inherent filtration measured in lab U104 - 2018-04-12
+79,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.244,,Inherent filtration measured in lab U104 - 2018-04-12
+79,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.714,,Inherent filtration measured in lab U104 - 2018-04-12
+80,4.4,0,0,795,Allura Clarity,Plane A,11,3.73,0.732,Inherent filtration measured in lab U104 - 2018-04-12
+80,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.34,0.821,Inherent filtration measured in lab U104 - 2018-04-12
+80,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.33,0.909,Inherent filtration measured in lab U104 - 2018-04-12
+80,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.81,0.956,Inherent filtration measured in lab U104 - 2018-04-12
+81,4.4,0,0,795,Allura Clarity,Plane A,11,3.778,,Inherent filtration measured in lab U104 - 2018-04-12
+81,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.406,,Inherent filtration measured in lab U104 - 2018-04-12
+81,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.41,,Inherent filtration measured in lab U104 - 2018-04-12
+81,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.896,,Inherent filtration measured in lab U104 - 2018-04-12
+82,4.4,0,0,795,Allura Clarity,Plane A,11,3.826,,Inherent filtration measured in lab U104 - 2018-04-12
+82,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.472,,Inherent filtration measured in lab U104 - 2018-04-12
+82,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.49,,Inherent filtration measured in lab U104 - 2018-04-12
+82,4.4,0.9,1,795,Allura Clarity,Plane A,11,8.982,,Inherent filtration measured in lab U104 - 2018-04-12
+83,4.4,0,0,795,Allura Clarity,Plane A,11,3.874,,Inherent filtration measured in lab U104 - 2018-04-12
+83,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.538,,Inherent filtration measured in lab U104 - 2018-04-12
+83,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.57,,Inherent filtration measured in lab U104 - 2018-04-12
+83,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.068,,Inherent filtration measured in lab U104 - 2018-04-12
+84,4.4,0,0,795,Allura Clarity,Plane A,11,3.922,,Inherent filtration measured in lab U104 - 2018-04-12
+84,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.604,,Inherent filtration measured in lab U104 - 2018-04-12
+84,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.65,,Inherent filtration measured in lab U104 - 2018-04-12
+84,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.154,,Inherent filtration measured in lab U104 - 2018-04-12
+85,4.4,0,0,795,Allura Clarity,Plane A,11,3.97,0.724,Inherent filtration measured in lab U104 - 2018-04-12
+85,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.67,0.817,Inherent filtration measured in lab U104 - 2018-04-12
+85,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.73,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+85,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.24,0.955,Inherent filtration measured in lab U104 - 2018-04-12
+86,4.4,0,0,795,Allura Clarity,Plane A,11,4.016,,Inherent filtration measured in lab U104 - 2018-04-12
+86,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.73,,Inherent filtration measured in lab U104 - 2018-04-12
+86,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.802,,Inherent filtration measured in lab U104 - 2018-04-12
+86,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.314,,Inherent filtration measured in lab U104 - 2018-04-12
+87,4.4,0,0,795,Allura Clarity,Plane A,11,4.062,,Inherent filtration measured in lab U104 - 2018-04-12
+87,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.79,,Inherent filtration measured in lab U104 - 2018-04-12
+87,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.874,,Inherent filtration measured in lab U104 - 2018-04-12
+87,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.388,,Inherent filtration measured in lab U104 - 2018-04-12
+88,4.4,0,0,795,Allura Clarity,Plane A,11,4.108,,Inherent filtration measured in lab U104 - 2018-04-12
+88,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.85,,Inherent filtration measured in lab U104 - 2018-04-12
+88,4.4,0.4,1,795,Allura Clarity,Plane A,11,7.946,,Inherent filtration measured in lab U104 - 2018-04-12
+88,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.462,,Inherent filtration measured in lab U104 - 2018-04-12
+89,4.4,0,0,795,Allura Clarity,Plane A,11,4.154,,Inherent filtration measured in lab U104 - 2018-04-12
+89,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.91,,Inherent filtration measured in lab U104 - 2018-04-12
+89,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.018,,Inherent filtration measured in lab U104 - 2018-04-12
+89,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.536,,Inherent filtration measured in lab U104 - 2018-04-12
+90,4.4,0,0,795,Allura Clarity,Plane A,11,4.2,0.719,Inherent filtration measured in lab U104 - 2018-04-12
+90,4.4,0.1,1,795,Allura Clarity,Plane A,11,5.97,0.815,Inherent filtration measured in lab U104 - 2018-04-12
+90,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.09,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+90,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.61,0.955,Inherent filtration measured in lab U104 - 2018-04-12
+91,4.4,0,0,795,Allura Clarity,Plane A,11,4.248,,Inherent filtration measured in lab U104 - 2018-04-12
+91,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.032,,Inherent filtration measured in lab U104 - 2018-04-12
+91,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.158,,Inherent filtration measured in lab U104 - 2018-04-12
+91,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.68,,Inherent filtration measured in lab U104 - 2018-04-12
+92,4.4,0,0,795,Allura Clarity,Plane A,11,4.296,,Inherent filtration measured in lab U104 - 2018-04-12
+92,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.094,,Inherent filtration measured in lab U104 - 2018-04-12
+92,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.226,,Inherent filtration measured in lab U104 - 2018-04-12
+92,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.75,,Inherent filtration measured in lab U104 - 2018-04-12
+93,4.4,0,0,795,Allura Clarity,Plane A,11,4.344,,Inherent filtration measured in lab U104 - 2018-04-12
+93,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.156,,Inherent filtration measured in lab U104 - 2018-04-12
+93,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.294,,Inherent filtration measured in lab U104 - 2018-04-12
+93,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.82,,Inherent filtration measured in lab U104 - 2018-04-12
+94,4.4,0,0,795,Allura Clarity,Plane A,11,4.392,,Inherent filtration measured in lab U104 - 2018-04-12
+94,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.218,,Inherent filtration measured in lab U104 - 2018-04-12
+94,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.362,,Inherent filtration measured in lab U104 - 2018-04-12
+94,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.89,,Inherent filtration measured in lab U104 - 2018-04-12
+95,4.4,0,0,795,Allura Clarity,Plane A,11,4.44,0.714,Inherent filtration measured in lab U104 - 2018-04-12
+95,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.28,0.813,Inherent filtration measured in lab U104 - 2018-04-12
+95,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.43,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+95,4.4,0.9,1,795,Allura Clarity,Plane A,11,9.96,0.954,Inherent filtration measured in lab U104 - 2018-04-12
+96,4.4,0,0,795,Allura Clarity,Plane A,11,4.486,,Inherent filtration measured in lab U104 - 2018-04-12
+96,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.334,,Inherent filtration measured in lab U104 - 2018-04-12
+96,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.488,,Inherent filtration measured in lab U104 - 2018-04-12
+96,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.028,,Inherent filtration measured in lab U104 - 2018-04-12
+97,4.4,0,0,795,Allura Clarity,Plane A,11,4.532,,Inherent filtration measured in lab U104 - 2018-04-12
+97,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.388,,Inherent filtration measured in lab U104 - 2018-04-12
+97,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.546,,Inherent filtration measured in lab U104 - 2018-04-12
+97,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.096,,Inherent filtration measured in lab U104 - 2018-04-12
+98,4.4,0,0,795,Allura Clarity,Plane A,11,4.578,,Inherent filtration measured in lab U104 - 2018-04-12
+98,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.442,,Inherent filtration measured in lab U104 - 2018-04-12
+98,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.604,,Inherent filtration measured in lab U104 - 2018-04-12
+98,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.164,,Inherent filtration measured in lab U104 - 2018-04-12
+99,4.4,0,0,795,Allura Clarity,Plane A,11,4.624,,Inherent filtration measured in lab U104 - 2018-04-12
+99,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.496,,Inherent filtration measured in lab U104 - 2018-04-12
+99,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.662,,Inherent filtration measured in lab U104 - 2018-04-12
+99,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.232,,Inherent filtration measured in lab U104 - 2018-04-12
+100,4.4,0,0,795,Allura Clarity,Plane A,11,4.67,0.711,Inherent filtration measured in lab U104 - 2018-04-12
+100,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.55,0.813,Inherent filtration measured in lab U104 - 2018-04-12
+100,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.72,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+100,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.3,0.953,Inherent filtration measured in lab U104 - 2018-04-12
+101,4.4,0,0,795,Allura Clarity,Plane A,11,4.716,,Inherent filtration measured in lab U104 - 2018-04-12
+101,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.606,,Inherent filtration measured in lab U104 - 2018-04-12
+101,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.78,,Inherent filtration measured in lab U104 - 2018-04-12
+101,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.36,,Inherent filtration measured in lab U104 - 2018-04-12
+102,4.4,0,0,795,Allura Clarity,Plane A,11,4.762,,Inherent filtration measured in lab U104 - 2018-04-12
+102,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.662,,Inherent filtration measured in lab U104 - 2018-04-12
+102,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.84,,Inherent filtration measured in lab U104 - 2018-04-12
+102,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.42,,Inherent filtration measured in lab U104 - 2018-04-12
+103,4.4,0,0,795,Allura Clarity,Plane A,11,4.808,,Inherent filtration measured in lab U104 - 2018-04-12
+103,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.718,,Inherent filtration measured in lab U104 - 2018-04-12
+103,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.9,,Inherent filtration measured in lab U104 - 2018-04-12
+103,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.48,,Inherent filtration measured in lab U104 - 2018-04-12
+104,4.4,0,0,795,Allura Clarity,Plane A,11,4.854,,Inherent filtration measured in lab U104 - 2018-04-12
+104,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.774,,Inherent filtration measured in lab U104 - 2018-04-12
+104,4.4,0.4,1,795,Allura Clarity,Plane A,11,8.96,,Inherent filtration measured in lab U104 - 2018-04-12
+104,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.54,,Inherent filtration measured in lab U104 - 2018-04-12
+105,4.4,0,0,795,Allura Clarity,Plane A,11,4.9,0.709,Inherent filtration measured in lab U104 - 2018-04-12
+105,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.83,0.813,Inherent filtration measured in lab U104 - 2018-04-12
+105,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.02,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+105,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.6,0.953,Inherent filtration measured in lab U104 - 2018-04-12
+106,4.4,0,0,795,Allura Clarity,Plane A,11,4.944,,Inherent filtration measured in lab U104 - 2018-04-12
+106,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.88,,Inherent filtration measured in lab U104 - 2018-04-12
+106,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.07,,Inherent filtration measured in lab U104 - 2018-04-12
+106,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.64,,Inherent filtration measured in lab U104 - 2018-04-12
+107,4.4,0,0,795,Allura Clarity,Plane A,11,4.988,,Inherent filtration measured in lab U104 - 2018-04-12
+107,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.93,,Inherent filtration measured in lab U104 - 2018-04-12
+107,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.12,,Inherent filtration measured in lab U104 - 2018-04-12
+107,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.68,,Inherent filtration measured in lab U104 - 2018-04-12
+108,4.4,0,0,795,Allura Clarity,Plane A,11,5.032,,Inherent filtration measured in lab U104 - 2018-04-12
+108,4.4,0.1,1,795,Allura Clarity,Plane A,11,6.98,,Inherent filtration measured in lab U104 - 2018-04-12
+108,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.17,,Inherent filtration measured in lab U104 - 2018-04-12
+108,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.72,,Inherent filtration measured in lab U104 - 2018-04-12
+109,4.4,0,0,795,Allura Clarity,Plane A,11,5.076,,Inherent filtration measured in lab U104 - 2018-04-12
+109,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.03,,Inherent filtration measured in lab U104 - 2018-04-12
+109,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.22,,Inherent filtration measured in lab U104 - 2018-04-12
+109,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.76,,Inherent filtration measured in lab U104 - 2018-04-12
+110,4.4,0,0,795,Allura Clarity,Plane A,11,5.12,0.709,Inherent filtration measured in lab U104 - 2018-04-12
+110,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.08,0.814,Inherent filtration measured in lab U104 - 2018-04-12
+110,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.27,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+110,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.8,0.951,Inherent filtration measured in lab U104 - 2018-04-12
+111,4.4,0,0,795,Allura Clarity,Plane A,11,5.168,,Inherent filtration measured in lab U104 - 2018-04-12
+111,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.132,,Inherent filtration measured in lab U104 - 2018-04-12
+111,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.324,,Inherent filtration measured in lab U104 - 2018-04-12
+111,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.86,,Inherent filtration measured in lab U104 - 2018-04-12
+112,4.4,0,0,795,Allura Clarity,Plane A,11,5.216,,Inherent filtration measured in lab U104 - 2018-04-12
+112,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.184,,Inherent filtration measured in lab U104 - 2018-04-12
+112,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.378,,Inherent filtration measured in lab U104 - 2018-04-12
+112,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.92,,Inherent filtration measured in lab U104 - 2018-04-12
+113,4.4,0,0,795,Allura Clarity,Plane A,11,5.264,,Inherent filtration measured in lab U104 - 2018-04-12
+113,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.236,,Inherent filtration measured in lab U104 - 2018-04-12
+113,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.432,,Inherent filtration measured in lab U104 - 2018-04-12
+113,4.4,0.9,1,795,Allura Clarity,Plane A,11,10.98,,Inherent filtration measured in lab U104 - 2018-04-12
+114,4.4,0,0,795,Allura Clarity,Plane A,11,5.312,,Inherent filtration measured in lab U104 - 2018-04-12
+114,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.288,,Inherent filtration measured in lab U104 - 2018-04-12
+114,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.486,,Inherent filtration measured in lab U104 - 2018-04-12
+114,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.04,,Inherent filtration measured in lab U104 - 2018-04-12
+115,4.4,0,0,795,Allura Clarity,Plane A,11,5.36,0.709,Inherent filtration measured in lab U104 - 2018-04-12
+115,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.34,0.815,Inherent filtration measured in lab U104 - 2018-04-12
+115,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.54,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+115,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.1,0.951,Inherent filtration measured in lab U104 - 2018-04-12
+116,4.4,0,0,795,Allura Clarity,Plane A,11,5.402,,Inherent filtration measured in lab U104 - 2018-04-12
+116,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.386,,Inherent filtration measured in lab U104 - 2018-04-12
+116,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.584,,Inherent filtration measured in lab U104 - 2018-04-12
+116,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.14,,Inherent filtration measured in lab U104 - 2018-04-12
+117,4.4,0,0,795,Allura Clarity,Plane A,11,5.444,,Inherent filtration measured in lab U104 - 2018-04-12
+117,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.432,,Inherent filtration measured in lab U104 - 2018-04-12
+117,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.628,,Inherent filtration measured in lab U104 - 2018-04-12
+117,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.18,,Inherent filtration measured in lab U104 - 2018-04-12
+118,4.4,0,0,795,Allura Clarity,Plane A,11,5.486,,Inherent filtration measured in lab U104 - 2018-04-12
+118,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.478,,Inherent filtration measured in lab U104 - 2018-04-12
+118,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.672,,Inherent filtration measured in lab U104 - 2018-04-12
+118,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.22,,Inherent filtration measured in lab U104 - 2018-04-12
+119,4.4,0,0,795,Allura Clarity,Plane A,11,5.528,,Inherent filtration measured in lab U104 - 2018-04-12
+119,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.524,,Inherent filtration measured in lab U104 - 2018-04-12
+119,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.716,,Inherent filtration measured in lab U104 - 2018-04-12
+119,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.26,,Inherent filtration measured in lab U104 - 2018-04-12
+120,4.4,0,0,795,Allura Clarity,Plane A,11,5.57,0.71,Inherent filtration measured in lab U104 - 2018-04-12
+120,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.57,0.816,Inherent filtration measured in lab U104 - 2018-04-12
+120,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.76,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+120,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.3,0.949,Inherent filtration measured in lab U104 - 2018-04-12
+121,4.4,0,0,795,Allura Clarity,Plane A,11,5.616,,Inherent filtration measured in lab U104 - 2018-04-12
+121,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.618,,Inherent filtration measured in lab U104 - 2018-04-12
+121,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.808,,Inherent filtration measured in lab U104 - 2018-04-12
+121,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.36,,Inherent filtration measured in lab U104 - 2018-04-12
+122,4.4,0,0,795,Allura Clarity,Plane A,11,5.662,,Inherent filtration measured in lab U104 - 2018-04-12
+122,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.666,,Inherent filtration measured in lab U104 - 2018-04-12
+122,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.856,,Inherent filtration measured in lab U104 - 2018-04-12
+122,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.42,,Inherent filtration measured in lab U104 - 2018-04-12
+123,4.4,0,0,795,Allura Clarity,Plane A,11,5.708,,Inherent filtration measured in lab U104 - 2018-04-12
+123,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.714,,Inherent filtration measured in lab U104 - 2018-04-12
+123,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.904,,Inherent filtration measured in lab U104 - 2018-04-12
+123,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.48,,Inherent filtration measured in lab U104 - 2018-04-12
+124,4.4,0,0,795,Allura Clarity,Plane A,11,5.754,,Inherent filtration measured in lab U104 - 2018-04-12
+124,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.762,,Inherent filtration measured in lab U104 - 2018-04-12
+124,4.4,0.4,1,795,Allura Clarity,Plane A,11,9.952,,Inherent filtration measured in lab U104 - 2018-04-12
+124,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.54,,Inherent filtration measured in lab U104 - 2018-04-12
+125,4.4,0,0,795,Allura Clarity,Plane A,11,5.8,0.711,Inherent filtration measured in lab U104 - 2018-04-12
+125,4.4,0.1,1,795,Allura Clarity,Plane A,11,7.81,0.818,Inherent filtration measured in lab U104 - 2018-04-12
+125,4.4,0.4,1,795,Allura Clarity,Plane A,11,10,0.908,Inherent filtration measured in lab U104 - 2018-04-12
+125,4.4,0.9,1,795,Allura Clarity,Plane A,11,11.6,0.949,Inherent filtration measured in lab U104 - 2018-04-12
+50,3.1,0,0,750,Allura Clarity,Plane B,11,1.97,0.775,Inherent filtration measured in lab U104 - 2018-04-12
+50,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.07,0.866,Inherent filtration measured in lab U104 - 2018-04-12
+50,3.1,0.4,1,750,Allura Clarity,Plane B,11,4.31,0.939,Inherent filtration measured in lab U104 - 2018-04-12
+50,3.1,0.9,1,750,Allura Clarity,Plane B,11,5.18,0.973,Inherent filtration measured in lab U104 - 2018-04-12
+51,3.1,0,0,750,Allura Clarity,Plane B,11,2.008,,Inherent filtration measured in lab U104 - 2018-04-12
+51,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.14,,Inherent filtration measured in lab U104 - 2018-04-12
+51,3.1,0.4,1,750,Allura Clarity,Plane B,11,4.42,,Inherent filtration measured in lab U104 - 2018-04-12
+51,3.1,0.9,1,750,Allura Clarity,Plane B,11,5.322,,Inherent filtration measured in lab U104 - 2018-04-12
+52,3.1,0,0,750,Allura Clarity,Plane B,11,2.046,,Inherent filtration measured in lab U104 - 2018-04-12
+52,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.21,,Inherent filtration measured in lab U104 - 2018-04-12
+52,3.1,0.4,1,750,Allura Clarity,Plane B,11,4.53,,Inherent filtration measured in lab U104 - 2018-04-12
+52,3.1,0.9,1,750,Allura Clarity,Plane B,11,5.464,,Inherent filtration measured in lab U104 - 2018-04-12
+53,3.1,0,0,750,Allura Clarity,Plane B,11,2.084,,Inherent filtration measured in lab U104 - 2018-04-12
+53,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.28,,Inherent filtration measured in lab U104 - 2018-04-12
+53,3.1,0.4,1,750,Allura Clarity,Plane B,11,4.64,,Inherent filtration measured in lab U104 - 2018-04-12
+53,3.1,0.9,1,750,Allura Clarity,Plane B,11,5.606,,Inherent filtration measured in lab U104 - 2018-04-12
+54,3.1,0,0,750,Allura Clarity,Plane B,11,2.122,,Inherent filtration measured in lab U104 - 2018-04-12
+54,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.35,,Inherent filtration measured in lab U104 - 2018-04-12
+54,3.1,0.4,1,750,Allura Clarity,Plane B,11,4.75,,Inherent filtration measured in lab U104 - 2018-04-12
+54,3.1,0.9,1,750,Allura Clarity,Plane B,11,5.748,,Inherent filtration measured in lab U104 - 2018-04-12
+55,3.1,0,0,750,Allura Clarity,Plane B,11,2.16,0.757,Inherent filtration measured in lab U104 - 2018-04-12
+55,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.42,0.851,Inherent filtration measured in lab U104 - 2018-04-12
+55,3.1,0.4,1,750,Allura Clarity,Plane B,11,4.86,0.929,Inherent filtration measured in lab U104 - 2018-04-12
+55,3.1,0.9,1,750,Allura Clarity,Plane B,11,5.89,0.968,Inherent filtration measured in lab U104 - 2018-04-12
+56,3.1,0,0,750,Allura Clarity,Plane B,11,2.198,,Inherent filtration measured in lab U104 - 2018-04-12
+56,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.484,,Inherent filtration measured in lab U104 - 2018-04-12
+56,3.1,0.4,1,750,Allura Clarity,Plane B,11,4.96,,Inherent filtration measured in lab U104 - 2018-04-12
+56,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.022,,Inherent filtration measured in lab U104 - 2018-04-12
+57,3.1,0,0,750,Allura Clarity,Plane B,11,2.236,,Inherent filtration measured in lab U104 - 2018-04-12
+57,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.548,,Inherent filtration measured in lab U104 - 2018-04-12
+57,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.06,,Inherent filtration measured in lab U104 - 2018-04-12
+57,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.154,,Inherent filtration measured in lab U104 - 2018-04-12
+58,3.1,0,0,750,Allura Clarity,Plane B,11,2.274,,Inherent filtration measured in lab U104 - 2018-04-12
+58,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.612,,Inherent filtration measured in lab U104 - 2018-04-12
+58,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.16,,Inherent filtration measured in lab U104 - 2018-04-12
+58,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.286,,Inherent filtration measured in lab U104 - 2018-04-12
+59,3.1,0,0,750,Allura Clarity,Plane B,11,2.312,,Inherent filtration measured in lab U104 - 2018-04-12
+59,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.676,,Inherent filtration measured in lab U104 - 2018-04-12
+59,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.26,,Inherent filtration measured in lab U104 - 2018-04-12
+59,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.418,,Inherent filtration measured in lab U104 - 2018-04-12
+60,3.1,0,0,750,Allura Clarity,Plane B,11,2.35,0.74,Inherent filtration measured in lab U104 - 2018-04-12
+60,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.74,0.838,Inherent filtration measured in lab U104 - 2018-04-12
+60,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.36,0.922,Inherent filtration measured in lab U104 - 2018-04-12
+60,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.55,0.963,Inherent filtration measured in lab U104 - 2018-04-12
+61,3.1,0,0,750,Allura Clarity,Plane B,11,2.384,,Inherent filtration measured in lab U104 - 2018-04-12
+61,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.8,,Inherent filtration measured in lab U104 - 2018-04-12
+61,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.456,,Inherent filtration measured in lab U104 - 2018-04-12
+61,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.672,,Inherent filtration measured in lab U104 - 2018-04-12
+62,3.1,0,0,750,Allura Clarity,Plane B,11,2.418,,Inherent filtration measured in lab U104 - 2018-04-12
+62,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.86,,Inherent filtration measured in lab U104 - 2018-04-12
+62,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.552,,Inherent filtration measured in lab U104 - 2018-04-12
+62,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.794,,Inherent filtration measured in lab U104 - 2018-04-12
+63,3.1,0,0,750,Allura Clarity,Plane B,11,2.452,,Inherent filtration measured in lab U104 - 2018-04-12
+63,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.92,,Inherent filtration measured in lab U104 - 2018-04-12
+63,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.648,,Inherent filtration measured in lab U104 - 2018-04-12
+63,3.1,0.9,1,750,Allura Clarity,Plane B,11,6.916,,Inherent filtration measured in lab U104 - 2018-04-12
+64,3.1,0,0,750,Allura Clarity,Plane B,11,2.486,,Inherent filtration measured in lab U104 - 2018-04-12
+64,3.1,0.1,1,750,Allura Clarity,Plane B,11,3.98,,Inherent filtration measured in lab U104 - 2018-04-12
+64,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.744,,Inherent filtration measured in lab U104 - 2018-04-12
+64,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.038,,Inherent filtration measured in lab U104 - 2018-04-12
+65,3.1,0,0,750,Allura Clarity,Plane B,11,2.52,0.726,Inherent filtration measured in lab U104 - 2018-04-12
+65,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.04,0.827,Inherent filtration measured in lab U104 - 2018-04-12
+65,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.84,0.915,Inherent filtration measured in lab U104 - 2018-04-12
+65,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.16,0.96,Inherent filtration measured in lab U104 - 2018-04-12
+66,3.1,0,0,750,Allura Clarity,Plane B,11,2.556,,Inherent filtration measured in lab U104 - 2018-04-12
+66,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.1,,Inherent filtration measured in lab U104 - 2018-04-12
+66,3.1,0.4,1,750,Allura Clarity,Plane B,11,5.93,,Inherent filtration measured in lab U104 - 2018-04-12
+66,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.272,,Inherent filtration measured in lab U104 - 2018-04-12
+67,3.1,0,0,750,Allura Clarity,Plane B,11,2.592,,Inherent filtration measured in lab U104 - 2018-04-12
+67,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.16,,Inherent filtration measured in lab U104 - 2018-04-12
+67,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.02,,Inherent filtration measured in lab U104 - 2018-04-12
+67,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.384,,Inherent filtration measured in lab U104 - 2018-04-12
+68,3.1,0,0,750,Allura Clarity,Plane B,11,2.628,,Inherent filtration measured in lab U104 - 2018-04-12
+68,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.22,,Inherent filtration measured in lab U104 - 2018-04-12
+68,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.11,,Inherent filtration measured in lab U104 - 2018-04-12
+68,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.496,,Inherent filtration measured in lab U104 - 2018-04-12
+69,3.1,0,0,750,Allura Clarity,Plane B,11,2.664,,Inherent filtration measured in lab U104 - 2018-04-12
+69,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.28,,Inherent filtration measured in lab U104 - 2018-04-12
+69,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.2,,Inherent filtration measured in lab U104 - 2018-04-12
+69,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.608,,Inherent filtration measured in lab U104 - 2018-04-12
+70,3.1,0,0,750,Allura Clarity,Plane B,11,2.7,0.714,Inherent filtration measured in lab U104 - 2018-04-12
+70,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.34,0.817,Inherent filtration measured in lab U104 - 2018-04-12
+70,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.29,0.909,Inherent filtration measured in lab U104 - 2018-04-12
+70,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.72,0.957,Inherent filtration measured in lab U104 - 2018-04-12
+71,3.1,0,0,750,Allura Clarity,Plane B,11,2.736,,Inherent filtration measured in lab U104 - 2018-04-12
+71,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.402,,Inherent filtration measured in lab U104 - 2018-04-12
+71,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.38,,Inherent filtration measured in lab U104 - 2018-04-12
+71,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.83,,Inherent filtration measured in lab U104 - 2018-04-12
+72,3.1,0,0,750,Allura Clarity,Plane B,11,2.772,,Inherent filtration measured in lab U104 - 2018-04-12
+72,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.464,,Inherent filtration measured in lab U104 - 2018-04-12
+72,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.47,,Inherent filtration measured in lab U104 - 2018-04-12
+72,3.1,0.9,1,750,Allura Clarity,Plane B,11,7.94,,Inherent filtration measured in lab U104 - 2018-04-12
+73,3.1,0,0,750,Allura Clarity,Plane B,11,2.808,,Inherent filtration measured in lab U104 - 2018-04-12
+73,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.526,,Inherent filtration measured in lab U104 - 2018-04-12
+73,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.56,,Inherent filtration measured in lab U104 - 2018-04-12
+73,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.05,,Inherent filtration measured in lab U104 - 2018-04-12
+74,3.1,0,0,750,Allura Clarity,Plane B,11,2.844,,Inherent filtration measured in lab U104 - 2018-04-12
+74,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.588,,Inherent filtration measured in lab U104 - 2018-04-12
+74,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.65,,Inherent filtration measured in lab U104 - 2018-04-12
+74,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.16,,Inherent filtration measured in lab U104 - 2018-04-12
+75,3.1,0,0,750,Allura Clarity,Plane B,11,2.88,0.701,Inherent filtration measured in lab U104 - 2018-04-12
+75,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.65,0.808,Inherent filtration measured in lab U104 - 2018-04-12
+75,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.74,0.905,Inherent filtration measured in lab U104 - 2018-04-12
+75,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.27,0.955,Inherent filtration measured in lab U104 - 2018-04-12
+76,3.1,0,0,750,Allura Clarity,Plane B,11,2.918,,Inherent filtration measured in lab U104 - 2018-04-12
+76,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.712,,Inherent filtration measured in lab U104 - 2018-04-12
+76,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.826,,Inherent filtration measured in lab U104 - 2018-04-12
+76,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.364,,Inherent filtration measured in lab U104 - 2018-04-12
+77,3.1,0,0,750,Allura Clarity,Plane B,11,2.956,,Inherent filtration measured in lab U104 - 2018-04-12
+77,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.774,,Inherent filtration measured in lab U104 - 2018-04-12
+77,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.912,,Inherent filtration measured in lab U104 - 2018-04-12
+77,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.458,,Inherent filtration measured in lab U104 - 2018-04-12
+78,3.1,0,0,750,Allura Clarity,Plane B,11,2.994,,Inherent filtration measured in lab U104 - 2018-04-12
+78,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.836,,Inherent filtration measured in lab U104 - 2018-04-12
+78,3.1,0.4,1,750,Allura Clarity,Plane B,11,6.998,,Inherent filtration measured in lab U104 - 2018-04-12
+78,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.552,,Inherent filtration measured in lab U104 - 2018-04-12
+79,3.1,0,0,750,Allura Clarity,Plane B,11,3.032,,Inherent filtration measured in lab U104 - 2018-04-12
+79,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.898,,Inherent filtration measured in lab U104 - 2018-04-12
+79,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.084,,Inherent filtration measured in lab U104 - 2018-04-12
+79,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.646,,Inherent filtration measured in lab U104 - 2018-04-12
+80,3.1,0,0,750,Allura Clarity,Plane B,11,3.07,0.69,Inherent filtration measured in lab U104 - 2018-04-12
+80,3.1,0.1,1,750,Allura Clarity,Plane B,11,4.96,0.801,Inherent filtration measured in lab U104 - 2018-04-12
+80,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.17,0.903,Inherent filtration measured in lab U104 - 2018-04-12
+80,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.74,0.954,Inherent filtration measured in lab U104 - 2018-04-12
+81,3.1,0,0,750,Allura Clarity,Plane B,11,3.11,,Inherent filtration measured in lab U104 - 2018-04-12
+81,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.022,,Inherent filtration measured in lab U104 - 2018-04-12
+81,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.248,,Inherent filtration measured in lab U104 - 2018-04-12
+81,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.826,,Inherent filtration measured in lab U104 - 2018-04-12
+82,3.1,0,0,750,Allura Clarity,Plane B,11,3.15,,Inherent filtration measured in lab U104 - 2018-04-12
+82,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.084,,Inherent filtration measured in lab U104 - 2018-04-12
+82,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.326,,Inherent filtration measured in lab U104 - 2018-04-12
+82,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.912,,Inherent filtration measured in lab U104 - 2018-04-12
+83,3.1,0,0,750,Allura Clarity,Plane B,11,3.19,,Inherent filtration measured in lab U104 - 2018-04-12
+83,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.146,,Inherent filtration measured in lab U104 - 2018-04-12
+83,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.404,,Inherent filtration measured in lab U104 - 2018-04-12
+83,3.1,0.9,1,750,Allura Clarity,Plane B,11,8.998,,Inherent filtration measured in lab U104 - 2018-04-12
+84,3.1,0,0,750,Allura Clarity,Plane B,11,3.23,,Inherent filtration measured in lab U104 - 2018-04-12
+84,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.208,,Inherent filtration measured in lab U104 - 2018-04-12
+84,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.482,,Inherent filtration measured in lab U104 - 2018-04-12
+84,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.084,,Inherent filtration measured in lab U104 - 2018-04-12
+85,3.1,0,0,750,Allura Clarity,Plane B,11,3.27,0.68,Inherent filtration measured in lab U104 - 2018-04-12
+85,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.27,0.796,Inherent filtration measured in lab U104 - 2018-04-12
+85,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.56,0.901,Inherent filtration measured in lab U104 - 2018-04-12
+85,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.17,0.954,Inherent filtration measured in lab U104 - 2018-04-12
+86,3.1,0,0,750,Allura Clarity,Plane B,11,3.31,,Inherent filtration measured in lab U104 - 2018-04-12
+86,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.328,,Inherent filtration measured in lab U104 - 2018-04-12
+86,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.63,,Inherent filtration measured in lab U104 - 2018-04-12
+86,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.242,,Inherent filtration measured in lab U104 - 2018-04-12
+87,3.1,0,0,750,Allura Clarity,Plane B,11,3.35,,Inherent filtration measured in lab U104 - 2018-04-12
+87,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.386,,Inherent filtration measured in lab U104 - 2018-04-12
+87,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.7,,Inherent filtration measured in lab U104 - 2018-04-12
+87,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.314,,Inherent filtration measured in lab U104 - 2018-04-12
+88,3.1,0,0,750,Allura Clarity,Plane B,11,3.39,,Inherent filtration measured in lab U104 - 2018-04-12
+88,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.444,,Inherent filtration measured in lab U104 - 2018-04-12
+88,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.77,,Inherent filtration measured in lab U104 - 2018-04-12
+88,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.386,,Inherent filtration measured in lab U104 - 2018-04-12
+89,3.1,0,0,750,Allura Clarity,Plane B,11,3.43,,Inherent filtration measured in lab U104 - 2018-04-12
+89,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.502,,Inherent filtration measured in lab U104 - 2018-04-12
+89,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.84,,Inherent filtration measured in lab U104 - 2018-04-12
+89,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.458,,Inherent filtration measured in lab U104 - 2018-04-12
+90,3.1,0,0,750,Allura Clarity,Plane B,11,3.47,0.673,Inherent filtration measured in lab U104 - 2018-04-12
+90,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.56,0.793,Inherent filtration measured in lab U104 - 2018-04-12
+90,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.91,0.901,Inherent filtration measured in lab U104 - 2018-04-12
+90,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.53,0.953,Inherent filtration measured in lab U104 - 2018-04-12
+91,3.1,0,0,750,Allura Clarity,Plane B,11,3.51,,Inherent filtration measured in lab U104 - 2018-04-12
+91,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.618,,Inherent filtration measured in lab U104 - 2018-04-12
+91,3.1,0.4,1,750,Allura Clarity,Plane B,11,7.978,,Inherent filtration measured in lab U104 - 2018-04-12
+91,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.602,,Inherent filtration measured in lab U104 - 2018-04-12
+92,3.1,0,0,750,Allura Clarity,Plane B,11,3.55,,Inherent filtration measured in lab U104 - 2018-04-12
+92,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.676,,Inherent filtration measured in lab U104 - 2018-04-12
+92,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.046,,Inherent filtration measured in lab U104 - 2018-04-12
+92,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.674,,Inherent filtration measured in lab U104 - 2018-04-12
+93,3.1,0,0,750,Allura Clarity,Plane B,11,3.59,,Inherent filtration measured in lab U104 - 2018-04-12
+93,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.734,,Inherent filtration measured in lab U104 - 2018-04-12
+93,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.114,,Inherent filtration measured in lab U104 - 2018-04-12
+93,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.746,,Inherent filtration measured in lab U104 - 2018-04-12
+94,3.1,0,0,750,Allura Clarity,Plane B,11,3.63,,Inherent filtration measured in lab U104 - 2018-04-12
+94,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.792,,Inherent filtration measured in lab U104 - 2018-04-12
+94,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.182,,Inherent filtration measured in lab U104 - 2018-04-12
+94,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.818,,Inherent filtration measured in lab U104 - 2018-04-12
+95,3.1,0,0,750,Allura Clarity,Plane B,11,3.67,0.667,Inherent filtration measured in lab U104 - 2018-04-12
+95,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.85,0.791,Inherent filtration measured in lab U104 - 2018-04-12
+95,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.25,0.901,Inherent filtration measured in lab U104 - 2018-04-12
+95,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.89,0.952,Inherent filtration measured in lab U104 - 2018-04-12
+96,3.1,0,0,750,Allura Clarity,Plane B,11,3.71,,Inherent filtration measured in lab U104 - 2018-04-12
+96,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.904,,Inherent filtration measured in lab U104 - 2018-04-12
+96,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.31,,Inherent filtration measured in lab U104 - 2018-04-12
+96,3.1,0.9,1,750,Allura Clarity,Plane B,11,9.952,,Inherent filtration measured in lab U104 - 2018-04-12
+97,3.1,0,0,750,Allura Clarity,Plane B,11,3.75,,Inherent filtration measured in lab U104 - 2018-04-12
+97,3.1,0.1,1,750,Allura Clarity,Plane B,11,5.958,,Inherent filtration measured in lab U104 - 2018-04-12
+97,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.37,,Inherent filtration measured in lab U104 - 2018-04-12
+97,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.014,,Inherent filtration measured in lab U104 - 2018-04-12
+98,3.1,0,0,750,Allura Clarity,Plane B,11,3.79,,Inherent filtration measured in lab U104 - 2018-04-12
+98,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.012,,Inherent filtration measured in lab U104 - 2018-04-12
+98,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.43,,Inherent filtration measured in lab U104 - 2018-04-12
+98,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.076,,Inherent filtration measured in lab U104 - 2018-04-12
+99,3.1,0,0,750,Allura Clarity,Plane B,11,3.83,,Inherent filtration measured in lab U104 - 2018-04-12
+99,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.066,,Inherent filtration measured in lab U104 - 2018-04-12
+99,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.49,,Inherent filtration measured in lab U104 - 2018-04-12
+99,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.138,,Inherent filtration measured in lab U104 - 2018-04-12
+100,3.1,0,0,750,Allura Clarity,Plane B,11,3.87,0.663,Inherent filtration measured in lab U104 - 2018-04-12
+100,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.12,0.791,Inherent filtration measured in lab U104 - 2018-04-12
+100,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.55,0.901,Inherent filtration measured in lab U104 - 2018-04-12
+100,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.2,0.952,Inherent filtration measured in lab U104 - 2018-04-12
+101,3.1,0,0,750,Allura Clarity,Plane B,11,3.912,,Inherent filtration measured in lab U104 - 2018-04-12
+101,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.174,,Inherent filtration measured in lab U104 - 2018-04-12
+101,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.608,,Inherent filtration measured in lab U104 - 2018-04-12
+101,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.26,,Inherent filtration measured in lab U104 - 2018-04-12
+102,3.1,0,0,750,Allura Clarity,Plane B,11,3.954,,Inherent filtration measured in lab U104 - 2018-04-12
+102,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.228,,Inherent filtration measured in lab U104 - 2018-04-12
+102,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.666,,Inherent filtration measured in lab U104 - 2018-04-12
+102,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.32,,Inherent filtration measured in lab U104 - 2018-04-12
+103,3.1,0,0,750,Allura Clarity,Plane B,11,3.996,,Inherent filtration measured in lab U104 - 2018-04-12
+103,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.282,,Inherent filtration measured in lab U104 - 2018-04-12
+103,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.724,,Inherent filtration measured in lab U104 - 2018-04-12
+103,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.38,,Inherent filtration measured in lab U104 - 2018-04-12
+104,3.1,0,0,750,Allura Clarity,Plane B,11,4.038,,Inherent filtration measured in lab U104 - 2018-04-12
+104,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.336,,Inherent filtration measured in lab U104 - 2018-04-12
+104,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.782,,Inherent filtration measured in lab U104 - 2018-04-12
+104,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.44,,Inherent filtration measured in lab U104 - 2018-04-12
+105,3.1,0,0,750,Allura Clarity,Plane B,11,4.08,0.659,Inherent filtration measured in lab U104 - 2018-04-12
+105,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.39,0.791,Inherent filtration measured in lab U104 - 2018-04-12
+105,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.84,0.901,Inherent filtration measured in lab U104 - 2018-04-12
+105,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.5,0.951,Inherent filtration measured in lab U104 - 2018-04-12
+106,3.1,0,0,750,Allura Clarity,Plane B,11,4.12,,Inherent filtration measured in lab U104 - 2018-04-12
+106,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.438,,Inherent filtration measured in lab U104 - 2018-04-12
+106,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.892,,Inherent filtration measured in lab U104 - 2018-04-12
+106,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.56,,Inherent filtration measured in lab U104 - 2018-04-12
+107,3.1,0,0,750,Allura Clarity,Plane B,11,4.16,,Inherent filtration measured in lab U104 - 2018-04-12
+107,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.486,,Inherent filtration measured in lab U104 - 2018-04-12
+107,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.944,,Inherent filtration measured in lab U104 - 2018-04-12
+107,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.62,,Inherent filtration measured in lab U104 - 2018-04-12
+108,3.1,0,0,750,Allura Clarity,Plane B,11,4.2,,Inherent filtration measured in lab U104 - 2018-04-12
+108,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.534,,Inherent filtration measured in lab U104 - 2018-04-12
+108,3.1,0.4,1,750,Allura Clarity,Plane B,11,8.996,,Inherent filtration measured in lab U104 - 2018-04-12
+108,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.68,,Inherent filtration measured in lab U104 - 2018-04-12
+109,3.1,0,0,750,Allura Clarity,Plane B,11,4.24,,Inherent filtration measured in lab U104 - 2018-04-12
+109,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.582,,Inherent filtration measured in lab U104 - 2018-04-12
+109,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.048,,Inherent filtration measured in lab U104 - 2018-04-12
+109,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.74,,Inherent filtration measured in lab U104 - 2018-04-12
+110,3.1,0,0,750,Allura Clarity,Plane B,11,4.28,0.658,Inherent filtration measured in lab U104 - 2018-04-12
+110,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.63,0.792,Inherent filtration measured in lab U104 - 2018-04-12
+110,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.1,0.901,Inherent filtration measured in lab U104 - 2018-04-12
+110,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.8,0.95,Inherent filtration measured in lab U104 - 2018-04-12
+111,3.1,0,0,750,Allura Clarity,Plane B,11,4.322,,Inherent filtration measured in lab U104 - 2018-04-12
+111,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.682,,Inherent filtration measured in lab U104 - 2018-04-12
+111,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.152,,Inherent filtration measured in lab U104 - 2018-04-12
+111,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.84,,Inherent filtration measured in lab U104 - 2018-04-12
+112,3.1,0,0,750,Allura Clarity,Plane B,11,4.364,,Inherent filtration measured in lab U104 - 2018-04-12
+112,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.734,,Inherent filtration measured in lab U104 - 2018-04-12
+112,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.204,,Inherent filtration measured in lab U104 - 2018-04-12
+112,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.88,,Inherent filtration measured in lab U104 - 2018-04-12
+113,3.1,0,0,750,Allura Clarity,Plane B,11,4.406,,Inherent filtration measured in lab U104 - 2018-04-12
+113,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.786,,Inherent filtration measured in lab U104 - 2018-04-12
+113,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.256,,Inherent filtration measured in lab U104 - 2018-04-12
+113,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.92,,Inherent filtration measured in lab U104 - 2018-04-12
+114,3.1,0,0,750,Allura Clarity,Plane B,11,4.448,,Inherent filtration measured in lab U104 - 2018-04-12
+114,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.838,,Inherent filtration measured in lab U104 - 2018-04-12
+114,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.308,,Inherent filtration measured in lab U104 - 2018-04-12
+114,3.1,0.9,1,750,Allura Clarity,Plane B,11,10.96,,Inherent filtration measured in lab U104 - 2018-04-12
+115,3.1,0,0,750,Allura Clarity,Plane B,11,4.49,0.656,Inherent filtration measured in lab U104 - 2018-04-12
+115,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.89,0.792,Inherent filtration measured in lab U104 - 2018-04-12
+115,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.36,0.902,Inherent filtration measured in lab U104 - 2018-04-12
+115,3.1,0.9,1,750,Allura Clarity,Plane B,11,11,0.949,Inherent filtration measured in lab U104 - 2018-04-12
+116,3.1,0,0,750,Allura Clarity,Plane B,11,4.53,,Inherent filtration measured in lab U104 - 2018-04-12
+116,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.936,,Inherent filtration measured in lab U104 - 2018-04-12
+116,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.404,,Inherent filtration measured in lab U104 - 2018-04-12
+116,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.06,,Inherent filtration measured in lab U104 - 2018-04-12
+117,3.1,0,0,750,Allura Clarity,Plane B,11,4.57,,Inherent filtration measured in lab U104 - 2018-04-12
+117,3.1,0.1,1,750,Allura Clarity,Plane B,11,6.982,,Inherent filtration measured in lab U104 - 2018-04-12
+117,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.448,,Inherent filtration measured in lab U104 - 2018-04-12
+117,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.12,,Inherent filtration measured in lab U104 - 2018-04-12
+118,3.1,0,0,750,Allura Clarity,Plane B,11,4.61,,Inherent filtration measured in lab U104 - 2018-04-12
+118,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.028,,Inherent filtration measured in lab U104 - 2018-04-12
+118,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.492,,Inherent filtration measured in lab U104 - 2018-04-12
+118,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.18,,Inherent filtration measured in lab U104 - 2018-04-12
+119,3.1,0,0,750,Allura Clarity,Plane B,11,4.65,,Inherent filtration measured in lab U104 - 2018-04-12
+119,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.074,,Inherent filtration measured in lab U104 - 2018-04-12
+119,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.536,,Inherent filtration measured in lab U104 - 2018-04-12
+119,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.24,,Inherent filtration measured in lab U104 - 2018-04-12
+120,3.1,0,0,750,Allura Clarity,Plane B,11,4.69,0.657,Inherent filtration measured in lab U104 - 2018-04-12
+120,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.12,0.794,Inherent filtration measured in lab U104 - 2018-04-12
+120,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.58,0.902,Inherent filtration measured in lab U104 - 2018-04-12
+120,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.3,0.948,Inherent filtration measured in lab U104 - 2018-04-12
+121,3.1,0,0,750,Allura Clarity,Plane B,11,4.732,,Inherent filtration measured in lab U104 - 2018-04-12
+121,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.168,,Inherent filtration measured in lab U104 - 2018-04-12
+121,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.63,,Inherent filtration measured in lab U104 - 2018-04-12
+121,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.34,,Inherent filtration measured in lab U104 - 2018-04-12
+122,3.1,0,0,750,Allura Clarity,Plane B,11,4.774,,Inherent filtration measured in lab U104 - 2018-04-12
+122,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.216,,Inherent filtration measured in lab U104 - 2018-04-12
+122,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.68,,Inherent filtration measured in lab U104 - 2018-04-12
+122,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.38,,Inherent filtration measured in lab U104 - 2018-04-12
+123,3.1,0,0,750,Allura Clarity,Plane B,11,4.816,,Inherent filtration measured in lab U104 - 2018-04-12
+123,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.264,,Inherent filtration measured in lab U104 - 2018-04-12
+123,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.73,,Inherent filtration measured in lab U104 - 2018-04-12
+123,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.42,,Inherent filtration measured in lab U104 - 2018-04-12
+124,3.1,0,0,750,Allura Clarity,Plane B,11,4.858,,Inherent filtration measured in lab U104 - 2018-04-12
+124,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.312,,Inherent filtration measured in lab U104 - 2018-04-12
+124,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.78,,Inherent filtration measured in lab U104 - 2018-04-12
+124,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.46,,Inherent filtration measured in lab U104 - 2018-04-12
+125,3.1,0,0,750,Allura Clarity,Plane B,11,4.9,0.657,Inherent filtration measured in lab U104 - 2018-04-12
+125,3.1,0.1,1,750,Allura Clarity,Plane B,11,7.36,0.795,Inherent filtration measured in lab U104 - 2018-04-12
+125,3.1,0.4,1,750,Allura Clarity,Plane B,11,9.83,0.902,Inherent filtration measured in lab U104 - 2018-04-12
+125,3.1,0.9,1,750,Allura Clarity,Plane B,11,11.5,0.947,Inherent filtration measured in lab U104 - 2018-04-12
+50,3.6,0,0,615,Allura Clarity,Single Plane,11,2.13,0.791,Inherent filtration measured in lab 601 - 2018-04-12-18
+50,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.16,0.872,Inherent filtration measured in lab 601 - 2018-04-12-18
+50,3.6,0.4,1,615,Allura Clarity,Single Plane,11,4.34,0.94,Inherent filtration measured in lab 601 - 2018-04-12-18
+50,3.6,0.9,1,615,Allura Clarity,Single Plane,11,5.19,0.973,Inherent filtration measured in lab 601 - 2018-04-12-18
+51,3.6,0,0,615,Allura Clarity,Single Plane,11,2.172,,Inherent filtration measured in lab 601 - 2018-04-12-18
+51,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.23,,Inherent filtration measured in lab 601 - 2018-04-12-18
+51,3.6,0.4,1,615,Allura Clarity,Single Plane,11,4.452,,Inherent filtration measured in lab 601 - 2018-04-12-18
+51,3.6,0.9,1,615,Allura Clarity,Single Plane,11,5.334,,Inherent filtration measured in lab 601 - 2018-04-12-18
+52,3.6,0,0,615,Allura Clarity,Single Plane,11,2.214,,Inherent filtration measured in lab 601 - 2018-04-12-18
+52,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.3,,Inherent filtration measured in lab 601 - 2018-04-12-18
+52,3.6,0.4,1,615,Allura Clarity,Single Plane,11,4.564,,Inherent filtration measured in lab 601 - 2018-04-12-18
+52,3.6,0.9,1,615,Allura Clarity,Single Plane,11,5.478,,Inherent filtration measured in lab 601 - 2018-04-12-18
+53,3.6,0,0,615,Allura Clarity,Single Plane,11,2.256,,Inherent filtration measured in lab 601 - 2018-04-12-18
+53,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.37,,Inherent filtration measured in lab 601 - 2018-04-12-18
+53,3.6,0.4,1,615,Allura Clarity,Single Plane,11,4.676,,Inherent filtration measured in lab 601 - 2018-04-12-18
+53,3.6,0.9,1,615,Allura Clarity,Single Plane,11,5.622,,Inherent filtration measured in lab 601 - 2018-04-12-18
+54,3.6,0,0,615,Allura Clarity,Single Plane,11,2.298,,Inherent filtration measured in lab 601 - 2018-04-12-18
+54,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.44,,Inherent filtration measured in lab 601 - 2018-04-12-18
+54,3.6,0.4,1,615,Allura Clarity,Single Plane,11,4.788,,Inherent filtration measured in lab 601 - 2018-04-12-18
+54,3.6,0.9,1,615,Allura Clarity,Single Plane,11,5.766,,Inherent filtration measured in lab 601 - 2018-04-12-18
+55,3.6,0,0,615,Allura Clarity,Single Plane,11,2.34,0.772,Inherent filtration measured in lab 601 - 2018-04-12-18
+55,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.51,0.857,Inherent filtration measured in lab 601 - 2018-04-12-18
+55,3.6,0.4,1,615,Allura Clarity,Single Plane,11,4.9,0.931,Inherent filtration measured in lab 601 - 2018-04-12-18
+55,3.6,0.9,1,615,Allura Clarity,Single Plane,11,5.91,0.968,Inherent filtration measured in lab 601 - 2018-04-12-18
+56,3.6,0,0,615,Allura Clarity,Single Plane,11,2.38,,Inherent filtration measured in lab 601 - 2018-04-12-18
+56,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.578,,Inherent filtration measured in lab 601 - 2018-04-12-18
+56,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.002,,Inherent filtration measured in lab 601 - 2018-04-12-18
+56,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.042,,Inherent filtration measured in lab 601 - 2018-04-12-18
+57,3.6,0,0,615,Allura Clarity,Single Plane,11,2.42,,Inherent filtration measured in lab 601 - 2018-04-12-18
+57,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.646,,Inherent filtration measured in lab 601 - 2018-04-12-18
+57,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.104,,Inherent filtration measured in lab 601 - 2018-04-12-18
+57,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.174,,Inherent filtration measured in lab 601 - 2018-04-12-18
+58,3.6,0,0,615,Allura Clarity,Single Plane,11,2.46,,Inherent filtration measured in lab 601 - 2018-04-12-18
+58,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.714,,Inherent filtration measured in lab 601 - 2018-04-12-18
+58,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.206,,Inherent filtration measured in lab 601 - 2018-04-12-18
+58,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.306,,Inherent filtration measured in lab 601 - 2018-04-12-18
+59,3.6,0,0,615,Allura Clarity,Single Plane,11,2.5,,Inherent filtration measured in lab 601 - 2018-04-12-18
+59,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.782,,Inherent filtration measured in lab 601 - 2018-04-12-18
+59,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.308,,Inherent filtration measured in lab 601 - 2018-04-12-18
+59,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.438,,Inherent filtration measured in lab 601 - 2018-04-12-18
+60,3.6,0,0,615,Allura Clarity,Single Plane,11,2.54,0.756,Inherent filtration measured in lab 601 - 2018-04-12-18
+60,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.85,0.845,Inherent filtration measured in lab 601 - 2018-04-12-18
+60,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.41,0.924,Inherent filtration measured in lab 601 - 2018-04-12-18
+60,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.57,0.964,Inherent filtration measured in lab 601 - 2018-04-12-18
+61,3.6,0,0,615,Allura Clarity,Single Plane,11,2.58,,Inherent filtration measured in lab 601 - 2018-04-12-18
+61,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.914,,Inherent filtration measured in lab 601 - 2018-04-12-18
+61,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.506,,Inherent filtration measured in lab 601 - 2018-04-12-18
+61,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.694,,Inherent filtration measured in lab 601 - 2018-04-12-18
+62,3.6,0,0,615,Allura Clarity,Single Plane,11,2.62,,Inherent filtration measured in lab 601 - 2018-04-12-18
+62,3.6,0.1,1,615,Allura Clarity,Single Plane,11,3.978,,Inherent filtration measured in lab 601 - 2018-04-12-18
+62,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.602,,Inherent filtration measured in lab 601 - 2018-04-12-18
+62,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.818,,Inherent filtration measured in lab 601 - 2018-04-12-18
+63,3.6,0,0,615,Allura Clarity,Single Plane,11,2.66,,Inherent filtration measured in lab 601 - 2018-04-12-18
+63,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.042,,Inherent filtration measured in lab 601 - 2018-04-12-18
+63,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.698,,Inherent filtration measured in lab 601 - 2018-04-12-18
+63,3.6,0.9,1,615,Allura Clarity,Single Plane,11,6.942,,Inherent filtration measured in lab 601 - 2018-04-12-18
+64,3.6,0,0,615,Allura Clarity,Single Plane,11,2.7,,Inherent filtration measured in lab 601 - 2018-04-12-18
+64,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.106,,Inherent filtration measured in lab 601 - 2018-04-12-18
+64,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.794,,Inherent filtration measured in lab 601 - 2018-04-12-18
+64,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.066,,Inherent filtration measured in lab 601 - 2018-04-12-18
+65,3.6,0,0,615,Allura Clarity,Single Plane,11,2.74,0.742,Inherent filtration measured in lab 601 - 2018-04-12-18
+65,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.17,0.834,Inherent filtration measured in lab 601 - 2018-04-12-18
+65,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.89,0.917,Inherent filtration measured in lab 601 - 2018-04-12-18
+65,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.19,0.96,Inherent filtration measured in lab 601 - 2018-04-12-18
+66,3.6,0,0,615,Allura Clarity,Single Plane,11,2.778,,Inherent filtration measured in lab 601 - 2018-04-12-18
+66,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.23,,Inherent filtration measured in lab 601 - 2018-04-12-18
+66,3.6,0.4,1,615,Allura Clarity,Single Plane,11,5.98,,Inherent filtration measured in lab 601 - 2018-04-12-18
+66,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.302,,Inherent filtration measured in lab 601 - 2018-04-12-18
+67,3.6,0,0,615,Allura Clarity,Single Plane,11,2.816,,Inherent filtration measured in lab 601 - 2018-04-12-18
+67,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.29,,Inherent filtration measured in lab 601 - 2018-04-12-18
+67,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.07,,Inherent filtration measured in lab 601 - 2018-04-12-18
+67,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.414,,Inherent filtration measured in lab 601 - 2018-04-12-18
+68,3.6,0,0,615,Allura Clarity,Single Plane,11,2.854,,Inherent filtration measured in lab 601 - 2018-04-12-18
+68,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.35,,Inherent filtration measured in lab 601 - 2018-04-12-18
+68,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.16,,Inherent filtration measured in lab 601 - 2018-04-12-18
+68,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.526,,Inherent filtration measured in lab 601 - 2018-04-12-18
+69,3.6,0,0,615,Allura Clarity,Single Plane,11,2.892,,Inherent filtration measured in lab 601 - 2018-04-12-18
+69,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.41,,Inherent filtration measured in lab 601 - 2018-04-12-18
+69,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.25,,Inherent filtration measured in lab 601 - 2018-04-12-18
+69,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.638,,Inherent filtration measured in lab 601 - 2018-04-12-18
+70,3.6,0,0,615,Allura Clarity,Single Plane,11,2.93,0.73,Inherent filtration measured in lab 601 - 2018-04-12-18
+70,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.47,0.824,Inherent filtration measured in lab 601 - 2018-04-12-18
+70,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.34,0.912,Inherent filtration measured in lab 601 - 2018-04-12-18
+70,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.75,0.957,Inherent filtration measured in lab 601 - 2018-04-12-18
+71,3.6,0,0,615,Allura Clarity,Single Plane,11,2.97,,Inherent filtration measured in lab 601 - 2018-04-12-18
+71,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.534,,Inherent filtration measured in lab 601 - 2018-04-12-18
+71,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.432,,Inherent filtration measured in lab 601 - 2018-04-12-18
+71,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.858,,Inherent filtration measured in lab 601 - 2018-04-12-18
+72,3.6,0,0,615,Allura Clarity,Single Plane,11,3.01,,Inherent filtration measured in lab 601 - 2018-04-12-18
+72,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.598,,Inherent filtration measured in lab 601 - 2018-04-12-18
+72,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.524,,Inherent filtration measured in lab 601 - 2018-04-12-18
+72,3.6,0.9,1,615,Allura Clarity,Single Plane,11,7.966,,Inherent filtration measured in lab 601 - 2018-04-12-18
+73,3.6,0,0,615,Allura Clarity,Single Plane,11,3.05,,Inherent filtration measured in lab 601 - 2018-04-12-18
+73,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.662,,Inherent filtration measured in lab 601 - 2018-04-12-18
+73,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.616,,Inherent filtration measured in lab 601 - 2018-04-12-18
+73,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.074,,Inherent filtration measured in lab 601 - 2018-04-12-18
+74,3.6,0,0,615,Allura Clarity,Single Plane,11,3.09,,Inherent filtration measured in lab 601 - 2018-04-12-18
+74,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.726,,Inherent filtration measured in lab 601 - 2018-04-12-18
+74,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.708,,Inherent filtration measured in lab 601 - 2018-04-12-18
+74,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.182,,Inherent filtration measured in lab 601 - 2018-04-12-18
+75,3.6,0,0,615,Allura Clarity,Single Plane,11,3.13,0.718,Inherent filtration measured in lab 601 - 2018-04-12-18
+75,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.79,0.816,Inherent filtration measured in lab 601 - 2018-04-12-18
+75,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.8,0.907,Inherent filtration measured in lab 601 - 2018-04-12-18
+75,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.29,0.956,Inherent filtration measured in lab 601 - 2018-04-12-18
+76,3.6,0,0,615,Allura Clarity,Single Plane,11,3.17,,Inherent filtration measured in lab 601 - 2018-04-12-18
+76,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.854,,Inherent filtration measured in lab 601 - 2018-04-12-18
+76,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.886,,Inherent filtration measured in lab 601 - 2018-04-12-18
+76,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.384,,Inherent filtration measured in lab 601 - 2018-04-12-18
+77,3.6,0,0,615,Allura Clarity,Single Plane,11,3.21,,Inherent filtration measured in lab 601 - 2018-04-12-18
+77,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.918,,Inherent filtration measured in lab 601 - 2018-04-12-18
+77,3.6,0.4,1,615,Allura Clarity,Single Plane,11,6.972,,Inherent filtration measured in lab 601 - 2018-04-12-18
+77,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.478,,Inherent filtration measured in lab 601 - 2018-04-12-18
+78,3.6,0,0,615,Allura Clarity,Single Plane,11,3.25,,Inherent filtration measured in lab 601 - 2018-04-12-18
+78,3.6,0.1,1,615,Allura Clarity,Single Plane,11,4.982,,Inherent filtration measured in lab 601 - 2018-04-12-18
+78,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.058,,Inherent filtration measured in lab 601 - 2018-04-12-18
+78,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.572,,Inherent filtration measured in lab 601 - 2018-04-12-18
+79,3.6,0,0,615,Allura Clarity,Single Plane,11,3.29,,Inherent filtration measured in lab 601 - 2018-04-12-18
+79,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.046,,Inherent filtration measured in lab 601 - 2018-04-12-18
+79,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.144,,Inherent filtration measured in lab 601 - 2018-04-12-18
+79,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.666,,Inherent filtration measured in lab 601 - 2018-04-12-18
+80,3.6,0,0,615,Allura Clarity,Single Plane,11,3.33,0.707,Inherent filtration measured in lab 601 - 2018-04-12-18
+80,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.11,0.809,Inherent filtration measured in lab 601 - 2018-04-12-18
+80,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.23,0.905,Inherent filtration measured in lab 601 - 2018-04-12-18
+80,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.76,0.955,Inherent filtration measured in lab 601 - 2018-04-12-18
+81,3.6,0,0,615,Allura Clarity,Single Plane,11,3.374,,Inherent filtration measured in lab 601 - 2018-04-12-18
+81,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.172,,Inherent filtration measured in lab 601 - 2018-04-12-18
+81,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.31,,Inherent filtration measured in lab 601 - 2018-04-12-18
+81,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.846,,Inherent filtration measured in lab 601 - 2018-04-12-18
+82,3.6,0,0,615,Allura Clarity,Single Plane,11,3.418,,Inherent filtration measured in lab 601 - 2018-04-12-18
+82,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.234,,Inherent filtration measured in lab 601 - 2018-04-12-18
+82,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.39,,Inherent filtration measured in lab 601 - 2018-04-12-18
+82,3.6,0.9,1,615,Allura Clarity,Single Plane,11,8.932,,Inherent filtration measured in lab 601 - 2018-04-12-18
+83,3.6,0,0,615,Allura Clarity,Single Plane,11,3.462,,Inherent filtration measured in lab 601 - 2018-04-12-18
+83,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.296,,Inherent filtration measured in lab 601 - 2018-04-12-18
+83,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.47,,Inherent filtration measured in lab 601 - 2018-04-12-18
+83,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.018,,Inherent filtration measured in lab 601 - 2018-04-12-18
+84,3.6,0,0,615,Allura Clarity,Single Plane,11,3.506,,Inherent filtration measured in lab 601 - 2018-04-12-18
+84,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.358,,Inherent filtration measured in lab 601 - 2018-04-12-18
+84,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.55,,Inherent filtration measured in lab 601 - 2018-04-12-18
+84,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.104,,Inherent filtration measured in lab 601 - 2018-04-12-18
+85,3.6,0,0,615,Allura Clarity,Single Plane,11,3.55,0.698,Inherent filtration measured in lab 601 - 2018-04-12-18
+85,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.42,0.804,Inherent filtration measured in lab 601 - 2018-04-12-18
+85,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.63,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+85,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.19,0.954,Inherent filtration measured in lab 601 - 2018-04-12-18
+86,3.6,0,0,615,Allura Clarity,Single Plane,11,3.592,,Inherent filtration measured in lab 601 - 2018-04-12-18
+86,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.48,,Inherent filtration measured in lab 601 - 2018-04-12-18
+86,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.7,,Inherent filtration measured in lab 601 - 2018-04-12-18
+86,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.264,,Inherent filtration measured in lab 601 - 2018-04-12-18
+87,3.6,0,0,615,Allura Clarity,Single Plane,11,3.634,,Inherent filtration measured in lab 601 - 2018-04-12-18
+87,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.54,,Inherent filtration measured in lab 601 - 2018-04-12-18
+87,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.77,,Inherent filtration measured in lab 601 - 2018-04-12-18
+87,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.338,,Inherent filtration measured in lab 601 - 2018-04-12-18
+88,3.6,0,0,615,Allura Clarity,Single Plane,11,3.676,,Inherent filtration measured in lab 601 - 2018-04-12-18
+88,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.6,,Inherent filtration measured in lab 601 - 2018-04-12-18
+88,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.84,,Inherent filtration measured in lab 601 - 2018-04-12-18
+88,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.412,,Inherent filtration measured in lab 601 - 2018-04-12-18
+89,3.6,0,0,615,Allura Clarity,Single Plane,11,3.718,,Inherent filtration measured in lab 601 - 2018-04-12-18
+89,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.66,,Inherent filtration measured in lab 601 - 2018-04-12-18
+89,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.91,,Inherent filtration measured in lab 601 - 2018-04-12-18
+89,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.486,,Inherent filtration measured in lab 601 - 2018-04-12-18
+90,3.6,0,0,615,Allura Clarity,Single Plane,11,3.76,0.692,Inherent filtration measured in lab 601 - 2018-04-12-18
+90,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.72,0.802,Inherent filtration measured in lab 601 - 2018-04-12-18
+90,3.6,0.4,1,615,Allura Clarity,Single Plane,11,7.98,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+90,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.56,0.954,Inherent filtration measured in lab 601 - 2018-04-12-18
+91,3.6,0,0,615,Allura Clarity,Single Plane,11,3.804,,Inherent filtration measured in lab 601 - 2018-04-12-18
+91,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.78,,Inherent filtration measured in lab 601 - 2018-04-12-18
+91,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.048,,Inherent filtration measured in lab 601 - 2018-04-12-18
+91,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.63,,Inherent filtration measured in lab 601 - 2018-04-12-18
+92,3.6,0,0,615,Allura Clarity,Single Plane,11,3.848,,Inherent filtration measured in lab 601 - 2018-04-12-18
+92,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.84,,Inherent filtration measured in lab 601 - 2018-04-12-18
+92,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.116,,Inherent filtration measured in lab 601 - 2018-04-12-18
+92,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.7,,Inherent filtration measured in lab 601 - 2018-04-12-18
+93,3.6,0,0,615,Allura Clarity,Single Plane,11,3.892,,Inherent filtration measured in lab 601 - 2018-04-12-18
+93,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.9,,Inherent filtration measured in lab 601 - 2018-04-12-18
+93,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.184,,Inherent filtration measured in lab 601 - 2018-04-12-18
+93,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.77,,Inherent filtration measured in lab 601 - 2018-04-12-18
+94,3.6,0,0,615,Allura Clarity,Single Plane,11,3.936,,Inherent filtration measured in lab 601 - 2018-04-12-18
+94,3.6,0.1,1,615,Allura Clarity,Single Plane,11,5.96,,Inherent filtration measured in lab 601 - 2018-04-12-18
+94,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.252,,Inherent filtration measured in lab 601 - 2018-04-12-18
+94,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.84,,Inherent filtration measured in lab 601 - 2018-04-12-18
+95,3.6,0,0,615,Allura Clarity,Single Plane,11,3.98,0.686,Inherent filtration measured in lab 601 - 2018-04-12-18
+95,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.02,0.8,Inherent filtration measured in lab 601 - 2018-04-12-18
+95,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.32,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+95,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.91,0.953,Inherent filtration measured in lab 601 - 2018-04-12-18
+96,3.6,0,0,615,Allura Clarity,Single Plane,11,4.022,,Inherent filtration measured in lab 601 - 2018-04-12-18
+96,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.074,,Inherent filtration measured in lab 601 - 2018-04-12-18
+96,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.378,,Inherent filtration measured in lab 601 - 2018-04-12-18
+96,3.6,0.9,1,615,Allura Clarity,Single Plane,11,9.968,,Inherent filtration measured in lab 601 - 2018-04-12-18
+97,3.6,0,0,615,Allura Clarity,Single Plane,11,4.064,,Inherent filtration measured in lab 601 - 2018-04-12-18
+97,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.128,,Inherent filtration measured in lab 601 - 2018-04-12-18
+97,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.436,,Inherent filtration measured in lab 601 - 2018-04-12-18
+97,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.026,,Inherent filtration measured in lab 601 - 2018-04-12-18
+98,3.6,0,0,615,Allura Clarity,Single Plane,11,4.106,,Inherent filtration measured in lab 601 - 2018-04-12-18
+98,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.182,,Inherent filtration measured in lab 601 - 2018-04-12-18
+98,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.494,,Inherent filtration measured in lab 601 - 2018-04-12-18
+98,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.084,,Inherent filtration measured in lab 601 - 2018-04-12-18
+99,3.6,0,0,615,Allura Clarity,Single Plane,11,4.148,,Inherent filtration measured in lab 601 - 2018-04-12-18
+99,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.236,,Inherent filtration measured in lab 601 - 2018-04-12-18
+99,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.552,,Inherent filtration measured in lab 601 - 2018-04-12-18
+99,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.142,,Inherent filtration measured in lab 601 - 2018-04-12-18
+100,3.6,0,0,615,Allura Clarity,Single Plane,11,4.19,0.683,Inherent filtration measured in lab 601 - 2018-04-12-18
+100,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.29,0.8,Inherent filtration measured in lab 601 - 2018-04-12-18
+100,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.61,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+100,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.2,0.952,Inherent filtration measured in lab 601 - 2018-04-12-18
+101,3.6,0,0,615,Allura Clarity,Single Plane,11,4.234,,Inherent filtration measured in lab 601 - 2018-04-12-18
+101,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.344,,Inherent filtration measured in lab 601 - 2018-04-12-18
+101,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.67,,Inherent filtration measured in lab 601 - 2018-04-12-18
+101,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.26,,Inherent filtration measured in lab 601 - 2018-04-12-18
+102,3.6,0,0,615,Allura Clarity,Single Plane,11,4.278,,Inherent filtration measured in lab 601 - 2018-04-12-18
+102,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.398,,Inherent filtration measured in lab 601 - 2018-04-12-18
+102,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.73,,Inherent filtration measured in lab 601 - 2018-04-12-18
+102,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.32,,Inherent filtration measured in lab 601 - 2018-04-12-18
+103,3.6,0,0,615,Allura Clarity,Single Plane,11,4.322,,Inherent filtration measured in lab 601 - 2018-04-12-18
+103,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.452,,Inherent filtration measured in lab 601 - 2018-04-12-18
+103,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.79,,Inherent filtration measured in lab 601 - 2018-04-12-18
+103,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.38,,Inherent filtration measured in lab 601 - 2018-04-12-18
+104,3.6,0,0,615,Allura Clarity,Single Plane,11,4.366,,Inherent filtration measured in lab 601 - 2018-04-12-18
+104,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.506,,Inherent filtration measured in lab 601 - 2018-04-12-18
+104,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.85,,Inherent filtration measured in lab 601 - 2018-04-12-18
+104,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.44,,Inherent filtration measured in lab 601 - 2018-04-12-18
+105,3.6,0,0,615,Allura Clarity,Single Plane,11,4.41,0.68,Inherent filtration measured in lab 601 - 2018-04-12-18
+105,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.56,0.8,Inherent filtration measured in lab 601 - 2018-04-12-18
+105,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.91,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+105,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.5,0.951,Inherent filtration measured in lab 601 - 2018-04-12-18
+106,3.6,0,0,615,Allura Clarity,Single Plane,11,4.452,,Inherent filtration measured in lab 601 - 2018-04-12-18
+106,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.61,,Inherent filtration measured in lab 601 - 2018-04-12-18
+106,3.6,0.4,1,615,Allura Clarity,Single Plane,11,8.96,,Inherent filtration measured in lab 601 - 2018-04-12-18
+106,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.56,,Inherent filtration measured in lab 601 - 2018-04-12-18
+107,3.6,0,0,615,Allura Clarity,Single Plane,11,4.494,,Inherent filtration measured in lab 601 - 2018-04-12-18
+107,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.66,,Inherent filtration measured in lab 601 - 2018-04-12-18
+107,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.01,,Inherent filtration measured in lab 601 - 2018-04-12-18
+107,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.62,,Inherent filtration measured in lab 601 - 2018-04-12-18
+108,3.6,0,0,615,Allura Clarity,Single Plane,11,4.536,,Inherent filtration measured in lab 601 - 2018-04-12-18
+108,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.71,,Inherent filtration measured in lab 601 - 2018-04-12-18
+108,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.06,,Inherent filtration measured in lab 601 - 2018-04-12-18
+108,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.68,,Inherent filtration measured in lab 601 - 2018-04-12-18
+109,3.6,0,0,615,Allura Clarity,Single Plane,11,4.578,,Inherent filtration measured in lab 601 - 2018-04-12-18
+109,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.76,,Inherent filtration measured in lab 601 - 2018-04-12-18
+109,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.11,,Inherent filtration measured in lab 601 - 2018-04-12-18
+109,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.74,,Inherent filtration measured in lab 601 - 2018-04-12-18
+110,3.6,0,0,615,Allura Clarity,Single Plane,11,4.62,0.679,Inherent filtration measured in lab 601 - 2018-04-12-18
+110,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.81,0.801,Inherent filtration measured in lab 601 - 2018-04-12-18
+110,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.16,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+110,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.8,0.95,Inherent filtration measured in lab 601 - 2018-04-12-18
+111,3.6,0,0,615,Allura Clarity,Single Plane,11,4.664,,Inherent filtration measured in lab 601 - 2018-04-12-18
+111,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.862,,Inherent filtration measured in lab 601 - 2018-04-12-18
+111,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.214,,Inherent filtration measured in lab 601 - 2018-04-12-18
+111,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.86,,Inherent filtration measured in lab 601 - 2018-04-12-18
+112,3.6,0,0,615,Allura Clarity,Single Plane,11,4.708,,Inherent filtration measured in lab 601 - 2018-04-12-18
+112,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.914,,Inherent filtration measured in lab 601 - 2018-04-12-18
+112,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.268,,Inherent filtration measured in lab 601 - 2018-04-12-18
+112,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.92,,Inherent filtration measured in lab 601 - 2018-04-12-18
+113,3.6,0,0,615,Allura Clarity,Single Plane,11,4.752,,Inherent filtration measured in lab 601 - 2018-04-12-18
+113,3.6,0.1,1,615,Allura Clarity,Single Plane,11,6.966,,Inherent filtration measured in lab 601 - 2018-04-12-18
+113,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.322,,Inherent filtration measured in lab 601 - 2018-04-12-18
+113,3.6,0.9,1,615,Allura Clarity,Single Plane,11,10.98,,Inherent filtration measured in lab 601 - 2018-04-12-18
+114,3.6,0,0,615,Allura Clarity,Single Plane,11,4.796,,Inherent filtration measured in lab 601 - 2018-04-12-18
+114,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.018,,Inherent filtration measured in lab 601 - 2018-04-12-18
+114,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.376,,Inherent filtration measured in lab 601 - 2018-04-12-18
+114,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.04,,Inherent filtration measured in lab 601 - 2018-04-12-18
+115,3.6,0,0,615,Allura Clarity,Single Plane,11,4.84,0.678,Inherent filtration measured in lab 601 - 2018-04-12-18
+115,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.07,0.801,Inherent filtration measured in lab 601 - 2018-04-12-18
+115,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.43,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+115,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.1,0.95,Inherent filtration measured in lab 601 - 2018-04-12-18
+116,3.6,0,0,615,Allura Clarity,Single Plane,11,4.882,,Inherent filtration measured in lab 601 - 2018-04-12-18
+116,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.114,,Inherent filtration measured in lab 601 - 2018-04-12-18
+116,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.474,,Inherent filtration measured in lab 601 - 2018-04-12-18
+116,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.14,,Inherent filtration measured in lab 601 - 2018-04-12-18
+117,3.6,0,0,615,Allura Clarity,Single Plane,11,4.924,,Inherent filtration measured in lab 601 - 2018-04-12-18
+117,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.158,,Inherent filtration measured in lab 601 - 2018-04-12-18
+117,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.518,,Inherent filtration measured in lab 601 - 2018-04-12-18
+117,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.18,,Inherent filtration measured in lab 601 - 2018-04-12-18
+118,3.6,0,0,615,Allura Clarity,Single Plane,11,4.966,,Inherent filtration measured in lab 601 - 2018-04-12-18
+118,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.202,,Inherent filtration measured in lab 601 - 2018-04-12-18
+118,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.562,,Inherent filtration measured in lab 601 - 2018-04-12-18
+118,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.22,,Inherent filtration measured in lab 601 - 2018-04-12-18
+119,3.6,0,0,615,Allura Clarity,Single Plane,11,5.008,,Inherent filtration measured in lab 601 - 2018-04-12-18
+119,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.246,,Inherent filtration measured in lab 601 - 2018-04-12-18
+119,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.606,,Inherent filtration measured in lab 601 - 2018-04-12-18
+119,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.26,,Inherent filtration measured in lab 601 - 2018-04-12-18
+120,3.6,0,0,615,Allura Clarity,Single Plane,11,5.05,0.679,Inherent filtration measured in lab 601 - 2018-04-12-18
+120,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.29,0.803,Inherent filtration measured in lab 601 - 2018-04-12-18
+120,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.65,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+120,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.3,0.948,Inherent filtration measured in lab 601 - 2018-04-12-18
+121,3.6,0,0,615,Allura Clarity,Single Plane,11,5.094,,Inherent filtration measured in lab 601 - 2018-04-12-18
+121,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.34,,Inherent filtration measured in lab 601 - 2018-04-12-18
+121,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.698,,Inherent filtration measured in lab 601 - 2018-04-12-18
+121,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.34,,Inherent filtration measured in lab 601 - 2018-04-12-18
+122,3.6,0,0,615,Allura Clarity,Single Plane,11,5.138,,Inherent filtration measured in lab 601 - 2018-04-12-18
+122,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.39,,Inherent filtration measured in lab 601 - 2018-04-12-18
+122,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.746,,Inherent filtration measured in lab 601 - 2018-04-12-18
+122,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.38,,Inherent filtration measured in lab 601 - 2018-04-12-18
+123,3.6,0,0,615,Allura Clarity,Single Plane,11,5.182,,Inherent filtration measured in lab 601 - 2018-04-12-18
+123,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.44,,Inherent filtration measured in lab 601 - 2018-04-12-18
+123,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.794,,Inherent filtration measured in lab 601 - 2018-04-12-18
+123,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.42,,Inherent filtration measured in lab 601 - 2018-04-12-18
+124,3.6,0,0,615,Allura Clarity,Single Plane,11,5.226,,Inherent filtration measured in lab 601 - 2018-04-12-18
+124,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.49,,Inherent filtration measured in lab 601 - 2018-04-12-18
+124,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.842,,Inherent filtration measured in lab 601 - 2018-04-12-18
+124,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.46,,Inherent filtration measured in lab 601 - 2018-04-12-18
+125,3.6,0,0,615,Allura Clarity,Single Plane,11,5.27,0.679,Inherent filtration measured in lab 601 - 2018-04-12-18
+125,3.6,0.1,1,615,Allura Clarity,Single Plane,11,7.54,0.804,Inherent filtration measured in lab 601 - 2018-04-12-18
+125,3.6,0.4,1,615,Allura Clarity,Single Plane,11,9.89,0.904,Inherent filtration measured in lab 601 - 2018-04-12-18
+125,3.6,0.9,1,615,Allura Clarity,Single Plane,11,11.5,0.948,Inherent filtration measured in lab 601 - 2018-04-12-18
