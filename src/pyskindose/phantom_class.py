@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from stl import mesh
-from tqdm import tqdm
 
 from pyskindose.plotting.create_ploty_ijk_indices import (
     _create_plotly_ijk_indices_for_cuboid_objects,
