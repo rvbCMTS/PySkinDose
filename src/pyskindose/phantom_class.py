@@ -4,7 +4,6 @@ from typing import Dict, List, Optional
 
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 from stl import mesh
 
 from pyskindose.plotting.create_ploty_ijk_indices import (
