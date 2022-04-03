@@ -5,13 +5,18 @@ import numpy as np
 import pandas as pd
 
 from pyskindose.constants import (
-    KEY_NORMALIZATION_KVP,
+    KEY_NORMALIZATION_ACQUISITION_PLANE,
     KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
     KEY_NORMALIZATION_FILTER_SIZE_COPPER,
+    KEY_NORMALIZATION_KVP,
     KEY_NORMALIZATION_MODEL_NAME,
-    KEY_NORMALIZATION_ACQUISITION_PLANE,
 )
-from pyskindose.corrections import calculate_k_bs, calculate_k_isq, calculate_k_med, calculate_k_tab
+from pyskindose.corrections import (
+    calculate_k_bs,
+    calculate_k_isq,
+    calculate_k_med,
+    calculate_k_tab,
+)
 
 P = Path(__file__).parent.parent.parent
 sys.path.insert(1, str(P.absolute()))
@@ -73,13 +78,15 @@ def test_fetch_correct_table_correction_from_database():
     # Arrange
     expected = 0.7319
 
-    data_norm = pd.DataFrame(data={
-        KEY_NORMALIZATION_KVP: [80],
-        KEY_NORMALIZATION_FILTER_SIZE_COPPER: [0.3],
-        KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM: [0],
-        KEY_NORMALIZATION_MODEL_NAME: ["AXIOM-Artis"],
-        KEY_NORMALIZATION_ACQUISITION_PLANE: ["Single Plane"]
-    })
+    data_norm = pd.DataFrame(
+        data={
+            KEY_NORMALIZATION_KVP: [80],
+            KEY_NORMALIZATION_FILTER_SIZE_COPPER: [0.3],
+            KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM: [0],
+            KEY_NORMALIZATION_MODEL_NAME: ["AXIOM-Artis"],
+            KEY_NORMALIZATION_ACQUISITION_PLANE: ["Single Plane"],
+        }
+    )
 
     # Act
     result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8)
@@ -93,13 +100,15 @@ def test_fetch_correct_table_correction_from_database_when_machine_model_has_ext
     # Arrange
     expected = 0.8
 
-    data_norm = pd.DataFrame(data={
-        KEY_NORMALIZATION_KVP: [80],
-        KEY_NORMALIZATION_FILTER_SIZE_COPPER: [0.4],
-        KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM: [1.0],
-        KEY_NORMALIZATION_MODEL_NAME: ["AlluraCla rity"],
-        KEY_NORMALIZATION_ACQUISITION_PLANE: ["Plane A"]
-    })
+    data_norm = pd.DataFrame(
+        data={
+            KEY_NORMALIZATION_KVP: [80],
+            KEY_NORMALIZATION_FILTER_SIZE_COPPER: [0.4],
+            KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM: [1.0],
+            KEY_NORMALIZATION_MODEL_NAME: ["AlluraCla rity"],
+            KEY_NORMALIZATION_ACQUISITION_PLANE: ["Plane A"],
+        }
+    )
 
     # Act
     result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8)
