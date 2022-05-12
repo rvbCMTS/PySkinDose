@@ -44,7 +44,7 @@ class NormalizationSettings:
         self.field_size_mode: Optional[str] = None
         self.detector_side_length: Optional[str] = None
 
-        self.attrs_str = create_attributes_string(attrs_parent=self, object_name="plot", indent_level=0)
+        self.attrs_str = create_attributes_string(attrs_parent=self, object_name="normalization", indent_level=0)
 
     def update_used_settings(self, data_parsed: pd.DataFrame):
         manufacturer = data_parsed[KEY_RDSR_MANUFACTURER][0].casefold()
@@ -68,7 +68,29 @@ class NormalizationSettings:
         self.field_size_mode = setting[KEY_NORMALIZATION_FIELD_SIZE_MODE]
         self.detector_side_length = setting[KEY_NORMALIZATION_DETECTOR_SIDE_LENGTH]
 
-        self.attrs_str = create_attributes_string(attrs_parent=self, object_name="normalization", indent_level=0)
+        self.update_attrs_str()
 
     def update_attrs_str(self):
         self.attrs_str = create_attributes_string(attrs_parent=self, object_name="normalization", indent_level=0)
+
+    def to_printable_string(self, color: str = "blue"):
+        return (
+            f"[bold {color}]Normalization settings[/bold {color}]\n"
+            f"\t[{color}]trans_offset[/{color}]:\n"
+            f"\t\t[{color}]x[/{color}]:{self.trans_offset.x}\n"
+            f"\t\t[{color}]y[/{color}]:{self.trans_offset.y}\n"
+            f"\t\t[{color}]z[/{color}]:{self.trans_offset.z}\n"
+            f"\t[{color}]trans_dir[/{color}]:\n"
+            f"\t\t[{color}]x[/{color}]:{self.trans_dir.x}\n"
+            f"\t\t[{color}]y[/{color}]:{self.trans_dir.y}\n"
+            f"\t\t[{color}]z[/{color}]:{self.trans_dir.z}\n"
+            f"\t[{color}]rot_dir[/{color}]:\n"
+            f"\t\t[{color}]Ap1[/{color}]:{self.rot_dir.Ap1}\n"
+            f"\t\t[{color}]Ap2[/{color}]:{self.rot_dir.Ap2}\n"
+            f"\t\t[{color}]Ap3[/{color}]:{self.rot_dir.Ap3}\n"
+            f"\t\t[{color}]At1[/{color}]:{self.rot_dir.At1}\n"
+            f"\t\t[{color}]At2[/{color}]:{self.rot_dir.At2}\n"
+            f"\t\t[{color}]At3[/{color}]:{self.rot_dir.At3}\n"
+            f"\t[{color}]field_size_mode[/{color}]: {self.field_size_mode}\n"
+            f"\t[{color}]detector_side_length[/{color}]: {self.detector_side_length}\n"
+        )

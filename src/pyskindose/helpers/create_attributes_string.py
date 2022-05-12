@@ -11,7 +11,11 @@ def create_attributes_string(attrs_parent, object_name, indent_level, indent_siz
         if type(val) in [str, float, bool, int]:
             if not key == "attrs_str":
                 attrs_str = attrs_str + indent_marker_objs + str(key) + " : " + str(val) + "\n"
-        else:
-            attrs_str = attrs_str + "\n" + getattr(attrs_parent, key).attrs_str
+            else:
+                try:
+                    attrs_parent_str = getattr(attrs_parent, key).attrs_str
+                except AttributeError:
+                    attrs_parent_str = ""
+                attrs_str = f"{attrs_str}\n{attrs_parent_str}"
 
     return attrs_str

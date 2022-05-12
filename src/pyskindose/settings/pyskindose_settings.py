@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 from typing import Union, Optional
 
+from rich import print
+
 from pyskindose.constants import (
     KEY_PARAM_ESTIMATE_K_TAB,
     KEY_PARAM_K_TAB_VAL,
@@ -11,7 +13,6 @@ from pyskindose.constants import (
 from .phantom_settings import PhantomSettings
 from .plot_settings import Plotsettings
 from .normalization_settings import NormalizationSettings
-from ..helpers.create_attributes_string import create_attributes_string
 
 
 class PyskindoseSettings:
@@ -116,18 +117,26 @@ class PyskindoseSettings:
             to the terminal. The default is False.
 
         """
-        self.phantom.patient_offset.update_attrs_str()
-        self.phantom.dimension.update_attrs_str()
-        self.phantom.update_attrs_str()
-        self.plot.update_attrs_str()
-        self.normalization_settings.update_attrs_str()
+        phantom_settings_string = self.phantom.to_printable_string(color='magenta')
+        plot_settings_string = self.plot.to_printable_string(color='blue')
+        normalization_settings_string = self.normalization_settings.to_printable_string(color='green')
 
-        main_attrs_str = create_attributes_string(attrs_parent=self, object_name="general", indent_level=0)
+        color = "cyan"
+
+        output_str = (
+            f"[b u {color}]General settings[/b u {color}]\n"
+            f"\t[{color}]mode[/{color}]:\t{self.mode}\n"
+            f"\t[{color}]rdsr_filename[/{color}]:\t{self.rdsr_filename}\n"
+            f"\t[{color}]estimate_k_tab[/{color}]:\t{'True' if self.estimate_k_tab else 'False'}\n"
+            f"\n{phantom_settings_string}"
+            f"\n{plot_settings_string}"
+            f"\n{normalization_settings_string}"
+        )
 
         if return_as_string:
-            return main_attrs_str
+            return output_str
 
-        return print(main_attrs_str)
+        return print(output_str)
 
 
 def initialize_settings(settings: Union[str, dict, PyskindoseSettings]) -> PyskindoseSettings:

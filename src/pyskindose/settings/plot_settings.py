@@ -39,14 +39,25 @@ class Plotsettings:
             Dictionary containing all of the plot setting that are
             appended as attributes to this class, see class attributes.
         """
-        self.interactivity = plt_dict["interactivity"]
-        self.dark_mode = plt_dict["dark_mode"]
-        self.notebook_mode = plt_dict["notebook_mode"]
-        self.plot_dosemap = plt_dict["plot_dosemap"]
-        self.max_events_for_patient_inclusion = plt_dict["max_events_for_patient_inclusion"]
-        self.plot_event_index = plt_dict["plot_event_index"]
+        self.interactivity = plt_dict.get("interactivity", True)
+        self.dark_mode = plt_dict.get("dark_mode", True)
+        self.notebook_mode = plt_dict.get("notebook_mode", False)
+        self.plot_dosemap = plt_dict.get("plot_dosemap", True)
+        self.max_events_for_patient_inclusion = plt_dict.get("max_events_for_patient_inclusion", 10)
+        self.plot_event_index = plt_dict.get("plot_event_index", 0)
 
         self.attrs_str = create_attributes_string(attrs_parent=self, object_name="plot", indent_level=0)
 
     def update_attrs_str(self):
         self.attrs_str = create_attributes_string(attrs_parent=self, object_name="plot", indent_level=0)
+
+    def to_printable_string(self, color: str = "blue"):
+        return (
+            f"[bold {color}]Plot settings[/bold {color}]\n"
+            f"\t[{color}]interactivity[/{color}]: {'True' if self.interactivity else 'False'}\n"
+            f"\t[{color}]dark_mode[/{color}]: {'True' if self.dark_mode else 'False'}\n"
+            f"\t[{color}]notebook_mode[/{color}]: {'True' if self.notebook_mode else 'False'}\n"
+            f"\t[{color}]plot_dosemap[/{color}]: {'True' if self.plot_dosemap else 'False'}\n"
+            f"\t[{color}]max_events_for_patient_inclusion[/{color}]: {self.max_events_for_patient_inclusion}\n"
+            f"\t[{color}]plot_event_index[/{color}]: {self.plot_event_index}\n"
+        )

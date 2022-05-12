@@ -33,6 +33,7 @@ setup(
         "psutil",
         "pillow >= 8.1.1",
         "kaleido",
+        "rich",
     ],
     include_package_data=True,
     zip_safe=False,
