@@ -1,4 +1,4 @@
-from pyskindose.constants import KEY_PARAM_PHANTOM_MODEL, KEY_PARAM_HUMAN_MESH
+from pyskindose.constants import KEY_PARAM_HUMAN_MESH, KEY_PARAM_PHANTOM_MODEL
 from pyskindose.helpers.create_attributes_string import create_attributes_string
 from pyskindose.settings.patient_offset import PatientOffset
 from pyskindose.settings.phantom_dimensions import PhantomDimensions

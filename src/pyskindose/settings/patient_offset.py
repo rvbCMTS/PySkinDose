@@ -1,4 +1,8 @@
-from pyskindose.constants import OFFSET_LATERAL_KEY, OFFSET_VERTICAL_KEY, OFFSET_LONGITUDINAL_KEY
+from pyskindose.constants import (
+    OFFSET_LATERAL_KEY,
+    OFFSET_LONGITUDINAL_KEY,
+    OFFSET_VERTICAL_KEY,
+)
 from pyskindose.helpers.create_attributes_string import create_attributes_string
 
 

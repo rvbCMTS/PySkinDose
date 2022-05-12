@@ -1,4 +1,4 @@
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 
 class TranslationDirection:
@@ -12,6 +12,7 @@ class TranslationDirection:
         in each direction. PySkinDose default angles are all +1.
 
     """
+
     x: Optional[int]
     y: Optional[int]
     z: Optional[int]

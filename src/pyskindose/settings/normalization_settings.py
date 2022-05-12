@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
@@ -35,6 +35,7 @@ class NormalizationSettings:
         side length of active image receptor area in cm.
 
     """
+
     def __init__(self, normalization_settings: List[Dict[str, Any]]):
         """Initialize class attributes."""
         self.normalization_settings_list: List[Dict[str, Any]] = normalization_settings
@@ -54,11 +55,13 @@ class NormalizationSettings:
             setting
             for setting in self.normalization_settings_list
             if manufacturer == setting[KEY_NORMALIZATION_MANUFACTURER].casefold()
-               and model in setting[KEY_NORMALIZATION_MODELS].casefold()
+            and model in setting[KEY_NORMALIZATION_MODELS].casefold()
         ]
 
         if not setting:
-            raise NotImplementedError(f"Could not find settings for the given manufacturer and model ({manufacturer=}, {model=})")
+            raise NotImplementedError(
+                f"Could not find settings for the given manufacturer and model ({manufacturer=}, {model=})"
+            )
 
         setting = setting[0]
 

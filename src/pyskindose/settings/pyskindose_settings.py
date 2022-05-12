@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Union, Optional
+from typing import Optional, Union
 
 from rich import print
 
@@ -10,9 +10,10 @@ from pyskindose.constants import (
     KEY_PARAM_MODE,
     KEY_PARAM_RDSR_FILENAME,
 )
+
+from .normalization_settings import NormalizationSettings
 from .phantom_settings import PhantomSettings
 from .plot_settings import Plotsettings
-from .normalization_settings import NormalizationSettings
 
 
 class PyskindoseSettings:
@@ -117,9 +118,9 @@ class PyskindoseSettings:
             to the terminal. The default is False.
 
         """
-        phantom_settings_string = self.phantom.to_printable_string(color='magenta')
-        plot_settings_string = self.plot.to_printable_string(color='blue')
-        normalization_settings_string = self.normalization_settings.to_printable_string(color='green')
+        phantom_settings_string = self.phantom.to_printable_string(color="magenta")
+        plot_settings_string = self.plot.to_printable_string(color="blue")
+        normalization_settings_string = self.normalization_settings.to_printable_string(color="green")
 
         color = "cyan"
 

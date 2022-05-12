@@ -3,6 +3,8 @@ import logging
 import numpy as np
 import pandas as pd
 
+from pyskindose.settings.normalization_settings import NormalizationSettings
+
 from .constants import (
     KEY_NORMALIZATION_ACQUISITION_PLANE,
     KEY_NORMALIZATION_ACQUISITION_TYPE,
@@ -21,7 +23,6 @@ from .constants import (
     KEY_RDSR_FILTER_MIN,
 )
 from .geom_calc import calculate_field_size
-from pyskindose.settings.normalization_settings import NormalizationSettings
 from .settings import PyskindoseSettings
 
 logger = logging.getLogger("pyskindose")
