@@ -55,7 +55,7 @@ class NormalizationSettings:
             setting
             for setting in self.normalization_settings_list
             if manufacturer == setting[KEY_NORMALIZATION_MANUFACTURER].casefold()
-            and model in setting[KEY_NORMALIZATION_MODELS].casefold()
+            and model in [mod.casefold() for mod in setting[KEY_NORMALIZATION_MODELS]]
         ]
 
         if not setting:
