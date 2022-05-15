@@ -92,7 +92,9 @@ def test_rdsr_normalizer_correctly_handles_events_without_filter(axiom_artis_par
     parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MAX][0] = 0.0
 
     # Act
-    normalized_data: pd.DataFrame = rdsr_normalizer(data_parsed=parsed_data_with_nofilter_events, settings=example_settings)
+    normalized_data: pd.DataFrame = rdsr_normalizer(
+        data_parsed=parsed_data_with_nofilter_events, settings=example_settings
+    )
     actual_aluminium_filter_thicknesses = normalized_data[KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM].tolist()
     actual_copper_filter_thicknesses = normalized_data[KEY_NORMALIZATION_FILTER_SIZE_COPPER].tolist()
 

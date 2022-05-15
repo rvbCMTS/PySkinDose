@@ -1,4 +1,6 @@
 import logging
+from pathlib import Path
+from typing import List
 
 import numpy as np
 import plotly.graph_objects as go
@@ -123,11 +125,11 @@ def create_dose_map_plot(patient: Phantom, settings: PyskindoseSettings, dose_ma
         return
 
     # proceed with creating static dose map
-
     eyes = [PLOT_EYE_RIGHT, PLOT_EYE_BACK, PLOT_EYE_LEFT, PLOT_EYE_FRONT]
 
-    names = PLOT_ORDER_STATIC
-    file_type_static = PLOT_FILE_TYPE_STATIC
+    names: List[Path] = [
+        settings.file_result_output_path / f"{filename}{PLOT_FILE_TYPE_STATIC}" for filename in PLOT_ORDER_STATIC
+    ]
 
     if settings.plot.notebook_mode:
         from tqdm import tqdm_notebook as pbar
@@ -136,19 +138,21 @@ def create_dose_map_plot(patient: Phantom, settings: PyskindoseSettings, dose_ma
         from tqdm import tqdm as pbar
 
     # create static dose map plots
-    for i in pbar(range(len(eyes)), desc=f"saving static dosemaps: "):
-        fig["layout"]["scene"]["camera"] = eyes[i]
-        fig.write_image(f"{names[i]}.png")
+    try:
+        for i in pbar(range(len(eyes)), desc=f"saving static dosemaps: "):
+            fig["layout"]["scene"]["camera"] = eyes[i]
+            fig.write_image(names[i].absolute())
+    except IOError:
+        logger.error("Failed to save image plots", exc_info=True)
+
+    print(f"Saved plots to {settings.file_result_output_path.absolute()}")
 
     # show dose map plot with PIL if not in notebook mode
     if not settings.plot.notebook_mode:
-        for image_file_name in [name + file_type_static for name in names]:
-            im = Image.open(image_file_name)
+        for image_file_name in names:
+            im = Image.open(image_file_name.absolute())
             im.show()
         return
 
     # proceed with showing the dose map plot in notebook mode
-    create_notebook_dose_map_plot(
-        names=names,
-        file_type_static=file_type_static,
-    )
+    create_notebook_dose_map_plot(names=names)

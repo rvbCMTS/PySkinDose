@@ -59,6 +59,7 @@ class PyskindoseSettings:
         self,
         settings: Union[str, dict],
         normalization_settings: Optional[Union[Path, str, dict, NormalizationSettings]] = None,
+        file_result_output_path: Optional[Union[str, Path]] = None,
     ):
         """Initialize settings class.
 
@@ -76,6 +77,7 @@ class PyskindoseSettings:
             tmp = settings
 
         self.mode = tmp[KEY_PARAM_MODE]
+        self.file_result_output_path: Path = self._initialize_output_path(file_result_output_path)
         self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
@@ -84,6 +86,24 @@ class PyskindoseSettings:
         self.plot = Plotsettings(plt_dict=tmp["plot"])
 
         self.normalization_settings = self._initialize_normalization_settings(normalization_settings)
+
+    @staticmethod
+    def _initialize_output_path(output_path: Optional[Union[str, Path]]) -> Path:
+        if output_path is None:
+            output = Path.cwd() / "PlotOutputs"
+            output.mkdir(exist_ok=True)
+            return output
+
+        if isinstance(output_path, str):
+            output_path = Path(output_path)
+
+        if not isinstance(output_path, Path):
+            raise TypeError("file_result_output_path must be a string or a Path object")
+
+        if output_path.is_dir():
+            return output_path
+
+        raise ValueError("file_result_output_path must be a path to a directory")
 
     @staticmethod
     def _initialize_normalization_settings(

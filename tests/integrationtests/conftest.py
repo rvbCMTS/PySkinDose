@@ -6,8 +6,8 @@ import pydicom
 import pytest
 
 import pyskindose.constants as c
-from pyskindose.settings import PyskindoseSettings
 from pyskindose.rdsr_parser import rdsr_parser
+from pyskindose.settings import PyskindoseSettings
 
 
 @pytest.fixture(scope="function")
