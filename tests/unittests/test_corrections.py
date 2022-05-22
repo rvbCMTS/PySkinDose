@@ -4,8 +4,19 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from pyskindose.corrections import calculate_k_bs, calculate_k_isq, calculate_k_med
-from pyskindose.db_connect import db_connect
+from pyskindose.constants import (
+    KEY_NORMALIZATION_ACQUISITION_PLANE,
+    KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
+    KEY_NORMALIZATION_FILTER_SIZE_COPPER,
+    KEY_NORMALIZATION_KVP,
+    KEY_NORMALIZATION_MODEL_NAME,
+)
+from pyskindose.corrections import (
+    calculate_k_bs,
+    calculate_k_isq,
+    calculate_k_med,
+    calculate_k_tab,
+)
 
 P = Path(__file__).parent.parent.parent
 sys.path.insert(1, str(P.absolute()))
@@ -64,31 +75,44 @@ def test_fetch_correct_medium_correction_from_database():
 
 
 def test_fetch_correct_table_correction_from_database():
+    # Arrange
     expected = 0.7319
 
-    [conn, c] = db_connect()
-
-    # Set paramets for fetching table transmission correction factor.
-    params = (
-        80,  # kVp, rounded to nearest integer
-        0.3,  # Filter thickness Cu
-        0,  # Filter thicknes Al
-        "AXIOM-Artis",  # device model
-        "Single Plane",
-    )  # acquisition plane
-
-    # Fetch k_tab
-    c.execute(
-        "SELECT k_patient_support FROM table_transmission WHERE \
-                kVp_kV=? AND AddedFiltration_mmCu=? AND \
-                AddedFiltration_mmAl=? AND DeviceModel=? AND \
-                AcquisitionPlane=?",
-        params,
+    data_norm = pd.DataFrame(
+        data={
+            KEY_NORMALIZATION_KVP: [80],
+            KEY_NORMALIZATION_FILTER_SIZE_COPPER: [0.3],
+            KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM: [0],
+            KEY_NORMALIZATION_MODEL_NAME: ["AXIOM-Artis"],
+            KEY_NORMALIZATION_ACQUISITION_PLANE: ["Single Plane"],
+        }
     )
 
-    actual = c.fetchone()[0]
+    # Act
+    result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8)
+    actual = result[0]
 
-    conn.commit()
-    conn.close()
+    # Assert
+    assert actual == expected
 
+
+def test_fetch_correct_table_correction_from_database_when_machine_model_has_extra_blank_space():
+    # Arrange
+    expected = 0.8
+
+    data_norm = pd.DataFrame(
+        data={
+            KEY_NORMALIZATION_KVP: [80],
+            KEY_NORMALIZATION_FILTER_SIZE_COPPER: [0.4],
+            KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM: [1.0],
+            KEY_NORMALIZATION_MODEL_NAME: ["AlluraCla rity"],
+            KEY_NORMALIZATION_ACQUISITION_PLANE: ["Plane A"],
+        }
+    )
+
+    # Act
+    result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8)
+    actual = result[0]
+
+    # Assert
     assert actual == expected

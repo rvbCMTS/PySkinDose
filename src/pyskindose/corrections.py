@@ -203,30 +203,35 @@ def calculate_k_tab(data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab
 
     k_tab = [1.0] * len(data_norm)
 
-    # For every irradiation event
-    for event in range(len(data_norm)):
+    try:
+        # For every irradiation event
+        for event in range(len(data_norm)):
 
-        # Set paramets for fetching table transmission correction factor.
-        params = (
-            round(float(data_norm.kVp[event])),
-            data_norm.filter_thickness_Cu[event],
-            data_norm.filter_thickness_Al[event],
-            data_norm.model[event],
-            data_norm.acquisition_plane[event],
-        )
+            # Set parameters for fetching table transmission correction factor.
+            params = (
+                round(float(data_norm.kVp[event])),
+                float(data_norm.filter_thickness_Cu[event]),
+                float(data_norm.filter_thickness_Al[event]),
+                data_norm.model[event],
+                data_norm.model[event].replace(" ", ""),
+                data_norm.acquisition_plane[event],
+            )
 
-        # Fetch k_tab
-        c.execute(
-            "SELECT k_patient_support FROM table_transmission WHERE \
-                   kVp_kV=? AND AddedFiltration_mmCu=? AND \
-                   AddedFiltration_mmAl=? AND DeviceModel=? AND \
-                   AcquisitionPlane=?",
-            params,
-        )
+            # Fetch k_tab
+            c.execute(
+                "SELECT k_patient_support "
+                "FROM table_transmission "
+                "WHERE kVp_kV=? AND "
+                "      AddedFiltration_mmCu=? AND "
+                "      AddedFiltration_mmAl=? AND "
+                "      DeviceModel IN (?, ?) AND "
+                "      AcquisitionPlane=?",
+                params,
+            )
 
-        k_tab[event] = c.fetchone()[0]
-
-    conn.commit()
-    conn.close()
+            k_tab[event] = c.fetchone()[0]
+    finally:
+        conn.commit()
+        conn.close()
 
     return k_tab
