@@ -70,3 +70,28 @@ class PhantomDimensions:
 
     def update_attrs_str(self):
         self.attrs_str = create_attributes_string(attrs_parent=self, object_name="dimension", indent_level=1)
+
+    def to_dict_pad(self):
+        return {
+            "plane_length": self.plane_length,
+            "plane_width": self.plane_width,
+            "plane_resolution": self.plane_resolution,
+            "cylinder_length": self.cylinder_length,
+            "cylinder_radii_a": self.cylinder_radii_a,
+            "cylinder_radii_b": self.cylinder_radii_b,
+            "cylinder_resolution": self.cylinder_resolution,
+            "table_thickness": self.table_thickness,
+            "table_length": self.table_length,
+            "table_width": self.table_width,
+            "pad_thickness": self.pad_thickness,
+            "pad_width": self.pad_width,
+            "pad_length": self.pad_length,
+        }
+
+    def to_dict_cylinder(self):
+        return {
+            "cylinder_length": self.cylinder_length,
+            "cylinder_radii_a": self.cylinder_radii_a,
+            "cylinder_radii_b": self.cylinder_radii_b,
+            "cylinder_resolution": self.cylinder_resolution,
+        }

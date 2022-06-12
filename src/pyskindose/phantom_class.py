@@ -80,6 +80,8 @@ class Phantom:
         if self.phantom_model not in VALID_PHANTOM_MODELS:
             raise ValueError(f"Unknown phantom model selected. Valid type:" f"{'.'.join(VALID_PHANTOM_MODELS)}")
 
+        self.human_model = None
+
         self.r_ref: np.array
 
         # Save table length for all phantom in order to choose correct rotation
@@ -195,6 +197,8 @@ class Phantom:
 
             r = phantom_mesh.vectors
             n = phantom_mesh.normals
+
+            self.human_model = human_mesh
 
             self.r = np.asarray([el for el_list in r for el in el_list])
             self.n = np.asarray([x for pair in zip(n, n, n) for x in pair])
