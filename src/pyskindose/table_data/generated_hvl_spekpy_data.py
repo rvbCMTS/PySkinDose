@@ -3,7 +3,6 @@ import spekpy as sp  # Note: Not included in PySkinDose,
 import pandas as pd
 import os
 from pathlib import Path
-import tqdm
 
 
 def generate_spekpy_data(
@@ -66,16 +65,17 @@ def generate_spekpy_data(
 kvp_min = 25
 kvp_max = 175
 
-# AXIOM-Artis Single Plane U106 20180328
-InherentFiltration_mmAl = 4.1
-AddedFiltrationRange_mmAl = [0]
-AddedFiltrationRange_mmCu = [0, 0.1, 0.2, 0.3, 0.6, 0.9]
-AddedFiltration_mmAir = 770
-DeviceModel = "AXIOM-Artis"
-AcquisitionPlane = "Single Plane"
-AnodeAngle_deg = 8
-LabName = "U106"
-MeasurementDate = "20180328"
+
+# Allura Clarity plane A U104 20180412
+InherentFiltration_mmAl = 4.4
+AddedFiltrationRange_mmAl = [0, 1]
+AddedFiltrationRange_mmCu = [0, 0.1, 0.4, 0.9]
+AddedFiltration_mmAir = 795
+DeviceModel = "Allura Clarity"
+AcquisitionPlane = "Plane A"
+AnodeAngle_deg = 11
+LabName = "U104"
+MeasurementDate = "20180412"
 ResultsPath = Path(os.path.abspath(__file__)).parent
 FileName = f"HVL_{DeviceModel}_{InherentFiltration_mmAl}mmAl_{AcquisitionPlane}_{LabName}_{MeasurementDate}.csv"
 FileName = FileName.replace(" ", "")
@@ -94,6 +94,67 @@ res = generate_spekpy_data(
     MeasurementDate=MeasurementDate,
     FileName=FileName,
 )
+
+
+# # Allura Clarity plane B U104 20180412
+# InherentFiltration_mmAl = 3.1
+# AddedFiltrationRange_mmAl = [0, 1]
+# AddedFiltrationRange_mmCu = [0, 0.1, 0.4, 0.9]
+# AddedFiltration_mmAir = 750
+# DeviceModel = "Allura Clarity"
+# AcquisitionPlane = "Plane B"
+# AnodeAngle_deg = 11
+# LabName = "U104"
+# MeasurementDate = "20180412"
+# ResultsPath = Path(os.path.abspath(__file__)).parent
+# FileName = f"HVL_{DeviceModel}_{InherentFiltration_mmAl}mmAl_{AcquisitionPlane}_{LabName}_{MeasurementDate}.csv"
+# FileName = FileName.replace(" ", "")
+
+
+# res = generate_spekpy_data(
+#     kvpRange_kV=np.linspace(kvp_min, kvp_max, kvp_max - kvp_min + 1),
+#     InherentFiltration_mmAl=InherentFiltration_mmAl,
+#     AddedFiltrationRange_mmAl=AddedFiltrationRange_mmAl,
+#     AddedFiltrationRange_mmCu=AddedFiltrationRange_mmCu,
+#     AddedFiltration_mmAir=AddedFiltration_mmAir,
+#     DeviceModel=DeviceModel,
+#     AcquisitionPlane=AcquisitionPlane,
+#     AnodeAngle_deg=AnodeAngle_deg,
+#     ResultsPath=ResultsPath,
+#     LabName=LabName,
+#     MeasurementDate=MeasurementDate,
+#     FileName=FileName,
+# )
+
+
+# AXIOM-Artis Single Plane U106 20180328
+# InherentFiltration_mmAl = 4.1
+# AddedFiltrationRange_mmAl = [0]
+# AddedFiltrationRange_mmCu = [0, 0.1, 0.2, 0.3, 0.6, 0.9]
+# AddedFiltration_mmAir = 770
+# DeviceModel = "AXIOM-Artis"
+# AcquisitionPlane = "Single Plane"
+# AnodeAngle_deg = 8
+# LabName = "U106"
+# MeasurementDate = "20180328"
+# ResultsPath = Path(os.path.abspath(__file__)).parent
+# FileName = f"HVL_{DeviceModel}_{InherentFiltration_mmAl}mmAl_{AcquisitionPlane}_{LabName}_{MeasurementDate}.csv"
+# FileName = FileName.replace(" ", "")
+
+# res = generate_spekpy_data(
+#    kvpRange_kV=np.linspace(kvp_min, kvp_max, kvp_max - kvp_min + 1),
+#    InherentFiltration_mmAl=InherentFiltration_mmAl,
+#    AddedFiltrationRange_mmAl=AddedFiltrationRange_mmAl,
+#    AddedFiltrationRange_mmCu=AddedFiltrationRange_mmCu,
+#    AddedFiltration_mmAir=AddedFiltration_mmAir,
+#    DeviceModel=DeviceModel,
+#    AcquisitionPlane=AcquisitionPlane,
+#    AnodeAngle_deg=AnodeAngle_deg,
+#    ResultsPath=ResultsPath,
+#    LabName=LabName,
+#    MeasurementDate=MeasurementDate,
+#    FileName=FileName,
+# )
 
 
 # Allura Clarity Single Plane U601 20180418"
@@ -123,65 +184,4 @@ res = generate_spekpy_data(
 #     LabName=LabName,
 #     MeasurementDate=MeasurementDate,
 #     FileName=FileName,
-# )
-
-
-# Allura Clarity plane A U104 20180412
-# InherentFiltration_mmAl = 4.4
-# AddedFiltrationRange_mmAl = [0, 1]
-# AddedFiltrationRange_mmCu = [0, 0.1, 0.4, 0.9]
-# AddedFiltration_mmAir = 795
-# DeviceModel = "Allura Clarity"
-# AcquisitionPlane = "Plane A"
-# AnodeAngle_deg = 11
-# LabName = "U104"
-# MeasurementDate = "20180412"
-# ResultsPath = Path(os.path.abspath(__file__)).parent
-# FileName = f"HVL_{DeviceModel}_{InherentFiltration_mmAl}mmAl_{AcquisitionPlane}_{LabName}_{MeasurementDate}.csv"
-# FileName = FileName.replace(" ", "")
-
-# res = generate_spekpy_data(
-#    kvpRange_kV=np.linspace(kvp_min, kvp_max, kvp_max - kvp_min + 1),
-#    InherentFiltration_mmAl=InherentFiltration_mmAl,
-#    AddedFiltrationRange_mmAl=AddedFiltrationRange_mmAl,
-#    AddedFiltrationRange_mmCu=AddedFiltrationRange_mmCu,
-#    AddedFiltration_mmAir=AddedFiltration_mmAir,
-#    DeviceModel=DeviceModel,
-#    AcquisitionPlane=AcquisitionPlane,
-#    AnodeAngle_deg=AnodeAngle_deg,
-#    ResultsPath=ResultsPath,
-#    LabName=LabName,
-#    MeasurementDate=MeasurementDate,
-#    FileName=FileName,
-# )
-
-
-# Allura Clarity plane B U104 20180412
-# InherentFiltration_mmAl = 3.1
-# AddedFiltrationRange_mmAl = [0, 1]
-# AddedFiltrationRange_mmCu = [0, 0.1, 0.4, 0.9]
-# AddedFiltration_mmAir = 750
-# DeviceModel = "Allura Clarity"
-# AcquisitionPlane = "Plane B"
-# AnodeAngle_deg = 11
-# LabName = "U104"
-# MeasurementDate = "20180412"
-# ResultsPath = Path(os.path.abspath(__file__)).parent
-# FileName = f"HVL_{DeviceModel}_{InherentFiltration_mmAl}mmAl_{AcquisitionPlane}_{LabName}_{MeasurementDate}.csv"
-# FileName = FileName.replace(" ", "")
-
-
-# res = generate_spekpy_data(
-#    kvpRange_kV=np.linspace(kvp_min, kvp_max, kvp_max - kvp_min + 1),
-#    InherentFiltration_mmAl=InherentFiltration_mmAl,
-#    AddedFiltrationRange_mmAl=AddedFiltrationRange_mmAl,
-#    AddedFiltrationRange_mmCu=AddedFiltrationRange_mmCu,
-#    AddedFiltration_mmAir=AddedFiltration_mmAir,
-#    DeviceModel=DeviceModel,
-#    AcquisitionPlane=AcquisitionPlane,
-#    AnodeAngle_deg=AnodeAngle_deg,
-#    ResultsPath=ResultsPath,
-#    LabName=LabName,
-#    MeasurementDate=MeasurementDate,
-#    FileName=FileName,
 # )
