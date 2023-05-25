@@ -4,6 +4,7 @@ import pandas as pd
 
 from pyskindose import constants as c
 from pyskindose.calculate_dose.calculate_dose import calculate_dose
+from pyskindose.format_export_data import format_analysis_result_for_export, PySkinDoseOutput
 from pyskindose.phantom_class import Phantom
 from pyskindose.plotting.create_dose_map_plot import create_dose_map_plot
 from pyskindose.plotting.create_geometry_plot import create_geometry_plot
@@ -13,7 +14,7 @@ from pyskindose.settings import PyskindoseSettings, initialize_settings
 def analyze_data(
     normalized_data: pd.DataFrame,
     settings: Union[str, dict, PyskindoseSettings],
-) -> Dict[str, Any]:
+) -> Union[Dict[str, Any], str]:
     """Analyze data och settings, and runs PySkinDose in desired mode.
 
     Parameters
@@ -32,6 +33,10 @@ def analyze_data(
     """
     settings = initialize_settings(settings)
 
+    if settings.output_format not in c.RUN_ARGUMENTS_VALID_OUTPUT_FORMATS:
+        raise ValueError(
+            f"Invalid output format specified. Must be one of {'.'.join(c.RUN_ARGUMENTS_VALID_OUTPUT_FORMATS)}")
+
     # create table, pad and patient phantoms.
     table = Phantom(phantom_model=c.PHANTOM_MODEL_TABLE, phantom_dim=settings.phantom.dimension)
 
@@ -46,4 +51,20 @@ def analyze_data(
 
     create_dose_map_plot(patient=patient, settings=settings, dose_map=dose_map)
 
-    return output
+    if settings.output_format == c.RUN_ARGUMENTS_OUTPUT_HTML:
+        return output
+
+    pyskindose_output: PySkinDoseOutput = format_analysis_result_for_export(
+        output,
+        patient=patient,
+        table=table,
+        pad=pad,
+        dose_map=dose_map,
+        data_norm=normalized_data,
+        settings=settings
+    )
+    if settings.output_format == c.RUN_ARGUMENTS_OUTPUT_DICT:
+        return pyskindose_output.to_dict()
+
+    if settings.output_format == c.RUN_ARGUMENTS_OUTPUT_JSON:
+        return pyskindose_output.to_json()

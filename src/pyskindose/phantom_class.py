@@ -27,7 +27,7 @@ class Phantom:
     ----------
     phantom_model : str
         Type of phantom, i.e. "plane", "cylinder", "human", "table" or "pad"
-    r : np.array
+    r : np.ndarray
         n*3 array where n are the number of phantom skin cells. Each row
         contains the xyz coordinate of one of the phantom skin cells
     ijk : np.array

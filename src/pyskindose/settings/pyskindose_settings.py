@@ -9,6 +9,8 @@ from pyskindose.constants import (
     KEY_PARAM_K_TAB_VAL,
     KEY_PARAM_MODE,
     KEY_PARAM_RDSR_FILENAME,
+    RUN_ARGUMENTS_OUTPUT_HTML,
+    RUN_ARGUMENTS_VALID_OUTPUT_FORMATS
 )
 
 from .normalization_settings import NormalizationSettings
@@ -60,6 +62,7 @@ class PyskindoseSettings:
         settings: Union[str, dict],
         normalization_settings: Optional[Union[Path, str, dict, NormalizationSettings]] = None,
         file_result_output_path: Optional[Union[str, Path]] = None,
+        output_format: str = RUN_ARGUMENTS_OUTPUT_HTML
     ):
         """Initialize settings class.
 
@@ -76,7 +79,12 @@ class PyskindoseSettings:
         else:
             tmp = settings
 
+        if (output_format := output_format.lower()) not in RUN_ARGUMENTS_VALID_OUTPUT_FORMATS:
+            raise ValueError(
+                f"The output format must be specified as one of {', '.join(RUN_ARGUMENTS_VALID_OUTPUT_FORMATS)}")
+
         self.mode = tmp[KEY_PARAM_MODE]
+        self.output_format = output_format
         self.file_result_output_path: Path = self._initialize_output_path(file_result_output_path)
         self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]

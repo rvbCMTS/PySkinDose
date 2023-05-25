@@ -8,6 +8,7 @@ from pyskindose.settings.normalization_settings import NormalizationSettings
 from .constants import (
     KEY_NORMALIZATION_ACQUISITION_PLANE,
     KEY_NORMALIZATION_ACQUISITION_TYPE,
+    KEY_NORMALIZATION_AIR_KERMA,
     KEY_NORMALIZATION_DISTANCE_ISOCENTER_DETECTOR,
     KEY_NORMALIZATION_DISTANCE_SOURCE_DETECTOR,
     KEY_NORMALIZATION_DISTANCE_SOURCE_IRP,
@@ -282,6 +283,6 @@ def _normalize_beam_parameters(
     data_norm["FS_long"] = FS_long
 
     data_norm["kVp"] = data_parsed.KVP_kV
-    data_norm["K_IRP"] = data_parsed.DoseRP_Gy * 1000
+    data_norm[KEY_NORMALIZATION_AIR_KERMA] = data_parsed.DoseRP_Gy * 1000
 
     return data_norm

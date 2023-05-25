@@ -1,12 +1,14 @@
 import argparse
 import logging
 import os
+import sys
 from typing import Optional, Union
 
 import pandas as pd
 import pydicom
 
 from pyskindose.analyze_data import analyze_data
+from pyskindose.constants import RUN_ARGUMENTS_MODE_HEADLESS, RUN_ARGUMENTS_MODE_GUI
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
 from pyskindose.rdsr_normalizer import rdsr_normalizer
 from pyskindose.rdsr_parser import rdsr_parser
@@ -85,16 +87,43 @@ def _read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSettin
     return normalized_data
 
 
-if __name__ == "__main__":
+def get_argument_parser(args) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="PySkinDose",
+        description=(
+            "PySkinDose is a Python version 3.7 based program for patient peak"
+            " skin dose (PSD) estimations from fluoroscopic procedures in"
+            " interventional radiology."
+        ),
+    )
+    parser.add_argument(
+        "--mode", "-m",
+        choices=(
+            RUN_ARGUMENTS_MODE_HEADLESS,
+            RUN_ARGUMENTS_MODE_GUI
+        ),
+        default=RUN_ARGUMENTS_MODE_HEADLESS,
+    )
+    headless = parser.add_subparsers(title="headless", help="headless parameters")
 
-    DESCRIPTION = (
-        "PySkinDose is a Python version 3.7 based program for patient peak"
-        " skin dose (PSD) estimations from fluoroscopic procedures in"
-        " interventional radiology."
+    parser.add_argument(
+        "--file-path", "-f",
+        required=False,
+        dest="file_path",
+        help="Path to RDSR DICOM file (required in headless mode)"
     )
 
-    PARSER = argparse.ArgumentParser(description=DESCRIPTION)
-    PARSER.add_argument("--file-path", help="Path to RDSR DICOM file")
-    ARGS = PARSER.parse_args()
+    parser.add_argument(
+        "--settings", "-s",
+        required=False,
+        dest="settings",
+        help="Path to the settings file to use if a specific settings file is required"
+    )
 
-    main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)
+    return parser.parse_args(args)
+
+
+if __name__ == "__main__":
+    args = get_argument_parser(sys.argv)
+
+    main(file_path=args.file_path, settings=DEVELOPMENT_PARAMETERS)
