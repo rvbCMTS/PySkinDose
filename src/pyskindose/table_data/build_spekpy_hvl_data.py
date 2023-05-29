@@ -20,5 +20,3 @@ data_combined.drop(columns=data_combined.columns[0], axis=1, inplace=True)
 
 data_combined.to_csv(data_path / "HVL_simulated.csv", index=False)
 
-
-print("Done")

@@ -62,6 +62,3 @@ for i in range(len(data_allura_single)):
     )
 
 fig.show()
-
-
-print("done")
