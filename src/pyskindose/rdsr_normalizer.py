@@ -207,6 +207,14 @@ def _normalize_table_parameters(
     data_parsed: pd.DataFrame, data_norm: pd.DataFrame, norm: NormalizationSettings
 ) -> pd.DataFrame:
 
+    logger.debug('Checking for multiple entries of table position tags (per event)')
+    for tag in ['TableHeightPosition_mm', 'TableLongitudinalPosition_mm', 'TableLateralPosition_mm']:
+
+        if isinstance(data_parsed[tag][0], list):
+
+            logger.debug((f"several {tag} entries per event. Selecting the first one"))
+            data_parsed[tag] = [item[0] for item in data_parsed[tag]]
+
     # Table translations
     data_norm["Tx"] = norm.trans_offset.x + norm.trans_dir.x * data_parsed.TableLongitudinalPosition_mm / 10
 
