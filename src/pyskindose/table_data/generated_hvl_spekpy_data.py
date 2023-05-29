@@ -6,18 +6,18 @@ from pathlib import Path
 
 
 def generate_spekpy_data(
-    kvpRange_kV,
-    InherentFiltration_mmAl,
-    AddedFiltrationRange_mmAl,
-    AddedFiltrationRange_mmCu,
-    AddedFiltration_mmAir,
-    DeviceModel,
-    AcquisitionPlane,
-    AnodeAngle_deg,
-    ResultsPath,
-    LabName,
-    FileName,
-    MeasurementDate,
+    kvp_range_kv,
+    Inherent_filtration_mmal,
+    added_filtration_range_mmal,
+    added_filtration_range_mmcu,
+    added_filtration_mmair,
+    device_model,
+    acquisition_plane,
+    anode_angle_deg,
+    results_path,
+    lab_name,
+    file_name,
+    measurement_date,
 ):
 
     index = [
@@ -38,59 +38,44 @@ def generate_spekpy_data(
     for i in index:
         res[i] = []
 
-    for kvp in kvpRange_kV:
+    for kvp in kvp_range_kv:
         print(kvp)
-        for AddedFiltration_mmAl in AddedFiltrationRange_mmAl:
-            for AddedFiltration_mmCu in AddedFiltrationRange_mmCu:
+        for added_filtration_mmal in added_filtration_range_mmal:
+            for added_filtration_mmcu in added_filtration_range_mmcu:
 
-                filters = [("Al", InherentFiltration_mmAl + AddedFiltration_mmAl), ("Cu", AddedFiltration_mmCu)]
-                s = sp.Spek(kvp=kvp, th=AnodeAngle_deg, dk=1, z=AddedFiltration_mmAir / 10)
+                filters = [("Al", Inherent_filtration_mmal + added_filtration_mmal), ("Cu", added_filtration_mmcu)]
+                s = sp.Spek(kvp=kvp, th=anode_angle_deg, dk=1, z=added_filtration_mmair / 10)
                 s.multi_filter(filters)
 
                 res["kVp_kV"].append(kvp)
-                res["InherentFiltration_mmAl"].append(InherentFiltration_mmAl)
-                res["AddedFiltration_mmCu"].append(AddedFiltration_mmCu)
-                res["AddedFiltration_mmAl"].append(AddedFiltration_mmAl)
-                res["AddedFiltration_mmAir"].append(AddedFiltration_mmAir)
-                res["DeviceModel"].append(DeviceModel)
-                res["AcquisitionPlane"].append(AcquisitionPlane)
-                res["AnodeAngle_deg"].append(AnodeAngle_deg)
+                res["InherentFiltration_mmAl"].append(Inherent_filtration_mmal)
+                res["AddedFiltration_mmCu"].append(added_filtration_mmcu)
+                res["AddedFiltration_mmAl"].append(added_filtration_mmal)
+                res["AddedFiltration_mmAir"].append(added_filtration_mmair)
+                res["DeviceModel"].append(device_model)
+                res["AcquisitionPlane"].append(acquisition_plane)
+                res["AnodeAngle_deg"].append(anode_angle_deg)
                 res["HVL_mmAl"].append(s.get_hvl())
-                res["LabName"].append(LabName)
-                res["MeasurementDate"].append(MeasurementDate)
+                res["LabName"].append(lab_name)
+                res["MeasurementDate"].append(measurement_date)
 
-    pd.DataFrame(res).to_csv(ResultsPath / FileName)
-
-
-
+    pd.DataFrame(res).to_csv(results_path / file_name)
 
 # variables to enter
 kvp_min = None
 kvp_max = None
-InherentFiltration_mmAl = None
-AddedFiltrationRange_mmAl = None
-AddedFiltrationRange_mmCu = None
-AddedFiltration_mmAir = None
-DeviceModel = None
-AcquisitionPlane = None
-AnodeAngle_deg = None
-LabName = None
-MeasurementDate = None
-ResultsPath = Path(os.path.abspath(__file__)).parent
-FileName = None
-FileName = FileName.replace(" ", "")
 
 res = generate_spekpy_data(
-    kvpRange_kV=np.linspace(kvp_min, kvp_max, kvp_max - kvp_min + 1),
-    InherentFiltration_mmAl=InherentFiltration_mmAl,
-    AddedFiltrationRange_mmAl=AddedFiltrationRange_mmAl,
-    AddedFiltrationRange_mmCu=AddedFiltrationRange_mmCu,
-    AddedFiltration_mmAir=AddedFiltration_mmAir,
-    DeviceModel=DeviceModel,
-    AcquisitionPlane=AcquisitionPlane,
-    AnodeAngle_deg=AnodeAngle_deg,
-    ResultsPath=ResultsPath,
-    LabName=LabName,
-    MeasurementDate=MeasurementDate,
-    FileName=FileName,
+    kvp_range_kv=np.linspace(kvp_min, kvp_max, kvp_max - kvp_min + 1),
+    Inherent_filtration_mmal=None,
+    added_filtration_range_mmal=None,
+    added_filtration_range_mmcu=None,
+    added_filtration_mmair=None,
+    device_model=None,
+    acquisition_plane=None,
+    anode_angle_deg=None,
+    results_path=Path(os.path.abspath(__file__)).parent,
+    lab_name=None,
+    measurement_date=None,
+    file_name=None,
 )
