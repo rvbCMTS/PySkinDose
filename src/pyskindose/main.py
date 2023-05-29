@@ -67,7 +67,7 @@ def _read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSettin
     if not rdsr_filepath:
         rdsr_filepath = os.path.join(os.path.dirname(__file__), "example_data", "RDSR", settings.rdsr_filename)
 
-    logger.debug(rdsr_filepath)
+    logger.debug(f'RDSR filepath: {rdsr_filepath}')
 
     "If provided, load preparsed rdsr data in .json format"
     if ".json" in rdsr_filepath:
