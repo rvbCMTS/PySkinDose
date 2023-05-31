@@ -167,7 +167,7 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
         df.loc[
             (df["hvl_mmAl"] == hvl_round) & (df["kvp_kV"] == kvp_round) & (df["field_side_length_cm"] == fsl),
             "mu_en_quotient",
-        ]
+        ].iloc[0]
     )
 
     return k_med
