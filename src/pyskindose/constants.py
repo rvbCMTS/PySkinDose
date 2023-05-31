@@ -32,7 +32,7 @@ KEY_PARAM_ESTIMATE_K_TAB = "estimate_k_tab"
 KEY_PARAM_K_TAB_VAL = "k_tab_val"
 KEY_PARAM_PHANTOM_MODEL = "model"
 KEY_PARAM_HUMAN_MESH = "human_mesh"
-
+KEY_PARAM_INHERENT_FILTRATION = "inherent_filtration"
 
 DIMENSION_PLANE_LENGTH = "plane_length"
 DIMENSION_PLANE_RESOLUTION = "plane_resolution"
