@@ -249,7 +249,7 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame) -> pd.DataFrame:
                 & (hvl_data["AddedFiltration_mmCu"] == data_norm.filter_thickness_Cu[event])
                 & (hvl_data["AddedFiltration_mmAl"] == round(data_norm.filter_thickness_Al[event])),
                 "HVL_mmAl",
-            ]
+            ].iloc[0]
         )
         for event in range(len(data_norm))
     ]
