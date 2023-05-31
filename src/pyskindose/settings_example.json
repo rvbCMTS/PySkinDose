@@ -4,6 +4,7 @@
     "plot_event_index": 12,
     "estimate_k_tab": false,
     "k_tab_val": 0.8,
+    "inherent_filtration": 3.1,
     "plot": {
         "dark_mode": true,
         "notebook_mode": false,

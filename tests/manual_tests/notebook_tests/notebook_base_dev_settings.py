@@ -10,6 +10,8 @@ DEVELOPMENT_PARAMETERS = dict(
     # Numeric value of estimated table correction
     k_tab_val=0.8,
     # plot settings
+    # x-ray tube inherent filtration in mmAl
+    inherent_filtration=3.1,
     plot={
         # toggle interactive/static dose map mode.
         c.MODE_INTERACTIVITY: True,

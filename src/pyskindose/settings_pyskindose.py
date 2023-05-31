@@ -4,6 +4,7 @@ from typing import Union
 from pyskindose.constants import (
     KEY_PARAM_ESTIMATE_K_TAB,
     KEY_PARAM_HUMAN_MESH,
+    KEY_PARAM_INHERENT_FILTRATION,
     KEY_PARAM_K_TAB_VAL,
     KEY_PARAM_MODE,
     KEY_PARAM_PHANTOM_MODEL,
@@ -74,7 +75,7 @@ class PyskindoseSettings:
         self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
-
+        self.inherent_filtration = tmp[KEY_PARAM_INHERENT_FILTRATION]      
         self.phantom = PhantomSettings(ptm_dim=tmp["phantom"])
         self.plot = Plotsettings(plt_dict=tmp["plot"])
 
