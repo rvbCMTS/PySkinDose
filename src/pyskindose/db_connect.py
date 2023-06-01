@@ -40,10 +40,10 @@ def db_connect(db_name: str = "corrections.db"):
         hvl_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "hvl_simulated.csv"))
 
         # Backscatter and mu_en/rho quotients, from Benmanhlouf et al.
-        ks_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "KS_table_concatenated.csv"))
+        ks_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "correction_medium_and_backscatter.csv"))
 
         # Measured and approximated patient support table transmission.
-        tab_pad_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "table_transmission.csv"))
+        tab_pad_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "correction_table_and_pad_attenuation.csv"))
 
         # Table containing lab specific parameters.
         device_info_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "device_info.csv"))

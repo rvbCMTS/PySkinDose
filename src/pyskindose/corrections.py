@@ -144,7 +144,7 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     # [doi:10.1088/0031-9155/58/2/247]
     df = pd.read_sql_query(
         """SELECT kvp_kv, hvl_mmal, field_side_length_cm,
-                           mu_en_quotient FROM ks_table_concatenated""",
+                           mu_en_quotient FROM correction_medium_and_backscatter""",
         conn,
     )
 
@@ -220,7 +220,7 @@ def calculate_k_tab(data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab
             # Fetch k_tab
             c.execute(
                 "SELECT k_patient_support "
-                "FROM table_transmission "
+                "FROM correction_table_and_pad_attenuation "
                 "WHERE kvp_kv=? AND "
                 "      filtration_added_mmcu=? AND "
                 "      filtration_added_mmal=? AND "
