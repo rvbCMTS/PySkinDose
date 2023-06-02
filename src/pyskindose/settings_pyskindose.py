@@ -46,7 +46,7 @@ class PyskindoseSettings:
         conducted table attenatuion measurements.
     inhetent_filtration : float
         inherent filtration of X-ray tube, used for HVL selection that is needed for
-        k_med and k_bs correction.
+        k_med and k_bs correction. Currently, values between 2.0 och 5.0 is supported.
     k_tab_val : float
         Value of k_tab, in range 0.0 -> 1.0.
     phantom : PhantomSettings
