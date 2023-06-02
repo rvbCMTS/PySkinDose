@@ -37,7 +37,7 @@ def db_connect(db_name: str = "corrections.db"):
         # load data from CSV files
 
         # HVL table, simulated with SpekCalc.
-        hvl_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "hvl_simulated.csv"))
+        hvl_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "hvl_tables/hvl_combined.csv"))
 
         # Backscatter and mu_en/rho quotients, from Benmanhlouf et al.
         ks_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "correction_medium_and_backscatter.csv"))
@@ -50,7 +50,7 @@ def db_connect(db_name: str = "corrections.db"):
 
         # Upload tables to database
 
-        hvl_table.to_sql("hvl_simulated", conn, if_exists="replace", index=False)
+        hvl_table.to_sql("hvl_combined", conn, if_exists="replace", index=False)
 
         ks_table.to_sql("correction_medium_and_backscatter", conn, if_exists="replace", index=False)
 
