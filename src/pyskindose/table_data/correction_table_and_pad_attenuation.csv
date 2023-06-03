@@ -1,4 +1,4 @@
-kVp_kV,AddedFiltration_mmCu,AddedFiltration_mmAl,DeviceModel,AcquisitionPlane,k_patient_support,Comment
+kvp_kv,filtration_added_mmcu,filtration_added_mmal,device_model,acquisition_plane,k_patient_support,comment
 50,0,0,AXIOM-Artis,Single Plane,0.5974,measured in lab 106 - 2018-04
 51,0,0,AXIOM-Artis,Single Plane,0.5997,measured in lab 106 - 2018-04
 52,0,0,AXIOM-Artis,Single Plane,0.602,measured in lab 106 - 2018-04
