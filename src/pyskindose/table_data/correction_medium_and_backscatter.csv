@@ -1,4 +1,4 @@
-kvp_kV,inherent_filtration_mmAl,added_filtration_mmCu,hvl_mmAl,h,field_side_length_cm,backscatter,mu_en_quotient
+kvp_kv,filtration_inherent_mmal,filtration_added_mmcu,hvl_mmal,h,field_side_length_cm,backscatter,mu_en_quotient
 50,2.5,0,1.78,0.75,5,1.192,1.016
 50,3.1,0,1.99,0.78,5,1.204,1.016
 50,4.1,0,2.30,0.81,5,1.219,1.016

@@ -4,12 +4,14 @@ DEVELOPMENT_PARAMETERS = dict(
     # modes: 'calculate_dose', 'plot_setup', 'plot_event', 'plot_procedure'
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
-    rdsr_filename="S1.dcm",
+    rdsr_filename="siemens_axiom_example_procedure.dcm",
     # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
     # Numeric value of estimated table correction
     k_tab_val=0.8,
     # plot settings
+    # x-ray tube inherent filtration in mmAl
+    inherent_filtration=3.1,
     plot={
         # toggle interactive/static dose map mode.
         c.MODE_INTERACTIVITY: True,
