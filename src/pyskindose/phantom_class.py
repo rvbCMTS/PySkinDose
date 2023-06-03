@@ -18,7 +18,7 @@ VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
 class Phantom:
     """Create and handle phantoms for patient, support table and pad.
 
-    This class creates a phatom of any of the types specified in
+    This class creates a phantom of any of the types specified in
     VALID_PHANTOM_MODELS (plane, cylinder or human to represent the patient,
     as well as patient support table and pad). The patient phantoms consists of
     a number of skin cells where the skin dose can be calculated.
@@ -58,7 +58,7 @@ class Phantom:
         ----------
         phantom_model : str
             Type of phantom to create. Valid selections are 'plane',
-            'cylinder', 'human', "table" an "pad".
+            'cylinder', 'human', "table", and "pad".
         phantom_dim : PhantomDimensions
             instance of class PhantomDimensions containing dimensions for
             all phantoms models except human phantoms: Length, width, radius,

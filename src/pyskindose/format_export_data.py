@@ -12,12 +12,26 @@ from pyskindose.constants import (
     PHANTOM_MODEL_HUMAN,
     PLOT_TRACE_ORDER_PHANTOM_WIREFRAME,
     PLOT_TRACE_ORDER_BEAM_WIREFRAME,
-    PLOT_TRACE_ORDER_DETECTOR_WIREFRAME, KEY_NORMALIZATION_AIR_KERMA,
+    PLOT_TRACE_ORDER_DETECTOR_WIREFRAME, KEY_NORMALIZATION_AIR_KERMA, OUTPUT_KEY_HITS,
+    OUTPUT_KEY_CORRECTION_BACK_SCATTER, OUTPUT_KEY_CORRECTION_MEDIUM, OUTPUT_KEY_CORRECTION_TABLE,
+    OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW, RUN_ARGUMENTS_OUTPUT_DICT, RUN_ARGUMENTS_OUTPUT_JSON, OUTPUT_KEY_DOSE_MAP,
 )
 
 
 @dataclass
 class Position:
+    """Create and handle the x, y, and z-positions of, e.g., a phantom. When used for a phantom, each combination of an
+    element of the same index in the x, y, and z-list represents the position of one skin cell.
+
+    Attributes
+    ----------
+    x : list[float]
+        A list of the x-positions, e.g., representing the x-position of a phantom's skin cells
+    y : list[float]
+        A list of the y-positions, e.g., representing the y-position of a phantom's skin cells
+    z : list[float]
+        A list of the z-positions, e.g., representing the x-position of a phantom's skin cells
+    """
     x: list[float]
     y: list[float]
     z: list[float]
@@ -32,6 +46,18 @@ class Position:
 
 @dataclass
 class VertexIndices:
+    """Create and handle the x, y, and z-positions of, e.g., a phantom. When used for a phantom, each combination of an
+    element of the same index in the x, y, and z-list represents the position of one skin cell.
+
+    Attributes
+    ----------
+    i : list[float]
+        A list of the i-vertex indies, e.g., representing the i-vertex indices of a phantom's skin cells
+    j : list[float]
+        A list of the j-vertex indices, e.g., representing the j--vertex indices of a phantom's skin cells
+    k : list[float]
+        A list of the k-vertex indices, e.g., representing the k-vertex indices of a phantom's skin cells
+    """
     i: list[float]
     j: list[float]
     k: list[float]
@@ -45,6 +71,7 @@ class VertexIndices:
 
 
 class HumanPhantomOutput:
+    """Create and handle a patient phantom data for output into a dict or JSON-string."""
     def __init__(self, phantom: Phantom):
         self.human_model = phantom.human_model
         self.phantom_skin_cells = Position(
@@ -67,8 +94,21 @@ class HumanPhantomOutput:
             "triangle_vertex_indices": self.triangle_vertex_indices.to_dict(),
         }
 
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict())
+
 
 class NonHumanPhantomOutput(HumanPhantomOutput):
+    """Create and handle non-human phantoms, that is all phantoms that are not using a human model from, e.g., an
+    stl-file.
+
+    Attributes
+    ----------
+    phantom_skin_cells : Position
+        The positions of all the phantom skin cells
+    triangle_vertex_indices : VertexIndices
+        The vertex indices of all the phantom skin cells
+    """
     def __init__(self, phantom: Phantom):
         super().__init__(phantom)
         self.human_model = None
@@ -154,24 +194,64 @@ class EventOutput:
 
 
 class PySkinDoseOutput:
+    """
+
+    Attributes
+    __________
+
+    PSD : float
+        The peak skin dose found in the dose map
+    AirKerma : float
+        The total air KERMAof the
+    """
     def __init__(
             self,
             patient: Phantom,
-            patient_base_rotation: tuple[int, int, int],
-            patient_base_translation: tuple[int, int, int],
             table: Phantom,
             pad: Phantom,
             dose_map: np.array,
-            hits: list[np.array],
-            backscatter_correction: list[np.array],
-            inverse_square_law_correction: list[np.array],
-            medium_correction: list[np.array],
-            table_correction: list[np.array],
+            hits: list[list[float]],
+            backscatter_correction: list[list[float]],
+            inverse_square_law_correction: list[list[float]],
+            medium_correction: list[list[float]],
+            table_correction: list[list[float]],
             settings: PyskindoseSettings,
             data_norm: pd.DataFrame,
     ):
+        """Create a PySkinDose output instance based on data from the PySKinDose run
+
+        Parameters
+        ----------
+        patient : Phantom
+            An instance of the Phantom class that represents the patient
+        table : Phantom
+            An instance of the Phantom class that represents the treatment table
+        pad : Phantom
+            An instance of the Phantom class that represents the pad
+        dose_map : np.array
+            A numpy array containing the calculated dose map
+        hits : list[np.array]
+            The numpy arrays containing information on which of the phantom cells are hit by the beam at each
+            irradiation event
+        backscatter_correction : list[np.array]
+            A list with a numpy array for each irradiation event containing the backscatter correction determined for
+            each phantom cell
+        inverse_square_law_correction : list[np.array]
+            A list with a numpy array for each irradiation event containing the inverse square law correction determined
+            for each phantom cell
+        medium_correction : list[np.array]
+            A list with a numpy array for each irradiation event containing the medium correction determined for
+            each phantom cell
+        table_correction : list[np.array]
+            A list with a numpy array for each irradiation event containing the table correction determined for
+            each phantom cell
+        settings : PyskindoseSettings
+            The instance of the settings class used in the PySKinDose run for the current data
+        data_norm : pd.DataFrame
+            The RDSR data, normalized for compliance with PySkinDose's use of units etc.
+        """
         self.PSD: float = dose_map.max()
-        self.AirKerma: float = dose_map[KEY_NORMALIZATION_AIR_KERMA].sum()
+        self.AirKerma: float = data_norm[KEY_NORMALIZATION_AIR_KERMA].sum()
         self.Events: EventOutput = EventOutput(
             patient=patient,
             table=table,
@@ -219,7 +299,9 @@ class PySkinDoseOutput:
 
         Returns
         -------
-
+        Dict[str, Any]
+            A dict containing the output data for the PySKinDose analysis where the lists of hits and corrections have
+            been made sparse in order to save space.
         """
         return {
             "psd": self.PSD,
@@ -271,7 +353,8 @@ class PySkinDoseOutput:
 
         Returns
         -------
-
+        str
+            A JSON formatted string containing the output data
         """
         return json.dumps(self.to_dict())
 
@@ -282,37 +365,51 @@ def format_analysis_result_for_export(
         patient: Phantom,
         table: Phantom,
         pad: Phantom,
-        dose_map: np.array,
-        inverse_square_law_correction: list[list[float]],
         settings: PyskindoseSettings
-) -> PySkinDoseOutput:
+) -> Union[PySkinDoseOutput, dict[str, Any], str]:
     """Formats the result of the PySkinDose analysis into a PySkinDoseOutput class instance that has a methods for
     converting the result to either a dict or a JSON string to facilitate building custom visualizations and for other
     custom implementations of the PySkinDose calculated data.
 
     Parameters
     ----------
-    analysis_result
-    settings
+    analysis_result : dict[str, Any]
+        The dict resulting from the call to pyskindose.calculate_dose.calculate_dose.calculate_dose
+    data_norm : pd.DataFrame
+        The RDSR data, normalized for compliance with PySkinDose's use of units etc.
+    patient : Phantom
+        An instance of the Phantom class that represents the patient
+    table : Phantom
+        An instance of the Phantom class that represents the treatment table
+    pad : Phantom
+        An instance of the Phantom class that represents the pad
+    settings : PyskindoseSettings
+        The instance of the settings class used in the PySKinDose run for the current data
 
     Returns
     -------
-
+    Union[PySkinDoseOutput, dict[str, Any], str]
+        The PySKinDose formatted output as either a PySKinDoseOutput class instance, a dict or a JSON-formatted string
+        depending on the output format specified in the settings
     """
     pyskindose_output = PySkinDoseOutput(
         patient=patient,
-        patient_base_rotation=None,
-        patient_base_translation=None,
         table=table,
         pad=pad,
-        dose_map=dose_map,
-        hits=None,
-        backscatter_correction=None,
-        inverse_square_law_correction=inverse_square_law_correction,
-        medium_correction=None,
-        table_correction=None,
+        dose_map=analysis_result[OUTPUT_KEY_DOSE_MAP],
+        hits=[event.tolist() for event in analysis_result[OUTPUT_KEY_HITS]],
+        backscatter_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_BACK_SCATTER]],
+        inverse_square_law_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW]],
+        medium_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_MEDIUM]],
+        table_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_TABLE]],
         settings=settings,
         data_norm=data_norm,
     )
+
+    if settings.output_format == RUN_ARGUMENTS_OUTPUT_DICT:
+        return pyskindose_output.to_dict()
+
+    if settings.output_format == RUN_ARGUMENTS_OUTPUT_JSON:
+        return pyskindose_output.to_json()
 
     return pyskindose_output

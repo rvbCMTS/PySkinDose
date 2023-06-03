@@ -46,25 +46,23 @@ def analyze_data(
 
     patient, output = calculate_dose(normalized_data=normalized_data, settings=settings, table=table, pad=pad)
 
-    # Fetch dose_map if calculate_dose has been executed
-    dose_map = output[c.OUTPUT_KEY_DOSE_MAP] if settings.mode == c.MODE_CALCULATE_DOSE else None
+    if settings.output_format in [c.RUN_ARGUMENTS_OUTPUT_DICT, c.RUN_ARGUMENTS_OUTPUT_JSON]:
+        pyskindose_output: PySkinDoseOutput = format_analysis_result_for_export(
+            output,
+            patient=patient,
+            table=table,
+            pad=pad,
+            data_norm=normalized_data,
+            settings=settings
+        )
 
-    create_dose_map_plot(patient=patient, settings=settings, dose_map=dose_map)
+        return pyskindose_output
+
+    create_dose_map_plot(
+        patient=patient,
+        settings=settings,
+        dose_map=output[c.OUTPUT_KEY_DOSE_MAP] if settings.mode == c.MODE_CALCULATE_DOSE else None
+    )
 
     if settings.output_format == c.RUN_ARGUMENTS_OUTPUT_HTML:
         return output
-
-    pyskindose_output: PySkinDoseOutput = format_analysis_result_for_export(
-        output,
-        patient=patient,
-        table=table,
-        pad=pad,
-        dose_map=dose_map,
-        data_norm=normalized_data,
-        settings=settings
-    )
-    if settings.output_format == c.RUN_ARGUMENTS_OUTPUT_DICT:
-        return pyskindose_output.to_dict()
-
-    if settings.output_format == c.RUN_ARGUMENTS_OUTPUT_JSON:
-        return pyskindose_output.to_json()
