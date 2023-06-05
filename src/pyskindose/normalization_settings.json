@@ -51,6 +51,32 @@
             },
             "field_size_mode": "ASD",
             "detector_side_length": 40
+        },
+        {
+            "manufacturer": "Philips",
+            "models": [
+                "Azurion"
+            ],
+            "translation_offset": {
+                "x": -0.3,
+                "y": 105.5,
+                "z": -173.35
+            },
+            "translation_direction": {
+                "x": "+",
+                "y": "-",
+                "z": "+"
+            },
+            "rotation_direction": {
+                "Ap1": "+",
+                "Ap2": "-",
+                "Ap3": "+",
+                "At1": "+",
+                "At2": "+",
+                "At3": "+"
+            },
+            "field_size_mode": "CFWH",
+            "detector_side_length": 40
         }
     ]
 }

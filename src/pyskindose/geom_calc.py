@@ -75,6 +75,12 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
 
         return FS_lat, FS_long
 
+    if field_size_mode == c.FIELD_SIZE_MODE_COLLIMATED_FIELD_WIDTH_HEIGHT:
+
+        FS_lat = convert_from_mm_to_cm(data_parsed.CollimatedFieldHeight_mm)
+        FS_long = convert_from_mm_to_cm(data_parsed.CollimatedFieldWidth_mm)
+
+        return FS_lat, FS_long
 
 def position_patient_phantom_on_table(
     patient: Phantom,
