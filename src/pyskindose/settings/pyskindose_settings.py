@@ -6,6 +6,7 @@ from rich import print
 
 from pyskindose.constants import (
     KEY_PARAM_ESTIMATE_K_TAB,
+    KEY_PARAM_INHERENT_FILTRATION,
     KEY_PARAM_K_TAB_VAL,
     KEY_PARAM_MODE,
     KEY_PARAM_RDSR_FILENAME,
@@ -47,6 +48,8 @@ class PyskindoseSettings:
         conducted table attenatuion measurements.
     k_tab_val : float
         Value of k_tab, in range 0.0 -> 1.0.
+    inherent_filtration : float
+        X-ray tube inherent filtration, for backscatter and medium correction.
     phantom : pyskindose.settings.phantom_settings.PhantomSettings
         Instance of class PhantomSettings containing all phantom related
         settings.
@@ -79,9 +82,9 @@ class PyskindoseSettings:
         self.mode = tmp[KEY_PARAM_MODE]
         self.file_result_output_path: Path = self._initialize_output_path(file_result_output_path)
         self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
+        self.inherent_filtration = tmp[KEY_PARAM_INHERENT_FILTRATION]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
-
         self.phantom = PhantomSettings(ptm_dim=tmp["phantom"])
         self.plot = Plotsettings(plt_dict=tmp["plot"])
 
