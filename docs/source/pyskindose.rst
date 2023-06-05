@@ -8,7 +8,9 @@ Subpackages
    :maxdepth: 4
 
    pyskindose.calculate_dose
+   pyskindose.helpers
    pyskindose.plotting
+   pyskindose.settings
 
 Submodules
 ----------
@@ -97,22 +99,6 @@ pyskindose.rdsr\_parser module
 ------------------------------
 
 .. automodule:: pyskindose.rdsr_parser
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pyskindose.settings\_normalization module
------------------------------------------
-
-.. automodule:: pyskindose.settings_normalization
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pyskindose.settings\_pyskindose module
---------------------------------------
-
-.. automodule:: pyskindose.settings_pyskindose
    :members:
    :undoc-members:
    :show-inheritance:

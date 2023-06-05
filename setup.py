@@ -6,7 +6,7 @@ README = (Path(__file__).parent / "README.md").read_text()
 
 setup(
     name="pyskindose",
-    version="22.5.1",
+    version="22.5.2",
     description=(
         "Tools and script for calculating peak skin dose and create dose maps for fluoroscopic exams from RDSR" " data"
     ),
@@ -18,7 +18,10 @@ setup(
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     packages=find_packages(where="src"),
     package_dir={"": "src"},
@@ -33,6 +36,7 @@ setup(
         "psutil",
         "pillow >= 8.1.1",
         "kaleido",
+        "rich",
     ],
     include_package_data=True,
     zip_safe=False,

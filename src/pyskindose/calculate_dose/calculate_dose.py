@@ -15,7 +15,7 @@ from pyskindose.geom_calc import (
     position_patient_phantom_on_table,
 )
 from pyskindose.phantom_class import Phantom
-from pyskindose.settings_pyskindose import PyskindoseSettings
+from pyskindose.settings import PyskindoseSettings
 
 logger = logging.getLogger(__name__)
 

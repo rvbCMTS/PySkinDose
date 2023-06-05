@@ -15,6 +15,7 @@ DEVELOPMENT_PARAMETERS = dict(
     inherent_filtration=3.1,
     # plot settings
     plot={
+        "interactivity": True,
         # dark mode for plots
         c.MODE_DARK_MODE: True,
         # notebook mode

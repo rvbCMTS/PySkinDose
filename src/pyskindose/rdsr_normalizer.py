@@ -1,10 +1,9 @@
-import json
 import logging
-from pathlib import Path
-from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
+
+from pyskindose.settings.normalization_settings import NormalizationSettings
 
 from .constants import (
     KEY_NORMALIZATION_ACQUISITION_PLANE,
@@ -24,14 +23,12 @@ from .constants import (
     KEY_RDSR_FILTER_MIN,
 )
 from .geom_calc import calculate_field_size
-from .settings_normalization import NormalizationSettings
+from .settings import PyskindoseSettings
 
 logger = logging.getLogger("pyskindose")
 
 
-def rdsr_normalizer(
-    data_parsed: pd.DataFrame, normalization_settings: Optional[Union[str, dict]] = None
-) -> pd.DataFrame:
+def rdsr_normalizer(data_parsed: pd.DataFrame, settings: PyskindoseSettings) -> pd.DataFrame:
     """Normalize RDSR data for PySkinDose compliance.
 
     Parameters
@@ -148,7 +145,7 @@ def rdsr_normalizer(
     """
     data_norm = pd.DataFrame()
 
-    norm = _load_normalization_settings(data_parsed=data_parsed, norm_settings=normalization_settings)
+    settings.normalization_settings.update_used_settings(data_parsed=data_parsed)
 
     for append_normalization in [
         _normalize_machine_parameters,
@@ -156,26 +153,11 @@ def rdsr_normalizer(
         _normalize_xray_filter_materials,
         _normalize_beam_parameters,
     ]:
-        data_norm = append_normalization(data_parsed=data_parsed, data_norm=data_norm, norm=norm)
+        data_norm = append_normalization(
+            data_parsed=data_parsed, data_norm=data_norm, norm=settings.normalization_settings
+        )
 
     return data_norm
-
-
-def _load_normalization_settings(
-    data_parsed: pd.DataFrame, norm_settings: Optional[Union[str, dict]] = None
-) -> NormalizationSettings:
-
-    if norm_settings is None:
-
-        normalization_settings_path = Path(__file__).parent / "normalization_settings.json"
-
-        with normalization_settings_path.open("r") as json_file:
-            norm_settings = json.load(json_file)
-
-    if isinstance(norm_settings, str):
-        norm_settings = json.load(json_file)
-
-    return NormalizationSettings(normalization_settings=norm_settings, data_parsed=data_parsed)
 
 
 def _normalize_machine_parameters(

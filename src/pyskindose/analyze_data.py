@@ -7,7 +7,7 @@ from pyskindose.calculate_dose.calculate_dose import calculate_dose
 from pyskindose.phantom_class import Phantom
 from pyskindose.plotting.create_dose_map_plot import create_dose_map_plot
 from pyskindose.plotting.create_geometry_plot import create_geometry_plot
-from pyskindose.settings_pyskindose import PyskindoseSettings, initialize_settings
+from pyskindose.settings import PyskindoseSettings, initialize_settings
 
 
 def analyze_data(
