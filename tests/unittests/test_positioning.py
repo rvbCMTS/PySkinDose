@@ -11,8 +11,7 @@ sys.path.insert(1, str(test_path.absolute()))
 phantom_path = Path(__file__).parent.parent.parent / "src" / "pyskindose" / "phantom_data"
 
 from manual_tests.base_dev_settings import DEVELOPMENT_PARAMETERS
-from pyskindose.geom_calc import position_patient_phantom_on_table
-from pyskindose.settings_pyskindose import PyskindoseSettings
+from pyskindose.settings import PyskindoseSettings
 
 param = PyskindoseSettings(DEVELOPMENT_PARAMETERS)
 

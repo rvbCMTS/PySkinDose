@@ -1,4 +1,6 @@
 import logging
+from pathlib import Path
+from typing import List
 
 import plotly.graph_objects as go
 from PIL import Image
@@ -12,7 +14,7 @@ from ..constants import (
 logger = logging.getLogger(__name__)
 
 
-def create_notebook_dose_map_plot(names, file_type_static):
+def create_notebook_dose_map_plot(names: List[Path]):
 
     fig = go.Figure()
 
@@ -36,16 +38,14 @@ def create_notebook_dose_map_plot(names, file_type_static):
     placements = [place - ground_shift_x for place in placements]
     placements = [placements[i] - shift_x[i] for i in range(len(shift_x))]
 
-    images = [name + file_type_static for name in names]
+    for i, placement in enumerate(placements):
 
-    for i in range(len(placements)):
-
-        source = Image.open(images[i])
+        source = Image.open(names[i].absolute())
 
         # Add image
         fig.add_layout_image(
             dict(
-                x=placements[i],
+                x=placement,
                 sizex=img_width,
                 y=1 * img_height,
                 sizey=img_height,

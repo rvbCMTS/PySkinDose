@@ -37,24 +37,24 @@ def db_connect(db_name: str = "corrections.db"):
         # load data from CSV files
 
         # HVL table, simulated with SpekCalc.
-        hvl_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "HVL_simulated.csv"))
+        hvl_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "hvl_tables/hvl_combined.csv"))
 
         # Backscatter and mu_en/rho quotients, from Benmanhlouf et al.
-        ks_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "KS_table_concatenated.csv"))
+        ks_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "correction_medium_and_backscatter.csv"))
 
         # Measured and approximated patient support table transmission.
-        tab_pad_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "table_transmission.csv"))
+        tab_pad_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "correction_table_and_pad_attenuation.csv"))
 
         # Table containing lab specific parameters.
         device_info_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "device_info.csv"))
 
         # Upload tables to database
 
-        hvl_table.to_sql("HVL_simulated", conn, if_exists="replace", index=False)
+        hvl_table.to_sql("hvl_combined", conn, if_exists="replace", index=False)
 
-        ks_table.to_sql("KS_table_concatenated", conn, if_exists="replace", index=False)
+        ks_table.to_sql("correction_medium_and_backscatter", conn, if_exists="replace", index=False)
 
-        tab_pad_table.to_sql("table_transmission", conn, if_exists="replace", index=False)
+        tab_pad_table.to_sql("correction_table_and_pad_attenuation", conn, if_exists="replace", index=False)
 
         device_info_table.to_sql("device_info", conn, if_exists="replace", index=False)
 
