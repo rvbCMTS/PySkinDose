@@ -9,6 +9,8 @@ DEVELOPMENT_PARAMETERS = dict(
     estimate_k_tab=False,
     # Numeric value of estimated table correction
     k_tab_val=0.8,
+    # x-ray tube inherent filtration in mmAl
+    inherent_filtration=3.1,
     # plot settings
     plot={
         # dark mode for plots
