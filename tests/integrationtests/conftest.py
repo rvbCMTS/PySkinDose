@@ -14,9 +14,10 @@ from pyskindose.settings import PyskindoseSettings
 def example_settings() -> PyskindoseSettings:
     settings_dict: Dict = {
         "mode": c.MODE_PLOT_PROCEDURE,
-        "rdsr_filename": "S1.dcm",
+        "rdsr_filename": "siemens_axiom_example_procedure.dcm",
         "plot_event_index": 12,
         "estimate_k_tab": False,
+        "inherent_filtration" : 3.1,
         "k_tab_val": 0.8,
         "plot": {
             "interactivity": True,
