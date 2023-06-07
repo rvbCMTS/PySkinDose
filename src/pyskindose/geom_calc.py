@@ -82,6 +82,7 @@ def calculate_field_size(field_size_mode, data_parsed, data_norm):
 
         return FS_lat, FS_long
 
+
 def position_patient_phantom_on_table(
     patient: Phantom,
     table: Phantom,
