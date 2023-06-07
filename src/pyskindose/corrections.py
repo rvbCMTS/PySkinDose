@@ -143,8 +143,8 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     # Fetch k_med = f(kVp, HVL) from database. This is table 2 in
     # [doi:10.1088/0031-9155/58/2/247]
     df = pd.read_sql_query(
-        """SELECT kvp_kV, hvl_mmAl, field_side_length_cm,
-                           mu_en_quotient FROM ks_table_concatenated""",
+        """SELECT kvp_kv, hvl_mmal, field_side_length_cm,
+                           mu_en_quotient FROM correction_medium_and_backscatter""",
         conn,
     )
 
@@ -152,12 +152,12 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     conn.close()
 
     # Fetch kVp entries from table
-    kvp_data = df.loc[(df["field_side_length_cm"] == fsl), "kvp_kV"]
+    kvp_data = df.loc[(df["field_side_length_cm"] == fsl), "kvp_kv"]
     # Select closest tabulated kVp (strongest dependence for k_med)
     kvp_round = min(kvp_data, key=lambda x: abs(x - kvp))
 
     # Fetch HVL entries from table
-    hvl_data = df.loc[(df["field_side_length_cm"] == fsl) & (df["kvp_kV"] == kvp_round), "hvl_mmAl"]
+    hvl_data = df.loc[(df["field_side_length_cm"] == fsl) & (df["kvp_kv"] == kvp_round), "hvl_mmal"]
 
     # Select closest tabulated HVL (second strongest dependence for k_med)
     hvl_round = min(hvl_data, key=lambda x: abs(x - hvl))
@@ -165,9 +165,9 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     # Fetch corresponding k_med
     k_med = float(
         df.loc[
-            (df["hvl_mmAl"] == hvl_round) & (df["kvp_kV"] == kvp_round) & (df["field_side_length_cm"] == fsl),
+            (df["hvl_mmal"] == hvl_round) & (df["kvp_kv"] == kvp_round) & (df["field_side_length_cm"] == fsl),
             "mu_en_quotient",
-        ]
+        ].iloc[0]
     )
 
     return k_med
@@ -220,12 +220,12 @@ def calculate_k_tab(data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab
             # Fetch k_tab
             c.execute(
                 "SELECT k_patient_support "
-                "FROM table_transmission "
-                "WHERE kVp_kV=? AND "
-                "      AddedFiltration_mmCu=? AND "
-                "      AddedFiltration_mmAl=? AND "
-                "      DeviceModel IN (?, ?) AND "
-                "      AcquisitionPlane=?",
+                "FROM correction_table_and_pad_attenuation "
+                "WHERE kvp_kv=? AND "
+                "      filtration_added_mmcu=? AND "
+                "      filtration_added_mmal=? AND "
+                "      device_model IN (?, ?) AND "
+                "      acquisition_plane=?",
                 params,
             )
 

@@ -11,6 +11,7 @@ from pyskindose.constants import (
     KEY_NORMALIZATION_KVP,
     KEY_NORMALIZATION_MODEL_NAME,
 )
+
 from pyskindose.corrections import (
     calculate_k_bs,
     calculate_k_isq,
@@ -18,8 +19,19 @@ from pyskindose.corrections import (
     calculate_k_tab,
 )
 
+from pyskindose.geom_calc import fetch_and_append_hvl
+
 P = Path(__file__).parent.parent.parent
 sys.path.insert(1, str(P.absolute()))
+
+
+def test_fetch_hvl_from_database():
+
+    expected = 6.549
+    data_norm = pd.DataFrame({"kVp": [81.4], "filter_thickness_Al": [0], "filter_thickness_Cu": [0.3]})
+    data_norm = fetch_and_append_hvl(data_norm=data_norm, inherent_filtration=3.1)
+    actual = round(data_norm.HVL[0], 3)
+    assert actual == expected
 
 
 def test_calculate_unchanged_fluence_at_refernce_distance():

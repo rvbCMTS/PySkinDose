@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 from typing import Optional, Union
-
 from rich import print
+
 
 from pyskindose.constants import (
     KEY_PARAM_ESTIMATE_K_TAB,

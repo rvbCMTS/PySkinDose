@@ -218,13 +218,15 @@ def scale_field_area(
     return field_area
 
 
-def fetch_and_append_hvl(data_norm: pd.DataFrame) -> pd.DataFrame:
+def fetch_and_append_hvl(data_norm: pd.DataFrame, inherent_filtration: float) -> pd.DataFrame:
     """Add event HVL to RDSR event data from database.
 
     Parameters
     ----------
     data_norm : pd.DataFrame
         RDSR data, normalized for compliance with PySkinDose.
+    inherent_filtration : float
+        X-ray tube inherent filtration in mmAl.
 
     Returns
     -------
@@ -238,18 +240,17 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame) -> pd.DataFrame:
     conn = db_connect()[0]
 
     # Fetch entire HVL table
-    hvl_data = pd.read_sql_query("SELECT * FROM HVL_simulated", conn)
+    hvl_data = pd.read_sql_query("SELECT * FROM hvl_combined", conn)
 
     hvl = [
         float(
             hvl_data.loc[
-                (hvl_data["DeviceModel"] == data_norm.model[event])
-                & (hvl_data["kVp_kV"] == round(data_norm.kVp[event]))
-                & (hvl_data["AcquisitionPlane"] == data_norm.acquisition_plane[event])
-                & (hvl_data["AddedFiltration_mmCu"] == data_norm.filter_thickness_Cu[event])
-                & (hvl_data["AddedFiltration_mmAl"] == round(data_norm.filter_thickness_Al[event])),
-                "HVL_mmAl",
-            ]
+                (round(hvl_data["kvp_kv"]) == round(data_norm.kVp[event]))
+                & (round(hvl_data["filtration_inherent_mmal"], 1) == round(inherent_filtration, 1))
+                & (hvl_data["filtration_added_mmcu"] == data_norm.filter_thickness_Cu[event])
+                & (hvl_data["filtration_added_mmal"] == round(data_norm.filter_thickness_Al[event])),
+                "hvl_mmal",
+            ].iloc[0]
         )
         for event in range(len(data_norm))
     ]

@@ -4,8 +4,10 @@
 
 author: Max Hellström
 
-A python program for calculating 1-dimensional maximum estimated skin dose (ESD<sub>max</sub>).
+A python program for calculating 3D skin dose maps based on DICOM X-ray Radiation Dose Structured Reports.
 
-Implementation of a 3D skin dose mapping procedure are currently in process.
+Requires Python 3.8 or above. NB! Will soon be upgraded to require Python 3.10 or above.
+
+The documentation is under construction and can be found at [https://pyskindose/readthedocs.io](https://pyskindose.readthedocs.io)
 
 Stay tuned!

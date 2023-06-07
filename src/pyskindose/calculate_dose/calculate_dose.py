@@ -72,7 +72,7 @@ def calculate_dose(
         patient_orientation=settings.phantom.patient_orientation,
     )
 
-    normalized_data = fetch_and_append_hvl(data_norm=normalized_data)
+    normalized_data = fetch_and_append_hvl(data_norm=normalized_data, inherent_filtration=settings.inherent_filtration)
 
     # Check which irradiation events that contains updated
     # geometry parameters since the previous irradiation event

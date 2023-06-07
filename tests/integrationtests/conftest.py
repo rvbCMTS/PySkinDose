@@ -63,7 +63,7 @@ def example_rdsr_path() -> Path:
 
 @pytest.fixture(scope="function")
 def phantom_path(example_rdsr_path) -> Path:
-    return example_rdsr_path / "s1.dcm"
+    return example_rdsr_path / "siemens_axiom_example_procedure.dcm"
 
 
 @pytest.fixture(scope="function")

@@ -76,8 +76,8 @@ class PhantomDimensions:
             "plane_length": self.plane_length,
             "plane_width": self.plane_width,
             "plane_resolution": self.plane_resolution,
-            "cylinder_length": self.cylinder_length,
             "cylinder_radii_a": self.cylinder_radii_a,
+            "cylinder_length": self.cylinder_length,
             "cylinder_radii_b": self.cylinder_radii_b,
             "cylinder_resolution": self.cylinder_resolution,
             "table_thickness": self.table_thickness,
@@ -88,8 +88,8 @@ class PhantomDimensions:
             "pad_length": self.pad_length,
         }
 
-    def to_dict_cylinder(self):
         return {
+    def to_dict_cylinder(self):
             "cylinder_length": self.cylinder_length,
             "cylinder_radii_a": self.cylinder_radii_a,
             "cylinder_radii_b": self.cylinder_radii_b,
