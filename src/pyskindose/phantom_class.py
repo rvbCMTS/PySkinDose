@@ -318,37 +318,20 @@ class Phantom:
         """
         self.r = copy.copy(self.r_ref)
 
-        # Fetch rotation angles of the patient, table, and pad
-
-        # Table Horizontal Rotation Angle (At1)
-        # i.e. rotation of the table about the positive y axis (VERT),
-        # with rotation axis in the center of the table.
-        at1 = np.deg2rad(data_norm["At1"][event])
-        # Table Head Tilt Angle (At2)
-        # i.e. rotation of the table about the positive x axis (LON)
-        # with rotation axis in the center of the table.
-        at2 = np.deg2rad(data_norm["At2"][event])
-        # Table Cradle Tilt Angle (At3)
-        # i.e. rotation of the table about the z axis (LAT)
-        at3 = np.deg2rad(data_norm["At3"][event])
-
         # displace phantom to table rotation center
         self.r[:, 2] += self.table_length / 2
 
-        # calculate rotation about x axis
-        angle = at2
-        Rx = np.array([[+1, +0, +0], [+0, +np.cos(angle), -np.sin(angle)], [+0, +np.sin(angle), +np.cos(angle)]])
-
-        # calculate rotation about y axis
-        angle = at1
-        Ry = np.array([[+np.cos(angle), +0, +np.sin(angle)], [+0, +1, +0], [-np.sin(angle), +0, +np.cos(angle)]])
-
-        # calculate rotation about z axis
-        angle = at3
-        Rz = np.array([[+np.cos(angle), -np.sin(angle), +0], [+np.sin(angle), +np.cos(angle), +0], [+0, +0, +1]])
-
         # Apply table rotation
-        self.r = np.matmul(Rz, np.matmul(Ry, np.matmul(Rx, self.r.T))).T
+        self.r = np.matmul(
+            data_norm.Rz[event],
+            np.matmul(
+                data_norm.Ry[event],
+                np.matmul(
+                    data_norm.Rx[event],
+                    self.r.T
+                )
+            )
+        ).T
 
         # Replace phantom back to starting position
         self.r[:, 2] -= self.table_length / 2

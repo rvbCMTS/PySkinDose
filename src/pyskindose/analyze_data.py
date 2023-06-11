@@ -5,6 +5,7 @@ import pandas as pd
 from pyskindose import constants as c
 from pyskindose.calculate_dose.calculate_dose import calculate_dose
 from pyskindose.format_export_data import format_analysis_result_for_export, PySkinDoseOutput
+from pyskindose.helpers.calculate_rotation_matrices import calculate_rotation_matrices
 from pyskindose.phantom_class import Phantom
 from pyskindose.plotting.create_dose_map_plot import create_dose_map_plot
 from pyskindose.plotting.create_geometry_plot import create_geometry_plot
@@ -14,7 +15,7 @@ from pyskindose.settings import PyskindoseSettings, initialize_settings
 def analyze_data(
     normalized_data: pd.DataFrame,
     settings: Union[str, dict, PyskindoseSettings],
-) -> Union[Dict[str, Any], str]:
+) -> Union[Dict[str, Any], str, PySkinDoseOutput]:
     """Analyze data och settings, and runs PySkinDose in desired mode.
 
     Parameters
@@ -42,12 +43,14 @@ def analyze_data(
 
     pad = Phantom(phantom_model=c.PHANTOM_MODEL_PAD, phantom_dim=settings.phantom.dimension)
 
+    normalized_data = calculate_rotation_matrices(normalized_data)
+
     create_geometry_plot(normalized_data=normalized_data, table=table, pad=pad, settings=settings)
 
     patient, output = calculate_dose(normalized_data=normalized_data, settings=settings, table=table, pad=pad)
 
     if settings.output_format in [c.RUN_ARGUMENTS_OUTPUT_DICT, c.RUN_ARGUMENTS_OUTPUT_JSON]:
-        pyskindose_output: PySkinDoseOutput = format_analysis_result_for_export(
+        pyskindose_output: Union[PySkinDoseOutput, dict[str, Any], str] = format_analysis_result_for_export(
             output,
             patient=patient,
             table=table,
