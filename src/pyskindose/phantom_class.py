@@ -323,14 +323,7 @@ class Phantom:
 
         # Apply table rotation
         self.r = np.matmul(
-            data_norm.Rz[event],
-            np.matmul(
-                data_norm.Ry[event],
-                np.matmul(
-                    data_norm.Rx[event],
-                    self.r.T
-                )
-            )
+            data_norm.Rz[event], np.matmul(data_norm.Ry[event], np.matmul(data_norm.Rx[event], self.r.T))
         ).T
 
         # Replace phantom back to starting position

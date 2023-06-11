@@ -139,7 +139,7 @@ def create_dose_map_plot(patient: Phantom, settings: PyskindoseSettings, dose_ma
 
     # create static dose map plots
     try:
-        for i in pbar(range(len(eyes)), desc=f"saving static dosemaps: "):
+        for i in pbar(range(len(eyes)), desc="saving static dosemaps: "):
             fig["layout"]["scene"]["camera"] = eyes[i]
             fig.write_image(names[i].absolute())
     except IOError:

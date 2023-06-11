@@ -1,5 +1,3 @@
-from datetime import datetime as dt
-
 import pandas as pd
 import pydicom
 
@@ -8,7 +6,6 @@ from pyskindose.constants import (
     KEY_RDSR_COMMENT,
     KEY_RDSR_CONCEPT_CODE_SEQUENCE,
     KEY_RDSR_CONTENT_SEQUENCE,
-    KEY_RDSR_DATE_TIME,
     KEY_RDSR_DETECTORSIZE_MM,
     KEY_RDSR_EVENT_XRAY_DATA,
     KEY_RDSR_II_DIAMETER_SRDATA,

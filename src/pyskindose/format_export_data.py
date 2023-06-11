@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import json
-from typing import Dict, Any, Union, Tuple, List
+from typing import Dict, Any, Union
 
 import numpy as np
 import pandas as pd
@@ -12,9 +12,16 @@ from pyskindose.constants import (
     PHANTOM_MODEL_HUMAN,
     PLOT_TRACE_ORDER_PHANTOM_WIREFRAME,
     PLOT_TRACE_ORDER_BEAM_WIREFRAME,
-    PLOT_TRACE_ORDER_DETECTOR_WIREFRAME, KEY_NORMALIZATION_AIR_KERMA, OUTPUT_KEY_HITS,
-    OUTPUT_KEY_CORRECTION_BACK_SCATTER, OUTPUT_KEY_CORRECTION_MEDIUM, OUTPUT_KEY_CORRECTION_TABLE,
-    OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW, RUN_ARGUMENTS_OUTPUT_DICT, RUN_ARGUMENTS_OUTPUT_JSON, OUTPUT_KEY_DOSE_MAP,
+    PLOT_TRACE_ORDER_DETECTOR_WIREFRAME,
+    KEY_NORMALIZATION_AIR_KERMA,
+    OUTPUT_KEY_HITS,
+    OUTPUT_KEY_CORRECTION_BACK_SCATTER,
+    OUTPUT_KEY_CORRECTION_MEDIUM,
+    OUTPUT_KEY_CORRECTION_TABLE,
+    OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW,
+    RUN_ARGUMENTS_OUTPUT_DICT,
+    RUN_ARGUMENTS_OUTPUT_JSON,
+    OUTPUT_KEY_DOSE_MAP,
 )
 
 
@@ -32,6 +39,7 @@ class Position:
     z : list[float]
         A list of the z-positions, e.g., representing the x-position of a phantom's skin cells
     """
+
     x: list[float]
     y: list[float]
     z: list[float]
@@ -58,6 +66,7 @@ class VertexIndices:
     k : list[float]
         A list of the k-vertex indices, e.g., representing the k-vertex indices of a phantom's skin cells
     """
+
     i: list[float]
     j: list[float]
     k: list[float]
@@ -72,17 +81,14 @@ class VertexIndices:
 
 class HumanPhantomOutput:
     """Create and handle a patient phantom data for output into a dict or JSON-string."""
+
     def __init__(self, phantom: Phantom):
         self.human_model = phantom.human_model
         self.phantom_skin_cells = Position(
-            x=phantom.r[:, 0].tolist(),
-            y=phantom.r[:, 1].tolist(),
-            z=phantom.r[:, 2].tolist()
+            x=phantom.r[:, 0].tolist(), y=phantom.r[:, 1].tolist(), z=phantom.r[:, 2].tolist()
         )
         self.triangle_vertex_indices = VertexIndices(
-            i=phantom.ijk[:, 0].tolist(),
-            j=phantom.ijk[:, 1].tolist(),
-            k=phantom.ijk[:, 2].tolist()
+            i=phantom.ijk[:, 0].tolist(), j=phantom.ijk[:, 1].tolist(), k=phantom.ijk[:, 2].tolist()
         )
         self.r_ref = phantom.r_ref
 
@@ -109,20 +115,32 @@ class NonHumanPhantomOutput(HumanPhantomOutput):
     triangle_vertex_indices : VertexIndices
         The vertex indices of all the phantom skin cells
     """
+
     def __init__(self, phantom: Phantom):
         super().__init__(phantom)
         self.human_model = None
 
 
 class EventOutput:
-    def __init__(self, patient: Phantom, table: Phantom, pad: Phantom, data_norm: pd.DataFrame):
+    """Create and handle the data specifying an irradiation event, e.g., the positioning of the patient, table, pad, and
+    beam.
+    """
+
+    def __init__(self, data_norm: pd.DataFrame):
         self.events = len(data_norm)
 
-        self.patient = self._extract_position_list(phantom=patient, data_norm=data_norm)
-        self.table = self._extract_position_list(phantom=table, data_norm=data_norm)
-        self.pad = self._extract_position_list(phantom=pad, data_norm=data_norm)
-        self.beam_positions, self.beam_vertex_indices, self.detector_positions, self.detector_vertex_indices = (
-            [self._extract_beam_data_list(data_norm=data_norm, event=event) for event in range(len(data_norm))]
+        self.rotation = {
+            "x": data_norm["Rx"].tolist(),
+            "y": data_norm["Ry"].tolist(),
+            "z": data_norm["Rz"].tolist(),
+        }
+        self.translation = {
+            "x": data_norm.Tx.tolist(),
+            "y": data_norm.Ty.tolist(),
+            "z": data_norm.Tz.tolist(),
+        }
+        self.beam_positions, self.beam_vertex_indices, self.detector_positions, self.detector_vertex_indices = zip(
+            *[self._extract_beam_data_list(data_norm=data_norm, event=event) for event in range(len(data_norm))]
         )
         self.phantom_object_trace_order = PLOT_TRACE_ORDER_PHANTOM_WIREFRAME
         self.beam_wireframe_trace_order = PLOT_TRACE_ORDER_BEAM_WIREFRAME
@@ -130,8 +148,7 @@ class EventOutput:
 
     def _extract_position_list(self, phantom: Phantom, data_norm: pd.DataFrame) -> list[Position]:
         return [
-            self._get_position_dict(phantom=phantom, data_norm=data_norm, event=ind)
-            for ind in range(len(data_norm))
+            self._get_position_dict(phantom=phantom, data_norm=data_norm, event=ind) for ind in range(len(data_norm))
         ]
 
     @staticmethod
@@ -144,23 +161,19 @@ class EventOutput:
         )
 
     @staticmethod
-    def _extract_beam_data_list(data_norm: pd.DataFrame, event: int) -> tuple[Position, VertexIndices, Position, VertexIndices]:
+    def _extract_beam_data_list(
+        data_norm: pd.DataFrame, event: int
+    ) -> tuple[Position, VertexIndices, Position, VertexIndices]:
         beam = Beam(data_norm, event=event, plot_setup=False)
         beam_position = Position(x=beam.r[:, 0].tolist(), y=beam.r[:, 1].tolist(), z=beam.r[:, 2].tolist())
         beam_vertex_indices = VertexIndices(
-            i=beam.ijk[:, 0].tolist(),
-            j=beam.ijk[:, 1].tolist(),
-            k=beam.ijk[:, 2].tolist()
+            i=beam.ijk[:, 0].tolist(), j=beam.ijk[:, 1].tolist(), k=beam.ijk[:, 2].tolist()
         )
         detector_position = Position(
-            x=beam.det_r[:, 0].tolist(),
-            y=beam.det_r[:, 1].tolist(),
-            z=beam.det_r[:, 2].tolist()
+            x=beam.det_r[:, 0].tolist(), y=beam.det_r[:, 1].tolist(), z=beam.det_r[:, 2].tolist()
         )
         detector_vertex_indices = VertexIndices(
-            i=beam.det_ijk[:, 0].tolist(),
-            j=beam.det_ijk[:, 1].tolist(),
-            k=beam.det_ijk[:, 2].tolist()
+            i=beam.det_ijk[:, 0].tolist(), j=beam.det_ijk[:, 1].tolist(), k=beam.det_ijk[:, 2].tolist()
         )
 
         return beam_position, beam_vertex_indices, detector_position, detector_vertex_indices
@@ -168,18 +181,9 @@ class EventOutput:
     def to_dict(self):
         return {
             "number_of_events": self.events,
-            "patient": {
-                "positions": [pos.to_dict() for pos in self.patient],
-                "trace_order": self.phantom_object_trace_order
-            },
-            "table": {
-                "positions": [pos.to_dict() for pos in self.table],
-                "trace_order": self.phantom_object_trace_order
-            },
-            "pad": {
-                "positions": [pos.to_dict() for pos in self.pad],
-                "trace_order": self.phantom_object_trace_order
-            },
+            "rotation": self.rotation,
+            "translation": self.translation,
+            "phantom_object_trace_order": self.phantom_object_trace_order,
             "beam": {
                 "positions": [pos.to_dict() for pos in self.beam_positions],
                 "vertex_indices": [pos.to_dict() for pos in self.beam_vertex_indices],
@@ -188,13 +192,13 @@ class EventOutput:
             "detector": {
                 "positions": [pos.to_dict() for pos in self.beam_positions],
                 "vertex_indices": [pos.to_dict() for pos in self.beam_vertex_indices],
-                "trace_order": self.detector_wireframe_trace_order
+                "trace_order": self.detector_wireframe_trace_order,
             },
         }
 
 
 class PySkinDoseOutput:
-    """
+    """A collection of the information resulting from the PySkinDose analysis
 
     Attributes
     __________
@@ -202,21 +206,52 @@ class PySkinDoseOutput:
     PSD : float
         The peak skin dose found in the dose map
     AirKerma : float
-        The total air KERMAof the
+        The total air KERMA of the
+    Events : EventOutput
+        The event data for the examination
+    Patient : dict[str, str | HumanPhantomOutput | NonHumanPhantomOutput]
+        Information on the patient used in the calculations
+    PatientOffsets : dict[str, float]
+        The base offsets in the long, vert, and lat direction
+    Table : Phantom
+        The treatment table as an instance of the Phantom class
+    Pad : Phantom
+        The treatment table pad as an instance of the Phantom class
+    PadThickness : float
+        The thickness of the treatment table pad
+    DoseMap : np.array
+        The total dose map given as a numpy array where the values correspond to the resulting dose in Gy
+    Hits : list[int, int]
+        A list of all the hits of the radiation fields on the phantom cells given as a list of tuples on the form
+        [(event_index, phantom_cell_index), ...]
+    BackscatterCorrection : list[float]
+        The backscatter corrections used for each cell hit given as a list of floats where the event and cell index of
+        each float is given by getting the same list index element from the Hist attribute.
+    InverseSquareLawCorrection : list[float]
+        The inverse square law corrections used for each cell hit given as a list of floats where the event and cell
+        index of each float is given by getting the same list index element from the Hist attribute.
+    MediumCorrection : list[float]
+        The corrections for the irradiated medium/-s used for each cell hit given as a list of floats where the event
+        and cell index of each float is given by getting the same list index element from the Hist attribute.
+    TableCorrection : list[float]
+        The corrections for the treatment table used for each cell hit given as a list of floats where the event and
+        cell index of each float is given by getting the same list index element from the Hist attribute.
+
     """
+
     def __init__(
-            self,
-            patient: Phantom,
-            table: Phantom,
-            pad: Phantom,
-            dose_map: np.array,
-            hits: list[list[float]],
-            backscatter_correction: list[list[float]],
-            inverse_square_law_correction: list[list[float]],
-            medium_correction: list[list[float]],
-            table_correction: list[list[float]],
-            settings: PyskindoseSettings,
-            data_norm: pd.DataFrame,
+        self,
+        patient: Phantom,
+        table: Phantom,
+        pad: Phantom,
+        dose_map: np.array,
+        hits: list[list[float]],
+        backscatter_correction: list[list[float]],
+        inverse_square_law_correction: list[list[float]],
+        medium_correction: list[float],
+        table_correction: list[float],
+        settings: PyskindoseSettings,
+        data_norm: pd.DataFrame,
     ):
         """Create a PySkinDose output instance based on data from the PySKinDose run
 
@@ -233,7 +268,7 @@ class PySkinDoseOutput:
         hits : list[np.array]
             The numpy arrays containing information on which of the phantom cells are hit by the beam at each
             irradiation event
-        backscatter_correction : list[np.array]
+        backscatter_correction : list[list[float]]
             A list with a numpy array for each irradiation event containing the backscatter correction determined for
             each phantom cell
         inverse_square_law_correction : list[np.array]
@@ -250,25 +285,56 @@ class PySkinDoseOutput:
         data_norm : pd.DataFrame
             The RDSR data, normalized for compliance with PySkinDose's use of units etc.
         """
+        error = False
+        error_message = [""]
+
+        if len(backscatter_correction) != len(hits):
+            error = True
+            error_message.append(
+                (
+                    "Backscatter correction:\n"
+                    "\tThe backscatter correction list is not the same length as the number of events"
+                )
+            )
+
+        if len(inverse_square_law_correction) != len(hits):
+            error = True
+            error_message.append(
+                (
+                    "Inverse square law correction:\n"
+                    "\tThe inverse square law correction list is not the same length as the number of events"
+                )
+            )
+
+        if len(medium_correction) != len(hits):
+            error = True
+            error_message.append(
+                ("Medium correction:\n" "\tThe medium correction list is not the same length as the number of events")
+            )
+
+        if len(table_correction) != len(hits):
+            error = True
+            error_message.append(
+                ("Table correction:\n" "\tThe table correction list is not the same length as the number of events")
+            )
+
+        if error:
+            raise ValueError("\n\n".join(error_message))
+
         self.PSD: float = dose_map.max()
         self.AirKerma: float = data_norm[KEY_NORMALIZATION_AIR_KERMA].sum()
-        self.Events: EventOutput = EventOutput(
-            patient=patient,
-            table=table,
-            pad=pad,
-            data_norm=data_norm
-        )
+        self.Events: EventOutput = EventOutput(data_norm=data_norm)
         self.PatientOffsets: dict = {
             "long": settings.phantom.patient_offset.d_lon,
             "vert": settings.phantom.patient_offset.d_ver,
-            "lat": settings.phantom.patient_offset.d_lat
+            "lat": settings.phantom.patient_offset.d_lat,
         }
         self.Patient: dict = {
             "patient_type": patient.phantom_model,
             "patient": (
                 HumanPhantomOutput(patient)
-                if patient.phantom_model == PHANTOM_MODEL_HUMAN else
-                NonHumanPhantomOutput(patient)
+                if patient.phantom_model == PHANTOM_MODEL_HUMAN
+                else NonHumanPhantomOutput(patient)
             ),
             "orientation": settings.phantom.patient_orientation,
         }
@@ -276,25 +342,13 @@ class PySkinDoseOutput:
         self.Pad: Phantom = pad
         self.PadThickness: float = settings.phantom.dimension.pad_thickness
         self.DoseMap: np.array = dose_map
-        (
-            self.Hits,
-            self.BackscatterCorrection,
-            self.InverseSquareLawCorrection,
-            self.MediumCorrection,
-            self.TableCorrection
-        ) = zip(*[
-            ((event, ind),
-             backscatter_correction[event][ind],
-             inverse_square_law_correction[event][ind],
-             medium_correction[event][ind],
-             table_correction[event][ind],
-             )
-            for event, event_hits in enumerate(hits)
-            for ind, hit in event_hits
-            if hit
-        ])
+        self.Hits = [(event, ind) for event, event_hits in enumerate(hits) for ind, hit in enumerate(event_hits) if hit]
+        self.BackscatterCorrection = backscatter_correction
+        self.InverseSquareLawCorrection = inverse_square_law_correction
+        self.MediumCorrection = medium_correction
+        self.TableCorrection = table_correction
 
-    def to_dict(self) -> dict[str, float | list[float | int]]:
+    def to_dict(self) -> dict[str, Union[float, list[Union[float, int]]]]:
         """Converts the output data into a dict
 
         Returns
@@ -310,26 +364,26 @@ class PySkinDoseOutput:
                 "patient_type": self.Patient["patient_type"],
                 "patient": self.Patient["patient"].to_dict(),
                 "orientation": self.Patient["orientation"],
-                "offsets": self.PatientOffsets
+                "offsets": self.PatientOffsets,
             },
             "table": {
                 "table_surface": {
-                    "x": self.Table.r[:, 0],
-                    "y": self.Table.r[:, 1],
-                    "z": self.Table.r[:, 2],
+                    "x": self.Table.r[:, 0].tolist(),
+                    "y": self.Table.r[:, 1].tolist(),
+                    "z": self.Table.r[:, 2].tolist(),
                 },
                 "triangle_vertex_indices": {
                     "i": self.Table.ijk[:, 0].tolist(),
                     "j": self.Table.ijk[:, 1].tolist(),
                     "k": self.Table.ijk[:, 2].tolist(),
                 },
-                "table_length": self.Table.table_length
+                "table_length": self.Table.table_length,
             },
             "pad": {
                 "pad_surface": {
-                    "x": self.Pad.r[:, 0],
-                    "y": self.Pad.r[:, 1],
-                    "z": self.Pad.r[:, 2],
+                    "x": self.Pad.r[:, 0].tolist(),
+                    "y": self.Pad.r[:, 1].tolist(),
+                    "z": self.Pad.r[:, 2].tolist(),
                 },
                 "triangle_vertex_indices": {
                     "i": self.Pad.ijk[:, 0].tolist(),
@@ -337,13 +391,13 @@ class PySkinDoseOutput:
                     "k": self.Pad.ijk[:, 2].tolist(),
                 },
             },
-            "dose_map": self.DoseMap.tolist(),
+            "dose_map": [(ind, dose) for ind, dose in enumerate(self.DoseMap.tolist()) if dose > 0.0],
             "corrections": {
                 "correction_value_index": self.Hits,
                 "backscatter": self.BackscatterCorrection,
                 "medium": self.MediumCorrection,
                 "table": self.TableCorrection,
-                "inverse_square_law": self.InverseSquareLawCorrection
+                "inverse_square_law": self.InverseSquareLawCorrection,
             },
             "events": self.Events.to_dict(),
         }
@@ -360,12 +414,12 @@ class PySkinDoseOutput:
 
 
 def format_analysis_result_for_export(
-        analysis_result: Dict[str, Any],
-        data_norm: pd.DataFrame,
-        patient: Phantom,
-        table: Phantom,
-        pad: Phantom,
-        settings: PyskindoseSettings
+    analysis_result: Dict[str, Any],
+    data_norm: pd.DataFrame,
+    patient: Phantom,
+    table: Phantom,
+    pad: Phantom,
+    settings: PyskindoseSettings,
 ) -> Union[PySkinDoseOutput, dict[str, Any], str]:
     """Formats the result of the PySkinDose analysis into a PySkinDoseOutput class instance that has a methods for
     converting the result to either a dict or a JSON string to facilitate building custom visualizations and for other
@@ -397,11 +451,17 @@ def format_analysis_result_for_export(
         table=table,
         pad=pad,
         dose_map=analysis_result[OUTPUT_KEY_DOSE_MAP],
-        hits=[event.tolist() for event in analysis_result[OUTPUT_KEY_HITS]],
-        backscatter_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_BACK_SCATTER]],
-        inverse_square_law_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW]],
-        medium_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_MEDIUM]],
-        table_correction=[event.tolist() for event in analysis_result[OUTPUT_KEY_CORRECTION_TABLE]],
+        hits=[event if isinstance(event, list) else event.tolist() for event in analysis_result[OUTPUT_KEY_HITS]],
+        backscatter_correction=[
+            event if isinstance(event, list) else event.tolist()
+            for event in analysis_result[OUTPUT_KEY_CORRECTION_BACK_SCATTER]
+        ],
+        inverse_square_law_correction=[
+            event if isinstance(event, (list, float)) else event.tolist()
+            for event in analysis_result[OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW]
+        ],
+        medium_correction=analysis_result[OUTPUT_KEY_CORRECTION_MEDIUM],
+        table_correction=analysis_result[OUTPUT_KEY_CORRECTION_TABLE],
         settings=settings,
         data_norm=data_norm,
     )

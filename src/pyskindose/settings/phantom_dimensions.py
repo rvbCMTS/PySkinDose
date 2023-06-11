@@ -88,8 +88,8 @@ class PhantomDimensions:
             "pad_length": self.pad_length,
         }
 
-        return {
     def to_dict_cylinder(self):
+        return {
             "cylinder_length": self.cylinder_length,
             "cylinder_radii_a": self.cylinder_radii_a,
             "cylinder_radii_b": self.cylinder_radii_b,
