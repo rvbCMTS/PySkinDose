@@ -11,6 +11,9 @@ sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 src_paths = ["src", "tests"]
 skip_glob = ["**/__init__.py", "**/migrations", ".venv", ".venv39", ".github", ".pytest_cache"]
 
+[tool.ruff]
+line-length = 120
+
 [tool.black]
 line-length = 120
 include = '\.pyi?$'
