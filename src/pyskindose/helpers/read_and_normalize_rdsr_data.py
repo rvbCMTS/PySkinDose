@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 
 import pandas as pd
 import pydicom
@@ -13,12 +14,12 @@ logger = logging.getLogger(__name__)
 def read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSettings):
 
     if not rdsr_filepath:
-        rdsr_filepath = os.path.join(os.path.dirname(__file__), "example_data", "RDSR", settings.rdsr_filename)
+        rdsr_filepath = Path(__file__).parent.parent / "example_data" / "RDSR" / settings.rdsr_filename
 
     logger.debug(rdsr_filepath)
 
     # If provided, load preparsed rdsr data in .json format
-    if ".json" in rdsr_filepath:
+    if ".json" == rdsr_filepath.suffix.lower():
         return pd.read_json(rdsr_filepath)
 
     # else load RDSR data with pydicom

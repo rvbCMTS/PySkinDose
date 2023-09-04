@@ -40,14 +40,10 @@ def create_geometry_plot(
     elif settings.phantom.model == c.PHANTOM_MODEL_CYLINDER:
         settings.phantom.dimension.cylinder_resolution = c.RESOLUTION_SPARSE
 
-    # override dense .stl phantoms in plot_procedure .html plotting
-    if settings.mode == c.MODE_PLOT_PROCEDURE and settings.phantom.model == c.PHANTOM_MODEL_HUMAN:
-        settings.phantom.human_mesh += c.PHANTOM_HUMAN_MESH_SPARSE_MODEL_ENDING
-
     patient = Phantom(
         phantom_model=settings.phantom.model,
         phantom_dim=settings.phantom.dimension,
-        human_mesh=settings.phantom.human_mesh,
+        human_mesh=f"{settings.phantom.human_mesh}{c.PHANTOM_HUMAN_MESH_SPARSE_MODEL_ENDING if settings.mode == c.MODE_PLOT_PROCEDURE and settings.phantom.model == c.PHANTOM_MODEL_HUMAN else ''}",  # override dense .stl phantoms in plot_procedure .html plotting
     )
 
     # position objects in starting position
