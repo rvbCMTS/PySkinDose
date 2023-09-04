@@ -12,6 +12,8 @@ from pyskindose.constants import (
     KEY_PARAM_RDSR_FILENAME,
     RUN_ARGUMENTS_OUTPUT_HTML,
     RUN_ARGUMENTS_VALID_OUTPUT_FORMATS,
+    RUN_ARGUMENTS_OUTPUT_DICT,
+    RUN_ARGUMENTS_OUTPUT_JSON,
 )
 
 from .normalization_settings import NormalizationSettings
@@ -89,7 +91,9 @@ class PyskindoseSettings:
 
         self.mode = tmp[KEY_PARAM_MODE]
         self.output_format = output_format
-        self.file_result_output_path: Path = self._initialize_output_path(file_result_output_path)
+        self.file_result_output_path: Path = self._initialize_output_path(
+            output_path=file_result_output_path, output_format=output_format
+        )
         self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.inherent_filtration = tmp[KEY_PARAM_INHERENT_FILTRATION]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
@@ -100,9 +104,13 @@ class PyskindoseSettings:
         self.normalization_settings = self._initialize_normalization_settings(normalization_settings)
 
     @staticmethod
-    def _initialize_output_path(output_path: Optional[Union[str, Path]]) -> Path:
+    def _initialize_output_path(output_path: Optional[Union[str, Path]], output_format: str) -> Path:
         if output_path is None:
             output = Path.cwd() / "PlotOutputs"
+
+            if output_format in (RUN_ARGUMENTS_OUTPUT_DICT, RUN_ARGUMENTS_OUTPUT_JSON):
+                return output  # Return without creating the output directory as it wonät be used
+
             output.mkdir(exist_ok=True)
             return output
 

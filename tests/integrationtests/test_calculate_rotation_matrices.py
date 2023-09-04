@@ -2,7 +2,8 @@ from pyskindose.helpers.calculate_rotation_matrices import calculate_rotation_ma
 
 
 def test_calculate_rotation_matrices_returns_the_same_dataframe_with_new_columns_for_rotation_matrices(
-        axiom_artis_normalized):
+    axiom_artis_normalized,
+):
     # Arrange
     expected = list(axiom_artis_normalized.columns) + ["Rx", "Ry", "Rz"]
 
@@ -14,14 +15,13 @@ def test_calculate_rotation_matrices_returns_the_same_dataframe_with_new_columns
     assert actual == expected
 
 
-def test_calculate_rotation_matrices_returns_correctly_calculates_the_rotation_matrices(
-        axiom_artis_normalized):
+def test_calculate_rotation_matrices_returns_correctly_calculates_the_rotation_matrices(axiom_artis_normalized):
     # Arrange
     expected_Rx = [[1, 0, 0], [0, 1.0, -0.0], [0, 0.0, 1.0]]
     expected_Ry = [
         [0.9974904544890437, 0, 0.07080108193552544],
         [0, 1, 0],
-        [-0.07080108193552544, 0, 0.9974904544890437]
+        [-0.07080108193552544, 0, 0.9974904544890437],
     ]
     expected_Rz = [[1.0, -0.0, 0], [0.0, 1.0, 0], [0, 0, 1]]
 
