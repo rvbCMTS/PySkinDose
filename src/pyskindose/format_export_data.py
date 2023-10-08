@@ -443,7 +443,7 @@ def format_analysis_result_for_export(
     Returns
     -------
     Union[PySkinDoseOutput, dict[str, Any], str]
-        The PySKinDose formatted output as either a PySKinDoseOutput class instance, a dict or a JSON-formatted string
+        The PySkinDose formatted output as either a PySkinDoseOutput class instance, a dict or a JSON-formatted string
         depending on the output format specified in the settings
     """
     pyskindose_output = PySkinDoseOutput(
