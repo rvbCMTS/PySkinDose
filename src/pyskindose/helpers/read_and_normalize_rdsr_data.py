@@ -13,10 +13,13 @@ logger = logging.getLogger(__name__)
 
 def read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSettings):
 
-    if not rdsr_filepath:
-        rdsr_filepath = Path(__file__).parent.parent / "example_data" / "RDSR" / settings.rdsr_filename
+    rdsr_filepath = (
+        Path(rdsr_filepath)
+        if rdsr_filepath
+        else Path(__file__).parent.parent / "example_data/RDSR" / settings.rdsr_filename
+    )
 
-    logger.debug(rdsr_filepath)
+    logger.debug(str(rdsr_filepath.absolute()))
 
     # If provided, load preparsed rdsr data in .json format
     if ".json" == rdsr_filepath.suffix.lower():

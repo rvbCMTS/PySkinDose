@@ -1,6 +1,8 @@
 import copy
-import os
-from typing import Dict, List, Optional
+from itertools import chain
+from pathlib import Path
+from tempfile import TemporaryFile
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -51,7 +53,7 @@ class Phantom:
 
     """
 
-    def __init__(self, phantom_model: str, phantom_dim: PhantomDimensions, human_mesh: Optional[str] = None):
+    def __init__(self, phantom_model: str, phantom_dim: PhantomDimensions, human_mesh: Optional[Union[str, tuple[str, mesh.Mesh]]] = None):
         """Create the phantom of choice.
 
         Parameters
@@ -63,9 +65,11 @@ class Phantom:
             instance of class PhantomDimensions containing dimensions for
             all phantoms models except human phantoms: Length, width, radius,
             thickness etc.
-        human_mesh : str, optional
+        human_mesh : str | tuple[str, mes.Mesh | temp_file], optional
             Choose which human mesh phantom to use. Valid selection are names
-            of the *.stl-files in the phantom_data folder (The default is none.
+            of the *.stl-files in the phantom_data folder or a custom phantom
+            sent in as either a mesh object or a svg given as a temp_file object
+            (The default is none).
 
         Raises
         ------
@@ -157,7 +161,16 @@ class Phantom:
 
             n = [[nx[ind], ny[ind], nz[ind]] for ind in range(len(t))]
 
-            # Store the  coordinates of the cylinder phantom
+            # Store the  coordinates of the cylinder phantom, extended to span the entire length of the phantom, thus
+            # creating an elliptical cylinder
+            tmp_len = int(res_length) * (phantom_dim.cylinder_length + 2)
+            output: dict = {
+                "n": n * tmp_len,
+                "x": x * tmp_len,
+                "y": y * tmp_len,
+                "z": list(chain(*[[-1 / res_length * ind] * len(x) for ind in range(tmp_len)]))
+            }  # TODO: Check that this gives the same output as below
+
             output: Dict = dict(n=[], x=[], y=[], z=[])
 
             # Extend the ellipse to span the entire length of the phantom,
@@ -191,14 +204,18 @@ class Phantom:
             if human_mesh is None:
                 raise ValueError("Human model needs to be specified for" 'phantom_model = "human"')
 
-            # load selected phantom model from binary .stl file
-            phantom_path = os.path.join(os.path.dirname(__file__), "phantom_data", f"{human_mesh}.stl")
-            phantom_mesh = mesh.Mesh.from_file(phantom_path)
+            if isinstance(human_mesh, str):
+                # load selected phantom model from binary .stl file
+                self.human_model = human_mesh
+                phantom_path = Path(__file__).parent / f"phantom_data/{human_mesh}.stl"
+                phantom_mesh = mesh.Mesh.from_file(str(phantom_path.absolute()))
+            elif isinstance(human_mesh, tuple):
+                self.human_model, phantom_mesh = self._get_phantom_mesh_from_tuple(human_mesh)
+            else:
+                raise ValueError("No human model specified while 'phantom_model' is 'human'")
 
             r = phantom_mesh.vectors
             n = phantom_mesh.normals
-
-            self.human_model = human_mesh
 
             self.r = np.asarray([el for el_list in r for el in el_list])
             self.n = np.asarray([x for pair in zip(n, n, n) for x in pair])
@@ -211,7 +228,7 @@ class Phantom:
 
         # Creates the vertices of the patient support table
         elif phantom_model == "table":
-            # Longitudinal position of the the vertices
+            # Longitudinal position of the vertices
             x_tab = [index * phantom_dim.table_width for index in [+0.5, +0.5, -0.5, -0.5, +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
@@ -229,13 +246,13 @@ class Phantom:
         # Creates the vertices of the patient support table
         elif phantom_model == "pad":
 
-            # Longitudinal position of the the vertices
+            # Longitudinal position of the vertices
             x_pad = [index * phantom_dim.pad_width for index in [+0.5, +0.5, -0.5, -0.5, +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
             y_pad = [index * phantom_dim.pad_thickness for index in [0, 0, 0, 0, -1, -1, -1, -1]]
 
-            # Lateral position of the the vertices
+            # Lateral position of the vertices
             z_pad = [index * phantom_dim.pad_length for index in [0, -1, -1, 0, 0, -1, -1, 0]]
 
             # Create index vectors for plotly mesh3d plotting
@@ -243,6 +260,17 @@ class Phantom:
 
             self.r = np.column_stack((x_pad, y_pad, z_pad))
             self.ijk = np.column_stack((i_pad, j_pad, k_pad))
+
+    @staticmethod
+    def _get_phantom_mesh_from_tuple(phantom_mesh_tuple: tuple[str, mesh.Mesh | TemporaryFile | str]) -> tuple[str, mesh.Mesh]:
+        if not isinstance(phantom_mesh_tuple[0], str):
+            raise TypeError(
+                "If human_mesh is specified as a tuple, the first element must be the phantom name as a string")
+
+        if isinstance(phantom_mesh_tuple, mesh.Mesh):
+            return phantom_mesh_tuple
+
+        return phantom_mesh_tuple[0], mesh.Mesh.from_file(phantom_mesh_tuple[1])
 
     def rotate(self, angles: List[int]) -> None:
         """Rotate the phantom about the angles specified in rotation.
