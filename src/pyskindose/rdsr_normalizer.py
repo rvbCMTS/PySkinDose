@@ -37,6 +37,8 @@ def rdsr_normalizer(data_parsed: pd.DataFrame, settings: PyskindoseSettings) -> 
     data_parsed : pd.DataFrame
         Parsed RDSR data from all irradiation events in the RDSR input file,
         i.e. output of function rdsr_parser
+    settings : PyskindoseSettings
+        The PySkinDose settings object containing the normalization settings
 
     Returns
     -------
