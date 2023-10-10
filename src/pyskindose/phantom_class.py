@@ -167,20 +167,9 @@ class Phantom:
             output: dict = {
                 "n": n * tmp_len,
                 "x": x * tmp_len,
-                "y": y * tmp_len,
+                "y": [el - phantom_dim.cylinder_radii_b for el in (y * tmp_len)],
                 "z": list(chain(*[[-1 / res_length * ind] * len(x) for ind in range(tmp_len)]))
-            }  # TODO: Check that this gives the same output as below
-
-            output: Dict = dict(n=[], x=[], y=[], z=[])
-
-            # Extend the ellipse to span the entire length of the phantom,
-            # thus creating an elliptic cylinder
-            for index in range(0, int(res_length) * (phantom_dim.cylinder_length + 2), 1):
-
-                output["x"] = output["x"] + x
-                output["z"] = output["z"] + [-1 / res_length * index] * len(x)
-                output["y"] = output["y"] + y
-                output["n"] = output["n"] + n
+            }
 
             # Create index vectors for plotly mesh3d plotting
             i1 = list(range(0, len(output["x"]) - len(t)))
@@ -189,9 +178,6 @@ class Phantom:
             i2 = list(range(0, len(output["x"]) - len(t)))
             k2 = list(range(len(t) - 1, len(output["x"]) - 1))
             j2 = list(range(len(t), len(output["x"])))
-
-            for i in range(len(output["y"])):
-                output["y"][i] -= phantom_dim.cylinder_radii_b
 
             self.r = np.column_stack((output["x"], output["y"], output["z"]))
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
@@ -262,7 +248,7 @@ class Phantom:
             self.ijk = np.column_stack((i_pad, j_pad, k_pad))
 
     @staticmethod
-    def _get_phantom_mesh_from_tuple(phantom_mesh_tuple: tuple[str, mesh.Mesh | TemporaryFile | str]) -> tuple[str, mesh.Mesh]:
+    def _get_phantom_mesh_from_tuple(phantom_mesh_tuple: tuple[str, Union[mesh.Mesh, TemporaryFile, str]]) -> tuple[str, mesh.Mesh]:
         if not isinstance(phantom_mesh_tuple[0], str):
             raise TypeError(
                 "If human_mesh is specified as a tuple, the first element must be the phantom name as a string")
