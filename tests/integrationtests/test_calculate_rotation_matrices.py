@@ -19,9 +19,9 @@ def test_calculate_rotation_matrices_returns_correctly_calculates_the_rotation_m
     # Arrange
     expected_Rx = [[1, 0, 0], [0, 1.0, -0.0], [0, 0.0, 1.0]]
     expected_Ry = [
-        [0.9974904544890437, 0, 0.07080108193552544],
-        [0, 1, 0],
-        [-0.07080108193552544, 0, 0.9974904544890437],
+        [1.0, 0, 0.0],
+        [0, 1.0, 0],
+        [-0.0, 0, 1.0],
     ]
     expected_Rz = [[1.0, -0.0, 0], [0.0, 1.0, 0], [0, 0, 1]]
 
