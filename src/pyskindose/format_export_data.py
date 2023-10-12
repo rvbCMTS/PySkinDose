@@ -79,7 +79,20 @@ class VertexIndices:
 
 
 class HumanPhantomOutput:
-    """Create and handle a patient phantom data for output into a dict or JSON-string."""
+    """Create and handle a patient phantom data for output into a dict or JSON-string.
+
+    Attributes
+    ----------
+    human_model : str
+        The name of the human model used in the PySkinDose calculation
+    phantom_skin_cells : Position
+        The positions of all the phantom skin cells
+    triangle_vertex_indices : VertexIndices
+        The vertex indices of all the phantom skin cells
+    r_ref : np.array
+        The reference position of the phantom cells after the phantom has been aligned
+        in the geometry with the position_patient_phantom_on_table function in geom_calc.py
+    """
 
     def __init__(self, phantom: Phantom):
         self.human_model = phantom.human_model
@@ -123,6 +136,29 @@ class NonHumanPhantomOutput(HumanPhantomOutput):
 class EventOutput:
     """Create and handle the data specifying an irradiation event, e.g., the positioning of the patient, table, pad, and
     beam.
+
+    Attributes
+    ----------
+    events: int
+        The number of events included in the PySkinDose calculation
+    rotation : dict[str, list[float]]
+        The x, y, and z rotation for each event
+    translation : dict[str, list[float]]
+        The x, y, and z translation for each event
+    beam_positions : list[Position]
+        The position of the beam for each event
+    beam_vertex_indices : list[VertexIndices]
+        The vertex indices of the beam for each event
+    detector_positions : list[Position]
+        The position of the detector for each event
+    detector_vertex_indices : list[VertexIndices]
+        The vertex indices of the detector for each event
+    phantom_object_trace_order : list[int]
+        The trace order to for the phantom object when creating plotly plots
+    beam_wireframe_trace_order : list[int]
+        The trace order to for the beam wireframes when creating plotly plots
+    detector_wireframe_trace_order : list[int]
+        The trace order to for the detector object when creating plotly plots
     """
 
     def __init__(self, data_norm: pd.DataFrame):
