@@ -3,8 +3,8 @@ import sys
 from pathlib import Path
 
 import pyskindose.constants as c
-from pyskindose.phantom_class import Phantom
 from manual_tests.base_dev_settings import DEVELOPMENT_PARAMETERS
+from pyskindose.phantom_class import Phantom
 from pyskindose.settings import PyskindoseSettings
 
 test_path = Path(__file__).parent.parent

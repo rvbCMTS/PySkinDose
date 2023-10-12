@@ -8,13 +8,15 @@ import pandas as pd
 
 from pyskindose.analyze_data import analyze_data
 from pyskindose.constants import (
-    RUN_ARGUMENTS_MODE_HEADLESS,
     RUN_ARGUMENTS_MODE_GUI,
-    RUN_ARGUMENTS_OUTPUT_JSON,
+    RUN_ARGUMENTS_MODE_HEADLESS,
     RUN_ARGUMENTS_OUTPUT_DICT,
+    RUN_ARGUMENTS_OUTPUT_JSON,
 )
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
-from pyskindose.helpers.parse_settings_to_settings_class import parse_settings_to_settings_class
+from pyskindose.helpers.parse_settings_to_settings_class import (
+    parse_settings_to_settings_class,
+)
 from pyskindose.helpers.read_and_normalize_rdsr_data import read_and_normalise_rdsr_data
 from pyskindose.settings import PyskindoseSettings
 

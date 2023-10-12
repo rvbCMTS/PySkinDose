@@ -4,7 +4,10 @@ import pandas as pd
 
 from pyskindose import constants as c
 from pyskindose.calculate_dose.calculate_dose import calculate_dose
-from pyskindose.format_export_data import format_analysis_result_for_export, PySkinDoseOutput
+from pyskindose.format_export_data import (
+    PySkinDoseOutput,
+    format_analysis_result_for_export,
+)
 from pyskindose.helpers.calculate_rotation_matrices import calculate_rotation_matrices
 from pyskindose.phantom_class import Phantom
 from pyskindose.plotting.create_dose_map_plot import create_dose_map_plot

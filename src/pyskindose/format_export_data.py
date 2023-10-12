@@ -1,28 +1,27 @@
-from dataclasses import dataclass
 import json
-from typing import Dict, Any, Union
+from dataclasses import dataclass
+from typing import Any, Dict, Union
 
 import numpy as np
 import pandas as pd
 
-from pyskindose.settings import PyskindoseSettings
-
-from pyskindose import Phantom, Beam
+from pyskindose import Beam, Phantom
 from pyskindose.constants import (
-    PHANTOM_MODEL_HUMAN,
-    PLOT_TRACE_ORDER_PHANTOM_WIREFRAME,
-    PLOT_TRACE_ORDER_BEAM_WIREFRAME,
-    PLOT_TRACE_ORDER_DETECTOR_WIREFRAME,
     KEY_NORMALIZATION_AIR_KERMA,
-    OUTPUT_KEY_HITS,
     OUTPUT_KEY_CORRECTION_BACK_SCATTER,
+    OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW,
     OUTPUT_KEY_CORRECTION_MEDIUM,
     OUTPUT_KEY_CORRECTION_TABLE,
-    OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW,
+    OUTPUT_KEY_DOSE_MAP,
+    OUTPUT_KEY_HITS,
+    PHANTOM_MODEL_HUMAN,
+    PLOT_TRACE_ORDER_BEAM_WIREFRAME,
+    PLOT_TRACE_ORDER_DETECTOR_WIREFRAME,
+    PLOT_TRACE_ORDER_PHANTOM_WIREFRAME,
     RUN_ARGUMENTS_OUTPUT_DICT,
     RUN_ARGUMENTS_OUTPUT_JSON,
-    OUTPUT_KEY_DOSE_MAP,
 )
+from pyskindose.settings import PyskindoseSettings
 
 
 @dataclass
@@ -253,7 +252,7 @@ class PySkinDoseOutput:
         settings: PyskindoseSettings,
         data_norm: pd.DataFrame,
     ):
-        """Create a PySkinDose output instance based on data from the PySKinDose run
+        """Create a PySkinDose output instance based on data from the PySkinDose run
 
         Parameters
         ----------
@@ -281,7 +280,7 @@ class PySkinDoseOutput:
             A list with a numpy array for each irradiation event containing the table correction determined for
             each phantom cell
         settings : PyskindoseSettings
-            The instance of the settings class used in the PySKinDose run for the current data
+            The instance of the settings class used in the PySkinDose run for the current data
         data_norm : pd.DataFrame
             The RDSR data, normalized for compliance with PySkinDose's use of units etc.
         """
@@ -354,7 +353,7 @@ class PySkinDoseOutput:
         Returns
         -------
         Dict[str, Any]
-            A dict containing the output data for the PySKinDose analysis where the lists of hits and corrections have
+            A dict containing the output data for the PySkinDose analysis where the lists of hits and corrections have
             been made sparse in order to save space.
         """
         return {
@@ -438,7 +437,7 @@ def format_analysis_result_for_export(
     pad : Phantom
         An instance of the Phantom class that represents the pad
     settings : PyskindoseSettings
-        The instance of the settings class used in the PySKinDose run for the current data
+        The instance of the settings class used in the PySkinDose run for the current data
 
     Returns
     -------
@@ -457,7 +456,7 @@ def format_analysis_result_for_export(
             for event in analysis_result[OUTPUT_KEY_CORRECTION_BACK_SCATTER]
         ],
         inverse_square_law_correction=[
-            event if isinstance(event, (list, float)) else event.tolist()
+            event if isinstance(event, (list, float)) else ([] if event is None else event.tolist())
             for event in analysis_result[OUTPUT_KEY_CORRECTION_INVERSE_SQUARE_LAW]
         ],
         medium_correction=analysis_result[OUTPUT_KEY_CORRECTION_MEDIUM],

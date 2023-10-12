@@ -53,7 +53,12 @@ class Phantom:
 
     """
 
-    def __init__(self, phantom_model: str, phantom_dim: PhantomDimensions, human_mesh: Optional[Union[str, tuple[str, mesh.Mesh]]] = None):
+    def __init__(
+        self,
+        phantom_model: str,
+        phantom_dim: PhantomDimensions,
+        human_mesh: Optional[Union[str, tuple[str, mesh.Mesh]]] = None,
+    ):
         """Create the phantom of choice.
 
         Parameters
@@ -168,7 +173,7 @@ class Phantom:
                 "n": n * tmp_len,
                 "x": x * tmp_len,
                 "y": [el - phantom_dim.cylinder_radii_b for el in (y * tmp_len)],
-                "z": list(chain(*[[-1 / res_length * ind] * len(x) for ind in range(tmp_len)]))
+                "z": list(chain(*[[-1 / res_length * ind] * len(x) for ind in range(tmp_len)])),
             }
 
             # Create index vectors for plotly mesh3d plotting
@@ -248,10 +253,13 @@ class Phantom:
             self.ijk = np.column_stack((i_pad, j_pad, k_pad))
 
     @staticmethod
-    def _get_phantom_mesh_from_tuple(phantom_mesh_tuple: tuple[str, Union[mesh.Mesh, TemporaryFile, str]]) -> tuple[str, mesh.Mesh]:
+    def _get_phantom_mesh_from_tuple(
+        phantom_mesh_tuple: tuple[str, Union[mesh.Mesh, TemporaryFile, str]]
+    ) -> tuple[str, mesh.Mesh]:
         if not isinstance(phantom_mesh_tuple[0], str):
             raise TypeError(
-                "If human_mesh is specified as a tuple, the first element must be the phantom name as a string")
+                "If human_mesh is specified as a tuple, the first element must be the phantom name as a string"
+            )
 
         if isinstance(phantom_mesh_tuple, mesh.Mesh):
             return phantom_mesh_tuple

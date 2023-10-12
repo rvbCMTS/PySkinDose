@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from pyskindose.settings import initialize_settings, PyskindoseSettings
+from pyskindose.settings import PyskindoseSettings, initialize_settings
 
 logger = logging.getLogger(__name__)
 

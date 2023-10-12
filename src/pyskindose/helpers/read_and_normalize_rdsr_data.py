@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pydicom
 
-from pyskindose import rdsr_parser, rdsr_normalizer
+from pyskindose import rdsr_normalizer, rdsr_parser
 from pyskindose.settings import PyskindoseSettings
 
 logger = logging.getLogger(__name__)

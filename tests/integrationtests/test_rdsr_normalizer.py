@@ -92,9 +92,7 @@ def test_rdsr_normalizer_correctly_handles_events_without_filter(axiom_artis_par
     parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MAX][0] = 0.0
 
     # Act
-    normalized_data = rdsr_normalizer(
-        data_parsed=parsed_data_with_nofilter_events, settings=example_settings
-    )
+    normalized_data = rdsr_normalizer(data_parsed=parsed_data_with_nofilter_events, settings=example_settings)
     actual_aluminium_filter_thicknesses = normalized_data[KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM].tolist()
     actual_copper_filter_thicknesses = normalized_data[KEY_NORMALIZATION_FILTER_SIZE_COPPER].tolist()
 
@@ -103,18 +101,20 @@ def test_rdsr_normalizer_correctly_handles_events_without_filter(axiom_artis_par
     assert actual_copper_filter_thicknesses == expected_copper_filter_thicknesses
 
 
-def test_rdsr_normalizer_correctly_applies_table_offset_from_normalization_settings(axiom_artis_parsed, example_settings):
+def test_rdsr_normalizer_correctly_applies_table_offset_from_normalization_settings(
+    axiom_artis_parsed, example_settings
+):
     # Arrange
     expected = [13.78, -9.41, 34.06]
     example_settings.normalization_settings.normalization_settings_list[0]["translation_offset"] = {
         "x": 10.0,
         "y": 20.0,
-        "z": 30.0
+        "z": 30.0,
     }
     example_settings.normalization_settings.normalization_settings_list[0]["translation_direction"] = {
         "x": "+",
         "y": "-",
-        "z": "+"
+        "z": "+",
     }
 
     # Act
