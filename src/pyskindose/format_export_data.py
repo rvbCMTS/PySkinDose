@@ -377,7 +377,7 @@ class PySkinDoseOutput:
         self.Pad: Phantom = pad
         self.PadThickness: float = settings.phantom.dimension.pad_thickness
         self.DoseMap: np.array = dose_map
-        self.Hits = [(event, ind) for event, event_hits in enumerate(hits) for ind, hit in enumerate(event_hits) if hit]
+        self.Hits = [[ind for ind, hit in enumerate(event_hits) if hit] for event_hits in hits]
         self.BackscatterCorrection = backscatter_correction
         self.InverseSquareLawCorrection = inverse_square_law_correction
         self.MediumCorrection = medium_correction

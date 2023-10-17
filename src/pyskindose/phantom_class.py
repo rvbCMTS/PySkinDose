@@ -261,7 +261,7 @@ class Phantom:
                 "If human_mesh is specified as a tuple, the first element must be the phantom name as a string"
             )
 
-        if isinstance(phantom_mesh_tuple, mesh.Mesh):
+        if isinstance(phantom_mesh_tuple[1], mesh.Mesh):
             return phantom_mesh_tuple
 
         return phantom_mesh_tuple[0], mesh.Mesh.from_file(phantom_mesh_tuple[1])
