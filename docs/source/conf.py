@@ -6,7 +6,6 @@
 
 # -- Path setup --------------------------------------------------------------
 
-import os
 import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,

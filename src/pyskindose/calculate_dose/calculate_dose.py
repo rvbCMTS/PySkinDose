@@ -47,7 +47,7 @@ def calculate_dose(
         [description]
 
     """
-    if settings.mode != c.MODE_CALCULATE_DOSE:
+    if settings.mode != c.MODE_CALCULATE_DOSE and settings.mode != c.MODE_PLOT_DOSEMAP:
         logger.debug("Mode not set to calculate dose. Returning without doing anything")
         return None, None
 

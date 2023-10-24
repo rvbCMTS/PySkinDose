@@ -1,7 +1,8 @@
-import spekpy as sp  # Note: Not included in PySkinDose,
-import pandas as pd
-from typing import List
 from pathlib import Path
+from typing import List
+
+import pandas as pd
+import spekpy as sp  # Note: Not included in PySkinDose,
 from tqdm import tqdm
 
 
@@ -11,8 +12,8 @@ def generate_hvl_data(
     filtration_added_mmal: List[float],
     filtration_added_mmcu: List[float],
     anode_angle_deg: int,
-    path_results : Path,
-    filter_name : str,
+    path_results: Path,
+    filter_name: str,
 ):
     """Generate HVL data with SpekPy for k_bs and k_med selection.
 
@@ -31,13 +32,14 @@ def generate_hvl_data(
     anode_angle_deg : int
         Anode angle for spekpy spectrum generation. E.g. 8 for "AXIOM-Artis" or 11 for "Allura Clarity"
     path_results : Path
-        path to store results
+        The path to store results
     filter_name : str
         tag in filename for filter alternative, e.g. "allura" or "artis".
 
     """
     index = [
-        "kvp_kv", "filtration_inherent_mmal",
+        "kvp_kv",
+        "filtration_inherent_mmal",
         "filtration_added_mmal",
         "filtration_added_mmcu",
         "anode_angle_deg",

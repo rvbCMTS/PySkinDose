@@ -1,3 +1,52 @@
+[project]
+name = "pyskindose"
+version = "23.10.0"
+description = "Tools and script for calculating peak skin dose and create dose maps for fluoroscopic exams from RDSR data"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name="Max Hellström", email="max.hellstrom@gmail.com" },
+    { name="Josef Lundman", email="josef@lundman.eu" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pandas",
+    "numpy >= 1.26.0",
+    "pydicom >= 2.0",
+    "numpy-stl",
+    "plotly >= 4.13.3",
+    "scipy",
+    "tqdm",
+    "psutil",
+    "pillow >= 10.0.1",
+    "kaleido",
+    "rich",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["pyskindose*"]
+exclude = ["pyskindose.egg-info*"]
+
+
+[project-urls]
+"Homepage" = "https://github.com/rvbCMTS/PySkinDose"
+"Bug Tracker" = "https://github.com/rvbCMTS/PySkinDose/issues"
+"Documentation" = "https://pyskindose.readthedocs.io/en/latest/index.html"
+
+[build-system]
+requires = ["setuptools>=68.2.2"]
+build-backend = "setuptools.build_meta"
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = ["tests"]
@@ -10,6 +59,9 @@ known_first_party = ["pyskindose"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 src_paths = ["src", "tests"]
 skip_glob = ["**/__init__.py", "**/migrations", ".venv", ".venv39", ".github", ".pytest_cache"]
+
+[tool.ruff]
+line-length = 120
 
 [tool.black]
 line-length = 120

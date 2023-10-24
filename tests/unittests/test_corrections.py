@@ -11,14 +11,12 @@ from pyskindose.constants import (
     KEY_NORMALIZATION_KVP,
     KEY_NORMALIZATION_MODEL_NAME,
 )
-
 from pyskindose.corrections import (
     calculate_k_bs,
     calculate_k_isq,
     calculate_k_med,
     calculate_k_tab,
 )
-
 from pyskindose.geom_calc import fetch_and_append_hvl
 
 P = Path(__file__).parent.parent.parent

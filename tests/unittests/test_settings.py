@@ -1,11 +1,12 @@
 import sys
 from pathlib import Path
 
+from pyskindose.settings import PyskindoseSettings
+
 P = Path(__file__).parent.parent
 sys.path.insert(1, str(P.absolute()))
 
 from manual_tests.base_dev_settings import DEVELOPMENT_PARAMETERS
-from pyskindose.settings import PyskindoseSettings
 
 settings = PyskindoseSettings(settings=DEVELOPMENT_PARAMETERS)
 
