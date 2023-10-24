@@ -11,6 +11,7 @@ from pyskindose.constants import (
     RUN_ARGUMENTS_MODE_GUI,
     RUN_ARGUMENTS_MODE_HEADLESS,
     RUN_ARGUMENTS_OUTPUT_DICT,
+    RUN_ARGUMENTS_OUTPUT_HTML,
     RUN_ARGUMENTS_OUTPUT_JSON,
 )
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
@@ -55,7 +56,7 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict, PyskindoseS
 def analyze_normalized_data_with_custom_settings_object(
     data_norm: pd.DataFrame,
     settings: Union[PyskindoseSettings, str, dict],
-    output_format: str = RUN_ARGUMENTS_OUTPUT_JSON,
+    output_format: Optional[str] = RUN_ARGUMENTS_OUTPUT_JSON,
 ) -> Union[str, dict]:
     """Run PySkinDose with custom normalized data and a custom specified settings objects.
 
@@ -76,9 +77,11 @@ def analyze_normalized_data_with_custom_settings_object(
     if not isinstance(output_format, str) or not output_format.casefold() in [
         RUN_ARGUMENTS_OUTPUT_JSON,
         RUN_ARGUMENTS_OUTPUT_DICT,
+        RUN_ARGUMENTS_OUTPUT_HTML,
     ]:
         raise ValueError(
-            f"The output_format must be specified as a string with one of the valid values {RUN_ARGUMENTS_OUTPUT_JSON} or {RUN_ARGUMENTS_OUTPUT_DICT}"
+            f"The output_format must be specified as a string with one of the valid values {RUN_ARGUMENTS_OUTPUT_JSON} "
+            f"or {RUN_ARGUMENTS_OUTPUT_DICT}"
         )
 
     settings = parse_settings_to_settings_class(settings=settings)
