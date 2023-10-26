@@ -239,7 +239,7 @@ class EventOutput:
                 "vertex_indices": [pos.to_dict() for pos in self.detector_vertex_indices],
                 "trace_order": self.detector_wireframe_trace_order,
                 "setup": {
-                    "positions": self.setup_detector_positions.to_dict(),
+                    "position": self.setup_detector_positions.to_dict(),
                     "vertex_indices": self.setup_detector_vertex_indices.to_dict(),
                 },
             },
