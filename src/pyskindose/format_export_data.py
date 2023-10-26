@@ -180,6 +180,12 @@ class EventOutput:
         self.phantom_object_trace_order = PLOT_TRACE_ORDER_PHANTOM_WIREFRAME
         self.beam_wireframe_trace_order = PLOT_TRACE_ORDER_BEAM_WIREFRAME
         self.detector_wireframe_trace_order = PLOT_TRACE_ORDER_DETECTOR_WIREFRAME
+        (
+            self.setup_beam_positions,
+            self.setup_beam_vertex_indices,
+            self.setup_detector_positions,
+            self.setup_detector_vertex_indices,
+        ) = self._extract_beam_data_list(data_norm=data_norm, event=0, setup=True)
 
     def _extract_position_list(self, phantom: Phantom, data_norm: pd.DataFrame) -> list[Position]:
         return [
@@ -197,9 +203,9 @@ class EventOutput:
 
     @staticmethod
     def _extract_beam_data_list(
-        data_norm: pd.DataFrame, event: int
+        data_norm: pd.DataFrame, event: int, setup: bool = False
     ) -> tuple[Position, VertexIndices, Position, VertexIndices]:
-        beam = Beam(data_norm, event=event, plot_setup=False)
+        beam = Beam(data_norm, event=event, plot_setup=setup)
         beam_position = Position(x=beam.r[:, 0].tolist(), y=beam.r[:, 1].tolist(), z=beam.r[:, 2].tolist())
         beam_vertex_indices = VertexIndices(
             i=beam.ijk[:, 0].tolist(), j=beam.ijk[:, 1].tolist(), k=beam.ijk[:, 2].tolist()
@@ -223,11 +229,19 @@ class EventOutput:
                 "positions": [pos.to_dict() for pos in self.beam_positions],
                 "vertex_indices": [pos.to_dict() for pos in self.beam_vertex_indices],
                 "trace_order": self.beam_wireframe_trace_order,
+                "setup": {
+                    "positions": self.setup_beam_positions.to_dict(),
+                    "vertex_indices": self.setup_beam_vertex_indices.to_dict(),
+                },
             },
             "detector": {
-                "positions": [pos.to_dict() for pos in self.beam_positions],
-                "vertex_indices": [pos.to_dict() for pos in self.beam_vertex_indices],
+                "positions": [pos.to_dict() for pos in self.detector_positions],
+                "vertex_indices": [pos.to_dict() for pos in self.detector_vertex_indices],
                 "trace_order": self.detector_wireframe_trace_order,
+                "setup": {
+                    "positions": self.setup_detector_positions.to_dict(),
+                    "vertex_indices": self.setup_detector_vertex_indices.to_dict(),
+                },
             },
         }
 
