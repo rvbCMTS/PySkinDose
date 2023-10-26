@@ -230,7 +230,7 @@ class EventOutput:
                 "vertex_indices": [pos.to_dict() for pos in self.beam_vertex_indices],
                 "trace_order": self.beam_wireframe_trace_order,
                 "setup": {
-                    "positions": self.setup_beam_positions.to_dict(),
+                    "position": self.setup_beam_positions.to_dict(),
                     "vertex_indices": self.setup_beam_vertex_indices.to_dict(),
                 },
             },
