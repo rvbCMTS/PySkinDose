@@ -8,6 +8,9 @@ from ..constants import (
     COLOR_WIRE_FRAME_DETECTOR,
     COLOR_WIRE_FRAME_PAD,
     COLOR_WIRE_FRAME_TABLE,
+    PLOT_TRACE_ORDER_BEAM_WIREFRAME,
+    PLOT_TRACE_ORDER_DETECTOR_WIREFRAME,
+    PLOT_TRACE_ORDER_PHANTOM_WIREFRAME,
 )
 from ..phantom_class import Phantom
 
@@ -58,10 +61,8 @@ def _create_beam_wireframe(beam: Beam, line_width: int, visible: bool) -> go.Sca
     temp_y = []
     temp_z = []
 
-    # plot trace order (trace out path of wireframe by index of each point)
-    trace_order = [0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 1, 4, 0]
-    # connect trace
-    for trace in trace_order:
+    # connect trace by using a plot trace order (trace out path of wireframe by index of each point)
+    for trace in PLOT_TRACE_ORDER_BEAM_WIREFRAME:
         temp_x.append(x[trace])
         temp_y.append(y[trace])
         temp_z.append(z[trace])
@@ -77,7 +78,7 @@ def _create_beam_wireframe(beam: Beam, line_width: int, visible: bool) -> go.Sca
 
 
 def _create_phantom_object_wireframe(obj: Phantom, color: str, line_width: int, visible: bool) -> go.Scatter3d:
-    # This funciton creates a wireframe plot for the X-ray table or pad
+    # This function creates a wireframe plot for the X-ray table or pad
 
     x = obj.r[:, 0].tolist()
     y = obj.r[:, 1].tolist()
@@ -87,10 +88,8 @@ def _create_phantom_object_wireframe(obj: Phantom, color: str, line_width: int, 
     temp_y = []
     temp_z = []
 
-    # plot trace order (trace out path of wireframe by index of each point)
-    trace_order = [0, 4, 5, 1, 0, 3, 7, 4, 7, 6, 5, 1, 2, 3, 2, 6]
-    # connect trace
-    for trace in trace_order:
+    # connect trace by using a plot trace order (trace out path of wireframe by index of each point)
+    for trace in PLOT_TRACE_ORDER_PHANTOM_WIREFRAME:
         temp_x.append(x[trace])
         temp_y.append(y[trace])
         temp_z.append(z[trace])
@@ -116,10 +115,8 @@ def _create_detector_wire_frame(beam: Beam, line_width: int, visible: bool) -> g
     temp_y = []
     temp_z = []
 
-    # plot trace order (trace out path of wireframe by index of each point)
-    trace_order = [0, 0 + 4, 0, 1, 1 + 4, 1, 2, 2 + 4, 2, 3, 3 + 4, 3, 0, 4, 5, 6, 7, 4]
-    # connect trace
-    for trace in trace_order:
+    # connect trace by using a plot trace order (trace out path of wireframe by index of each point)
+    for trace in PLOT_TRACE_ORDER_DETECTOR_WIREFRAME:
         temp_x.append(x[trace])
         temp_y.append(y[trace])
         temp_z.append(z[trace])

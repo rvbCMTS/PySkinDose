@@ -1,5 +1,3 @@
-import pydicom
-
 from pyskindose.rdsr_parser import rdsr_parser
 
 

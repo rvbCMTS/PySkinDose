@@ -1,8 +1,10 @@
 {
-    "mode": "plot_setup",
-    "rdsr_filename": "S1.dcm",
+    "mode": "plot_event",
+    "rdsr_filename": "siemens_axiom_example_procedure.dcm",
+    "plot_event_index": 12,
     "estimate_k_tab": false,
     "k_tab_val": 0.8,
+    "inherent_filtration": 3.1,
     "plot": {
         "interactivity": true,
         "dark_mode": true,
@@ -10,7 +12,7 @@
         "plot_dosemap": false,
         "colorscale": "jet",
         "max_events_for_patient_inclusion": 0,
-        "plot_event_index": 0
+        "plot_event_index": 1
     },
     "phantom": {
         "model": "cylinder",

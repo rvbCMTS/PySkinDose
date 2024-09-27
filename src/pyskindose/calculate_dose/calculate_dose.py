@@ -15,7 +15,7 @@ from pyskindose.geom_calc import (
     position_patient_phantom_on_table,
 )
 from pyskindose.phantom_class import Phantom
-from pyskindose.settings_pyskindose import PyskindoseSettings
+from pyskindose.settings import PyskindoseSettings
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ def calculate_dose(
         [description]
 
     """
-    if settings.mode != c.MODE_CALCULATE_DOSE:
+    if settings.mode != c.MODE_CALCULATE_DOSE and settings.mode != c.MODE_PLOT_DOSEMAP:
         logger.debug("Mode not set to calculate dose. Returning without doing anything")
         return None, None
 
@@ -72,7 +72,7 @@ def calculate_dose(
         patient_orientation=settings.phantom.patient_orientation,
     )
 
-    normalized_data = fetch_and_append_hvl(data_norm=normalized_data)
+    normalized_data = fetch_and_append_hvl(data_norm=normalized_data, inherent_filtration=settings.inherent_filtration)
 
     # Check which irradiation events that contains updated
     # geometry parameters since the previous irradiation event

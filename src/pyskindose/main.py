@@ -1,16 +1,25 @@
 import argparse
 import logging
-import os
+import sys
+from pathlib import Path
 from typing import Optional, Union
 
 import pandas as pd
-import pydicom
 
 from pyskindose.analyze_data import analyze_data
+from pyskindose.constants import (
+    RUN_ARGUMENTS_MODE_GUI,
+    RUN_ARGUMENTS_MODE_HEADLESS,
+    RUN_ARGUMENTS_OUTPUT_DICT,
+    RUN_ARGUMENTS_OUTPUT_HTML,
+    RUN_ARGUMENTS_OUTPUT_JSON,
+)
 from pyskindose.dev_data import DEVELOPMENT_PARAMETERS
-from pyskindose.rdsr_normalizer import rdsr_normalizer
-from pyskindose.rdsr_parser import rdsr_parser
-from pyskindose.settings_pyskindose import PyskindoseSettings, initialize_settings
+from pyskindose.helpers.parse_settings_to_settings_class import (
+    parse_settings_to_settings_class,
+)
+from pyskindose.helpers.read_and_normalize_rdsr_data import read_and_normalise_rdsr_data
+from pyskindose.settings import PyskindoseSettings
 
 logger = logging.getLogger(__name__)
 
@@ -37,64 +46,93 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict, PyskindoseS
         enabled.
 
     """
-    settings = _parse_settings_to_settings_class(settings=settings)
+    settings = parse_settings_to_settings_class(settings=settings)
 
-    data_norm = _read_and_normalise_rdsr_data(rdsr_filepath=file_path, settings=settings)
+    data_norm = read_and_normalise_rdsr_data(rdsr_filepath=file_path, settings=settings)
 
     _ = analyze_data(normalized_data=data_norm, settings=settings)
 
 
-def _parse_settings_to_settings_class(settings: Optional[str] = None):
-    try:
-        return initialize_settings(settings)
-    except ValueError:
-        logger.debug("Tried initializing settings without any settings")
+def analyze_normalized_data_with_custom_settings_object(
+    data_norm: pd.DataFrame,
+    settings: Union[PyskindoseSettings, str, dict],
+    output_format: Optional[str] = RUN_ARGUMENTS_OUTPUT_JSON,
+) -> Union[str, dict]:
+    """Run PySkinDose with custom normalized data and a custom specified settings objects.
 
-    settings_path = os.path.join(os.path.dirname(__file__), "settings.json")
+    See the
 
-    if not os.path.exists(settings_path):
-        logger.warning("Settings path not specified. Using example settings.")
-        settings_path = os.path.join(os.path.dirname(__file__), "settings_example.json")
+    Parameters
+    ----------
+    data_norm : pd.DataFrame
+        A pandas DataFrame containing the normalized data
+    settings : Union[PySkinDoseSettings, str, dict]
+        The settings for the PySkinDose analysis given as a PySKinDoseSettings object, a json-formatted string or a dict
+    output_format : str, optional
+        String specifying the output format. Valid values are "json"(default) and "dict"
+    """
+    if not isinstance(settings, (PyskindoseSettings, str, dict)):
+        raise TypeError("Invalid type for input settings")
 
-    with open(settings_path, "r") as fp:
-        output = fp.read()
+    if not isinstance(output_format, str) or not output_format.casefold() in [
+        RUN_ARGUMENTS_OUTPUT_JSON,
+        RUN_ARGUMENTS_OUTPUT_DICT,
+        RUN_ARGUMENTS_OUTPUT_HTML,
+    ]:
+        raise ValueError(
+            f"The output_format must be specified as a string with one of the valid values {RUN_ARGUMENTS_OUTPUT_JSON} "
+            f"or {RUN_ARGUMENTS_OUTPUT_DICT}"
+        )
 
-    return PyskindoseSettings(output)
+    settings = parse_settings_to_settings_class(settings=settings)
+    settings.output_format = output_format.casefold()
+
+    return analyze_data(normalized_data=data_norm, settings=settings)
 
 
-def _read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSettings):
+def get_argument_parser(arguments) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="PySkinDose",
+        description=(
+            "PySkinDose is a Python version 3.8 based program for patient peak"
+            " skin dose (PSD) estimations from fluoroscopic procedures in"
+            " interventional radiology."
+        ),
+    )
+    parser.add_argument(
+        "--mode",
+        "-m",
+        dest="mode",
+        choices=(RUN_ARGUMENTS_MODE_HEADLESS, RUN_ARGUMENTS_MODE_GUI),
+        default=RUN_ARGUMENTS_MODE_HEADLESS,
+    )
 
-    if not rdsr_filepath:
-        rdsr_filepath = os.path.join(os.path.dirname(__file__), "example_data", "RDSR", settings.rdsr_filename)
+    parser.add_argument(
+        "--file-path",
+        "-f",
+        required=False,
+        dest="file_path",
+        help="Path to RDSR DICOM file (required in headless mode)",
+    )
 
-    logger.debug(rdsr_filepath)
+    parser.add_argument(
+        "--settings",
+        "-s",
+        required=False,
+        type=Path,
+        default=None,
+        dest="settings",
+        help="Path to the settings file to use if a specific settings file is required",
+    )
 
-    "If provided, load preparsed rdsr data in .json format"
-    if ".json" in rdsr_filepath:
-        return pd.read_json(rdsr_filepath)
-
-    # else load RDSR data with pydicom
-    data_raw = pydicom.dcmread(rdsr_filepath)
-
-    # parse RDSR data from raw .dicom file
-    data_parsed = rdsr_parser(data_raw)
-
-    # normalized rdsr for compliance with PySkinDose
-    normalized_data = rdsr_normalizer(data_parsed)
-
-    return normalized_data
+    return parser.parse_args(arguments)
 
 
 if __name__ == "__main__":
+    args = get_argument_parser(sys.argv)
 
-    DESCRIPTION = (
-        "PySkinDose is a Python version 3.7 based program for patient peak"
-        " skin dose (PSD) estimations from fluoroscopic procedures in"
-        " interventional radiology."
-    )
+    if (run_settings := args.settings) is None:
+        logger.warning("No settings specified. Running with development parameters")
+        run_settings = DEVELOPMENT_PARAMETERS
 
-    PARSER = argparse.ArgumentParser(description=DESCRIPTION)
-    PARSER.add_argument("--file-path", help="Path to RDSR DICOM file")
-    ARGS = PARSER.parse_args()
-
-    main(file_path=ARGS.file_path, settings=DEVELOPMENT_PARAMETERS)
+    main(file_path=args.file_path, settings=run_settings)
