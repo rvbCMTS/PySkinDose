@@ -48,7 +48,7 @@ class PyskindoseSettings:
     rdsr_filename : str
         filename of the RDSR file, without the .dcm file ending.
     estimate_k_tab : bool
-        Whether k_tab should be approximated or not. You should set this if you
+        Whether k_tab should be approximated or not. You should set this to false if you
         have not conducted table attenuation measurements.
     k_tab_val : float
         Value of k_tab, in range 0.0 -> 1.0.
