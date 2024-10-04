@@ -2,7 +2,7 @@
     "mode": "plot_event",
     "rdsr_filename": "siemens_axiom_example_procedure.dcm",
     "plot_event_index": 12,
-    "estimate_k_tab": false,
+    "estimate_k_tab": true,
     "k_tab_val": 0.8,
     "inherent_filtration": 3.1,
     "plot": {

@@ -23,3 +23,19 @@ def print_available_human_phantoms():
     for phantom in phantoms:
         print(phantom)
 
+
+def print_example_rdsr_files():
+    rdsr_data_dir = get_path_to_example_rdsr_files()
+    files = [file.name for file in rdsr_data_dir.glob('*.dcm')]
+
+    print('Available RDSR files:\n')
+    for filename in files:
+        print(f'\t{filename}')
+
+    print(f'\nFiles located in {rdsr_data_dir.absolute()}')
+
+
+def get_path_to_example_rdsr_files():
+    from pathlib import Path
+    return Path(__file__).parent / 'example_data' / 'RDSR'
+    
