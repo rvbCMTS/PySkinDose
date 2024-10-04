@@ -100,6 +100,7 @@ class PyskindoseSettings:
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
         self.phantom = PhantomSettings(ptm_dim=tmp["phantom"])
         self.plot = Plotsettings(plt_dict=tmp["plot"])
+        self.corrections_db_path = tmp.get("corrections_db_path", "corrections.db")
 
         self.normalization_settings = self._initialize_normalization_settings(normalization_settings)
 
