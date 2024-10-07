@@ -89,6 +89,7 @@ def calculate_dose(
         data_norm=normalized_data,
         estimate_k_tab=settings.estimate_k_tab,
         k_tab_val=settings.k_tab_val,
+        corrections_db=settings.corrections_db_path
     )
 
     total_number_of_events = len(normalized_data)

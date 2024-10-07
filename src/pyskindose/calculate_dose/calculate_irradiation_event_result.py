@@ -119,6 +119,7 @@ def calculate_irradiation_event_result(
         field_area=field_area,
         k_tab=k_tab,
         output=output,
+        corrections_db=corrections_db,
     )
 
     event += 1
