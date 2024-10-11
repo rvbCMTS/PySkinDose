@@ -158,17 +158,17 @@ class PyskindoseSettings:
             to the terminal. The default is False.
 
         """
-        phantom_settings_string = self.phantom.to_printable_string(color="magenta")
-        plot_settings_string = self.plot.to_printable_string(color="blue")
-        normalization_settings_string = self.normalization_settings.to_printable_string(color="green")
+        phantom_settings_string = self.phantom.to_printable_string(color="bright_magenta on black")
+        plot_settings_string = self.plot.to_printable_string(color="steel_blue1 on black")
+        normalization_settings_string = self.normalization_settings.to_printable_string(color="bright_green on black")
 
-        color = "cyan"
+        color = "bright_cyan on black"
 
         output_str = (
             f"[b u {color}]General settings[/b u {color}]\n"
-            f"\t[{color}]mode[/{color}]:\t{self.mode}\n"
-            f"\t[{color}]rdsr_filename[/{color}]:\t{self.rdsr_filename}\n"
-            f"\t[{color}]estimate_k_tab[/{color}]:\t{'True' if self.estimate_k_tab else 'False'}\n"
+            f"\t[{color}]mode:\t{self.mode}[/{color}]\n"
+            f"\t[{color}]rdsr_filename:\t{self.rdsr_filename}[/{color}]\n"
+            f"\t[{color}]estimate_k_tab:\t{'True' if self.estimate_k_tab else 'False'}[/{color}]\n"
             f"\n{phantom_settings_string}"
             f"\n{plot_settings_string}"
             f"\n{normalization_settings_string}"
