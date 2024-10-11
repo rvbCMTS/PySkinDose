@@ -54,10 +54,10 @@ class Plotsettings:
     def to_printable_string(self, color: str = "blue"):
         return (
             f"[bold {color}]Plot settings[/bold {color}]\n"
-            f"\t[{color}]interactivity[/{color}]: {'True' if self.interactivity else 'False'}\n"
-            f"\t[{color}]dark_mode[/{color}]: {'True' if self.dark_mode else 'False'}\n"
-            f"\t[{color}]notebook_mode[/{color}]: {'True' if self.notebook_mode else 'False'}\n"
-            f"\t[{color}]plot_dosemap[/{color}]: {'True' if self.plot_dosemap else 'False'}\n"
-            f"\t[{color}]max_events_for_patient_inclusion[/{color}]: {self.max_events_for_patient_inclusion}\n"
-            f"\t[{color}]plot_event_index[/{color}]: {self.plot_event_index}\n"
+            f"\t[{color}]interactivity: {'True' if self.interactivity else 'False'}[/{color}]\n"
+            f"\t[{color}]dark_mode: {'True' if self.dark_mode else 'False'}[/{color}]\n"
+            f"\t[{color}]notebook_mode: {'True' if self.notebook_mode else 'False'}[/{color}]\n"
+            f"\t[{color}]plot_dosemap: {'True' if self.plot_dosemap else 'False'}[/{color}]\n"
+            f"\t[{color}]max_events_for_patient_inclusion: {self.max_events_for_patient_inclusion}[/{color}]\n"
+            f"\t[{color}]plot_event_index: {self.plot_event_index}[/{color}]\n"
         )
