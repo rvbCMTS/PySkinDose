@@ -72,7 +72,11 @@ def calculate_dose(
         patient_orientation=settings.phantom.patient_orientation,
     )
 
-    normalized_data = fetch_and_append_hvl(data_norm=normalized_data, inherent_filtration=settings.inherent_filtration)
+    normalized_data = fetch_and_append_hvl(
+        data_norm=normalized_data,
+        inherent_filtration=settings.inherent_filtration,
+        corrections_db=settings.corrections_db_path
+    )
 
     # Check which irradiation events that contains updated
     # geometry parameters since the previous irradiation event
@@ -85,6 +89,7 @@ def calculate_dose(
         data_norm=normalized_data,
         estimate_k_tab=settings.estimate_k_tab,
         k_tab_val=settings.k_tab_val,
+        corrections_db=settings.corrections_db_path
     )
 
     total_number_of_events = len(normalized_data)
@@ -117,6 +122,7 @@ def calculate_dose(
         back_scatter_interpolation=back_scatter_interpolation,
         output=output_template,
         pbar=pbar(total=total_number_of_events, leave=False, desc="calculating skindose"),
+        corrections_db=settings.corrections_db_path
     )
 
     return patient, output

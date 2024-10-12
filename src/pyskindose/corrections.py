@@ -98,7 +98,7 @@ def calculate_k_bs(data_norm: pd.DataFrame) -> List[CubicSpline]:
     return bs_interp
 
 
-def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int) -> float:
+def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int, corrections_db: str) -> float:
     """Calculate medium correction.
 
     This function calculates and appends the medium correction factor for all skin cells
@@ -115,6 +115,9 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
         beam.
     event : int
         Irradiation event index.
+    corrections_db : str
+        A string defining the path to the corrections SQLite db
+
 
     Returns
     -------
@@ -138,7 +141,7 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     fsl = min(fsl_tab, key=lambda x: abs(x - fsl_mean))
 
     # Connect to database
-    conn = db_connect()[0]
+    conn = db_connect(db_name=corrections_db)[0]
 
     # Fetch k_med = f(kVp, HVL) from database. This is table 2 in
     # [doi:10.1088/0031-9155/58/2/247]
@@ -173,7 +176,7 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     return k_med
 
 
-def calculate_k_tab(data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab_val: float = 0.8) -> List[float]:
+def calculate_k_tab(data_norm: pd.DataFrame, corrections_db: str, estimate_k_tab: bool = False, k_tab_val: float = 0.8) -> List[float]:
     """Fetch table correction factor from database.
 
     This function fetches measured table correction factor as a function of
@@ -188,6 +191,8 @@ def calculate_k_tab(data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab
         Set to True to use estimated table correction, default is False.
     k_tab_val: float
         Value of estimated table corrections, must be in range (0, 1).
+    corrections_db : str
+        A string defining the path to the corrections SQLite db
 
     Returns
     -------
@@ -199,7 +204,7 @@ def calculate_k_tab(data_norm: pd.DataFrame, estimate_k_tab: bool = False, k_tab
         return [k_tab_val] * len(data_norm)
 
     # Connect to database
-    [conn, c] = db_connect()
+    [conn, c] = db_connect(db_name=corrections_db)
 
     k_tab = [1.0] * len(data_norm)
 

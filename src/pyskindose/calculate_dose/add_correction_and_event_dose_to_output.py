@@ -21,6 +21,7 @@ def add_corrections_and_event_dose_to_output(
     back_scatter_interpolation: List[CubicSpline],
     field_area: List[float],
     k_tab: List[float],
+    corrections_db: str,
     output: Dict[str, Any],
 ) -> Dict[str, Any]:
     """Add correction factors and event dose to output dictionary.
@@ -49,6 +50,8 @@ def add_corrections_and_event_dose_to_output(
         beam
     k_tab : List[float]
         List of table correction factors
+    corrections_db : str
+        A string defining the path to the corrections SQLite db
     output : Dict[str, Any]
         Dictionary containing outputs to store from the calculations. E.g. dose map and
         correction factors.
@@ -69,7 +72,11 @@ def add_corrections_and_event_dose_to_output(
     k_bs = back_scatter_interpolation[event](np.sqrt(field_area))
 
     logger.debug("Calculating reference point medium correction (air -> water)")
-    k_med = calculate_k_med(data_norm=normalized_data, field_area=field_area, event=event)
+    k_med = calculate_k_med(
+        data_norm=normalized_data,
+        field_area=field_area,
+        event=event,
+        corrections_db=corrections_db)
 
     output[c.OUTPUT_KEY_CORRECTION_BACK_SCATTER][event] = k_bs
     output[c.OUTPUT_KEY_CORRECTION_MEDIUM][event] = k_med

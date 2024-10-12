@@ -218,7 +218,7 @@ def scale_field_area(
     return field_area
 
 
-def fetch_and_append_hvl(data_norm: pd.DataFrame, inherent_filtration: float) -> pd.DataFrame:
+def fetch_and_append_hvl(data_norm: pd.DataFrame, inherent_filtration: float, corrections_db: str) -> pd.DataFrame:
     """Add event HVL to RDSR event data from database.
 
     Parameters
@@ -227,6 +227,8 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame, inherent_filtration: float) ->
         RDSR data, normalized for compliance with PySkinDose.
     inherent_filtration : float
         X-ray tube inherent filtration in mmAl.
+    corrections_db : str
+        A string defining the path to the corrections SQLite db
 
     Returns
     -------
@@ -237,7 +239,7 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame, inherent_filtration: float) ->
 
     """
     # Open connection to database
-    conn = db_connect()[0]
+    conn = db_connect(db_name=corrections_db)[0]
 
     # Fetch entire HVL table
     hvl_data = pd.read_sql_query("SELECT * FROM hvl_combined", conn)
@@ -268,7 +270,7 @@ def fetch_and_append_hvl(data_norm: pd.DataFrame, inherent_filtration: float) ->
 def check_new_geometry(data_norm: pd.DataFrame) -> List[bool]:
     """Check which events has unchanged geometry since the event before.
 
-    This function is intented to calculate if new geometry parameters needs
+    This function is intended to calculate if new geometry parameters needs
     to be calculated, i.e., new beam, geometry positioning, field area and
     cell hit calculation.
 

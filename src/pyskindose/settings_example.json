@@ -39,5 +39,6 @@
             "pad_thickness": 4,
             "unit": "cm"
         }
-    }
+    },
+    "corrections_db_path": "corrections.db"
 }
