@@ -10,6 +10,7 @@ from pyskindose.constants import (
     KEY_PARAM_K_TAB_VAL,
     KEY_PARAM_MODE,
     KEY_PARAM_RDSR_FILENAME,
+    KEY_PARAM_SILENCE_PYDICOM_WARNINGS,
     RUN_ARGUMENTS_OUTPUT_DICT,
     RUN_ARGUMENTS_OUTPUT_HTML,
     RUN_ARGUMENTS_OUTPUT_JSON,
@@ -96,6 +97,7 @@ class PyskindoseSettings:
         )
         self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.inherent_filtration = tmp[KEY_PARAM_INHERENT_FILTRATION]
+        self.silence_pydicom_warnings = tmp[KEY_PARAM_SILENCE_PYDICOM_WARNINGS]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
         self.phantom = PhantomSettings(ptm_dim=tmp["phantom"])
@@ -170,6 +172,7 @@ class PyskindoseSettings:
             f"\t[{color}]mode:\t{self.mode}[/{color}]\n"
             f"\t[{color}]rdsr_filename:\t{self.rdsr_filename}[/{color}]\n"
             f"\t[{color}]estimate_k_tab:\t{'True' if self.estimate_k_tab else 'False'}[/{color}]\n"
+            f"\t[{color}]silence_pydicom_warnings:\t{'True' if self.silence_pydicom_warnings else 'False'}[/{color}]\n"
             f"\n{phantom_settings_string}"
             f"\n{plot_settings_string}"
             f"\n{normalization_settings_string}"

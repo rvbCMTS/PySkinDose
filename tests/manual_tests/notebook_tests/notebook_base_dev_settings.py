@@ -12,6 +12,8 @@ DEVELOPMENT_PARAMETERS = dict(
     # plot settings
     # x-ray tube inherent filtration in mmAl
     inherent_filtration=3.1,
+    # Silence reading_validation_mode warnings in pydicom
+    silence_pydicom_warnings=True,
     plot={
         # toggle interactive/static dose map mode.
         c.MODE_INTERACTIVITY: True,

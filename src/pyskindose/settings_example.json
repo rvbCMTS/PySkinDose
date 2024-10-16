@@ -5,6 +5,7 @@
     "estimate_k_tab": false,
     "k_tab_val": 0.8,
     "inherent_filtration": 3.1,
+    "silence_pydicom_warnings": true,
     "plot": {
         "dark_mode": true,
         "notebook_mode": false,

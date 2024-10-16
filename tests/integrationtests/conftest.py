@@ -19,6 +19,7 @@ def example_settings() -> PyskindoseSettings:
         "plot_event_index": 12,
         "estimate_k_tab": False,
         "inherent_filtration": 3.1,
+        "silence_pydicom_warnings": True,
         "k_tab_val": 0.8,
         "plot": {
             "interactivity": True,

@@ -176,7 +176,9 @@ def calculate_k_med(data_norm: pd.DataFrame, field_area: List[float], event: int
     return k_med
 
 
-def calculate_k_tab(data_norm: pd.DataFrame, corrections_db: str, estimate_k_tab: bool = False, k_tab_val: float = 0.8) -> List[float]:
+def calculate_k_tab(
+    data_norm: pd.DataFrame, corrections_db: str, estimate_k_tab: bool = False, k_tab_val: float = 0.8
+) -> List[float]:
     """Fetch table correction factor from database.
 
     This function fetches measured table correction factor as a function of

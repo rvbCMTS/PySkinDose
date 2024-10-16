@@ -16,6 +16,8 @@ DEVELOPMENT_PARAMETERS = dict(
     k_tab_val=0.8,
     # x-ray tube inherent filtration in mmAl
     inherent_filtration=3.1,
+    # Silence reading_validation_mode warnings in pydicom
+    silence_pydicom_warnings=True,
     # plot settings
     plot={
         "interactivity": True,
