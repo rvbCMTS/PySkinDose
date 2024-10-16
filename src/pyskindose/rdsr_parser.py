@@ -17,7 +17,7 @@ from pyskindose.constants import (
 )
 
 
-def rdsr_parser(data_raw: pydicom.FileDataset, silence_pydicom_warnings=True) -> pd.DataFrame:
+def rdsr_parser(data_raw: pydicom.FileDataset, silence_pydicom_warnings=False) -> pd.DataFrame:
     """Parse event data from radiation dose structure reports (RDSR).
 
     Parameters
