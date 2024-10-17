@@ -31,13 +31,15 @@ class RotationDirection:
         self.At3: Optional[int] = None if directions is None else self._get_direction_as_value(directions["At3"])
 
     def update_rotation_direction(self, directions: Dict[str, str]):
-        self.Ap1 = self._get_direction_as_value(directions["Ap1"])
-        self.Ap2 = self._get_direction_as_value(directions["Ap2"])
-        self.Ap3 = self._get_direction_as_value(directions["Ap3"])
-        self.At1 = self._get_direction_as_value(directions["At1"])
-        self.At2 = self._get_direction_as_value(directions["At2"])
-        self.At3 = self._get_direction_as_value(directions["At3"])
+        self.Ap1 = self._get_direction_as_value(directions["Ap1"]) if self.Ap1 is None else self._get_direction_as_value(self.Ap1)
+        self.Ap2 = self._get_direction_as_value(directions["Ap2"]) if self.Ap2 is None else self._get_direction_as_value(self.Ap2)
+        self.Ap3 = self._get_direction_as_value(directions["Ap3"]) if self.Ap3 is None else self._get_direction_as_value(self.Ap3)
 
+        self.At1 = self._get_direction_as_value(directions["At1"]) if self.At1 is None else self._get_direction_as_value(self.At1)
+        self.At2 = self._get_direction_as_value(directions["At2"]) if self.At2 is None else self._get_direction_as_value(self.At2)
+        self.At3 = self._get_direction_as_value(directions["At3"]) if self.At3 is None else self._get_direction_as_value(self.At3)
+
+        
     @staticmethod
     def _get_direction_as_value(direction: str):
         if direction not in ("+", "-"):
