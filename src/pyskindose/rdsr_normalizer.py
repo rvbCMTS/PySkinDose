@@ -200,9 +200,10 @@ def _normalize_table_parameters(
     data_norm["Tz"] = norm.trans_offset.z + norm.trans_dir.z * data_parsed.TableLateralPosition_mm / 10
 
     # Table rotations
-    data_norm["At1"] = norm.rot_dir.At1 * [0] * len(data_norm)
-    data_norm["At2"] = norm.rot_dir.At2 * [0] * len(data_norm)
-    data_norm["At3"] = norm.rot_dir.At3 * [0] * len(data_norm)
+    # temp set to zero
+    data_norm["At1"] = [0] * len(data_norm)
+    data_norm["At2"] = [0] * len(data_norm)
+    data_norm["At3"] = [0] * len(data_norm)
 
     return data_norm
 
@@ -270,7 +271,7 @@ def _normalize_beam_parameters(
     data_norm["Ap1"] = norm.rot_dir.Ap1 * data_parsed.PositionerPrimaryAngle_deg
     data_norm["Ap2"] = norm.rot_dir.Ap2 * data_parsed.PositionerSecondaryAngle_deg
     # temp set to zero
-    data_norm["Ap3"] = norm.rot_dir.Ap3 * [0] * len(data_norm)
+    data_norm["Ap3"] = [0] * len(data_norm)
 
     # detector side length
     data_norm["DSL"] = norm.detector_side_length
