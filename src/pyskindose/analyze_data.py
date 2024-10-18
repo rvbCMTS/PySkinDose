@@ -63,9 +63,9 @@ def analyze_data(
     create_dose_map_plot(
         patient=patient,
         settings=settings,
-        dose_map=output[c.OUTPUT_KEY_DOSE_MAP]
-        if settings.mode in (c.MODE_CALCULATE_DOSE, c.MODE_PLOT_DOSEMAP)
-        else None,
+        dose_map=(
+            output[c.OUTPUT_KEY_DOSE_MAP] if settings.mode in (c.MODE_CALCULATE_DOSE, c.MODE_PLOT_DOSEMAP) else None
+        ),
     )
 
     if settings.output_format == c.RUN_ARGUMENTS_OUTPUT_HTML:

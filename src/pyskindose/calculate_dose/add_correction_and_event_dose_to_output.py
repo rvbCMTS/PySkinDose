@@ -73,10 +73,8 @@ def add_corrections_and_event_dose_to_output(
 
     logger.debug("Calculating reference point medium correction (air -> water)")
     k_med = calculate_k_med(
-        data_norm=normalized_data,
-        field_area=field_area,
-        event=event,
-        corrections_db=corrections_db)
+        data_norm=normalized_data, field_area=field_area, event=event, corrections_db=corrections_db
+    )
 
     output[c.OUTPUT_KEY_CORRECTION_BACK_SCATTER][event] = k_bs
     output[c.OUTPUT_KEY_CORRECTION_MEDIUM][event] = k_med
