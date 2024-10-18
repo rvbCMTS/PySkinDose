@@ -34,6 +34,6 @@ class TranslationOffset:
         self.z: float = offset.get("z")
 
     def update_translation_offset(self, offset: Dict[str, float]):
-        self.x = float(offset["x"])
-        self.y = float(offset["y"])
-        self.z = float(offset["z"])
+        self.x = float(offset["x"]) if self.x is None else self.x
+        self.y = float(offset["y"]) if self.y is None else self.y
+        self.z = float(offset["z"]) if self.z is None else self.z
