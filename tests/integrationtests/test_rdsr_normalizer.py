@@ -89,7 +89,6 @@ def test_rdsr_normalizer_correctly_handles_events_without_filter(axiom_artis_par
     parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_TYPE] = "NoFilter"
     parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MIN] = 0.0
     parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MAX] = 0.0
-    
 
     # Act
     normalized_data = rdsr_normalizer(data_parsed=parsed_data_with_nofilter_events, settings=example_settings)
