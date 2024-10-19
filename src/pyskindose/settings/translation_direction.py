@@ -32,9 +32,9 @@ class TranslationDirection:
         self.z = None if directions is None else self._get_direction_as_value(directions["z"])
 
     def update_translation_direction(self, directions: Dict[str, str]):
-        self.x = self._get_direction_as_value(directions["x"])
-        self.y = self._get_direction_as_value(directions["y"])
-        self.z = self._get_direction_as_value(directions["z"])
+        self.x = self._get_direction_as_value(directions["x"]) if self.x is None else self.x
+        self.y = self._get_direction_as_value(directions["y"]) if self.y is None else self.y
+        self.z = self._get_direction_as_value(directions["z"]) if self.z is None else self.z
 
     @staticmethod
     def _get_direction_as_value(direction: str):

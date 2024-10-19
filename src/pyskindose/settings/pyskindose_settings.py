@@ -10,6 +10,11 @@ from pyskindose.constants import (
     KEY_PARAM_K_TAB_VAL,
     KEY_PARAM_MODE,
     KEY_PARAM_RDSR_FILENAME,
+    KEY_PARAM_SILENCE_PYDICOM_WARNINGS,
+    RUN_ARGUMENTS_OUTPUT_DICT,
+    RUN_ARGUMENTS_OUTPUT_HTML,
+    RUN_ARGUMENTS_OUTPUT_JSON,
+    RUN_ARGUMENTS_VALID_OUTPUT_FORMATS,
 )
 
 from .normalization_settings import NormalizationSettings
@@ -26,8 +31,8 @@ class PyskindoseSettings:
         Select which mode to execute PySkinDose with. There are three
         different modes:
 
-        mode = "calculate_dose" calculates the skindose from the RDSR data and
-        presents the result in a skindose map.
+        mode = "calculate_dose" calculates the skin dose from the RDSR data and
+        presents the result in a skin dose map.
 
         mode = "plot_setup" plots the geometry (patient, table, pad and beam
         in starting position, i.e., before any RDSR data has been added.) This
@@ -44,8 +49,8 @@ class PyskindoseSettings:
     rdsr_filename : str
         filename of the RDSR file, without the .dcm file ending.
     estimate_k_tab : bool
-        Wheter k_tab should be approximated or not. You this if have not
-        conducted table attenatuion measurements.
+        Whether k_tab should be approximated or not. You should set this if you
+        have not conducted table attenuation measurements.
     k_tab_val : float
         Value of k_tab, in range 0.0 -> 1.0.
     inherent_filtration : float
@@ -54,7 +59,7 @@ class PyskindoseSettings:
         Instance of class PhantomSettings containing all phantom related
         settings.
     plot : pyskindose.settings.plot_settings.Plotsettings
-        Instace of class Plottsettings containing all plot related settings
+        Instance of class Plotsettings containing all plot related settings
 
     """
 
@@ -63,6 +68,7 @@ class PyskindoseSettings:
         settings: Union[str, dict],
         normalization_settings: Optional[Union[Path, str, dict, NormalizationSettings]] = None,
         file_result_output_path: Optional[Union[str, Path]] = None,
+        output_format: str = RUN_ARGUMENTS_OUTPUT_HTML,
     ):
         """Initialize settings class.
 
@@ -79,21 +85,35 @@ class PyskindoseSettings:
         else:
             tmp = settings
 
+        if (output_format := output_format.lower()) not in RUN_ARGUMENTS_VALID_OUTPUT_FORMATS:
+            raise ValueError(
+                f"The output format must be specified as one of {', '.join(RUN_ARGUMENTS_VALID_OUTPUT_FORMATS)}"
+            )
+
         self.mode = tmp[KEY_PARAM_MODE]
-        self.file_result_output_path: Path = self._initialize_output_path(file_result_output_path)
+        self.output_format = output_format
+        self.file_result_output_path: Path = self._initialize_output_path(
+            output_path=file_result_output_path, output_format=output_format
+        )
         self.k_tab_val = tmp[KEY_PARAM_K_TAB_VAL]
         self.inherent_filtration = tmp[KEY_PARAM_INHERENT_FILTRATION]
+        self.silence_pydicom_warnings = tmp[KEY_PARAM_SILENCE_PYDICOM_WARNINGS]
         self.rdsr_filename = tmp[KEY_PARAM_RDSR_FILENAME]
         self.estimate_k_tab = tmp[KEY_PARAM_ESTIMATE_K_TAB]
         self.phantom = PhantomSettings(ptm_dim=tmp["phantom"])
         self.plot = Plotsettings(plt_dict=tmp["plot"])
+        self.corrections_db_path = tmp.get("corrections_db_path", "corrections.db")
 
         self.normalization_settings = self._initialize_normalization_settings(normalization_settings)
 
     @staticmethod
-    def _initialize_output_path(output_path: Optional[Union[str, Path]]) -> Path:
+    def _initialize_output_path(output_path: Optional[Union[str, Path]], output_format: str) -> Path:
         if output_path is None:
             output = Path.cwd() / "PlotOutputs"
+
+            if output_format in (RUN_ARGUMENTS_OUTPUT_DICT, RUN_ARGUMENTS_OUTPUT_JSON):
+                return output  # Return without creating the output directory as it won't be used
+
             output.mkdir(exist_ok=True)
             return output
 
@@ -141,17 +161,18 @@ class PyskindoseSettings:
             to the terminal. The default is False.
 
         """
-        phantom_settings_string = self.phantom.to_printable_string(color="magenta")
-        plot_settings_string = self.plot.to_printable_string(color="blue")
-        normalization_settings_string = self.normalization_settings.to_printable_string(color="green")
+        phantom_settings_string = self.phantom.to_printable_string(color="bright_magenta on black")
+        plot_settings_string = self.plot.to_printable_string(color="steel_blue1 on black")
+        normalization_settings_string = self.normalization_settings.to_printable_string(color="bright_green on black")
 
-        color = "cyan"
+        color = "bright_cyan on black"
 
         output_str = (
             f"[b u {color}]General settings[/b u {color}]\n"
-            f"\t[{color}]mode[/{color}]:\t{self.mode}\n"
-            f"\t[{color}]rdsr_filename[/{color}]:\t{self.rdsr_filename}\n"
-            f"\t[{color}]estimate_k_tab[/{color}]:\t{'True' if self.estimate_k_tab else 'False'}\n"
+            f"\t[{color}]mode:\t{self.mode}[/{color}]\n"
+            f"\t[{color}]rdsr_filename:\t{self.rdsr_filename}[/{color}]\n"
+            f"\t[{color}]estimate_k_tab:\t{'True' if self.estimate_k_tab else 'False'}[/{color}]\n"
+            f"\t[{color}]silence_pydicom_warnings:\t{'True' if self.silence_pydicom_warnings else 'False'}[/{color}]\n"
             f"\n{phantom_settings_string}"
             f"\n{plot_settings_string}"
             f"\n{normalization_settings_string}"

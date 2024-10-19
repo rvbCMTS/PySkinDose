@@ -6,6 +6,7 @@ import pydicom
 import pytest
 
 import pyskindose.constants as c
+from pyskindose import rdsr_normalizer
 from pyskindose.rdsr_parser import rdsr_parser
 from pyskindose.settings import PyskindoseSettings
 
@@ -17,7 +18,8 @@ def example_settings() -> PyskindoseSettings:
         "rdsr_filename": "siemens_axiom_example_procedure.dcm",
         "plot_event_index": 12,
         "estimate_k_tab": False,
-        "inherent_filtration" : 3.1,
+        "inherent_filtration": 3.1,
+        "silence_pydicom_warnings": True,
         "k_tab_val": 0.8,
         "plot": {
             "interactivity": True,
@@ -100,3 +102,8 @@ def axiom_artis_parsed(axiom_artis_dataset) -> pd.DataFrame:
 @pytest.fixture(scope="function")
 def allura_parsed(allura_dataset) -> pd.DataFrame:
     return rdsr_parser(allura_dataset)
+
+
+@pytest.fixture(scope="function")
+def axiom_artis_normalized(axiom_artis_parsed, example_settings) -> pd.DataFrame:
+    return rdsr_normalizer(data_parsed=axiom_artis_parsed, settings=example_settings)

@@ -30,6 +30,7 @@ def calculate_irradiation_event_result(
     pad: Phantom,
     back_scatter_interpolation: List[CubicSpline],
     output: Dict[str, Any],
+    corrections_db: str,
     table_hits: List[bool] = None,
     field_area: List[float] = None,
     k_isq: np.array = None,
@@ -68,6 +69,8 @@ def calculate_irradiation_event_result(
     output : Dict[str, Any]
         Dictionary containing outputs to store from the calculations. E.g. dose map and
         correction factors.
+    corrections_db : str
+        A string defining the path to the corrections SQLite db
     table_hits : List[bool], optional
         A boolean list that specfies (for each hit), if the bean passes through the
         patient support table, by default None
@@ -116,6 +119,7 @@ def calculate_irradiation_event_result(
         field_area=field_area,
         k_tab=k_tab,
         output=output,
+        corrections_db=corrections_db,
     )
 
     event += 1
@@ -135,6 +139,7 @@ def calculate_irradiation_event_result(
             pad=pad,
             back_scatter_interpolation=back_scatter_interpolation,
             output=output,
+            corrections_db=corrections_db,
             table_hits=table_hits,
             field_area=field_area,
             k_isq=k_isq,

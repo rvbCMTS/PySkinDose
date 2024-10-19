@@ -1,10 +1,13 @@
+import logging
 import os
 import sqlite3
 
 import pandas as pd
 
+logger = logging.getLogger("pyskindose")
 
-def db_connect(db_name: str = "corrections.db"):
+
+def db_connect(db_name: str):
     """Set up the database connection with tables needed for PSD calculations.
 
     Parameters
@@ -27,10 +30,14 @@ def db_connect(db_name: str = "corrections.db"):
         db_exist = True
 
     # Connect to database
-    conn = sqlite3.connect(db_name)
+    try:
+        conn = sqlite3.connect(db_name)
 
-    # Create cursor (enables sql commands using the sql method)
-    cursor = conn.cursor()
+        # Create cursor (enables sql commands using the sql method)
+        cursor = conn.cursor()
+    except sqlite3.Error as e:
+        logger.error("Failed to connect to/create database at {}".format(db_name), exc_info=True)
+        raise
 
     if not db_exist:
 
@@ -40,10 +47,14 @@ def db_connect(db_name: str = "corrections.db"):
         hvl_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "hvl_tables/hvl_combined.csv"))
 
         # Backscatter and mu_en/rho quotients, from Benmanhlouf et al.
-        ks_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "correction_medium_and_backscatter.csv"))
+        ks_table = pd.read_csv(
+            os.path.join(os.path.dirname(__file__), "table_data", "correction_medium_and_backscatter.csv")
+        )
 
         # Measured and approximated patient support table transmission.
-        tab_pad_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "correction_table_and_pad_attenuation.csv"))
+        tab_pad_table = pd.read_csv(
+            os.path.join(os.path.dirname(__file__), "table_data", "correction_table_and_pad_attenuation.csv")
+        )
 
         # Table containing lab specific parameters.
         device_info_table = pd.read_csv(os.path.join(os.path.dirname(__file__), "table_data", "device_info.csv"))

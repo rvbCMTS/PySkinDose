@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pyskindose import constants as c
 
 DEVELOPMENT_PARAMETERS = dict(
@@ -5,7 +7,8 @@ DEVELOPMENT_PARAMETERS = dict(
     mode=c.MODE_PLOT_PROCEDURE,
     # RDSR filename
     rdsr_filename="siemens_axiom_example_procedure.dcm",
-    # Irrading event index for mode='plot_event'
+    corrections_db_path=str((Path(__file__).parent / "corrections.db").absolute()),
+    # Irradiation event index for mode='plot_event'
     plot_event_index=12,
     # Set True to estimate table correction, or False to use measured k_tab
     estimate_k_tab=False,
@@ -13,6 +16,8 @@ DEVELOPMENT_PARAMETERS = dict(
     k_tab_val=0.8,
     # x-ray tube inherent filtration in mmAl
     inherent_filtration=3.1,
+    # Silence reading_validation_mode warnings in pydicom
+    silence_pydicom_warnings=True,
     # plot settings
     plot={
         "interactivity": True,

@@ -3,15 +3,15 @@ import sys
 from pathlib import Path
 
 import pyskindose.constants as c
+from manual_tests.base_dev_settings import DEVELOPMENT_PARAMETERS
 from pyskindose.phantom_class import Phantom
+from pyskindose.settings import PyskindoseSettings
 
 test_path = Path(__file__).parent.parent
 sys.path.insert(1, str(test_path.absolute()))
 
 phantom_path = Path(__file__).parent.parent.parent / "src" / "pyskindose" / "phantom_data"
 
-from manual_tests.base_dev_settings import DEVELOPMENT_PARAMETERS
-from pyskindose.settings import PyskindoseSettings
 
 param = PyskindoseSettings(DEVELOPMENT_PARAMETERS)
 

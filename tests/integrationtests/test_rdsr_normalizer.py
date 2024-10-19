@@ -84,20 +84,41 @@ def test_rdsr_normalizer_correctly_handles_events_without_filter(axiom_artis_par
         0.9,
         0.6,
     ]
-
-    parsed_data_with_nofilter_events = axiom_artis_parsed.copy()
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MATERIAL][0] = np.nan
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_TYPE][0] = "NoFilter"
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MIN][0] = 0.0
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MAX][0] = 0.0
+    parsed_data_with_nofilter_events: pd.DataFrame = axiom_artis_parsed.copy()
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MATERIAL] = np.nan
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_TYPE] = "NoFilter"
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MIN] = 0.0
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MAX] = 0.0
 
     # Act
-    normalized_data: pd.DataFrame = rdsr_normalizer(
-        data_parsed=parsed_data_with_nofilter_events, settings=example_settings
-    )
+    normalized_data = rdsr_normalizer(data_parsed=parsed_data_with_nofilter_events, settings=example_settings)
     actual_aluminium_filter_thicknesses = normalized_data[KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM].tolist()
     actual_copper_filter_thicknesses = normalized_data[KEY_NORMALIZATION_FILTER_SIZE_COPPER].tolist()
 
     # Assert
     assert actual_aluminium_filter_thicknesses == expected_aluminium_filter_thicknesses
     assert actual_copper_filter_thicknesses == expected_copper_filter_thicknesses
+
+
+def test_rdsr_normalizer_correctly_applies_table_offset_from_normalization_settings(
+    axiom_artis_parsed, example_settings
+):
+    # Arrange
+    expected = [13.78, -9.41, 34.06]
+    example_settings.normalization_settings.normalization_settings_list[0]["translation_offset"] = {
+        "x": 10.0,
+        "y": 20.0,
+        "z": 30.0,
+    }
+    example_settings.normalization_settings.normalization_settings_list[0]["translation_direction"] = {
+        "x": "+",
+        "y": "-",
+        "z": "+",
+    }
+
+    # Act
+    normalized_data = rdsr_normalizer(data_parsed=axiom_artis_parsed, settings=example_settings)
+    actual = [round(normalized_data.Tx[0], 4), round(normalized_data.Ty[0], 3), round(normalized_data.Tz[0], 4)]
+
+    # Assert
+    assert actual == expected

@@ -5,11 +5,14 @@
     "estimate_k_tab": false,
     "k_tab_val": 0.8,
     "inherent_filtration": 3.1,
+    "silence_pydicom_warnings": true,
     "plot": {
         "dark_mode": true,
         "notebook_mode": false,
         "plot_dosemap": false,
-        "colorscale": "jet"
+        "colorscale": "jet",
+        "max_events_for_patient_inclusion": 0,
+        "plot_event_index": 1
     },
     "phantom": {
         "model": "cylinder",
@@ -37,5 +40,6 @@
             "pad_thickness": 4,
             "unit": "cm"
         }
-    }
+    },
+    "corrections_db_path": "corrections.db"
 }

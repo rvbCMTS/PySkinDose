@@ -1,6 +1,8 @@
 import copy
-import os
-from typing import Dict, List, Optional
+from itertools import chain
+from pathlib import Path
+from tempfile import TemporaryFile
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -18,7 +20,7 @@ VALID_PHANTOM_MODELS = ["plane", "cylinder", "human", "table", "pad"]
 class Phantom:
     """Create and handle phantoms for patient, support table and pad.
 
-    This class creates a phatom of any of the types specified in
+    This class creates a phantom of any of the types specified in
     VALID_PHANTOM_MODELS (plane, cylinder or human to represent the patient,
     as well as patient support table and pad). The patient phantoms consists of
     a number of skin cells where the skin dose can be calculated.
@@ -27,7 +29,7 @@ class Phantom:
     ----------
     phantom_model : str
         Type of phantom, i.e. "plane", "cylinder", "human", "table" or "pad"
-    r : np.array
+    r : np.ndarray
         n*3 array where n are the number of phantom skin cells. Each row
         contains the xyz coordinate of one of the phantom skin cells
     ijk : np.array
@@ -51,21 +53,28 @@ class Phantom:
 
     """
 
-    def __init__(self, phantom_model: str, phantom_dim: PhantomDimensions, human_mesh: Optional[str] = None):
+    def __init__(
+        self,
+        phantom_model: str,
+        phantom_dim: PhantomDimensions,
+        human_mesh: Optional[Union[str, tuple[str, mesh.Mesh]]] = None,
+    ):
         """Create the phantom of choice.
 
         Parameters
         ----------
         phantom_model : str
             Type of phantom to create. Valid selections are 'plane',
-            'cylinder', 'human', "table" an "pad".
+            'cylinder', 'human', "table", and "pad".
         phantom_dim : PhantomDimensions
             instance of class PhantomDimensions containing dimensions for
             all phantoms models except human phantoms: Length, width, radius,
             thickness etc.
-        human_mesh : str, optional
+        human_mesh : str | tuple[str, mes.Mesh | temp_file], optional
             Choose which human mesh phantom to use. Valid selection are names
-            of the *.stl-files in the phantom_data folder (The default is none.
+            of the *.stl-files in the phantom_data folder or a custom phantom
+            sent in as either a mesh object or a svg given as a temp_file object
+            (The default is none).
 
         Raises
         ------
@@ -79,6 +88,8 @@ class Phantom:
         # Raise error if invalid phantom model selected
         if self.phantom_model not in VALID_PHANTOM_MODELS:
             raise ValueError(f"Unknown phantom model selected. Valid type:" f"{'.'.join(VALID_PHANTOM_MODELS)}")
+
+        self.human_model = None
 
         self.r_ref: np.array
 
@@ -155,17 +166,15 @@ class Phantom:
 
             n = [[nx[ind], ny[ind], nz[ind]] for ind in range(len(t))]
 
-            # Store the  coordinates of the cylinder phantom
-            output: Dict = dict(n=[], x=[], y=[], z=[])
-
-            # Extend the ellipse to span the entire length of the phantom,
-            # thus creating an elliptic cylinder
-            for index in range(0, int(res_length) * (phantom_dim.cylinder_length + 2), 1):
-
-                output["x"] = output["x"] + x
-                output["z"] = output["z"] + [-1 / res_length * index] * len(x)
-                output["y"] = output["y"] + y
-                output["n"] = output["n"] + n
+            # Store the  coordinates of the cylinder phantom, extended to span the entire length of the phantom, thus
+            # creating an elliptical cylinder
+            tmp_len = int(res_length) * (phantom_dim.cylinder_length + 2)
+            output: dict = {
+                "n": n * tmp_len,
+                "x": x * tmp_len,
+                "y": [el - phantom_dim.cylinder_radii_b for el in (y * tmp_len)],
+                "z": list(chain(*[[-1 / res_length * ind] * len(x) for ind in range(tmp_len)])),
+            }
 
             # Create index vectors for plotly mesh3d plotting
             i1 = list(range(0, len(output["x"]) - len(t)))
@@ -174,9 +183,6 @@ class Phantom:
             i2 = list(range(0, len(output["x"]) - len(t)))
             k2 = list(range(len(t) - 1, len(output["x"]) - 1))
             j2 = list(range(len(t), len(output["x"])))
-
-            for i in range(len(output["y"])):
-                output["y"][i] -= phantom_dim.cylinder_radii_b
 
             self.r = np.column_stack((output["x"], output["y"], output["z"]))
             self.ijk = np.column_stack((i1 + i2, j1 + j2, k1 + k2))
@@ -189,9 +195,15 @@ class Phantom:
             if human_mesh is None:
                 raise ValueError("Human model needs to be specified for" 'phantom_model = "human"')
 
-            # load selected phantom model from binary .stl file
-            phantom_path = os.path.join(os.path.dirname(__file__), "phantom_data", f"{human_mesh}.stl")
-            phantom_mesh = mesh.Mesh.from_file(phantom_path)
+            if isinstance(human_mesh, str):
+                # load selected phantom model from binary .stl file
+                self.human_model = human_mesh
+                phantom_path = Path(__file__).parent / f"phantom_data/{human_mesh}.stl"
+                phantom_mesh = mesh.Mesh.from_file(str(phantom_path.absolute()))
+            elif isinstance(human_mesh, tuple):
+                self.human_model, phantom_mesh = self._get_phantom_mesh_from_tuple(human_mesh)
+            else:
+                raise ValueError("No human model specified while 'phantom_model' is 'human'")
 
             r = phantom_mesh.vectors
             n = phantom_mesh.normals
@@ -207,7 +219,7 @@ class Phantom:
 
         # Creates the vertices of the patient support table
         elif phantom_model == "table":
-            # Longitudinal position of the the vertices
+            # Longitudinal position of the vertices
             x_tab = [index * phantom_dim.table_width for index in [+0.5, +0.5, -0.5, -0.5, +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
@@ -225,13 +237,13 @@ class Phantom:
         # Creates the vertices of the patient support table
         elif phantom_model == "pad":
 
-            # Longitudinal position of the the vertices
+            # Longitudinal position of the vertices
             x_pad = [index * phantom_dim.pad_width for index in [+0.5, +0.5, -0.5, -0.5, +0.5, +0.5, -0.5, -0.5]]
 
             # Vertical position of the vertices
             y_pad = [index * phantom_dim.pad_thickness for index in [0, 0, 0, 0, -1, -1, -1, -1]]
 
-            # Lateral position of the the vertices
+            # Lateral position of the vertices
             z_pad = [index * phantom_dim.pad_length for index in [0, -1, -1, 0, 0, -1, -1, 0]]
 
             # Create index vectors for plotly mesh3d plotting
@@ -239,6 +251,20 @@ class Phantom:
 
             self.r = np.column_stack((x_pad, y_pad, z_pad))
             self.ijk = np.column_stack((i_pad, j_pad, k_pad))
+
+    @staticmethod
+    def _get_phantom_mesh_from_tuple(
+        phantom_mesh_tuple: tuple[str, Union[mesh.Mesh, TemporaryFile, str]]
+    ) -> tuple[str, mesh.Mesh]:
+        if not isinstance(phantom_mesh_tuple[0], str):
+            raise TypeError(
+                "If human_mesh is specified as a tuple, the first element must be the phantom name as a string"
+            )
+
+        if isinstance(phantom_mesh_tuple[1], mesh.Mesh):
+            return phantom_mesh_tuple
+
+        return phantom_mesh_tuple[0], mesh.Mesh.from_file(phantom_mesh_tuple[1])
 
     def rotate(self, angles: List[int]) -> None:
         """Rotate the phantom about the angles specified in rotation.
@@ -314,37 +340,13 @@ class Phantom:
         """
         self.r = copy.copy(self.r_ref)
 
-        # Fetch rotation angles of the patient, table, and pad
-
-        # Table Horizontal Rotation Angle (At1)
-        # i.e. rotation of the table about the positive y axis (VERT),
-        # with rotation axis in the center of the table.
-        at1 = np.deg2rad(data_norm["At1"][event])
-        # Table Head Tilt Angle (At2)
-        # i.e. rotation of the table about the positive x axis (LON)
-        # with rotation axis in the center of the table.
-        at2 = np.deg2rad(data_norm["At2"][event])
-        # Table Cradle Tilt Angle (At3)
-        # i.e. rotation of the table about the z axis (LAT)
-        at3 = np.deg2rad(data_norm["At3"][event])
-
         # displace phantom to table rotation center
         self.r[:, 2] += self.table_length / 2
 
-        # calculate rotation about x axis
-        angle = at2
-        Rx = np.array([[+1, +0, +0], [+0, +np.cos(angle), -np.sin(angle)], [+0, +np.sin(angle), +np.cos(angle)]])
-
-        # calculate rotation about y axis
-        angle = at1
-        Ry = np.array([[+np.cos(angle), +0, +np.sin(angle)], [+0, +1, +0], [-np.sin(angle), +0, +np.cos(angle)]])
-
-        # calculate rotation about z axis
-        angle = at3
-        Rz = np.array([[+np.cos(angle), -np.sin(angle), +0], [+np.sin(angle), +np.cos(angle), +0], [+0, +0, +1]])
-
         # Apply table rotation
-        self.r = np.matmul(Rz, np.matmul(Ry, np.matmul(Rx, self.r.T))).T
+        self.r = np.matmul(
+            data_norm.Rz[event], np.matmul(data_norm.Ry[event], np.matmul(data_norm.Rx[event], self.r.T))
+        ).T
 
         # Replace phantom back to starting position
         self.r[:, 2] -= self.table_length / 2
