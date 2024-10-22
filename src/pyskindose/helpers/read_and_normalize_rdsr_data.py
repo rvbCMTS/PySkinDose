@@ -29,7 +29,7 @@ def read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSetting
     data_raw = pydicom.dcmread(rdsr_filepath)
 
     # parse RDSR data from raw .dicom file
-    data_parsed = rdsr_parser(data_raw)
+    data_parsed = rdsr_parser(data_raw, silence_pydicom_warnings=settings.silence_pydicom_warnings)
 
     # normalized rdsr for compliance with PySkinDose
     normalized_data = rdsr_normalizer(data_parsed, settings=settings)

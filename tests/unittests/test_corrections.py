@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from manual_tests.base_dev_settings import DEVELOPMENT_PARAMETERS
 from pyskindose.constants import (
     KEY_NORMALIZATION_ACQUISITION_PLANE,
     KEY_NORMALIZATION_FILTER_SIZE_ALUMINUM,
@@ -18,16 +19,19 @@ from pyskindose.corrections import (
     calculate_k_tab,
 )
 from pyskindose.geom_calc import fetch_and_append_hvl
+from pyskindose.settings import PyskindoseSettings
 
 P = Path(__file__).parent.parent.parent
 sys.path.insert(1, str(P.absolute()))
+
+PATH_TO_DB = PyskindoseSettings(DEVELOPMENT_PARAMETERS).corrections_db_path
 
 
 def test_fetch_hvl_from_database():
 
     expected = 6.549
     data_norm = pd.DataFrame({"kVp": [81.4], "filter_thickness_Al": [0], "filter_thickness_Cu": [0.3]})
-    data_norm = fetch_and_append_hvl(data_norm=data_norm, inherent_filtration=3.1)
+    data_norm = fetch_and_append_hvl(data_norm=data_norm, inherent_filtration=3.1, corrections_db="corrections.db")
     actual = round(data_norm.HVL[0], 3)
     assert actual == expected
 
@@ -79,8 +83,12 @@ def test_fetch_correct_medium_correction_from_database():
 
     # Tests if we get a value in expected, for cells with different field
     # sizes with filed side length in [5 to 35] cm.
-    actual = calculate_k_med(data_norm, np.square([6, 10, 20, 22, 32]), 0)
-
+    actual = calculate_k_med(
+        data_norm=data_norm,
+        field_area=np.square([6, 10, 20, 22, 32]),
+        event=0,
+        corrections_db=PATH_TO_DB,
+    )
     assert actual in expected
 
 
@@ -99,7 +107,8 @@ def test_fetch_correct_table_correction_from_database():
     )
 
     # Act
-    result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8)
+    result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8, corrections_db=PATH_TO_DB)
+
     actual = result[0]
 
     # Assert
@@ -121,7 +130,7 @@ def test_fetch_correct_table_correction_from_database_when_machine_model_has_ext
     )
 
     # Act
-    result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8)
+    result = calculate_k_tab(data_norm=data_norm, estimate_k_tab=False, k_tab_val=0.8, corrections_db=PATH_TO_DB)
     actual = result[0]
 
     # Assert

@@ -1,10 +1,13 @@
+import logging
 import os
 import sqlite3
 
 import pandas as pd
 
+logger = logging.getLogger("pyskindose")
 
-def db_connect(db_name: str = "corrections.db"):
+
+def db_connect(db_name: str):
     """Set up the database connection with tables needed for PSD calculations.
 
     Parameters
@@ -27,10 +30,14 @@ def db_connect(db_name: str = "corrections.db"):
         db_exist = True
 
     # Connect to database
-    conn = sqlite3.connect(db_name)
+    try:
+        conn = sqlite3.connect(db_name)
 
-    # Create cursor (enables sql commands using the sql method)
-    cursor = conn.cursor()
+        # Create cursor (enables sql commands using the sql method)
+        cursor = conn.cursor()
+    except sqlite3.Error as e:
+        logger.error("Failed to connect to/create database at {}".format(db_name), exc_info=True)
+        raise
 
     if not db_exist:
 

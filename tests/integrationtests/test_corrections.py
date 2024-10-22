@@ -16,7 +16,9 @@ def test_that_hvl_can_be_fetched_from_correction_database(allura_parsed, axiom_a
 
     for i in range(len(datas)):
         try:
-            fetch_and_append_hvl(data_norm=datas[i], inherent_filtration=3.1)
+            fetch_and_append_hvl(
+                data_norm=datas[i], inherent_filtration=3.1, corrections_db=example_settings.corrections_db_path
+            )
             actual.append(True)
         #
         except Exception:

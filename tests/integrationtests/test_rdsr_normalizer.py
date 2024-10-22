@@ -84,12 +84,11 @@ def test_rdsr_normalizer_correctly_handles_events_without_filter(axiom_artis_par
         0.9,
         0.6,
     ]
-
     parsed_data_with_nofilter_events: pd.DataFrame = axiom_artis_parsed.copy()
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MATERIAL][0] = np.nan
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_TYPE][0] = "NoFilter"
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MIN][0] = 0.0
-    parsed_data_with_nofilter_events[KEY_RDSR_FILTER_MAX][0] = 0.0
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MATERIAL] = np.nan
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_TYPE] = "NoFilter"
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MIN] = 0.0
+    parsed_data_with_nofilter_events.loc[0, KEY_RDSR_FILTER_MAX] = 0.0
 
     # Act
     normalized_data = rdsr_normalizer(data_parsed=parsed_data_with_nofilter_events, settings=example_settings)

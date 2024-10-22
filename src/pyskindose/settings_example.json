@@ -5,6 +5,7 @@
     "estimate_k_tab": true,
     "k_tab_val": 0.8,
     "inherent_filtration": 3.1,
+    "silence_pydicom_warnings": true,
     "plot": {
         "interactivity": true,
         "dark_mode": true,
@@ -38,5 +39,6 @@
             "pad_width": 45,
             "pad_thickness": 4
         }
-    }
+    },
+    "corrections_db_path": "corrections.db"
 }
