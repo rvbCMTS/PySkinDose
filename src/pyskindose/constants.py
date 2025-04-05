@@ -33,6 +33,7 @@ KEY_PARAM_K_TAB_VAL = "k_tab_val"
 KEY_PARAM_PHANTOM_MODEL = "model"
 KEY_PARAM_HUMAN_MESH = "human_mesh"
 KEY_PARAM_INHERENT_FILTRATION = "inherent_filtration"
+KEY_PARAM_REMOVE_INVALID_ROWS = "remove_invalid_rows"
 KEY_PARAM_SILENCE_PYDICOM_WARNINGS = "silence_pydicom_warnings"
 
 DIMENSION_PLANE_LENGTH = "plane_length"

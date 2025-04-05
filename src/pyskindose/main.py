@@ -51,8 +51,8 @@ def main(file_path: Optional[str] = None, settings: Union[str, dict, PyskindoseS
     data_norm = read_and_normalise_rdsr_data(rdsr_filepath=file_path, settings=settings)
 
     output = analyze_data(normalized_data=data_norm, settings=settings)
-    
-    if settings.output_format in ('dict', 'json'):
+
+    if settings.output_format in ("dict", "json"):
         return output
 
 def analyze_normalized_data_with_custom_settings_object(

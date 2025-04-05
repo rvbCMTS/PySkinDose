@@ -12,13 +12,16 @@ def load_settings_example_json() -> dict:
     import json
     from pathlib import Path
 
-    return json.loads((Path(__file__).parent / 'settings_example.json').read_text())
- 
+    return json.loads((Path(__file__).parent / "settings_example.json").read_text())
+
 
 def print_available_human_phantoms():
     from pathlib import Path
-    phantom_data_dir = Path(__file__).parent / 'phantom_data'
-    phantoms = [phantom.stem for phantom in phantom_data_dir.glob('*.stl') if not phantom.stem.endswith('reduced_1000t')]
+
+    phantom_data_dir = Path(__file__).parent / "phantom_data"
+    phantoms = [
+        phantom.stem for phantom in phantom_data_dir.glob("*.stl") if not phantom.stem.endswith("reduced_1000t")
+    ]
 
     for phantom in phantoms:
         print(phantom)
@@ -26,16 +29,16 @@ def print_available_human_phantoms():
 
 def print_example_rdsr_files():
     rdsr_data_dir = get_path_to_example_rdsr_files()
-    files = [file.name for file in rdsr_data_dir.glob('*.dcm')]
+    files = [file.name for file in rdsr_data_dir.glob("*.dcm")]
 
-    print('Available RDSR files:\n')
+    print("Available RDSR files:\n")
     for filename in files:
-        print(f'\t{filename}')
+        print(f"\t{filename}")
 
-    print(f'\nFiles located in {rdsr_data_dir.absolute()}')
+    print(f"\nFiles located in {rdsr_data_dir.absolute()}")
 
 
 def get_path_to_example_rdsr_files():
     from pathlib import Path
-    return Path(__file__).parent / 'example_data' / 'RDSR'
-    
+
+    return Path(__file__).parent / "example_data" / "RDSR"

@@ -34,4 +34,9 @@ def read_and_normalise_rdsr_data(rdsr_filepath: str, settings: PyskindoseSetting
     # normalized rdsr for compliance with PySkinDose
     normalized_data = rdsr_normalizer(data_parsed, settings=settings)
 
+    if settings.remove_invalid_rows:
+        if invalid_kvp_rows := len(normalized_data[normalized_data.kVp == 0]):
+            print(f"Removing {invalid_kvp_rows} rows with kVp value = 0")
+            normalized_data = normalized_data[normalized_data.kVp != 0].reset_index(drop=True)
+
     return normalized_data
