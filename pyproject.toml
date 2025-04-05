@@ -1,9 +1,9 @@
 [project]
 name = "pyskindose"
-version = "24.10.0"
+version = "25.1.0"
 description = "Tools and script for calculating peak skin dose and create dose maps for fluoroscopic exams from RDSR data"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     { name="Max Hellström", email="max.hellstrom@gmail.com" },
     { name="Josef Lundman", email="josef@lundman.eu" },
@@ -14,12 +14,12 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pandas",
-    "numpy >= 1.26.0",
+    "pandas >= 2.2.3",
+    "numpy >= 2.2.4",
     "pydicom >= 2.0",
-    "numpy-stl",
+    "numpy-stl >= 3.2.0",
     "plotly >= 4.13.3",
-    "scipy",
+    "scipy >= 1.15.2",
     "tqdm",
     "psutil",
     "pillow >= 10.0.1",
