@@ -8,7 +8,7 @@ Welcome to PySkinDose's documentation!
    user/background.md
    user/description.md
    user/install.md
-   user/get_started.rst
+   getting_started/getting_started
    user/contribute.md
 
    modules

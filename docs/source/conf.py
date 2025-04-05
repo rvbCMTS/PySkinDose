@@ -40,6 +40,7 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "nbsphinx",
 ]
 
 default_dark_mode = True
