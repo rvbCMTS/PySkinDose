@@ -192,11 +192,13 @@ def _create_procedure_layout(
         hoverlabel=dict(font=dict(family=PLOT_HOVERLABEL_FONT_FAMILY, size=PLOT_SLIDER_FONT_SIZE_GENERAL)),
         showlegend=False,
         dragmode=PLOT_DRAGMODE,
-        title=title,
-        titlefont=dict(
-            family=PLOT_TITLE_FONT_FAMILY,
-            size=PLOT_TITLE_FONT_SIZE,
-            color=COLOR_PLOT_TEXT,
+        title=dict(
+            text=title,
+            font=dict(
+                family=PLOT_TITLE_FONT_FAMILY,
+                size=PLOT_TITLE_FONT_SIZE,
+                color=COLOR_PLOT_TEXT,
+            ),
         ),
         paper_bgcolor=COLOR_CANVAS,
         scene=dict(

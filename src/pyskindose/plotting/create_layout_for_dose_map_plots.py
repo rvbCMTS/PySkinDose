@@ -27,7 +27,7 @@ def create_layout_for_dose_map_plots(
         margin=PLOT_MARGINS,
         font=dict(family=PLOT_FONT_FAMILY, color=COLOR_PLOT_TEXT, size=PLOT_FONT_SIZE),
         hoverlabel=dict(font=dict(family=PLOT_HOVERLABEL_FONT_FAMILY, size=PLOT_HOVERLABEL_FONT_SIZE)),
-        titlefont=dict(family=PLOT_FONT_FAMILY, size=PLOT_FONT_SIZE, color=COLOR_PLOT_TEXT),
+        title=dict(font=dict(family=PLOT_FONT_FAMILY, size=PLOT_FONT_SIZE, color=COLOR_PLOT_TEXT)),
         paper_bgcolor=COLOR_CANVAS,
         scene=dict(
             aspectmode=PLOT_ASPECTMODE_PLOT_DOSEMAP,

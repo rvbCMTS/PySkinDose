@@ -103,8 +103,10 @@ def create_dose_map_plot(patient: Phantom, settings: PyskindoseSettings, dose_ma
             name="Human",
             colorbar=dict(
                 tickfont=dict(color=COLOR_PLOT_TEXT),
-                title="Skin dose [mGy]",
-                titlefont=dict(family=PLOT_FONT_FAMILY, color=COLOR_PLOT_TEXT),
+                title=dict(
+                    text="Skin dose [mGy]",
+                    font=dict(family=PLOT_FONT_FAMILY, color=COLOR_PLOT_TEXT),
+                ),
             ),
         )
     ]
