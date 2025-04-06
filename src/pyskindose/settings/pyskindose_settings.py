@@ -10,6 +10,7 @@ from pyskindose.constants import (
     KEY_PARAM_K_TAB_VAL,
     KEY_PARAM_MODE,
     KEY_PARAM_RDSR_FILENAME,
+    KEY_PARAM_REMOVE_INVALID_ROWS,
     KEY_PARAM_SILENCE_PYDICOM_WARNINGS,
     RUN_ARGUMENTS_OUTPUT_DICT,
     RUN_ARGUMENTS_OUTPUT_HTML,
@@ -49,7 +50,7 @@ class PyskindoseSettings:
     rdsr_filename : str
         filename of the RDSR file, without the .dcm file ending.
     estimate_k_tab : bool
-        Whether k_tab should be approximated or not. You should set this if you
+        Whether k_tab should be approximated or not. You should set this to true if you
         have not conducted table attenuation measurements.
     k_tab_val : float
         Value of k_tab, in range 0.0 -> 1.0.
@@ -106,6 +107,8 @@ class PyskindoseSettings:
 
         self.normalization_settings = self._initialize_normalization_settings(normalization_settings)
 
+        self.remove_invalid_rows: bool = True if tmp.get(KEY_PARAM_REMOVE_INVALID_ROWS) else None
+
     @staticmethod
     def _initialize_output_path(output_path: Optional[Union[str, Path]], output_format: str) -> Path:
         if output_path is None:
@@ -161,11 +164,11 @@ class PyskindoseSettings:
             to the terminal. The default is False.
 
         """
-        phantom_settings_string = self.phantom.to_printable_string(color="bright_magenta on black")
-        plot_settings_string = self.plot.to_printable_string(color="steel_blue1 on black")
-        normalization_settings_string = self.normalization_settings.to_printable_string(color="bright_green on black")
+        phantom_settings_string = self.phantom.to_printable_string(color="bright_magenta")
+        plot_settings_string = self.plot.to_printable_string(color="steel_blue1")
+        normalization_settings_string = self.normalization_settings.to_printable_string(color="bright_green")
 
-        color = "bright_cyan on black"
+        color = "bright_cyan"
 
         output_str = (
             f"[b u {color}]General settings[/b u {color}]\n"
